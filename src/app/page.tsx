@@ -45,33 +45,37 @@ export default function Home() {
         }}
       >
         <header className="hero h-full min-h-full flex-grow">
-          <div className="hero-overlay p-4">
-            <nav className="container navbar sticky top-4 z-10 mx-auto rounded-full bg-primary-content bg-opacity-50 backdrop-blur">
-              <div className="navbar-start">
-                <a className="btn btn-ghost text-xl normal-case">
-                  Purple Studio
-                </a>
-              </div>
-              <div className="navbar-center hidden lg:flex">
-                <ul className="menu menu-horizontal">
-                  <li>
-                    <a>Home</a>
-                  </li>
-                  <li>
-                    <a>About</a>
-                  </li>
-                  <li>
-                    <a>Services</a>
-                  </li>
-                  <li>
-                    <a>Contact</a>
-                  </li>
-                </ul>
-              </div>
-              <div className="navbar-end">
-                <a className="btn btn-primary rounded-full">+7(922)123-12-12</a>
-              </div>
-            </nav>
+          <div className="hero-overlay">
+            <div className="container sticky top-4 z-10">
+              <nav className="navbar rounded-full bg-primary-content bg-opacity-50 backdrop-blur">
+                <div className="navbar-start">
+                  <a className="btn btn-ghost text-xl normal-case">
+                    Purple Studio
+                  </a>
+                </div>
+                <div className="navbar-center hidden lg:flex">
+                  <ul className="menu menu-horizontal">
+                    <li>
+                      <a>Home</a>
+                    </li>
+                    <li>
+                      <a>About</a>
+                    </li>
+                    <li>
+                      <a>Services</a>
+                    </li>
+                    <li>
+                      <a>Contact</a>
+                    </li>
+                  </ul>
+                </div>
+                <div className="navbar-end">
+                  <a className="btn btn-primary rounded-full">
+                    +7(922)123-12-12
+                  </a>
+                </div>
+              </nav>
+            </div>
           </div>
           <div className="hero-content text-center text-neutral-content">
             <div className="max-w-md">
@@ -89,7 +93,7 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="flex-grow bg-base-100">
-        <div className="container mx-auto px-4 py-12 md:px-0">
+        <div className="container mx-auto py-12">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-4">
             <ServiceCard
               imageSrc="https://avatars.mds.yandex.net/get-altay/10830675/2a0000018af9aed91d6ebad7c684dea1929e/XXXL"
