@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { format, startOfWeek, addDays } from "date-fns";
 
 const studios = [
@@ -47,19 +47,21 @@ function DesktopTable({
 
   const weekDates = getWeekDates(currentWeekStart);
 
+  const handleWeekClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    step: number,
+  ) => {
+    e.preventDefault();
+    setCurrentWeekStart(addDays(currentWeekStart, step));
+  };
+
   return (
     <>
       <div className="">
-        <button
-          className="btn"
-          onClick={() => setCurrentWeekStart(addDays(currentWeekStart, -7))}
-        >
+        <button className="btn" onClick={(e) => handleWeekClick(e, -7)}>
           Предыдущая неделя
         </button>
-        <button
-          className="btn ml-4"
-          onClick={() => setCurrentWeekStart(addDays(currentWeekStart, 7))}
-        >
+        <button className="btn ml-4" onClick={(e) => handleWeekClick(e, 7)}>
           Следующая неделя
         </button>
       </div>
@@ -92,7 +94,7 @@ function DesktopTable({
                   return (
                     <td
                       key={dayIndex}
-                      className={`${isUnavailable ? "bg-gray-300" : "cursor-pointer hover:bg-primary-content"} ${isSelected ? "bg-primary text-primary-content hover:bg-base-content" : ""}`}
+                      className={`${isUnavailable ? "bg-base-300" : `cursor-pointer ${isSelected ? "bg-primary text-primary-content hover:bg-base-content" : "hover:bg-primary-content"}`}`}
                       onClick={() =>
                         !isUnavailable &&
                         handleSlotClick(
@@ -134,19 +136,21 @@ function MobileTable({
 }) {
   const [currentDay, setCurrentDay] = useState(new Date());
 
+  const handleDayClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    step: number,
+  ) => {
+    e.preventDefault();
+    setCurrentDay(addDays(currentDay, step));
+  };
+
   return (
     <>
       <div className="">
-        <button
-          className="btn"
-          onClick={() => setCurrentDay(addDays(currentDay, -1))}
-        >
+        <button className="btn" onClick={(e) => handleDayClick(e, -1)}>
           Предыдущий день
         </button>
-        <button
-          className="btn ml-4"
-          onClick={() => setCurrentDay(addDays(currentDay, 1))}
-        >
+        <button className="btn ml-4" onClick={(e) => handleDayClick(e, 1)}>
           Следующий день
         </button>
       </div>
@@ -169,7 +173,6 @@ function MobileTable({
                 peopleCount,
               );
               const slotKey = `${format(currentDay, "yyyy-MM-dd")}-${hour}`;
-              console.log(slotKey);
               const isSelected = selectedSlots[slotKey];
 
               return (
@@ -231,61 +234,84 @@ export default function Page() {
   }, 0);
 
   return (
-    <div className="container mx-auto flex flex-col gap-6 px-4 py-12">
+    <div className="container mx-auto flex flex-col gap-6 py-12">
       <h1 className="text-4xl font-bold">Бронирование</h1>
-      <div className="divider"></div>
-      <h2 className="text-2xl">Студия</h2>
-      <div className="flex flex-wrap gap-4">
-        {studios.map((studio) => (
-          <div
-            key={studio.id}
-            className={`card ${studio.color} cursor-pointer text-white shadow-lg ${selectedStudio === studio.id ? "ring ring-primary" : ""}`}
-            onClick={() => setSelectedStudio(studio.id)}
-          >
-            <div className="card-body">
-              <h2 className="card-title text-base-content">{studio.name}</h2>
-            </div>
+      {/*<div className="divider"></div>*/}
+
+      <form className="flex flex-col gap-8">
+        <fieldset>
+          <legend className="mb-4 text-2xl">Студия</legend>
+          <div className="flex flex-wrap gap-4">
+            {studios.map((studio) => (
+              <label
+                key={studio.id}
+                className={`card ${studio.color} cursor-pointer text-white shadow-lg ${selectedStudio === studio.id ? "ring ring-primary" : ""}`}
+              >
+                <div className="card-body">
+                  <h2 className="card-title text-base-content">
+                    {studio.name}
+                  </h2>
+                </div>
+                <input
+                  type="radio"
+                  name="selected_studio"
+                  onClick={() => setSelectedStudio(studio.id)}
+                  className="sr-only"
+                />
+              </label>
+            ))}
           </div>
-        ))}
-      </div>
+        </fieldset>
 
-      <h2 className="text-2xl">Количество человек</h2>
-      <div className="flex flex-wrap items-center gap-4">
-        {[...Array(10).keys()].map((n) => (
-          <button
-            key={n + 1}
-            className={`btn btn-square ${peopleCount === n + 1 ? "btn-primary" : "btn-outline"}`}
-            onClick={() => setPeopleCount(n + 1)}
-          >
-            {n + 1}
+        <fieldset>
+          <legend className="mb-4 text-2xl">Количество человек</legend>
+          <div className="flex flex-wrap items-center gap-4">
+            {[...Array(10).keys()].map((n) => (
+              <label
+                key={n + 1}
+                className={`btn btn-square ${peopleCount === n + 1 ? "btn-primary" : "btn-outline"}`}
+              >
+                {n + 1}
+                <input
+                  type="radio"
+                  name="people_count"
+                  onClick={() => setPeopleCount(n + 1)}
+                  className="sr-only"
+                />
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <fieldset className="mt-4">
+          <legend className="sr-only">Выбор слотов</legend>
+          <div className="flex flex-col gap-4 md:hidden">
+            <MobileTable
+              selectedStudio={selectedStudio}
+              peopleCount={peopleCount}
+              selectedSlots={selectedSlots}
+              handleSlotClick={handleSlotClick}
+            />
+          </div>
+          <div className="hidden flex-col gap-4 md:flex">
+            <DesktopTable
+              selectedStudio={selectedStudio}
+              peopleCount={peopleCount}
+              selectedSlots={selectedSlots}
+              handleSlotClick={handleSlotClick}
+            />
+          </div>
+        </fieldset>
+
+        <div className="flex items-center justify-end">
+          <div className="mr-4">
+            <h2 className="text-xl">Итоговая стоимость: ${totalPrice}</h2>
+          </div>
+          <button className="btn btn-primary" type="submit">
+            Бронировать
           </button>
-        ))}
-      </div>
-
-      <div className="divider"></div>
-
-      <div className="flex flex-col gap-4 md:hidden">
-        <MobileTable
-          selectedStudio={selectedStudio}
-          peopleCount={peopleCount}
-          selectedSlots={selectedSlots}
-          handleSlotClick={handleSlotClick}
-        />
-      </div>
-      <div className="hidden flex-col gap-4 md:flex">
-        <DesktopTable
-          selectedStudio={selectedStudio}
-          peopleCount={peopleCount}
-          selectedSlots={selectedSlots}
-          handleSlotClick={handleSlotClick}
-        />
-      </div>
-      <div className="mt-8 flex items-center justify-end">
-        <div className="mr-4">
-          <h2 className="text-xl">Итоговая стоимость: ${totalPrice}</h2>
         </div>
-        <button className="btn btn-primary">Бронировать</button>
-      </div>
+      </form>
     </div>
   );
 }
