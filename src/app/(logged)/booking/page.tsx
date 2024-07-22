@@ -1,7 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
-import { format, startOfWeek, addDays } from "date-fns";
+import React, { useState, useEffect } from "react";
+import { format, startOfWeek, addDays, add } from "date-fns";
+import { fetchCurrentUser, addBooking } from "@/actions/actions";
+import { Hour } from "@/lib/types";
+import { dateToHour } from "@/lib/utils";
 
 const studios = [
   { name: "Blue Studio", id: "blue", color: "bg-blue-300" },
@@ -13,15 +16,9 @@ const getWeekDates = (startDate: Date) => {
   return Array.from({ length: 7 }).map((_, i) => addDays(startDate, i));
 };
 
-const getPrice = (
-  hour: number,
-  day: number,
-  studioId: string,
-  peopleCount: number,
-) => {
-  // Define your pricing logic here
-  const basePrice = 50; // Example base price
-  const hourlyRate = hour >= 8 && hour < 18 ? 100 : 75; // Example hourly rates
+const getPrice = (hour: number, peopleCount: number) => {
+  const basePrice = 50;
+  const hourlyRate = hour >= 8 && hour < 18 ? 100 : 75;
   return basePrice + hourlyRate * peopleCount;
 };
 
@@ -33,18 +30,12 @@ function DesktopTable({
 }: {
   selectedStudio: string;
   peopleCount: number;
-  selectedSlots: Record<string, boolean>;
-  handleSlotClick: (
-    year: number,
-    month: number,
-    day: number,
-    hour: number,
-  ) => void;
+  selectedSlots: number[];
+  handleSlotClick: (hour: number) => void;
 }) {
   const [currentWeekStart, setCurrentWeekStart] = useState(
     startOfWeek(new Date(), { weekStartsOn: 1 }),
   );
-
   const weekDates = getWeekDates(currentWeekStart);
 
   const handleWeekClick = (
@@ -65,7 +56,6 @@ function DesktopTable({
           Следующая неделя
         </button>
       </div>
-
       <div>
         <table className="table-compact table w-full">
           <thead>
@@ -81,29 +71,16 @@ function DesktopTable({
               <tr key={hour}>
                 <td>{`${hour}:00`}</td>
                 {weekDates.map((date, dayIndex) => {
-                  const isUnavailable = !(date.getDay() % 7); // Example unavailable logic
-                  const price = getPrice(
-                    hour,
-                    dayIndex,
-                    selectedStudio,
-                    peopleCount,
-                  );
-                  const slotKey = `${format(date, "yyyy-MM-dd")}-${hour}`;
-                  const isSelected = selectedSlots[slotKey];
+                  const isUnavailable = !(date.getDay() % 7);
+                  const price = getPrice(hour, peopleCount);
+                  const slotKey = dateToHour(add(date, { hours: hour }));
+                  const isSelected = selectedSlots.indexOf(slotKey) !== -1;
 
                   return (
                     <td
                       key={dayIndex}
                       className={`${isUnavailable ? "bg-base-300" : `cursor-pointer ${isSelected ? "bg-primary text-primary-content hover:bg-base-content" : "hover:bg-primary-content"}`}`}
-                      onClick={() =>
-                        !isUnavailable &&
-                        handleSlotClick(
-                          date.getFullYear(),
-                          date.getMonth(),
-                          date.getDate(),
-                          hour,
-                        )
-                      }
+                      onClick={() => !isUnavailable && handleSlotClick(slotKey)}
                     >
                       ${price}
                     </td>
@@ -126,13 +103,8 @@ function MobileTable({
 }: {
   selectedStudio: string;
   peopleCount: number;
-  selectedSlots: Record<string, boolean>;
-  handleSlotClick: (
-    year: number,
-    month: number,
-    day: number,
-    hour: number,
-  ) => void;
+  selectedSlots: number[];
+  handleSlotClick: (hour: number) => void;
 }) {
   const [currentDay, setCurrentDay] = useState(new Date());
 
@@ -154,7 +126,6 @@ function MobileTable({
           Следующий день
         </button>
       </div>
-
       <div>
         <table className="table-compact table w-full">
           <thead>
@@ -165,30 +136,17 @@ function MobileTable({
           </thead>
           <tbody>
             {Array.from({ length: 24 }).map((_, hour) => {
-              const isUnavailable = !(currentDay.getDay() % 7); // Example unavailable logic
-              const price = getPrice(
-                hour,
-                currentDay.getDay(),
-                selectedStudio,
-                peopleCount,
-              );
-              const slotKey = `${format(currentDay, "yyyy-MM-dd")}-${hour}`;
-              const isSelected = selectedSlots[slotKey];
+              const isUnavailable = !(currentDay.getDay() % 7);
+              const price = getPrice(hour, peopleCount);
+              const slotKey = dateToHour(add(currentDay, { hours: hour }));
+              const isSelected = selectedSlots.indexOf(slotKey) !== -1;
 
               return (
                 <tr key={hour}>
                   <td>{`${hour}:00`}</td>
                   <td
                     className={`${isUnavailable ? "bg-gray-300" : "cursor-pointer hover:bg-primary-content"} ${isSelected ? "bg-primary text-primary-content hover:bg-base-content" : ""}`}
-                    onClick={() =>
-                      !isUnavailable &&
-                      handleSlotClick(
-                        currentDay.getFullYear(),
-                        currentDay.getMonth(),
-                        currentDay.getDate(),
-                        hour,
-                      )
-                    }
+                    onClick={() => !isUnavailable && handleSlotClick(slotKey)}
                   >
                     ${price}
                   </td>
@@ -205,40 +163,48 @@ function MobileTable({
 export default function Page() {
   const [selectedStudio, setSelectedStudio] = useState(studios[0].id);
   const [peopleCount, setPeopleCount] = useState(1);
+  const [selectedSlots, setSelectedSlots] = useState<Hour[]>([]);
+  const [user, setUser] = useState<{ id: string; email: string } | null>(null);
 
-  const [selectedSlots, setSelectedSlots] = useState<Record<string, boolean>>(
-    {},
-  );
+  useEffect(() => {
+    const userId = localStorage.getItem("user") || "";
+    fetchCurrentUser(userId).then(setUser);
+  }, []);
 
-  const handleSlotClick = (
-    year: number,
-    month: number,
-    day: number,
-    hour: number,
-  ) => {
-    const slotKey = `${format(new Date(year, month, day), "yyyy-MM-dd")}-${hour}`;
-    if (!selectedSlots[slotKey]) {
-      setSelectedSlots((prev) => ({ ...prev, [slotKey]: true }));
+  useEffect(() => {
+    console.log(selectedSlots);
+  }, [selectedSlots]);
+
+  const handleSlotClick = (hour: Hour) => {
+    console.log("lol", hour);
+    if (selectedSlots.indexOf(hour) === -1) {
+      setSelectedSlots((prev) => [...prev, hour]);
     } else {
-      setSelectedSlots((prev) => {
-        const newSlots = { ...prev };
-        delete newSlots[slotKey];
-        return newSlots;
-      });
+      setSelectedSlots((prev) => prev.filter((h) => h !== hour));
     }
   };
 
-  const totalPrice = Object.keys(selectedSlots).reduce((sum, slotKey) => {
-    const [day, hour] = slotKey.split("-").map(Number);
-    return sum + getPrice(hour, day, selectedStudio, peopleCount);
-  }, 0);
+  const totalPrice = Object.keys(selectedSlots).reduce(
+    (sum, hour) => sum + getPrice(Number(hour), peopleCount),
+    0,
+  );
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!user) return;
+    const formData = new FormData(e.currentTarget);
+    formData.append("userId", user.id);
+    formData.append("studio", selectedStudio);
+    formData.append("slots", JSON.stringify(selectedSlots));
+    formData.append("peopleCount", peopleCount.toString());
+
+    await addBooking(formData);
+  };
 
   return (
     <div className="container mx-auto flex flex-col gap-6 py-12">
       <h1 className="text-4xl font-bold">Бронирование</h1>
-      {/*<div className="divider"></div>*/}
-
-      <form className="flex flex-col gap-8">
+      <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
         <fieldset>
           <legend className="mb-4 text-2xl">Студия</legend>
           <div className="flex flex-wrap gap-4">
