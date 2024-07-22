@@ -25,3 +25,11 @@ export async function loginUser(data: FormData) {
 
   return user;
 }
+
+export async function fetchCurrentUser(id: string): Promise<User | null> {
+  return prisma.user.findUnique({
+    where: {
+      id: id,
+    },
+  });
+}
