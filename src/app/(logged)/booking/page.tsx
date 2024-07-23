@@ -202,7 +202,7 @@ export default function Page() {
   };
 
   return (
-    <div className="container mx-auto flex flex-col gap-6 py-12">
+    <div className="mx-auto flex flex-col gap-6 py-12">
       <h1 className="text-4xl font-bold">Бронирование</h1>
       <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
         <fieldset>
