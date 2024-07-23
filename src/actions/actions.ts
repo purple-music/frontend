@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/lib/db";
-import { User } from "@prisma/client";
+import { User, Booking } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { Hour } from "@/lib/types";
 import { hourToDate } from "@/lib/utils";
@@ -40,7 +40,6 @@ export async function fetchCurrentUser(id: string): Promise<User | null> {
 export async function addBooking(data: FormData) {
   const userId = data.get("userId") as string;
   const studio = data.get("studio") as string;
-  console.log(userId, studio, typeof data.get("slots"));
   const slots = JSON.parse(data.get("slots") as string) as Hour[];
   const peopleCount = Number(data.get("peopleCount"));
 
@@ -61,6 +60,10 @@ export async function addBooking(data: FormData) {
     },
   });
 
-  revalidatePath("/");
+  revalidatePath("/view/desktop");
   redirect("/view/desktop");
+}
+
+export async function fetchAllBookings(): Promise<Booking[]> {
+  return prisma.booking.findMany();
 }
