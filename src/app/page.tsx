@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Link from "next/link";
 
 function ServiceCard({
   imageSrc,
@@ -46,7 +46,7 @@ export default function Home() {
       >
         <header className="hero h-full min-h-full flex-grow">
           <div className="hero-overlay">
-            <div className="container sticky top-4 z-10">
+            <div className="container sticky top-4 z-10 px-4 md:px-0">
               <nav className="navbar rounded-full bg-primary-content bg-opacity-50 backdrop-blur">
                 <div className="navbar-start">
                   <a className="btn btn-ghost text-xl normal-case">
@@ -69,10 +69,13 @@ export default function Home() {
                     </li>
                   </ul>
                 </div>
-                <div className="navbar-end">
-                  <a className="btn btn-primary rounded-full">
-                    +7(922)123-12-12
-                  </a>
+                <div className="navbar-end flex flex-row gap-2">
+                  <Link className="btn btn-primary rounded-full" href="/lk">
+                    Личный кабинет
+                  </Link>
+                  {/*<a className="btn btn-primary rounded-full">*/}
+                  {/*  +7(922)123-12-12*/}
+                  {/*</a>*/}
                 </div>
               </nav>
             </div>
@@ -92,7 +95,7 @@ export default function Home() {
       </div>
 
       {/* Main Content */}
-      <main className="flex-grow bg-base-100">
+      <main className="flex-grow bg-base-100 px-4 md:px-0">
         <div className="container mx-auto py-12">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-4">
             <ServiceCard

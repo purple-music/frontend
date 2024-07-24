@@ -115,3 +115,13 @@ export async function makeOrder(data: FormData) {
 export async function fetchAllBookings(): Promise<Booking[]> {
   return prisma.booking.findMany();
 }
+
+export async function fetchMyBookings(userId: string): Promise<Booking[]> {
+  return prisma.booking.findMany({
+    where: {
+      order: {
+        userId: userId,
+      },
+    },
+  });
+}

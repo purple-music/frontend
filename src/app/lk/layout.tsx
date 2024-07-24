@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { User } from "@prisma/client";
 import { fetchCurrentUser } from "@/actions/actions";
 import Image from "next/image";
+import Link from "next/link";
 
 function CurrentUser() {
   const [user, setUser] = useState<User | null>(null);
@@ -36,25 +37,27 @@ function Sidebar() {
       ></label>
       <div className="flex min-h-full w-80 flex-col justify-between gap-2 bg-base-100 p-2">
         <div className="flex flex-col gap-2">
-          <div className="h-48 w-full overflow-hidden rounded-xl text-center">
+          <Link
+            className="h-48 w-full overflow-hidden rounded-xl text-center"
+            href="/"
+          >
             <Image
               style={{ objectFit: "cover", width: "100%", height: "100%" }}
               src="/logo.webp"
-              // fill={true}
               width={500}
               height={500}
               alt="Picture of the author"
             />
-          </div>
+          </Link>
           <ul className="menu rounded-xl bg-base-200 text-base-content">
             <li>
-              <a>Дашборд</a>
+              <Link href="/lk">Дашборд</Link>
             </li>
             <li>
-              <a>Бронирование</a>
+              <Link href="/lk/booking">Бронирование</Link>
             </li>
             <li>
-              <a>Просмотр</a>
+              <Link href="/lk/view">Просмотр</Link>
             </li>
           </ul>
         </div>
@@ -66,7 +69,7 @@ function Sidebar() {
 
 function Navbar() {
   return (
-    <div className="navbar sticky top-4 z-[5] w-full rounded-xl bg-base-300 lg:hidden">
+    <div className="navbar sticky top-4 z-[5] w-full rounded-full bg-primary-content lg:hidden">
       <div className="flex-none">
         <label
           htmlFor="my-drawer"
