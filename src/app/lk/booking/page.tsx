@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { format, startOfWeek, addDays, add } from "date-fns";
-import { fetchCurrentUser, addBooking } from "@/actions/actions";
+import { fetchCurrentUser, makeOrder } from "@/actions/actions";
 import { Hour } from "@/lib/types";
 import { dateToHour } from "@/lib/utils";
 
@@ -198,7 +198,7 @@ export default function Page() {
     formData.append("slots", JSON.stringify(selectedSlots));
     formData.append("peopleCount", peopleCount.toString());
 
-    await addBooking(formData);
+    await makeOrder(formData);
   };
 
   return (

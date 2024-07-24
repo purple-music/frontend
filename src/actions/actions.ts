@@ -3,22 +3,30 @@
 import prisma from "@/lib/db";
 import { User, Booking } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { Hour } from "@/lib/types";
 import { hourToDate } from "@/lib/utils";
 import { redirect } from "next/navigation";
+import { z } from "zod";
+
+const UserSchema = z.object({
+  id: z.string().cuid(),
+  email: z.string().email(),
+  name: z.string().max(255).nullable(),
+});
+
+const RegisterUser = UserSchema.omit({ id: true }); // TODO: add password
+const LoginUser = UserSchema.pick({ email: true }); // TODO: add password
 
 export async function registerUser(data: FormData) {
-  const email = data.get("email") as string;
-  if (!email) throw new Error("Email is required");
+  const { email, name } = RegisterUser.parse({
+    email: data.get("email"),
+    name: data.get("name"),
+  }); // TODO: catch ZodError?
 
-  return prisma.user.create({
-    data: { email },
-  });
+  return prisma.user.create({ data: { email, name } });
 }
 
 export async function loginUser(data: FormData) {
-  const email = data.get("email") as string;
-  if (!email) throw new Error("Email is required");
+  const { email } = LoginUser.parse({ email: data.get("email") }); // TODO: catch ZodError?
 
   const user = await prisma.user.findUnique({
     where: { email },
@@ -37,11 +45,51 @@ export async function fetchCurrentUser(id: string): Promise<User | null> {
   });
 }
 
-export async function addBooking(data: FormData) {
-  const userId = data.get("userId") as string;
-  const studio = data.get("studio") as string;
-  const slots = JSON.parse(data.get("slots") as string) as Hour[];
-  const peopleCount = Number(data.get("peopleCount"));
+const BookingSchema = z.object({
+  title: z.string().max(255),
+  hour: z.number().int().positive(),
+  studio: z.string(),
+  createdAt: z.date(),
+  orderId: z.string().cuid(),
+});
+
+const OrderSchema = z.object({
+  id: z.string().cuid(),
+  payload: z.string(),
+  updatedAt: z.date(),
+  createdAt: z.date(),
+  bookings: BookingSchema.array(),
+  userId: z.string().cuid(),
+  user: UserSchema,
+});
+
+const MakeOrder = z.object({
+  userId: z.string().cuid(),
+  studio: z.string(),
+  slots: z
+    .string()
+    .transform((s, ctx) => {
+      try {
+        return JSON.parse(s) as number[];
+      } catch (error) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Invalid slots JSON",
+        });
+        return z.never;
+      }
+    })
+    .pipe(z.number().array().min(1, "At least one slot must be selected")),
+  peopleCount: z.coerce.number().int().positive().min(1).max(10),
+});
+
+export async function makeOrder(data: FormData) {
+  const { userId, studio, slots, peopleCount } = MakeOrder.parse({
+    userId: data.get("userId"),
+    studio: data.get("studio"),
+    slots: data.get("slots"),
+    peopleCount: data.get("peopleCount"),
+  });
 
   const bookings = slots.map((hour) => {
     const date = hourToDate(hour);
