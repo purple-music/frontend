@@ -25,12 +25,12 @@ export function InputField({
   errorMessages?: string[];
 }) {
   return (
-    <div className="mb-4">
+    <div>
       <input
         type={type}
         name={name}
         placeholder={placeholder}
-        className={`w-full rounded border border-gray-300 p-2 ${
+        className={`input border-gray-300 p-2 ${
           errorMessages ? "border-red-500" : ""
         }`}
         aria-describedby={`${name}-error`}
