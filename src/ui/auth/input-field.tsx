@@ -30,7 +30,7 @@ export function InputField({
         type={type}
         name={name}
         placeholder={placeholder}
-        className={`input border-gray-300 p-2 ${
+        className={`input w-full border-gray-300 p-2 ${
           errorMessages ? "border-red-500" : ""
         }`}
         aria-describedby={`${name}-error`}
