@@ -5,36 +5,89 @@ import { User, Booking } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { hourToDate } from "@/lib/utils";
 import { redirect } from "next/navigation";
-import { z } from "zod";
+import { z, ZodType } from "zod";
+import { signIn } from "../auth";
+import { AuthError } from "next-auth";
+import bcrypt from "bcrypt";
+
+type ActionErrors<T extends ZodType<any, any, any>> = {
+  errors?: z.inferFlattenedErrors<T>["fieldErrors"];
+  message?: string;
+};
 
 const UserSchema = z.object({
   id: z.string().cuid(),
   email: z.string().email(),
   name: z.string().max(255).nullable(),
+  password: z.string().min(6), // TODO improve zod
 });
 
-const RegisterUser = UserSchema.omit({ id: true }); // TODO: add password
-const LoginUser = UserSchema.pick({ email: true }); // TODO: add password
+const RegisterUser = UserSchema.omit({ id: true });
+const LoginUser = UserSchema.pick({ email: true, password: true });
 
-export async function registerUser(data: FormData) {
-  const { email, name } = RegisterUser.parse({
+type RegisterUserErrors = ActionErrors<typeof RegisterUser>;
+export type LoginUserErrors = ActionErrors<typeof LoginUser>;
+
+export async function registerUser(
+  prevState: RegisterUserErrors,
+  data: FormData,
+): Promise<RegisterUserErrors> {
+  const validatedFields = RegisterUser.safeParse({
     email: data.get("email"),
     name: data.get("name"),
-  }); // TODO: catch ZodError?
-
-  return prisma.user.create({ data: { email, name } });
-}
-
-export async function loginUser(data: FormData) {
-  const { email } = LoginUser.parse({ email: data.get("email") }); // TODO: catch ZodError?
-
-  const user = await prisma.user.findUnique({
-    where: { email },
+    password: data.get("password"),
   });
 
-  if (!user) throw new Error("User not found");
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Create user.",
+    };
+  }
 
-  return user;
+  const { email, name, password } = validatedFields.data;
+
+  const userCount = await prisma.user.count({
+    where: {
+      email,
+    },
+  });
+  if (userCount > 0) {
+    return {
+      message: "A user with this email already exists.",
+    };
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  await prisma.user.create({ data: { email, name, hashedPassword } });
+
+  revalidatePath("/login");
+  redirect("/login");
+}
+
+export async function authenticate(
+  state: LoginUserErrors,
+  formData: FormData,
+): Promise<LoginUserErrors> {
+  try {
+    const value = await signIn("credentials", formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return {
+            message: "Invalid credentials. " + error.message,
+          };
+        default:
+          return {
+            message: "Something went wrong.",
+          };
+      }
+    }
+    throw error;
+  }
+  redirect("/lk");
 }
 
 export async function fetchCurrentUser(id: string): Promise<User | null> {
@@ -108,8 +161,8 @@ export async function makeOrder(data: FormData) {
     },
   });
 
-  revalidatePath("/view/desktop");
-  redirect("/view/desktop");
+  revalidatePath("/lk/view/desktop");
+  redirect("/lk/view/desktop");
 }
 
 export async function fetchAllBookings(): Promise<Booking[]> {

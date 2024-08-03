@@ -7,3 +7,12 @@ export const hourToDate = (hour: Hour) => {
 export const dateToHour = (date: Date) => {
   return date.getTime() / (60 * 60 * 1000);
 };
+
+class AuthMessageError extends Error {
+  constructor(msg: string) {
+    super(msg);
+
+    // Set the prototype explicitly.
+    Object.setPrototypeOf(this, AuthMessageError.prototype);
+  }
+}

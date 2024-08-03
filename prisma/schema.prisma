@@ -43,7 +43,7 @@ model User {
   email          String  @unique
   name           String?
   role           Role    @default(USER)
-  // hashedPassword String
+  hashedPassword String
 
   orders Order[]
 }
