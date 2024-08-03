@@ -5,6 +5,7 @@ import { authenticate } from "@/actions/actions";
 import { useFormState } from "react-dom";
 import { InputField } from "@/ui/auth/input-field";
 import { Social } from "@/ui/auth/social";
+import CreateAccount from "@/ui/auth/create-account";
 
 export default function LoginForm() {
   // Use useActionState to manage form submission state
@@ -54,6 +55,10 @@ export default function LoginForm() {
         <div className="divider">or</div>
 
         <Social />
+        <CreateAccount
+          href={"/auth/register"}
+          label="Don't have an account? Create one"
+        />
       </section>
     </form>
   );
