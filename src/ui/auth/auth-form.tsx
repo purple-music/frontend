@@ -38,7 +38,7 @@ export default function AuthForm({
         {/* Submit Button */}
         <button
           type="submit"
-          className="btn btn-primary w-full rounded px-4 py-2 text-white"
+          className="btn btn-primary w-full text-white"
           disabled={isPending}
         >
           {buttonLabel}
