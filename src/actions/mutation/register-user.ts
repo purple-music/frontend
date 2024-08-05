@@ -5,6 +5,7 @@ import { RegisterErrors, RegisterSchema, UserSchema } from "@/schemas/schemas";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import bcrypt from "bcrypt";
+import { getUserByEmail } from "@/actions/query/user";
 
 export async function registerUser(
   prevState: RegisterErrors,
@@ -25,12 +26,8 @@ export async function registerUser(
 
   const { email, name, password } = validatedFields.data;
 
-  const userCount = await prisma.user.count({
-    where: {
-      email,
-    },
-  });
-  if (userCount > 0) {
+  const existingUser = await getUserByEmail(email);
+  if (existingUser) {
     return {
       message: "A user with this email already exists.",
     };
