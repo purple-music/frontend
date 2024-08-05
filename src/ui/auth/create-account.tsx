@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function CreateAccount({
+export function CreateAccount({
   href,
   label,
 }: {

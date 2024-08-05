@@ -8,7 +8,7 @@ export const dateToHour = (date: Date) => {
   return date.getTime() / (60 * 60 * 1000);
 };
 
-class AuthMessageError extends Error {
+export class AuthMessageError extends Error {
   constructor(msg: string) {
     super(msg);
 
