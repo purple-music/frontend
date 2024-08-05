@@ -4,6 +4,7 @@ import React from "react";
 import { useFormState } from "react-dom";
 import { InputField } from "@/ui/auth/input-field";
 import { registerUser } from "@/actions/mutation/register-user";
+import AuthForm from "@/ui/auth/auth-form";
 
 export default function RegisterForm() {
   // Use useActionState to manage form submission state
@@ -14,50 +15,38 @@ export default function RegisterForm() {
   const message = error?.message;
 
   return (
-    <form
-      // Use form action to handle form submission
+    <AuthForm
       action={formAction}
-      className="card w-full max-w-sm bg-base-100"
+      message={message}
+      title={"Register"}
+      isPending={isPending}
+      buttonLabel={isPending ? "Registering..." : "Register"}
+      extraActionHref="/auth/login"
+      extraActionLabel="Already have an account? Sign in"
     >
-      <section className="card-body">
-        <h1 className="card-title mb-4 text-2xl">Register</h1>
+      {/* Email Field */}
+      <InputField
+        type="email"
+        name="email"
+        placeholder="Email"
+        errorMessages={errors?.email}
+      />
 
-        {/* Email Field */}
-        <InputField
-          type="email"
-          name="email"
-          placeholder="Email"
-          errorMessages={errors?.email}
-        />
+      {/* Name Field */}
+      <InputField
+        type="text"
+        name="name"
+        placeholder="Name"
+        errorMessages={errors?.name}
+      />
 
-        {/* Name Field */}
-        <InputField
-          type="text"
-          name="name"
-          placeholder="Name"
-          errorMessages={errors?.name}
-        />
-
-        {/* Password Field */}
-        <InputField
-          type="password"
-          name="password"
-          placeholder="Password"
-          errorMessages={errors?.password}
-        />
-
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="btn btn-primary w-full rounded px-4 py-2 text-white"
-          disabled={isPending}
-        >
-          {isPending ? "Registering..." : "Register"}
-        </button>
-
-        {/* General Message */}
-        {message && <p className="mt-4 text-red-500">{message}</p>}
-      </section>
-    </form>
+      {/* Password Field */}
+      <InputField
+        type="password"
+        name="password"
+        placeholder="Password"
+        errorMessages={errors?.password}
+      />
+    </AuthForm>
   );
 }
