@@ -1,20 +1,16 @@
 "use server";
 
 import prisma from "@/lib/db";
-import { UserSchema } from "@/schemas/schemas";
+import { RegisterErrors, RegisterSchema, UserSchema } from "@/schemas/schemas";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import bcrypt from "bcrypt";
-import { ActionErrors } from "@/lib/types";
-
-export const RegisterUser = UserSchema.omit({ id: true });
-export type RegisterUserErrors = ActionErrors<typeof RegisterUser>;
 
 export async function registerUser(
-  prevState: RegisterUserErrors,
+  prevState: RegisterErrors,
   data: FormData,
-): Promise<RegisterUserErrors> {
-  const validatedFields = RegisterUser.safeParse({
+): Promise<RegisterErrors> {
+  const validatedFields = RegisterSchema.safeParse({
     email: data.get("email"),
     name: data.get("name"),
     password: data.get("password"),
@@ -23,7 +19,9 @@ export async function registerUser(
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: "Missing Fields. Failed to Create user.",
+      message:
+        "Missing Fields. Failed to Create user." +
+        validatedFields.error.flatten().fieldErrors,
     };
   }
 

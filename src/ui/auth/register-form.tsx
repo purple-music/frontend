@@ -3,7 +3,7 @@
 import React from "react";
 import { useFormState } from "react-dom";
 import { InputField } from "@/ui/auth/input-field";
-import { registerUser } from "@/actions/register-user";
+import { registerUser } from "@/actions/mutation/register-user";
 
 export default function RegisterForm() {
   // Use useActionState to manage form submission state

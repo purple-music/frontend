@@ -5,7 +5,7 @@ function ErrorMessage({ messages, id }: { messages?: string[]; id: string }) {
   return (
     <div id={id} aria-live="polite" aria-atomic="true">
       {messages.map((error) => (
-        <p className="mt-2 text-sm text-red-500" key={error}>
+        <p className="mt-1 text-sm text-red-500" key={error}>
           {error}
         </p>
       ))}
@@ -18,11 +18,13 @@ export function InputField({
   name,
   placeholder,
   errorMessages,
+  disabled
 }: {
   type: string;
   name: string;
   placeholder: string;
   errorMessages?: string[];
+  disabled: boolean;
 }) {
   return (
     <div>
@@ -30,10 +32,9 @@ export function InputField({
         type={type}
         name={name}
         placeholder={placeholder}
-        className={`input w-full border-gray-300 p-2 ${
-          errorMessages ? "border-red-500" : ""
-        }`}
+        className={`input input-bordered w-full ${errorMessages ? "border-red-500" : ""}`}
         aria-describedby={`${name}-error`}
+        disabled={disabled}
       />
       <ErrorMessage messages={errorMessages} id={`${name}-error`} />
     </div>

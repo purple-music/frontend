@@ -1,20 +1,29 @@
 "use server";
 
 import { signIn } from "@/auth";
-import { ActionErrors } from "@/lib/types";
-import { UserSchema } from "@/schemas/schemas";
+import { LoginErrors, LoginSchema } from "@/schemas/schemas";
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 
-export const LoginUser = UserSchema.pick({ email: true, password: true });
-export type LoginUserErrors = ActionErrors<typeof LoginUser>;
-
 export async function authenticate(
-  state: LoginUserErrors,
-  formData: FormData,
-): Promise<LoginUserErrors> {
+  state: LoginErrors,
+  data: FormData,
+): Promise<LoginErrors> {
+  const validatedFields = LoginSchema.safeParse({
+    email: data.get("email"),
+    password: data.get("password"),
+  });
+
+  if (!validatedFields.success) {
+    console.log(validatedFields.error);
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Create user.",
+    };
+  }
+
   try {
-    const value = await signIn("credentials", formData);
+    const value = await signIn("credentials", data);
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
@@ -22,9 +31,13 @@ export async function authenticate(
           return {
             message: "Invalid credentials. " + error.message,
           };
+        case "CallbackRouteError":
+          return {
+            message: "Unable to log in. " + error.message,
+          };
         default:
           return {
-            message: "Something went wrong.",
+            message: "Something went wrong. " + error.message,
           };
       }
     }

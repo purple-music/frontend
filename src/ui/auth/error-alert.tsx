@@ -1,6 +1,10 @@
-export function ErrorAlert({ message }: { message: string }) {
+export function ErrorAlert({ message }: { message?: string }) {
+  if (!message) {
+    return null;
+  }
+
   return (
-    <div role="alert" className="alert alert-error">
+    <div role="alert" className="alert alert-error rounded-lg">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="h-6 w-6 shrink-0 stroke-current"

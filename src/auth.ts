@@ -5,7 +5,7 @@ import { z } from "zod";
 import bcrypt from "bcrypt";
 import prisma from "@/lib/db";
 import { User } from "@prisma/client";
-import { LoginUserErrors } from "@/schemas/schemas";
+import { LoginErrors } from "@/schemas/schemas";
 import { AuthMessageError } from "@/lib/utils";
 
 async function getUser(email: string): Promise<User | null> {
@@ -25,10 +25,10 @@ export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
     Credentials({
-      async authorize(credentials): Promise<LoginUserErrors> {
+      async authorize(credentials) {
         const invalidCredentials = () => {
           console.log("Invalid credentials");
-          throw new AuthMessageError("Invalid credentials");
+          return null;
         };
 
         const parsedCredentials = z
@@ -48,12 +48,4 @@ export const { auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-      if (user.error === "my custom error") {
-        throw new Error("custom error to the client");
-      }
-      return true;
-    },
-  },
 });
