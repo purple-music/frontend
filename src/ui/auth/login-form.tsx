@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { authenticate } from "@/actions/actions";
+import { authenticate } from "@/actions/mutation/authenticate";
 import { useFormState } from "react-dom";
 import { InputField } from "@/ui/auth/input-field";
 import { Social } from "@/ui/auth/social";
