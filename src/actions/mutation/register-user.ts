@@ -19,9 +19,7 @@ export async function registerUser(
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message:
-        "Missing Fields. Failed to Create user." +
-        validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Create user.",
     };
   }
 
@@ -40,8 +38,10 @@ export async function registerUser(
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  await prisma.user.create({ data: { email, name, hashedPassword } });
+  await prisma.user.create({ data: { email, name, password: hashedPassword } });
 
-  revalidatePath("/login");
-  redirect("/login");
+  // TODO: send verification token later
+
+  revalidatePath("/auth/login");
+  redirect("/auth/login");
 }
