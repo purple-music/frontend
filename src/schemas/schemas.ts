@@ -7,13 +7,20 @@ export const UserSchema = z.object({
   password: z.string().min(6), // TODO improve zod
 });
 
-export const RegisterUser = UserSchema.omit({ id: true });
-export const LoginUser = UserSchema.pick({ email: true, password: true });
+const BookingSchema = z.object({
+  title: z.string().max(255),
+  hour: z.number().int().positive(),
+  studio: z.string(),
+  createdAt: z.date(),
+  orderId: z.string().cuid(),
+});
 
-type ActionErrors<T extends ZodType<any, any, any>> = {
-  errors?: z.inferFlattenedErrors<T>["fieldErrors"];
-  message?: string;
-};
-
-export type RegisterUserErrors = ActionErrors<typeof RegisterUser>;
-export type LoginUserErrors = ActionErrors<typeof LoginUser>;
+const OrderSchema = z.object({
+  id: z.string().cuid(),
+  payload: z.string(),
+  updatedAt: z.date(),
+  createdAt: z.date(),
+  bookings: BookingSchema.array(),
+  userId: z.string().cuid(),
+  user: UserSchema,
+});
