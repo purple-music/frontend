@@ -18,13 +18,13 @@ export function InputField({
   name,
   placeholder,
   errorMessages,
-  disabled
+  disabled,
 }: {
   type: string;
   name: string;
   placeholder: string;
   errorMessages?: string[];
-  disabled: boolean;
+  disabled?: boolean;
 }) {
   return (
     <div>

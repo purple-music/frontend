@@ -1,53 +1,39 @@
 "use client";
 
-import React from "react";
-import { useFormState } from "react-dom";
-import { InputField } from "@/ui/auth/input-field";
+import React, { ReactNode } from "react";
+import { ErrorAlert } from "@/ui/auth/error-alert";
+import { CreateAccount } from "@/ui/auth/create-account";
+import { Social } from "@/ui/auth/social";
 
 interface AuthFormProps {
-  action: (formData: FormData) => Promise<any>;
+  action: (payload: FormData) => void;
+  message?: string;
   title: string;
-  fields: {
-    type: string;
-    name: string;
-    placeholder: string;
-  }[];
-  buttonText: string;
-  buttonPendingText: string;
+  isPending: boolean;
+  buttonLabel: string;
+
+  extraActionLabel: string;
+  extraActionHref: string;
+
+  children: ReactNode;
 }
 
 export default function AuthForm({
   action,
+  message,
   title,
-  fields,
-  buttonText,
-  buttonPendingText,
+  isPending,
+  buttonLabel,
+  extraActionHref,
+  extraActionLabel,
+  children,
 }: AuthFormProps) {
-  // Use useActionState to manage form submission state
-  const [error, formAction, isPending] = useFormState(action, {});
-
-  // Extract error messages from action state
-  const errors = error?.errors;
-  const message = error?.message;
-
   return (
-    <form
-      // Use form action to handle form submission
-      action={formAction}
-      className="card max-w-sm bg-base-100"
-    >
+    <form action={action} className="card max-w-sm bg-base-100">
       <section className="card-body">
         <h1 className="card-title mb-4 text-2xl">{title}</h1>
 
-        {fields.map((field) => (
-          <InputField
-            key={field.name}
-            type={field.type}
-            name={field.name}
-            placeholder={field.placeholder}
-            errorMessages={errors?.[field.name]}
-          />
-        ))}
+        {children}
 
         {/* Submit Button */}
         <button
@@ -55,11 +41,16 @@ export default function AuthForm({
           className="btn btn-primary w-full rounded px-4 py-2 text-white"
           disabled={isPending}
         >
-          {isPending ? buttonPendingText : buttonText}
+          {buttonLabel}
         </button>
 
         {/* General Message */}
-        {message && <p className="mt-4 text-red-500">{message}</p>}
+        <ErrorAlert message={message} />
+
+        <div className="divider">or</div>
+
+        <Social />
+        <CreateAccount href={extraActionHref} label={extraActionLabel} />
       </section>
     </form>
   );
