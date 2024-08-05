@@ -22,8 +22,11 @@ export default function LoginForm() {
       action={formAction}
       className="card bg-base-100"
     >
-      <section className="card-body items-stretch">
-        <h1 className="card-title mb-4 text-2xl">Login</h1>
+      <section className="card-body items-stretch gap-4">
+        <h1 className="card-title mb-2 text-2xl">
+          {/* TODO: fix isPending problem */}
+          Login {isPending ? "Y" : "N"}
+        </h1>
 
         {/* Email Field */}
         <InputField
@@ -31,6 +34,7 @@ export default function LoginForm() {
           name="email"
           placeholder="Email"
           errorMessages={errors?.email}
+          disabled={isPending}
         />
 
         {/* Password Field */}
@@ -39,7 +43,11 @@ export default function LoginForm() {
           name="password"
           placeholder="Password"
           errorMessages={errors?.password}
+          disabled={isPending}
         />
+
+        {/* General Message */}
+        <ErrorAlert message={message} />
 
         {/* Submit Button */}
         <button
@@ -49,9 +57,6 @@ export default function LoginForm() {
         >
           {isPending ? "Logging in..." : "Login"}
         </button>
-
-        {/* General Message */}
-        {message && <ErrorAlert message={message} />}
 
         <div className="divider">or</div>
 
