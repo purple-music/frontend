@@ -5,28 +5,16 @@ import { User, Booking } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { hourToDate } from "@/lib/utils";
 import { redirect } from "next/navigation";
-import { z, ZodType } from "zod";
+import { z } from "zod";
 import { signIn } from "../auth";
 import { AuthError } from "next-auth";
 import bcrypt from "bcrypt";
-
-type ActionErrors<T extends ZodType<any, any, any>> = {
-  errors?: z.inferFlattenedErrors<T>["fieldErrors"];
-  message?: string;
-};
-
-const UserSchema = z.object({
-  id: z.string().cuid(),
-  email: z.string().email(),
-  name: z.string().max(255).nullable(),
-  password: z.string().min(6), // TODO improve zod
-});
-
-const RegisterUser = UserSchema.omit({ id: true });
-const LoginUser = UserSchema.pick({ email: true, password: true });
-
-type RegisterUserErrors = ActionErrors<typeof RegisterUser>;
-export type LoginUserErrors = ActionErrors<typeof LoginUser>;
+import {
+  RegisterUserErrors,
+  LoginUserErrors,
+  RegisterUser,
+  UserSchema,
+} from "@/schemas/schemas";
 
 export async function registerUser(
   prevState: RegisterUserErrors,

@@ -5,7 +5,8 @@ import { authenticate } from "@/actions/actions";
 import { useFormState } from "react-dom";
 import { InputField } from "@/ui/auth/input-field";
 import { Social } from "@/ui/auth/social";
-import CreateAccount from "@/ui/auth/create-account";
+import { CreateAccount } from "@/ui/auth/create-account";
+import { ErrorAlert } from "@/ui/auth/error-alert";
 
 export default function LoginForm() {
   // Use useActionState to manage form submission state
@@ -50,7 +51,7 @@ export default function LoginForm() {
         </button>
 
         {/* General Message */}
-        {message && <p className="mt-4 text-red-500">{message}</p>}
+        {message && <ErrorAlert message={message} />}
 
         <div className="divider">or</div>
 
