@@ -3,23 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "./auth.config";
 import { z } from "zod";
 import bcrypt from "bcrypt";
-import prisma from "@/lib/db";
-import { User } from "@prisma/client";
-import { LoginErrors } from "@/schemas/schemas";
-import { AuthMessageError } from "@/lib/utils";
-
-async function getUser(email: string): Promise<User | null> {
-  try {
-    return await prisma.user.findFirst({
-      where: {
-        email: email,
-      },
-    });
-  } catch (error) {
-    console.error("Failed to fetch user:", error);
-    throw new Error("Failed to fetch user.");
-  }
-}
+import { getUserByEmail } from "@/actions/query/user";
 
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -37,13 +21,11 @@ export const { auth, signIn, signOut } = NextAuth({
         if (!parsedCredentials.success) return invalidCredentials();
 
         const { email, password } = parsedCredentials.data;
-        const user = await getUser(email);
+        const user = await getUserByEmail(email);
         if (!user) return invalidCredentials();
+        if (!user.password) return invalidCredentials(); // FIXME: In case of not credentials
 
-        const passwordsMatch = await bcrypt.compare(
-          password,
-          user.hashedPassword,
-        );
+        const passwordsMatch = await bcrypt.compare(password, user.password);
         return passwordsMatch ? user : invalidCredentials();
       },
     }),
