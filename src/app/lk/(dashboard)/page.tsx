@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { fetchCurrentUser, fetchMyBookings } from "@/actions/actions";
+import { getBookingsByUserId } from "@/actions/query/booking";
 import { Booking } from "@prisma/client";
 
 function Dashboard() {
@@ -11,7 +11,7 @@ function Dashboard() {
 
   useEffect(() => {
     const userId = localStorage.getItem("user") || "";
-    fetchMyBookings(userId).then((response) => setBookings(response));
+    getBookingsByUserId(userId).then((response) => setBookings(response));
   }, []);
 
   const handleEdit = () => {

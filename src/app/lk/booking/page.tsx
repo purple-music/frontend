@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { format, startOfWeek, addDays, add } from "date-fns";
-import { fetchCurrentUser, makeOrder } from "@/actions/actions";
+import { makeOrder } from "@/actions/actions";
 import { Hour } from "@/lib/types";
 import { dateToHour } from "@/lib/utils";
+import { getUserById } from "@/actions/query/user";
 
 const studios = [
   { name: "Blue Studio", id: "blue", color: "bg-blue-300" },
@@ -168,7 +169,7 @@ export default function Page() {
 
   useEffect(() => {
     const userId = localStorage.getItem("user") || "";
-    fetchCurrentUser(userId).then(setUser);
+    getUserById(userId).then(setUser);
   }, []);
 
   useEffect(() => {

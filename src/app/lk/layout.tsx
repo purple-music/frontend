@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { User } from "@prisma/client";
-import { fetchCurrentUser } from "@/actions/actions";
+import { getUserById } from "@/actions/query/user";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -11,7 +11,7 @@ function CurrentUser() {
 
   useEffect(() => {
     const userId = localStorage.getItem("user") || "";
-    fetchCurrentUser(userId).then(setUser);
+    getUserById(userId).then(setUser);
   }, []);
 
   if (!user) {

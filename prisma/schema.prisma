@@ -39,6 +39,8 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
+
+  Order Order[]
 }
 
 model Booking {
@@ -62,8 +64,8 @@ model Order {
 
   bookings Booking[]
 
-  // userId String
-  // user   User   @relation(fields: [userId], references: [id])
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 // model User {
