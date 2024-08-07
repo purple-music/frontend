@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import { addDays, format, startOfWeek } from "date-fns";
-import { fetchAllBookings } from "@/actions/actions";
 import { Studio } from "@/lib/types";
 import { Booking } from "@prisma/client";
 import { hourToDate } from "@/lib/utils";
+import { getAllBookings } from "@/actions/query/booking";
 
 const studios: Studio[] = ["purple", "orange", "blue"];
 
@@ -156,7 +156,7 @@ function Timeline({ days = 7 }: { days?: number }) {
   const [data, setData] = useState<Booking[] | null>();
 
   useEffect(() => {
-    fetchAllBookings().then((response) => setData(response));
+    getAllBookings().then((response) => setData(response));
   }, []);
 
   console.log("New data", data);
