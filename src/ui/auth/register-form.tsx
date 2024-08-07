@@ -24,20 +24,20 @@ export default function RegisterForm() {
       extraActionHref="/auth/login"
       extraActionLabel="Already have an account? Sign in"
     >
-      {/* Email Field */}
-      <InputField
-        type="email"
-        name="email"
-        placeholder="Email"
-        errorMessages={errors?.email}
-      />
-
       {/* Name Field */}
       <InputField
         type="text"
         name="name"
         placeholder="Name"
         errorMessages={errors?.name}
+      />
+
+      {/* Email Field */}
+      <InputField
+        type="email"
+        name="email"
+        placeholder="Email"
+        errorMessages={errors?.email}
       />
 
       {/* Password Field */}
