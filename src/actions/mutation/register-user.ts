@@ -4,7 +4,7 @@ import prisma from "@/lib/db";
 import { RegisterErrors, RegisterSchema, UserSchema } from "@/schemas/schemas";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { getUserByEmail } from "@/actions/query/user";
 
 export async function registerUser(
