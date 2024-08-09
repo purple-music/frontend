@@ -1,31 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { User } from "@prisma/client";
-import { getUserById } from "@/actions/query/user";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-function CurrentUser() {
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    const userId = localStorage.getItem("user") || "";
-    getUserById(userId).then(setUser);
-  }, []);
-
-  if (!user) {
-    return <p>No user logged in</p>;
-  }
-
-  return (
-    <div className="rounded-xl bg-base-200 p-4">
-      <p className="font-bold">Вошли как:</p>
-      <p>{user.email}</p>
-      <button className="btn btn-outline btn-sm mt-2">Выйти</button>
-    </div>
-  );
-}
+import { CurrentUser } from "@/ui/lk/current-user";
 
 function Sidebar() {
   return (
