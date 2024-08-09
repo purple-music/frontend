@@ -48,6 +48,10 @@ export async function authenticate(
           return {
             message: "Unable to log in.",
           };
+        case "AccessDenied": // signIn callback fails
+          return {
+            message: "Access Denied!",
+          };
         default:
           return {
             message: "Something went wrong.",
