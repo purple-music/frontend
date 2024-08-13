@@ -1,25 +1,31 @@
 "use client";
 
 import React from "react";
-import { authenticate } from "@/actions/mutation/authenticate";
+import { authCredentials } from "@/actions/mutation/sign-in";
 import { useFormState } from "react-dom";
 import { InputField } from "@/ui/auth/input-field";
 import AuthForm from "@/ui/auth/auth-form";
+import { useSearchParams } from "next/navigation";
 
 export default function LoginForm() {
   // Use useActionState to manage form submission state
-  const [error, formAction, isPending] = useFormState(authenticate, {});
+  const [error, formAction, isPending] = useFormState(authCredentials, {}); // TODO: replace with startTransition
+  const searchParams = useSearchParams();
+
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email is already in use with a different provider!"
+      : undefined;
 
   // Extract error messages from action state
   const errors = error?.errors;
-  const message = error?.message;
 
   return (
     <AuthForm
       action={formAction}
-      message={message}
+      message={error?.message || urlError}
       title={"Login"}
-      isPending={isPending}
+      isPending={isPending} // TODO: use startTransition or fix the bug
       buttonLabel={isPending ? "Logging in..." : "Login"}
       extraActionHref="/auth/register"
       extraActionLabel="Don't have an account? Create one"

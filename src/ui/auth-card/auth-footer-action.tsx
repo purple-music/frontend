@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export function CreateAccount({
+export function AuthFooterAction({
   href,
   label,
 }: {

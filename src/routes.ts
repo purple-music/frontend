@@ -6,7 +6,11 @@ export const publicRoutes: string[] = ["/"];
 /**
  * Routes that redirect to /lk
  */
-export const authRoutes: string[] = ["/auth/login", "/auth/register"];
+export const authRoutes: string[] = [
+  "/auth/login",
+  "/auth/register",
+  "/auth/error",
+];
 
 /**
  * The prefix for API authentication routes

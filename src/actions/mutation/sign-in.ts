@@ -6,7 +6,7 @@ import { LoginErrors, LoginSchema } from "@/schemas/schemas";
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 
-export async function authenticate(
+export async function authCredentials(
   state: LoginErrors,
   data: FormData,
 ): Promise<LoginErrors> {
@@ -17,10 +17,9 @@ export async function authenticate(
   });
 
   if (!validatedFields.success) {
-    // console.log(validatedFields.error);
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: "Missing Fields. Failed to Create user.",
+      // No message because we create object on the server and it can't fail
     };
   }
 
@@ -37,28 +36,25 @@ export async function authenticate(
     console.log("Success!");
   } catch (error) {
     console.log("Error...", error);
+    const authErrorMessages: Record<string, string> = {
+      CredentialsSignin: "Invalid credentials.",
+      CallbackRouteError: "Unable to log in.",
+      AccessDenied: "Access Denied!",
+      AdapterError: "Database is unreachable!",
+    };
+
     if (error instanceof AuthError) {
-      console.log("AuthError!!!");
-      switch (error.type) {
-        case "CredentialsSignin":
-          return {
-            message: "Invalid credentials.",
-          };
-        case "CallbackRouteError":
-          return {
-            message: "Unable to log in.",
-          };
-        case "AccessDenied": // signIn callback fails
-          return {
-            message: "Access Denied!",
-          };
-        default:
-          return {
-            message: "Something went wrong.",
-          };
-      }
+      const message = authErrorMessages[error.type] || "Something went wrong.";
+      return { message };
     }
+
     throw error;
   }
   redirect("/lk");
+}
+
+export async function authYandex() {
+  await signIn("yandex", {
+    callbackUrl: DEFAULT_LOGIN_REDIRECT,
+  });
 }
