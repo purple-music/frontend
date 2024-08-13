@@ -3,27 +3,17 @@ import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { LoginSchema } from "@/schemas/schemas";
+import Yandex from "next-auth/providers/yandex";
+import VK from "next-auth/providers/vk";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 export default {
   pages: {
     signIn: "/auth/login",
-    error: "/auth/login",
+    error: "/auth/error",
   },
-  // callbacks: {
-  //   authorized({ auth, request: { nextUrl } }) {
-  //     // const isLoggedIn = !!auth?.user;
-  //     // const isOnDashboard = nextUrl.pathname.startsWith("/lk");
-  //     // if (isOnDashboard) {
-  //     //   if (isLoggedIn) return true;
-  //     //   return false; // Redirect unauthenticated users to login page
-  //     // } else if (isLoggedIn) {
-  //     //   return Response.redirect(new URL("/lk", nextUrl));
-  //     // }
-  //     // return true;
-  //     return true;
-  //   },
-  // },
   providers: [
+    Yandex,
     Credentials({
       async authorize(credentials) {
         console.log("Authorizing...");

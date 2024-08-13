@@ -34,6 +34,14 @@ declare module "next-auth/jwt" {
 }
 
 export const { auth, signIn, signOut, handlers } = NextAuth({
+  events: {
+    async linkAccount({ user }) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { emailVerified: new Date() },
+      });
+    },
+  },
   callbacks: {
     async jwt({ token, user, profile }) {
       if (!token.sub) return token; // Logged out

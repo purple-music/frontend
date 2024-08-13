@@ -2,8 +2,10 @@
 
 import React, { ReactNode } from "react";
 import { ErrorAlert } from "@/ui/auth/error-alert";
-import { CreateAccount } from "@/ui/auth/create-account";
-import { Social } from "@/ui/auth/social";
+import { Social } from "@/ui/auth-card/social";
+import { AuthCardTitle } from "@/ui/auth-card/auth-card-title";
+import { AuthCard } from "@/ui/auth-card/auth-card";
+import { AuthFooterAction } from "@/ui/auth-card/auth-footer-action";
 
 interface AuthFormProps {
   action: (payload: FormData) => void;
@@ -29,10 +31,12 @@ export default function AuthForm({
   children,
 }: AuthFormProps) {
   return (
-    <form action={action} className="card max-w-sm bg-base-100">
-      <section className="card-body">
-        <h1 className="card-title mb-4 text-2xl">{title}</h1>
-
+    <AuthCard>
+      <AuthCardTitle title={title} />
+      <form
+        action={action}
+        className="flex flex-col items-stretch justify-center gap-2 pb-0"
+      >
         {children}
 
         {/* Submit Button */}
@@ -46,12 +50,12 @@ export default function AuthForm({
 
         {/* General Message */}
         <ErrorAlert message={message} />
+      </form>
 
-        <div className="divider">or</div>
+      <div className="divider my-0">or</div>
 
-        <Social />
-        <CreateAccount href={extraActionHref} label={extraActionLabel} />
-      </section>
-    </form>
+      <Social />
+      <AuthFooterAction href={extraActionHref} label={extraActionLabel} />
+    </AuthCard>
   );
 }

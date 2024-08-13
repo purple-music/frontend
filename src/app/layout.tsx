@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import React from "react";
 import { NextAuthProvider } from "@/providers/NextAuthProvider";
+import { Head, Html } from "next/document";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,6 +20,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script src="https://cdn.jsdelivr.net/npm/@vkontakte/vk-bridge/dist/index.umd.js" />
+        <script src="https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-token-with-polyfills-latest.js"></script>
+      </head>
       <body className={inter.className}>
         <NextAuthProvider>{children}</NextAuthProvider>
       </body>
