@@ -6,5 +6,9 @@ export type Studio = "blue" | "purple" | "orange";
 
 export type ActionErrors<T extends ZodType<any, any, any>> = {
   errors?: z.inferFlattenedErrors<T>["fieldErrors"];
-  message?: string;
+  generalError?: string;
+};
+
+export type Success = {
+  success?: string;
 };

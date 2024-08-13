@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { authCredentials } from "@/actions/mutation/sign-in";
+import { authCredentials } from "@/actions/mutation/login";
 import { useFormState } from "react-dom";
 import { InputField } from "@/ui/auth/input-field";
 import AuthForm from "@/ui/auth/auth-form";
@@ -9,7 +9,7 @@ import { useSearchParams } from "next/navigation";
 
 export default function LoginForm() {
   // Use useActionState to manage form submission state
-  const [error, formAction, isPending] = useFormState(authCredentials, {}); // TODO: replace with startTransition
+  const [state, formAction, isPending] = useFormState(authCredentials, {}); // TODO: replace with startTransition
   const searchParams = useSearchParams();
 
   const urlError =
@@ -18,12 +18,13 @@ export default function LoginForm() {
       : undefined;
 
   // Extract error messages from action state
-  const errors = error?.errors;
+  const errors = state.errors;
 
   return (
     <AuthForm
       action={formAction}
-      message={error?.message || urlError}
+      generalError={state.generalError || urlError}
+      success={state.success}
       title={"Login"}
       isPending={isPending} // TODO: use startTransition or fix the bug
       buttonLabel={isPending ? "Logging in..." : "Login"}

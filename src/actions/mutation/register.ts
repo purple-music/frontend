@@ -6,11 +6,14 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
 import { getUserByEmail } from "@/actions/query/user";
+import { generateVerificationToken } from "@/actions/mutation/tokens";
+import { Success } from "@/lib/types";
+import { sendVerificationEmail } from "@/lib/mail";
 
 export async function registerUser(
   prevState: RegisterErrors,
   data: FormData,
-): Promise<RegisterErrors> {
+): Promise<RegisterErrors & Success> {
   const validatedFields = RegisterSchema.safeParse({
     email: data.get("email"),
     name: data.get("name"),
@@ -20,7 +23,7 @@ export async function registerUser(
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: "Missing Fields. Failed to Create user.",
+      generalError: "Missing Fields. Failed to Create user.",
     };
   }
 
@@ -29,7 +32,7 @@ export async function registerUser(
   const existingUser = await getUserByEmail(email);
   if (existingUser) {
     return {
-      message: "A user with this email already exists.",
+      generalError: "A user with this email already exists.",
     };
   }
 
@@ -37,8 +40,8 @@ export async function registerUser(
 
   await prisma.user.create({ data: { email, name, password: hashedPassword } });
 
-  // TODO: send verification token later
+  const verificationToken = await generateVerificationToken(email);
+  await sendVerificationEmail(verificationToken.email, verificationToken.token);
 
-  revalidatePath("/auth/login");
-  redirect("/auth/login");
+  return { success: "Email sent!" };
 }

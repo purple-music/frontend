@@ -43,6 +43,18 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
     },
   },
   callbacks: {
+    async signIn({ user, account }) {
+      if (account?.provider !== "credentials") return true;
+      if (!user.id) return false; // FIXME: eh? Try to make id required
+
+      const existingUser = await getUserById(user.id);
+
+      if (!existingUser?.emailVerified) return false;
+
+      // TODO: add 2FA check
+
+      return true;
+    },
     async jwt({ token, user, profile }) {
       if (!token.sub) return token; // Logged out
 
@@ -65,14 +77,6 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
       }
       return session;
     },
-    // async signIn({ user }) {
-    //   if (!user.id) return false;
-
-    //   const existingUser = await getUserById(user.id);
-    //   if (!existingUser || !existingUser.emailVerified) return false;
-
-    //   return true;
-    // },
   },
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },

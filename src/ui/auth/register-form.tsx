@@ -3,21 +3,23 @@
 import React from "react";
 import { useFormState } from "react-dom";
 import { InputField } from "@/ui/auth/input-field";
-import { registerUser } from "@/actions/mutation/register-user";
+import { registerUser } from "@/actions/mutation/register";
 import AuthForm from "@/ui/auth/auth-form";
 
 export default function RegisterForm() {
   // Use useActionState to manage form submission state
-  const [error, formAction, isPending] = useFormState(registerUser, {});
+  const [state, formAction, isPending] = useFormState(registerUser, {});
 
   // Extract error messages from action state
-  const errors = error?.errors;
-  const message = error?.message;
+  const errors = state.errors;
+  const generalError = state.generalError;
+  const success = state.success;
 
   return (
     <AuthForm
       action={formAction}
-      message={message}
+      generalError={generalError}
+      success={success}
       title={"Register"}
       isPending={isPending}
       buttonLabel={isPending ? "Registering..." : "Register"}

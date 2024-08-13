@@ -1,4 +1,4 @@
-import { authYandex } from "@/actions/mutation/sign-in";
+import { authYandex } from "@/actions/mutation/login";
 import { FaYandex } from "react-icons/fa6";
 
 export function YandexButton() {

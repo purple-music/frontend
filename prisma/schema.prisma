@@ -14,21 +14,22 @@ datasource db {
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String  @map("user_id")
-  type               String
-  provider           String
-  providerAccountId  String  @map("provider_account_id")
-  refresh_token      String? @db.Text
-  access_token       String? @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String? @db.Text
-  session_state      String?
- 
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  // FK
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@unique([provider, providerAccountId])
 }
 
@@ -44,23 +45,28 @@ model User {
   emailVerified DateTime? @map("email_verified")
   image         String?
   password      String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  accounts      Account[]
-
   role          UserRole  @default(USER)
 
-  Order         Order[]
+  // DT
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // FK
+  accounts Account[]
+  Order    Order[]
 }
 
 model Booking {
-  title     String
-  hour      Int
-  studio    String
+  title  String
+  hour   Int
+  studio String
+
+  // DT
   createdAt DateTime @default(now())
 
+  // FK
   orderId String
-  order   Order      @relation(fields: [orderId], references: [id])
+  order   Order  @relation(fields: [orderId], references: [id])
 
   @@id([hour, studio])
 }
@@ -69,26 +75,19 @@ model Order {
   id      String @id @default(cuid())
   payload String
 
+  // DT
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
 
+  // FK
+  userId   String
+  user     User      @relation(fields: [userId], references: [id])
   bookings Booking[]
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
 }
 
-// model User {
-//   id             String  @id @default(cuid())
-//   email          String  @unique
-//   name           String?
-//   role           Role    @default(USER)
-//   hashedPassword String
-
-//   orders Order[]
-// }
-
-// enum Role {
-//   USER
-//   ADMIN
-// }
+model VerificationToken {
+  id      String   @id @default(cuid())
+  email   String   @unique
+  token   String   @unique
+  expires DateTime
+}

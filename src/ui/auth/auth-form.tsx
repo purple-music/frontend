@@ -6,10 +6,12 @@ import { Social } from "@/ui/auth-card/social";
 import { AuthCardTitle } from "@/ui/auth-card/auth-card-title";
 import { AuthCard } from "@/ui/auth-card/auth-card";
 import { AuthFooterAction } from "@/ui/auth-card/auth-footer-action";
+import { SuccessAlert } from "@/ui/auth/success-alert";
 
 interface AuthFormProps {
   action: (payload: FormData) => void;
-  message?: string;
+  generalError?: string;
+  success?: string;
   title: string;
   isPending: boolean;
   buttonLabel: string;
@@ -22,7 +24,8 @@ interface AuthFormProps {
 
 export default function AuthForm({
   action,
-  message,
+  generalError,
+  success,
   title,
   isPending,
   buttonLabel,
@@ -49,7 +52,8 @@ export default function AuthForm({
         </button>
 
         {/* General Message */}
-        <ErrorAlert message={message} />
+        <ErrorAlert message={generalError} />
+        <SuccessAlert message={success} />
       </form>
 
       <div className="divider my-0">or</div>
