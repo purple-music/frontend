@@ -4,8 +4,8 @@ import { z, ZodType } from "zod";
 export const UserSchema = z.object({
   id: z.string().cuid(),
   email: z.string().email(),
-  name: z.string().max(255).nullable(),
-  password: z.string().min(6), // TODO improve zod
+  name: z.string().min(3).max(255),
+  password: z.string(),
 });
 
 const BookingSchema = z.object({
@@ -32,5 +32,7 @@ export type LoginErrors = ActionErrors<typeof LoginSchema>;
 export const ResetSchema = UserSchema.pick({ email: true });
 export type ResetErrors = ActionErrors<typeof ResetSchema>;
 
-export const RegisterSchema = UserSchema.omit({ id: true });
+export const RegisterSchema = UserSchema.omit({ id: true }).extend({
+  password: z.string().min(6),
+});
 export type RegisterErrors = ActionErrors<typeof RegisterSchema>;
