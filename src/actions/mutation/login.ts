@@ -3,6 +3,7 @@
 import { generateVerificationToken } from "@/actions/mutation/tokens";
 import { getUserByEmail } from "@/actions/query/user";
 import { signIn } from "@/auth";
+import { sendVerificationEmail } from "@/lib/mail";
 import { Success } from "@/lib/types";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { LoginErrors, LoginSchema } from "@/schemas/schemas";

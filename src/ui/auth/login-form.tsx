@@ -6,10 +6,12 @@ import { useFormState } from "react-dom";
 import { InputField } from "@/ui/auth/input-field";
 import AuthForm from "@/ui/auth/auth-form";
 import { useSearchParams } from "next/navigation";
+import { TbLock, TbMail } from "react-icons/tb";
 
 export default function LoginForm() {
   // Use useActionState to manage form submission state
   const [state, formAction, isPending] = useFormState(authCredentials, {}); // TODO: replace with startTransition
+  // TODO: instead of using field errors from state, use zod error from the component. Server will validate everything anyway. No point of getting it from the server
   const searchParams = useSearchParams();
 
   const urlError =
@@ -35,18 +37,23 @@ export default function LoginForm() {
       <InputField
         type="email"
         name="email"
-        placeholder="Email"
+        label="Email"
+        placeholder="john@email.com"
         errorMessages={errors?.email}
         disabled={isPending}
+        icon={<TbMail />}
       />
 
       {/* Password Field */}
       <InputField
         type="password"
         name="password"
-        placeholder="Password"
+        label="Password"
+        placeholder="******"
         errorMessages={errors?.password}
         disabled={isPending}
+        action={{ href: "/auth/reset", label: "Forgot password?" }}
+        icon={<TbLock />}
       />
     </AuthForm>
   );

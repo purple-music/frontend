@@ -29,5 +29,8 @@ const OrderSchema = z.object({
 export const LoginSchema = UserSchema.pick({ email: true, password: true });
 export type LoginErrors = ActionErrors<typeof LoginSchema>;
 
+export const ResetSchema = UserSchema.pick({ email: true });
+export type ResetErrors = ActionErrors<typeof ResetSchema>;
+
 export const RegisterSchema = UserSchema.omit({ id: true });
 export type RegisterErrors = ActionErrors<typeof RegisterSchema>;

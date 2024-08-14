@@ -1,12 +1,12 @@
 "use client";
 
 import React, { ReactNode } from "react";
-import { ErrorAlert } from "@/ui/auth/error-alert";
+import { AuthErrorAlert } from "@/ui/auth-card/auth-error-alert";
 import { Social } from "@/ui/auth-card/social";
 import { AuthCardTitle } from "@/ui/auth-card/auth-card-title";
 import { AuthCard } from "@/ui/auth-card/auth-card";
 import { AuthFooterAction } from "@/ui/auth-card/auth-footer-action";
-import { SuccessAlert } from "@/ui/auth/success-alert";
+import { AuthSuccessAlert } from "@/ui/auth-card/auth-success-alert";
 
 interface AuthFormProps {
   action: (payload: FormData) => void;
@@ -24,6 +24,7 @@ interface AuthFormProps {
 
 export default function AuthForm({
   action,
+  // TODO: instead of generatlError and success, make them REQUIRED with empty strings. Rename also general error to error and give it a type (error & success)
   generalError,
   success,
   title,
@@ -52,8 +53,8 @@ export default function AuthForm({
         </button>
 
         {/* General Message */}
-        <ErrorAlert message={generalError} />
-        <SuccessAlert message={success} />
+        <AuthErrorAlert message={generalError} />
+        <AuthSuccessAlert message={success} />
       </form>
 
       <div className="divider my-0">or</div>
