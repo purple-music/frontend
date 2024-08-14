@@ -3,8 +3,8 @@
 import React from "react";
 import { authCredentials } from "@/actions/mutation/login";
 import { useFormState } from "react-dom";
-import { InputField } from "@/ui/auth/input-field";
-import AuthForm from "@/ui/auth/auth-form";
+import { InputField } from "@/components/auth/input-field";
+import AuthForm from "@/components/auth/auth-form";
 import { useSearchParams } from "next/navigation";
 import { TbLock, TbMail } from "react-icons/tb";
 

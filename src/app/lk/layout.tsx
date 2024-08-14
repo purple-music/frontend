@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { CurrentUser } from "@/ui/lk/current-user";
+import { CurrentUser } from "@/components/lk/current-user";
 
 function Sidebar() {
   return (

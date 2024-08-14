@@ -1,12 +1,12 @@
 "use client";
 
 import { newVerification } from "@/actions/mutation/new-verification";
-import { AuthCard } from "@/ui/auth-card/auth-card";
-import { AuthCardTitle } from "@/ui/auth-card/auth-card-title";
-import { AuthErrorAlert } from "@/ui/auth-card/auth-error-alert";
-import { AuthFooterAction } from "@/ui/auth-card/auth-footer-action";
-import { AuthSuccessAlert } from "@/ui/auth-card/auth-success-alert";
-import { InputField } from "@/ui/auth/input-field";
+import { AuthCard } from "@/components/auth-card/auth-card";
+import { AuthCardTitle } from "@/components/auth-card/auth-card-title";
+import { AuthErrorAlert } from "@/components/auth-card/auth-error-alert";
+import { AuthFooterAction } from "@/components/auth-card/auth-footer-action";
+import { AuthSuccessAlert } from "@/components/auth-card/auth-success-alert";
+import { InputField } from "@/components/auth/input-field";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 

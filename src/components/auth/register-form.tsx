@@ -2,9 +2,9 @@
 
 import React from "react";
 import { useFormState } from "react-dom";
-import { InputField } from "@/ui/auth/input-field";
+import { InputField } from "@/components/auth/input-field";
 import { registerUser } from "@/actions/mutation/register";
-import AuthForm from "@/ui/auth/auth-form";
+import AuthForm from "@/components/auth/auth-form";
 import { TbLock, TbMail, TbUser } from "react-icons/tb";
 
 export default function RegisterForm() {

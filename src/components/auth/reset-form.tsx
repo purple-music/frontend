@@ -1,12 +1,12 @@
 "use client";
 
 import { resetPassword } from "@/actions/mutation/reset";
-import { AuthCard } from "@/ui/auth-card/auth-card";
-import { AuthCardTitle } from "@/ui/auth-card/auth-card-title";
-import { AuthErrorAlert } from "@/ui/auth-card/auth-error-alert";
-import { AuthFooterAction } from "@/ui/auth-card/auth-footer-action";
-import { AuthSuccessAlert } from "@/ui/auth-card/auth-success-alert";
-import { InputField } from "@/ui/auth/input-field";
+import { AuthCard } from "@/components/auth-card/auth-card";
+import { AuthCardTitle } from "@/components/auth-card/auth-card-title";
+import { AuthErrorAlert } from "@/components/auth-card/auth-error-alert";
+import { AuthFooterAction } from "@/components/auth-card/auth-footer-action";
+import { AuthSuccessAlert } from "@/components/auth-card/auth-success-alert";
+import { InputField } from "@/components/auth/input-field";
 import { useFormState } from "react-dom";
 import { TbMail } from "react-icons/tb";
 

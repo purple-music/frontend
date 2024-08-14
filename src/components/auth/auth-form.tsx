@@ -1,12 +1,12 @@
 "use client";
 
 import React, { ReactNode } from "react";
-import { AuthErrorAlert } from "@/ui/auth-card/auth-error-alert";
-import { Social } from "@/ui/auth-card/social";
-import { AuthCardTitle } from "@/ui/auth-card/auth-card-title";
-import { AuthCard } from "@/ui/auth-card/auth-card";
-import { AuthFooterAction } from "@/ui/auth-card/auth-footer-action";
-import { AuthSuccessAlert } from "@/ui/auth-card/auth-success-alert";
+import { AuthErrorAlert } from "@/components/auth-card/auth-error-alert";
+import { Social } from "@/components/auth-card/social";
+import { AuthCardTitle } from "@/components/auth-card/auth-card-title";
+import { AuthCard } from "@/components/auth-card/auth-card";
+import { AuthFooterAction } from "@/components/auth-card/auth-footer-action";
+import { AuthSuccessAlert } from "@/components/auth-card/auth-success-alert";
 
 interface AuthFormProps {
   action: (payload: FormData) => void;
