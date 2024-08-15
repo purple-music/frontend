@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { addDays, format, startOfWeek } from "date-fns";
 import { Studio } from "@/lib/types";
 import { Booking } from "@prisma/client";
-import { hourToDate } from "@/lib/utils";
+import { hourToDate } from "@/lib/utils/time";
 import { getAllBookings } from "@/actions/query/booking";
 
 const studios: Studio[] = ["purple", "orange", "blue"];

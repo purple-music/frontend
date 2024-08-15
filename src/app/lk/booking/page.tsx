@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { format, startOfWeek, addDays, add } from "date-fns";
 import { makeOrder } from "@/actions/actions";
 import { Hour } from "@/lib/types";
-import { dateToHour } from "@/lib/utils";
+import { dateToHour } from "@/lib/utils/time";
 import { getUserById } from "@/actions/query/user";
 
 const studios = [

@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/lib/db";
-import { hourToDate } from "@/lib/utils";
+import { hourToDate } from "@/lib/utils/time";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
