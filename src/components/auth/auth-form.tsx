@@ -1,44 +1,40 @@
 "use client";
 
 import React, { ReactNode } from "react";
-import { AuthErrorAlert } from "@/components/auth-card/auth-error-alert";
-import { Social } from "@/components/auth-card/social";
+import { AuthAlert } from "@/components/auth-card/auth-alert";
+import { AuthSocial } from "@/components/auth-card/auth-social";
 import { AuthCardTitle } from "@/components/auth-card/auth-card-title";
 import { AuthCard } from "@/components/auth-card/auth-card";
 import { AuthFooterAction } from "@/components/auth-card/auth-footer-action";
-import { AuthSuccessAlert } from "@/components/auth-card/auth-success-alert";
+import { ActionResult } from "@/lib/types";
 
 interface AuthFormProps {
-  action: (payload: FormData) => void;
-  generalError?: string;
-  success?: string;
+  result: ActionResult | null;
   title: string;
-  isPending: boolean;
+  isSubmitting: boolean;
   buttonLabel: string;
-
-  extraActionLabel: string;
-  extraActionHref: string;
+  showSocial: boolean;
+  onSubmit: React.FormEventHandler<HTMLFormElement>;
+  extraAction?: { href: string; label: string };
 
   children: ReactNode;
 }
 
 export default function AuthForm({
-  action,
-  // TODO: instead of generatlError and success, make them REQUIRED with empty strings. Rename also general error to error and give it a type (error & success)
-  generalError,
-  success,
+  result,
   title,
-  isPending,
+  isSubmitting,
   buttonLabel,
-  extraActionHref,
-  extraActionLabel,
+  extraAction,
+  onSubmit,
   children,
+  showSocial,
 }: AuthFormProps) {
   return (
     <AuthCard>
       <AuthCardTitle title={title} />
       <form
-        action={action}
+        onSubmit={onSubmit}
         className="flex flex-col items-stretch justify-center gap-2 pb-0"
       >
         {children}
@@ -47,20 +43,28 @@ export default function AuthForm({
         <button
           type="submit"
           className="btn btn-primary w-full text-white"
-          disabled={isPending}
+          disabled={isSubmitting}
         >
+          {isSubmitting && (
+            <span className="loading loading-dots loading-sm"></span>
+          )}
           {buttonLabel}
         </button>
-
-        {/* General Message */}
-        <AuthErrorAlert message={generalError} />
-        <AuthSuccessAlert message={success} />
       </form>
 
-      <div className="divider my-0">or</div>
+      {/* General Message */}
+      {result && <AuthAlert result={result} />}
 
-      <Social />
-      <AuthFooterAction href={extraActionHref} label={extraActionLabel} />
+      {showSocial && (
+        <>
+          <div className="divider my-0">or</div>
+          <AuthSocial />
+        </>
+      )}
+
+      {extraAction && (
+        <AuthFooterAction href={extraAction.href} label={extraAction.label} />
+      )}
     </AuthCard>
   );
 }

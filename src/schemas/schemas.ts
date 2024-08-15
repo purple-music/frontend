@@ -1,5 +1,4 @@
-import { ActionErrors } from "@/lib/types";
-import { z, ZodType } from "zod";
+import { z } from "zod";
 
 export const UserSchema = z.object({
   id: z.string().cuid(),
@@ -27,12 +26,9 @@ const OrderSchema = z.object({
 });
 
 export const LoginSchema = UserSchema.pick({ email: true, password: true });
-export type LoginErrors = ActionErrors<typeof LoginSchema>;
 
 export const ResetSchema = UserSchema.pick({ email: true });
-export type ResetErrors = ActionErrors<typeof ResetSchema>;
 
 export const RegisterSchema = UserSchema.omit({ id: true }).extend({
   password: z.string().min(6),
 });
-export type RegisterErrors = ActionErrors<typeof RegisterSchema>;

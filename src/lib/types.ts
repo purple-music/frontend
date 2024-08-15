@@ -4,11 +4,7 @@ export type Hour = number;
 
 export type Studio = "blue" | "purple" | "orange";
 
-export type ActionErrors<T extends ZodType<any, any, any>> = {
-  errors?: z.inferFlattenedErrors<T>["fieldErrors"];
-  generalError?: string;
-};
-
-export type Success = {
-  success?: string;
+export type ActionResult = {
+  type: "success" | "error";
+  message: string;
 };

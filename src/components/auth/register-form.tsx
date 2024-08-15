@@ -1,60 +1,59 @@
 "use client";
 
 import React from "react";
-import { useFormState } from "react-dom";
-import { InputField } from "@/components/auth/input-field";
 import { registerUser } from "@/actions/mutation/register";
-import AuthForm from "@/components/auth/auth-form";
 import { TbLock, TbMail, TbUser } from "react-icons/tb";
+import { RegisterSchema } from "@/schemas/schemas";
+import { useAuthForm } from "@/lib/hooks/useAuthForm";
+import { AuthInputField } from "@/components/auth-card/auth-input-field";
+import AuthForm from "@/components/auth/auth-form";
 
 export default function RegisterForm() {
-  // Use useActionState to manage form submission state
-  const [state, formAction, isPending] = useFormState(registerUser, {});
-
-  // Extract error messages from action state
-  const errors = state.errors;
-  const generalError = state.generalError;
-  const success = state.success;
+  const { form, onSubmit, result, isSubmitting } = useAuthForm(
+    RegisterSchema,
+    registerUser,
+  );
 
   return (
     <AuthForm
-      action={formAction}
-      generalError={generalError}
-      success={success}
-      title={"Register"}
-      isPending={isPending}
-      buttonLabel={isPending ? "Registering..." : "Register"}
-      extraActionHref="/auth/login"
-      extraActionLabel="Already have an account? Sign in"
+      result={result}
+      title="Register"
+      isSubmitting={isSubmitting}
+      buttonLabel={isSubmitting ? "Registering..." : "Register"}
+      showSocial={true}
+      onSubmit={form.handleSubmit(onSubmit)}
+      extraAction={{
+        href: "/auth/login",
+        label: "Already have an account? Sign in",
+      }}
     >
-      {/* // TODO: use tabler icons everywhere in the app instead of react-icons */}
       {/* Name Field */}
-      <InputField
+      <AuthInputField
         type="text"
         label="Name"
-        name="name"
+        register={form.register("name")}
         placeholder="John"
-        errorMessages={errors?.name}
+        error={form.formState.errors.name?.message}
         icon={<TbUser />}
       />
 
       {/* Email Field */}
-      <InputField
+      <AuthInputField
         type="email"
         label="Email"
-        name="email"
+        register={form.register("email")}
         placeholder="john@gmail.com"
-        errorMessages={errors?.email}
+        error={form.formState.errors.email?.message}
         icon={<TbMail />}
       />
 
       {/* Password Field */}
-      <InputField
+      <AuthInputField
         type="password"
         label="Password"
-        name="password"
+        register={form.register("password")}
         placeholder="******"
-        errorMessages={errors?.password}
+        error={form.formState.errors.password?.message}
         icon={<TbLock />}
       />
     </AuthForm>

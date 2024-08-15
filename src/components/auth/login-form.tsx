@@ -2,56 +2,62 @@
 
 import React from "react";
 import { authCredentials } from "@/actions/mutation/login";
-import { useFormState } from "react-dom";
-import { InputField } from "@/components/auth/input-field";
-import AuthForm from "@/components/auth/auth-form";
 import { useSearchParams } from "next/navigation";
 import { TbLock, TbMail } from "react-icons/tb";
+import { LoginSchema } from "@/schemas/schemas";
+import { useAuthForm } from "@/lib/hooks/useAuthForm";
+import { AuthInputField } from "@/components/auth-card/auth-input-field";
+import AuthForm from "@/components/auth/auth-form";
 
 export default function LoginForm() {
-  // Use useActionState to manage form submission state
-  const [state, formAction, isPending] = useFormState(authCredentials, {}); // TODO: replace with startTransition
-  // TODO: instead of using field errors from state, use zod error from the component. Server will validate everything anyway. No point of getting it from the server
   const searchParams = useSearchParams();
-
   const urlError =
     searchParams.get("error") === "OAuthAccountNotLinked"
       ? "Email is already in use with a different provider!"
       : undefined;
 
-  // Extract error messages from action state
-  const errors = state.errors;
+  const { form, onSubmit, result, isSubmitting } = useAuthForm(
+    LoginSchema,
+    async (data) => {
+      if (urlError) {
+        return { type: "error", message: urlError };
+      }
+      return await authCredentials(data);
+    },
+  );
 
   return (
     <AuthForm
-      action={formAction}
-      generalError={state.generalError || urlError}
-      success={state.success}
-      title={"Login"}
-      isPending={isPending} // TODO: use startTransition or fix the bug
-      buttonLabel={isPending ? "Logging in..." : "Login"}
-      extraActionHref="/auth/register"
-      extraActionLabel="Don't have an account? Create one"
+      result={result}
+      title="Login"
+      isSubmitting={isSubmitting}
+      buttonLabel={isSubmitting ? "Logging in..." : "Login"}
+      showSocial={true}
+      onSubmit={form.handleSubmit(onSubmit)}
+      extraAction={{
+        href: "/auth/register",
+        label: "Don't have an account? Create one",
+      }}
     >
       {/* Email Field */}
-      <InputField
+      <AuthInputField
         type="email"
-        name="email"
         label="Email"
         placeholder="john@email.com"
-        errorMessages={errors?.email}
-        disabled={isPending}
+        register={form.register("email")}
+        error={form.formState.errors.email?.message}
+        disabled={isSubmitting}
         icon={<TbMail />}
       />
 
       {/* Password Field */}
-      <InputField
+      <AuthInputField
         type="password"
-        name="password"
         label="Password"
         placeholder="******"
-        errorMessages={errors?.password}
-        disabled={isPending}
+        register={form.register("password")}
+        disabled={isSubmitting}
+        error={form.formState.errors.password?.message}
         action={{ href: "/auth/reset", label: "Forgot password?" }}
         icon={<TbLock />}
       />

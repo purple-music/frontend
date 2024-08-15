@@ -4,36 +4,29 @@ import { generateVerificationToken } from "@/actions/mutation/tokens";
 import { getUserByEmail } from "@/actions/query/user";
 import { signIn } from "@/auth";
 import { sendVerificationEmail } from "@/lib/mail";
-import { Success } from "@/lib/types";
+import { ActionResult } from "@/lib/types";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { LoginErrors, LoginSchema } from "@/schemas/schemas";
+import { LoginSchema } from "@/schemas/schemas";
 import { AuthError } from "next-auth";
-import { redirect } from "next/navigation";
+import { z } from "zod";
 
 export async function authCredentials(
-  state: LoginErrors,
-  data: FormData,
-): Promise<LoginErrors & Success> {
-  const validatedFields = LoginSchema.safeParse({
-    email: data.get("email"),
-    password: data.get("password"),
-  });
+  data: z.infer<typeof LoginSchema>,
+): Promise<ActionResult> {
+  const validatedFields = LoginSchema.safeParse(data);
 
   if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      // No message because we create object on the server and it can't fail
-    };
+    return { type: "error", message: "Invalid fields!" };
   }
 
   const { email, password } = validatedFields.data;
 
   const existingUser = await getUserByEmail(email);
 
-  if (!existingUser) return { generalError: "No such user!" };
-  if (!existingUser.email) return { generalError: "No email found!" };
+  if (!existingUser) return { type: "error", message: "No such user!" };
+  if (!existingUser.email) return { type: "error", message: "No email found!" };
   if (!existingUser.password)
-    return { generalError: "Use another provider to login!" };
+    return { type: "error", message: "Use another provider to login!" };
 
   if (!existingUser.emailVerified) {
     const verificationToken = await generateVerificationToken(
@@ -45,7 +38,7 @@ export async function authCredentials(
       verificationToken.token,
     );
 
-    return { success: "Email sent!" };
+    return { type: "success", message: "Email sent!" };
   }
 
   try {
@@ -58,18 +51,18 @@ export async function authCredentials(
     const authErrorMessages: Record<string, string> = {
       CredentialsSignin: "Invalid credentials.",
       CallbackRouteError: "Unable to log in.",
-      AccessDenied: "Access Denied!",
+      AccessDenied: "Access Denied!", // When callback fails
       AdapterError: "Database is unreachable!",
     };
 
     if (error instanceof AuthError) {
       const message = authErrorMessages[error.type] || "Something went wrong.";
-      return { generalError: message };
+      return { type: "error", message: message };
     }
 
     throw error;
   }
-  redirect("/lk");
+  return { type: "success", message: "Successfully loggined!" };
 }
 
 export async function authYandex() {

@@ -3,23 +3,17 @@
 import { generatePasswordResetToken } from "@/actions/mutation/tokens";
 import { getUserByEmail } from "@/actions/query/user";
 import { sendPasswordResetEmail } from "@/lib/mail";
-import { Success } from "@/lib/types";
-import { ResetErrors, ResetSchema } from "@/schemas/schemas";
+import { ActionResult } from "@/lib/types";
+import { ResetSchema } from "@/schemas/schemas";
+import { z } from "zod";
 
 export async function resetPassword(
-  state: ResetErrors,
-  data: FormData,
-): Promise<ResetErrors & Success> {
-  // TODO: don't check each field separately here, just return general message as "error"
-  const validatedFields = ResetSchema.safeParse({
-    email: data.get("email"),
-  });
+  data: z.infer<typeof ResetSchema>,
+): Promise<ActionResult> {
+  const validatedFields = ResetSchema.safeParse(data);
 
   if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      // No message because we create object on the server and it can't fail
-    };
+    return { type: "error", message: "Invalid fields!" };
   }
 
   const { email } = validatedFields.data;
@@ -27,7 +21,7 @@ export async function resetPassword(
   const existingUser = await getUserByEmail(email);
 
   if (!existingUser) {
-    return { generalError: "Email not found!" };
+    return { type: "error", message: "Email not found!" };
   }
 
   const passwordResetToken = await generatePasswordResetToken(email);
@@ -36,5 +30,5 @@ export async function resetPassword(
     passwordResetToken.token,
   );
 
-  return { success: "Reset email sent!" };
+  return { type: "success", message: "Reset email sent!" };
 }

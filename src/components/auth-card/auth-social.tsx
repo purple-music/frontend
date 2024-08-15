@@ -15,7 +15,7 @@ export function YandexButton() {
   );
 }
 
-export function Social() {
+export function AuthSocial() {
   return (
     <div className="flex w-full flex-col gap-2">
       <YandexButton />

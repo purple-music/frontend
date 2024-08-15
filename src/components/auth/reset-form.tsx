@@ -1,55 +1,41 @@
 "use client";
 
 import { resetPassword } from "@/actions/mutation/reset";
-import { AuthCard } from "@/components/auth-card/auth-card";
-import { AuthCardTitle } from "@/components/auth-card/auth-card-title";
-import { AuthErrorAlert } from "@/components/auth-card/auth-error-alert";
-import { AuthFooterAction } from "@/components/auth-card/auth-footer-action";
-import { AuthSuccessAlert } from "@/components/auth-card/auth-success-alert";
-import { InputField } from "@/components/auth/input-field";
-import { useFormState } from "react-dom";
 import { TbMail } from "react-icons/tb";
+import { useAuthForm } from "@/lib/hooks/useAuthForm";
+import { ResetSchema } from "@/schemas/schemas";
+import { AuthInputField } from "@/components/auth-card/auth-input-field";
+import AuthForm from "@/components/auth/auth-form";
 
 export function ResetForm() {
-  const [state, action, isPending] = useFormState(resetPassword, {}); // TODO: replace with startTransition
+  const { form, onSubmit, result, isSubmitting } = useAuthForm(
+    ResetSchema,
+    resetPassword,
+  );
 
   return (
-    <AuthCard>
-      <AuthCardTitle title={"Forgot your password?"} />
-
-      <form
-        action={action}
-        className="flex flex-col items-stretch justify-center gap-2 pb-0"
-      >
-        {/* Email Field */}
-        <InputField
-          type="email"
-          label="Email"
-          name="email"
-          placeholder="john@email.com"
-          errorMessages={state.errors?.email}
-          disabled={isPending}
-          icon={<TbMail />}
-        />
-
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="btn btn-primary w-full text-white"
-          disabled={isPending}
-        >
-          {"Send reset email!"}
-        </button>
-
-        {/* General Message */}
-        <AuthErrorAlert message={state.generalError} />
-        <AuthSuccessAlert message={state.success} />
-      </form>
-
-      <AuthFooterAction
-        href={"/auth/register"}
-        label={"Don't have an account? Register now!"}
+    <AuthForm
+      result={result}
+      title="Forgot your password?"
+      isSubmitting={isSubmitting}
+      buttonLabel="Send reset email!"
+      showSocial={false}
+      onSubmit={form.handleSubmit(onSubmit)}
+      extraAction={{
+        href: "/auth/register",
+        label: "Don't have an account? Register now!",
+      }}
+    >
+      {/* Email Field */}
+      <AuthInputField
+        type="email"
+        label="Email"
+        register={form.register("email")}
+        placeholder="john@email.com"
+        error={form.formState.errors.email?.message}
+        disabled={isSubmitting}
+        icon={<TbMail />}
       />
-    </AuthCard>
+    </AuthForm>
   );
 }
