@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
 import { ActionResult } from "@/lib/types";
+import { authError } from "@/lib/utils/actions";
 
 export function useAuthForm<T extends z.ZodType<any, any>>(
   schema: T,
@@ -24,7 +25,7 @@ export function useAuthForm<T extends z.ZodType<any, any>>(
       setResult(result);
     } catch (error) {
       console.error(error); // TODO: Replace with a logging tool if necessary
-      setResult({ type: "error", message: "Unexpected error occurred!" });
+      setResult(authError("Server error occurred!"));
     }
   };
 

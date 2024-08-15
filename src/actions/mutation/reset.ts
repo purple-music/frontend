@@ -4,6 +4,7 @@ import { generatePasswordResetToken } from "@/actions/mutation/tokens";
 import { getUserByEmail } from "@/actions/query/user";
 import { sendPasswordResetEmail } from "@/lib/mail";
 import { ActionResult } from "@/lib/types";
+import { authError, authSuccess } from "@/lib/utils/actions";
 import { ResetSchema } from "@/schemas/schemas";
 import { z } from "zod";
 
@@ -13,7 +14,7 @@ export async function resetPassword(
   const validatedFields = ResetSchema.safeParse(data);
 
   if (!validatedFields.success) {
-    return { type: "error", message: "Invalid fields!" };
+    return authError("Invalid fields!");
   }
 
   const { email } = validatedFields.data;
@@ -21,7 +22,7 @@ export async function resetPassword(
   const existingUser = await getUserByEmail(email);
 
   if (!existingUser) {
-    return { type: "error", message: "Email not found!" };
+    return authError("Email not found!");
   }
 
   const passwordResetToken = await generatePasswordResetToken(email);
@@ -30,5 +31,5 @@ export async function resetPassword(
     passwordResetToken.token,
   );
 
-  return { type: "success", message: "Reset email sent!" };
+  return authSuccess("Reset email sent!");
 }

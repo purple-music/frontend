@@ -4,18 +4,18 @@ import { getUserByEmail } from "@/actions/query/user";
 import { getVerificationTokenByToken } from "@/actions/query/verification-token";
 import prisma from "@/lib/db";
 import { ActionResult } from "@/lib/types";
+import { authError, authSuccess } from "@/lib/utils/actions";
 
 export async function newVerification(token: string): Promise<ActionResult> {
   const exisitingToken = await getVerificationTokenByToken(token);
 
-  if (!exisitingToken)
-    return { type: "error", message: "Token does not exist!" };
+  if (!exisitingToken) return authError("Token does not exist!");
 
   const hadExpired = new Date(exisitingToken.expires) < new Date();
-  if (hadExpired) return { type: "error", message: "Token has expired!" };
+  if (hadExpired) return authError("Token has expired!");
 
   const existingUser = await getUserByEmail(exisitingToken.email);
-  if (!existingUser) return { type: "error", message: "Email does not exist!" };
+  if (!existingUser) return authError("Email does not exist!");
 
   await prisma.user.update({
     where: { id: existingUser.id },
@@ -29,5 +29,5 @@ export async function newVerification(token: string): Promise<ActionResult> {
     where: { id: exisitingToken.id },
   });
 
-  return { type: "success", message: "Email verified" };
+  return authSuccess("Email verified");
 }
