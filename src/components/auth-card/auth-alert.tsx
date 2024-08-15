@@ -9,7 +9,7 @@ export function AuthAlert({ result }: { result: ActionResult }) {
       role="alert"
       className={`alert ${isSuccess ? "alert-success" : "alert-error"} rounded-lg text-start`}
     >
-      {isSuccess ? <TbExclamationCircle /> : <TbRosetteDiscountCheck />}
+      {isSuccess ? <TbRosetteDiscountCheck /> : <TbExclamationCircle />}
       <span>{result.message}</span>
     </div>
   );
