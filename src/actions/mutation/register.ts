@@ -9,6 +9,25 @@ import { ActionResult } from "@/lib/types";
 import { sendVerificationEmail } from "@/lib/mail";
 import { z } from "zod";
 import { authError, authSuccess } from "@/lib/utils/actions";
+import { getVerificationTokenByEmail } from "@/actions/query/verification-token";
+
+// Helper function to send verification email
+async function sendVerification(email: string): Promise<void> {
+  const verificationToken = await generateVerificationToken(email);
+  await sendVerificationEmail(verificationToken.email, verificationToken.token);
+}
+
+// Helper function to hash password and create a new user
+async function createUser(
+  email: string,
+  name: string,
+  password: string,
+): Promise<void> {
+  const hashedPassword = await bcrypt.hash(password, 10);
+  await prisma.user.create({
+    data: { email, name, password: hashedPassword },
+  });
+}
 
 export async function registerUser(
   data: z.infer<typeof RegisterSchema>,
@@ -22,16 +41,29 @@ export async function registerUser(
   const { email, name, password } = validatedFields.data;
 
   const existingUser = await getUserByEmail(email);
-  if (existingUser) {
+  if (!existingUser) {
+    // Create new user and send verification email
+    await createUser(email, name, password);
+    await sendVerification(email);
+    return authSuccess("Email sent!");
+  }
+
+  if (!existingUser.email) {
+    return authError("No email found on existing user!"); // TODO: make audit logs
+  }
+
+  if (existingUser.emailVerified) {
     return authError("A user with this email already exists.");
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const existingToken = await getVerificationTokenByEmail(existingUser.email);
+  if (!existingToken || new Date(existingToken.expires) < new Date()) {
+    // Delete unverified user and re-create
+    await prisma.user.delete({ where: { email } });
+    await createUser(email, name, password);
+  }
 
-  await prisma.user.create({ data: { email, name, password: hashedPassword } });
-
-  const verificationToken = await generateVerificationToken(email);
-  await sendVerificationEmail(verificationToken.email, verificationToken.token);
-
+  // Resend verification email
+  await sendVerification(email);
   return authSuccess("Email sent!");
 }
