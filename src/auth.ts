@@ -13,6 +13,7 @@ declare module "next-auth" {
     user: {
       /** The user's role. */
       role: UserRole;
+      id: NonNullable<DefaultSession["user"]>;
       /**
        * By default, TypeScript merges new interface properties and overwrites existing ones.
        * In this case, the default session user properties will be overwritten,
