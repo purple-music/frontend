@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { InputHTMLAttributes, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 
 function ErrorMessage({ error, id }: { error?: string; id: string }) {
@@ -37,6 +37,7 @@ export function AuthInputField({
   icon,
   register,
 }: AuthInputFieldProps) {
+  const name = register.name;
   const inputId = `${name}-error`;
   return (
     <div className="form-control">
