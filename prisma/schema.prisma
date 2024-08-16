@@ -57,7 +57,6 @@ model User {
 }
 
 model Booking {
-  title  String
   hour   Int
   studio String
 
@@ -72,8 +71,7 @@ model Booking {
 }
 
 model Order {
-  id      String @id @default(cuid())
-  payload String
+  id String @id @default(cuid())
 
   // DT
   updatedAt DateTime @updatedAt

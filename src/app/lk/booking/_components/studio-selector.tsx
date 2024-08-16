@@ -1,0 +1,48 @@
+import { Studio } from "@/lib/types";
+import React from "react";
+
+export type StudioInfo = {
+  name: string;
+  id: Studio;
+  color: string;
+};
+
+interface StudioSelectorProps {
+  studios: StudioInfo[];
+  selectedStudio: Studio;
+  onStudioSelect: (studioId: Studio) => void;
+  disabled: boolean;
+}
+
+export function StudioSelector({
+  studios,
+  selectedStudio,
+  onStudioSelect,
+  disabled,
+}: StudioSelectorProps) {
+  return (
+    <fieldset>
+      <legend className="mb-4 text-2xl">Студия</legend>
+      <div className="flex flex-wrap gap-4">
+        {studios.map((studio) => (
+          <label
+            key={studio.id}
+            className={`card ${studio.color} cursor-pointer text-white shadow-lg ${selectedStudio === studio.id ? "ring ring-primary" : ""}`}
+          >
+            <div className="card-body">
+              <h2 className="card-title text-base-content">{studio.name}</h2>
+            </div>
+            <input
+              type="radio"
+              name="selected_studio"
+              onClick={() => !disabled && onStudioSelect(studio.id)}
+              className="sr-only"
+            />
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
+export default StudioSelector;

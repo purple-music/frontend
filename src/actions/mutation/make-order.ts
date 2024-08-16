@@ -1,43 +1,31 @@
 "use server";
 
+import { auth } from "@/auth";
 import prisma from "@/lib/db";
-import { hourToDate } from "@/lib/utils/time";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { error, Result, success } from "@/lib/utils/result";
+import { MakeOrderSchema } from "@/schemas/schemas";
+import { Order } from "@prisma/client";
 import { z } from "zod";
 
-const MakeOrder = z.object({
-  userId: z.string().cuid(),
-  studio: z.string(),
-  slots: z
-    .string()
-    .transform((s, ctx) => {
-      try {
-        return JSON.parse(s) as number[];
-      } catch (error) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Invalid slots JSON",
-        });
-        return z.never;
-      }
-    })
-    .pipe(z.number().array().min(1, "At least one slot must be selected")),
-  peopleCount: z.coerce.number().int().positive().min(1).max(10),
-});
+export async function makeOrder(
+  data: z.infer<typeof MakeOrderSchema>,
+): Promise<Result<Order, string>> {
+  const validatedFields = MakeOrderSchema.safeParse(data);
 
-export async function makeOrder(data: FormData) {
-  const { userId, studio, slots, peopleCount } = MakeOrder.parse({
-    userId: data.get("userId"),
-    studio: data.get("studio"),
-    slots: data.get("slots"),
-    peopleCount: data.get("peopleCount"),
-  });
+  if (!validatedFields.success) {
+    return error("Invalid input!");
+  }
+
+  const session = await auth();
+
+  if (!session) {
+    return error("No session specified!");
+  }
+
+  const { studio, slots, peopleCount } = validatedFields.data;
 
   const bookings = slots.map((hour) => {
-    const date = hourToDate(hour);
     return {
-      title: `Booking for ${studio} at ${date.getHours()}:00 on ${date.getDay()}`,
       hour,
       studio,
     };
@@ -45,12 +33,10 @@ export async function makeOrder(data: FormData) {
 
   const order = await prisma.order.create({
     data: {
-      payload: JSON.stringify({ studio, slots, peopleCount }),
-      user: { connect: { id: userId } },
+      user: { connect: { id: session.user.id } },
       bookings: { create: bookings },
     },
   });
 
-  revalidatePath("/lk/view/desktop");
-  redirect("/lk/view/desktop");
+  return success(order);
 }
