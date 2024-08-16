@@ -1,15 +1,11 @@
 "use client";
 
 import { logout } from "@/actions/mutation/logout";
+import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
 import { useSession } from "next-auth/react";
 
 export function CurrentUser() {
-  const { data: session, status } = useSession({
-    required: true,
-    onUnauthenticated() {
-      // TODO: The user is not authenticated, handle it here.
-    },
-  });
+  const { session, status } = useCurrentSession();
 
   if (status === "loading") {
     return <p>Loading...</p>;
