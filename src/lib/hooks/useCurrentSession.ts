@@ -1,6 +1,6 @@
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 
 // Define the type for the session state
@@ -16,6 +16,7 @@ export const useCurrentSession = () => {
   });
 
   const pathName = usePathname();
+  const router = useRouter();
 
   const retrieveSession = useCallback(async () => {
     try {
@@ -28,11 +29,11 @@ export const useCurrentSession = () => {
       }
 
       // TODO: log
-      redirect("/auth/login");
+      router.push("/auth/login");
       // setState({ session: null, status: "unauthenticated" });
     } catch (error) {
       // TODO: log
-      redirect("/auth/login");
+      router.push("/auth/error");
       // setState({ session: null, status: "unauthenticated" });
     }
   }, []);
