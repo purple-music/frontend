@@ -1,8 +1,8 @@
 import { BookingCell } from "@/app/lk/view/_components/booking-cell";
-import { Studio } from "@/lib/types";
+import { StudioId } from "@/lib/types";
 import { Booking } from "@prisma/client";
 
-const getShort = (studio: Studio) => {
+const getShort = (studio: StudioId) => {
   switch (studio) {
     case "blue":
       return "B";
@@ -13,7 +13,7 @@ const getShort = (studio: Studio) => {
   }
 };
 
-const getSoftColor = (studio: Studio) => {
+const getSoftColor = (studio: StudioId) => {
   switch (studio) {
     case "blue":
       return "bg-blue-300";
@@ -24,7 +24,7 @@ const getSoftColor = (studio: Studio) => {
   }
 };
 
-const getColor = (studio: Studio) => {
+const getColor = (studio: StudioId) => {
   switch (studio) {
     case "blue":
       return "bg-blue-500";
@@ -41,7 +41,7 @@ export function DayColumn({
   cellHeight,
   hours,
 }: {
-  studio: Studio;
+  studio: StudioId;
   bookings: Map<number, Booking>;
   cellHeight: number;
   hours: number[];
@@ -54,7 +54,7 @@ export function DayColumn({
       >
         {getShort(studio)}
       </div>
-      <div className="flex flex-col">
+      <div className="joker flex flex-col border-r border-dashed border-base-200">
         <BookingCell
           hours={hours}
           studio={studio}

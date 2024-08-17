@@ -1,4 +1,4 @@
-import { Studio } from "@/lib/types";
+import { StudioId } from "@/lib/types";
 import { Booking } from "@prisma/client";
 
 export function BookingCell({
@@ -9,10 +9,10 @@ export function BookingCell({
   getColor,
 }: {
   hours: number[];
-  studio: Studio;
+  studio: StudioId;
   bookings: Map<number, Booking>;
   cellHeight: number;
-  getColor: (studio: Studio) => string;
+  getColor: (studio: StudioId) => string;
 }) {
   const elements: React.ReactNode[] = [];
   for (let i = 0; i < hours.length; ) {

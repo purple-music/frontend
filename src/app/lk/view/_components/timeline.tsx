@@ -3,32 +3,78 @@
 import { getAllBookings } from "@/actions/query/booking";
 import { DayView } from "@/app/lk/view/_components/day-view";
 import { TimeColumn } from "@/app/lk/view/_components/time-column";
+import { StudioId } from "@/lib/types";
+import { dateToHour, hourToDate } from "@/lib/utils/time";
 import { Booking } from "@prisma/client";
-import { startOfWeek, addDays, format } from "date-fns";
+import { addDays, format, startOfDay, add } from "date-fns";
 import { useState, useEffect } from "react";
 
-export function Timeline({ days = 7 }: { days?: number }) {
-  const [data, setData] = useState<Booking[] | null>(null);
-
-  useEffect(() => {
-    getAllBookings().then((response) => setData(response));
-  }, []);
-
-  if (!data) return null;
-
+export function TimelineContent({
+  days,
+  studios,
+  bookings: data,
+}: {
+  days: number;
+  studios: StudioId[];
+  bookings: Booking[];
+}) {
   const bookings = new Map(data.map((i) => [i.hour, i]));
+  const start = startOfDay(new Date());
+  const end = startOfDay(add(start, { days })); // Exclusive
 
-  const weekStart = startOfWeek(new Date(), { weekStartsOn: 1 });
-  const datedDays = Array.from({ length: days }, (_, i) =>
-    addDays(weekStart, i),
-  );
+  const datedDays = Array.from({ length: days }, (_, i) => addDays(start, i));
+
+  const defaultStart = 9;
+  const defaultEnd = 23;
+
+  const getStartHour = () => {
+    // Find the earliest booking hour across all days within the range
+    const earliestHour = datedDays.reduce((minHour, day) => {
+      const dayStart = dateToHour(startOfDay(day));
+      const dayEnd = dateToHour(startOfDay(addDays(day, 1)));
+      const hoursInDay = Array.from(bookings.keys()).filter(
+        (hour) => hour >= dayStart && hour < dayEnd,
+      ); // Bookings for the day
+
+      if (hoursInDay.length === 0) return minHour;
+      return Math.min(minHour, hourToDate(Math.min(...hoursInDay)).getHours());
+    }, Infinity);
+
+    return Math.min(
+      earliestHour === Infinity ? defaultStart : earliestHour,
+      defaultStart,
+    );
+  };
+
+  const getEndHour = () => {
+    // Find the latest booking hour across all days within the range
+    const latestHour = datedDays.reduce((maxHour, day) => {
+      const dayStart = dateToHour(startOfDay(day));
+      const dayEnd = dateToHour(startOfDay(addDays(day, 1)));
+      const hoursInDay = Array.from(bookings.keys()).filter(
+        (hour) => hour >= dayStart && hour < dayEnd,
+      );
+
+      if (hoursInDay.length === 0) return maxHour;
+      return Math.max(
+        maxHour,
+        hourToDate(Math.max(...hoursInDay)).getHours() + 1,
+      ); // % 24 to get hour within the day
+    }, -Infinity);
+
+    return Math.max(
+      latestHour === -Infinity ? defaultEnd : latestHour,
+      defaultEnd,
+    );
+  };
+
+  const startHour = getStartHour();
+  const endHour = getEndHour();
 
   const cellHeight = 2;
-  const startHour = 9;
-  const endHour = 23;
 
   const getHours = (day: Date) => {
-    const start = day.getTime() / (1000 * 60 * 60);
+    const start = dateToHour(startOfDay(day));
     return Array.from(
       { length: endHour - startHour },
       (_, i) => startHour + i,
@@ -58,10 +104,29 @@ export function Timeline({ days = 7 }: { days?: number }) {
               hours={getHours(day)}
               cellHeight={cellHeight}
               bookings={bookings}
+              studios={studios}
             />
           </div>
         ))}
       </div>
     </div>
   );
+}
+
+export function TimelineWrapper({
+  days,
+  studios,
+}: {
+  days: number;
+  studios: StudioId[];
+}) {
+  const [bookings, setBookings] = useState<Booking[] | null>(null);
+
+  useEffect(() => {
+    getAllBookings().then((response) => setBookings(response));
+  }, []);
+
+  if (!bookings) return <span>Timeline Skeleton</span>;
+
+  return <TimelineContent bookings={bookings} days={days} studios={studios} />;
 }

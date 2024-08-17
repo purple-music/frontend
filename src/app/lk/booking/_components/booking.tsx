@@ -9,13 +9,13 @@ import PeopleCountSelector from "@/app/lk/booking/_components/people-count-selec
 import SlotSelector from "@/app/lk/booking/_components/slot-selector";
 import StudioSelector from "@/app/lk/booking/_components/studio-selector";
 import { MakeOrderSchema } from "@/schemas/schemas";
-import { Studio } from "@/lib/types";
+import { StudioId } from "@/lib/types";
 
 type Hour = number;
 
 interface StudioInfo {
   name: string;
-  id: Studio;
+  id: StudioId;
   color: string;
 }
 

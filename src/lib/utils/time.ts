@@ -5,5 +5,5 @@ export const hourToDate = (hour: Hour) => {
 };
 
 export const dateToHour = (date: Date) => {
-  return date.getTime() / (60 * 60 * 1000);
+  return Math.floor(date.getTime() / (60 * 60 * 1000));
 };

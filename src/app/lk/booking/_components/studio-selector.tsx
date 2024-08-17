@@ -1,16 +1,16 @@
-import { Studio } from "@/lib/types";
+import { StudioId } from "@/lib/types";
 import React from "react";
 
 export type StudioInfo = {
   name: string;
-  id: Studio;
+  id: StudioId;
   color: string;
 };
 
 interface StudioSelectorProps {
   studios: StudioInfo[];
-  selectedStudio: Studio;
-  onStudioSelect: (studioId: Studio) => void;
+  selectedStudio: StudioId;
+  onStudioSelect: (studioId: StudioId) => void;
   disabled: boolean;
 }
 
