@@ -1,4 +1,4 @@
-import NextAuth, { type DefaultSession } from "next-auth";
+import NextAuth, { User, DefaultSession } from "next-auth";
 import authConfig from "@/auth.config";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "@/lib/db";
@@ -13,7 +13,8 @@ declare module "next-auth" {
     user: {
       /** The user's role. */
       role: UserRole;
-      id: NonNullable<DefaultSession["user"]>;
+      id: NonNullable<User["id"]>;
+      email: NonNullable<User["email"]>;
       /**
        * By default, TypeScript merges new interface properties and overwrites existing ones.
        * In this case, the default session user properties will be overwritten,
