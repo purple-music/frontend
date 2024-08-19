@@ -6,10 +6,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { makeOrder } from "@/actions/mutation/make-order";
 import PeopleCountSelector from "@/app/lk/booking/_components/people-count-selector";
-import SlotSelector from "@/app/lk/booking/_components/slot-selector";
 import StudioSelector from "@/app/lk/booking/_components/studio-selector";
 import { MakeOrderSchema } from "@/schemas/schemas";
 import { StudioId } from "@/lib/types";
+import { SlotSelectorWrapper } from "@/app/lk/booking/_components/slot-selector-wrapper";
+import { getPriceRate } from "@/app/lk/booking/_data/prices";
+import { useRouter } from "next/navigation";
 
 type Hour = number;
 
@@ -24,12 +26,6 @@ const studios: StudioInfo[] = [
   { name: "Orange Studio", id: "orange", color: "bg-orange-300" },
   { name: "Purple Studio", id: "purple", color: "bg-purple-300" },
 ];
-
-const getPrice = (hour: number, peopleCount: number) => {
-  const basePrice = 50;
-  const hourlyRate = hour >= 8 && hour < 18 ? 100 : 75;
-  return basePrice + hourlyRate * peopleCount;
-};
 
 export function Booking() {
   const {
@@ -46,29 +42,19 @@ export function Booking() {
     },
     resolver: zodResolver(MakeOrderSchema),
   });
+  const router = useRouter();
 
   const selectedSlots = watch("slots");
   const peopleCount = watch("peopleCount");
 
   const onSubmit = async (data: z.infer<typeof MakeOrderSchema>) => {
     await makeOrder(data);
+    router.refresh();
     // TODO: do something with the result;
   };
 
-  const handleSlotClick = (hour: Hour) => {
-    const currentSlots = watch("slots");
-    if (currentSlots.includes(hour)) {
-      setValue(
-        "slots",
-        currentSlots.filter((h) => h !== hour),
-      );
-    } else {
-      setValue("slots", [...currentSlots, hour]);
-    }
-  };
-
   const totalPrice = selectedSlots.reduce(
-    (sum, hour) => sum + getPrice(Number(hour), peopleCount),
+    (sum, hour) => sum + getPriceRate(Number(hour), peopleCount),
     0,
   );
 
@@ -99,12 +85,11 @@ export function Booking() {
         )}
       />
 
-      <SlotSelector
+      <SlotSelectorWrapper
         selectedStudio={watch("studio")}
         peopleCount={peopleCount}
         selectedSlots={selectedSlots}
-        handleSlotClick={handleSlotClick}
-        getPrice={getPrice}
+        onSelectedSlots={(slots) => setValue("slots", slots)}
         disabled={isSubmitting}
       />
 

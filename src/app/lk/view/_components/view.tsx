@@ -13,6 +13,7 @@ const getFull: GetLabel = (studio) => studio.toUpperCase();
 export function View() {
   const [days, setDays] = useState<number>(7);
   const [selectedStudios, setSelectedStudios] = useState<StudioId[]>(studios);
+
   return (
     <>
       <div className="flex flex-row flex-wrap items-center justify-between">

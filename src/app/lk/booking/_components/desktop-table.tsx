@@ -1,25 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { format, startOfWeek, addDays, add } from "date-fns";
-import { Hour } from "@/lib/types";
+import React, { useState } from "react";
+import { format, startOfWeek, addDays, add, startOfDay } from "date-fns";
 import { dateToHour } from "@/lib/utils/time";
-import { getUserById } from "@/actions/query/user";
+import { Booking } from "@prisma/client";
 
 export function DesktopTable({
   selectedStudio,
   peopleCount,
   selectedSlots,
-  handleSlotClick,
+  onSlotClick,
   getWeekDates,
   getPrice,
   disabled,
+  unavailableBookings,
 }: {
   selectedStudio: string;
   peopleCount: number;
   selectedSlots: number[];
-  handleSlotClick: (hour: number) => void;
+  onSlotClick: (hour: number) => void;
   getWeekDates: (startDate: Date) => Date[];
   getPrice: (hour: number, peopleCount: number) => number;
   disabled: boolean;
+  unavailableBookings: Booking[];
 }) {
   const [currentWeekStart, setCurrentWeekStart] = useState(
     startOfWeek(new Date(), { weekStartsOn: 1 }),
@@ -32,6 +33,25 @@ export function DesktopTable({
   ) => {
     e.preventDefault();
     setCurrentWeekStart(addDays(currentWeekStart, step));
+  };
+
+  const bookings = new Map(unavailableBookings.map((i) => [i.hour, i]));
+  const days = 7;
+
+  const start = startOfDay(new Date());
+  const end = startOfDay(add(start, { days })); // Exclusive
+
+  const datedDays = Array.from({ length: days }, (_, i) => addDays(start, i));
+
+  const startHour = 9;
+  const endHour = 23;
+
+  const getHours = (day: Date) => {
+    const start = dateToHour(startOfDay(day));
+    return Array.from(
+      { length: endHour - startHour },
+      (_, i) => startHour + i,
+    ).map((hour) => start + hour);
   };
 
   return (
@@ -63,11 +83,18 @@ export function DesktopTable({
             </tr>
           </thead>
           <tbody>
-            {Array.from({ length: 24 }).map((_, hour) => (
+            {Array.from(
+              { length: endHour - startHour },
+              (_, i) => startHour + i,
+            ).map((_, hour) => (
               <tr key={hour}>
                 <td>{`${hour}:00`}</td>
                 {weekDates.map((date, dayIndex) => {
-                  const isUnavailable = !(date.getDay() % 7);
+                  const isUnavailable = unavailableBookings.some((booking) => {
+                    return (
+                      booking.hour === hour && booking.studio === selectedStudio
+                    );
+                  });
                   const price = getPrice(hour, peopleCount);
                   const slotKey = dateToHour(add(date, { hours: hour }));
                   const isSelected = selectedSlots.indexOf(slotKey) !== -1;
@@ -77,7 +104,7 @@ export function DesktopTable({
                       key={dayIndex}
                       className={`${isUnavailable ? "bg-base-300" : `cursor-pointer ${isSelected ? "bg-primary text-primary-content hover:bg-base-content" : "hover:bg-primary-content"}`}`}
                       onClick={() =>
-                        !isUnavailable && !disabled && handleSlotClick(slotKey)
+                        !isUnavailable && !disabled && onSlotClick(slotKey)
                       }
                     >
                       ${price}

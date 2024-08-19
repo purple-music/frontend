@@ -2,7 +2,7 @@
 
 import { getAllBookings } from "@/actions/query/booking";
 import { DayView } from "@/app/lk/view/_components/day-view";
-import { TimeColumn } from "@/app/lk/view/_components/time-column";
+import { TimeColumn } from "@/components/tables/time-column";
 import { StudioId } from "@/lib/types";
 import { dateToHour, hourToDate } from "@/lib/utils/time";
 import { Booking } from "@prisma/client";
@@ -83,11 +83,14 @@ export function TimelineContent({
 
   return (
     <div className="flex w-full flex-row">
-      <TimeColumn
-        cellHeight={cellHeight}
-        startHour={startHour}
-        endHour={endHour}
-      />
+      <div>
+        <div style={{ height: `${cellHeight * 2}rem` }} />
+        <TimeColumn
+          cellHeight={cellHeight}
+          startHour={startHour}
+          endHour={endHour}
+        />
+      </div>
       <div className="flex flex-1 flex-row">
         {datedDays.map((day, index) => (
           <div

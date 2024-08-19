@@ -54,7 +54,7 @@ export function DayColumn({
       >
         {getShort(studio)}
       </div>
-      <div className="joker flex flex-col border-r border-dashed border-base-200">
+      <div className="flex flex-col border-r border-dashed border-base-200">
         <BookingCell
           hours={hours}
           studio={studio}

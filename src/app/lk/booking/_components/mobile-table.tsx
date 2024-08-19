@@ -1,4 +1,5 @@
 import { dateToHour } from "@/lib/utils/time";
+import { Booking } from "@prisma/client";
 import { addDays, add, format } from "date-fns";
 import { useState } from "react";
 
@@ -6,16 +7,18 @@ export function MobileTable({
   selectedStudio,
   peopleCount,
   selectedSlots,
-  handleSlotClick,
+  onSlotClick,
   getPrice,
   disabled,
+  unavailableBookings,
 }: {
   selectedStudio: string;
   peopleCount: number;
   selectedSlots: number[];
-  handleSlotClick: (hour: number) => void;
+  onSlotClick: (hour: number) => void;
   getPrice: (hour: number, peopleCount: number) => number;
   disabled: boolean;
+  unavailableBookings: Booking[];
 }) {
   const [currentDay, setCurrentDay] = useState(new Date());
 
@@ -55,7 +58,11 @@ export function MobileTable({
           </thead>
           <tbody>
             {Array.from({ length: 24 }).map((_, hour) => {
-              const isUnavailable = !(currentDay.getDay() % 7);
+              const isUnavailable = unavailableBookings.some(
+                (booking) =>
+                  booking.hour === hour && booking.studio === selectedStudio,
+              );
+
               const price = getPrice(hour, peopleCount);
               const slotKey = dateToHour(add(currentDay, { hours: hour }));
               const isSelected = selectedSlots.indexOf(slotKey) !== -1;
@@ -66,7 +73,7 @@ export function MobileTable({
                   <td
                     className={`${isUnavailable ? "bg-gray-300" : "cursor-pointer hover:bg-primary-content"} ${isSelected ? "bg-primary text-primary-content hover:bg-base-content" : ""}`}
                     onClick={() =>
-                      !isUnavailable && !disabled && handleSlotClick(slotKey)
+                      !isUnavailable && !disabled && onSlotClick(slotKey)
                     }
                   >
                     ${price}
