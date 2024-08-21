@@ -2,7 +2,11 @@
 
 import { getAllBookings } from "@/actions/query/booking";
 import { DayView } from "@/app/lk/view/_components/day-view";
-import { TimeColumn } from "@/components/tables/time-column";
+import { Table } from "@/components/table/table";
+import { TableContent } from "@/components/table/table-content";
+import { TableContentColumn } from "@/components/table/table-content-column";
+import { TablePrefix } from "@/components/table/table-prefix";
+import { TableTimeColumn } from "@/components/table/table-time-column";
 import { StudioId } from "@/lib/types";
 import { dateToHour, hourToDate } from "@/lib/utils/time";
 import { Booking } from "@prisma/client";
@@ -81,38 +85,71 @@ export function TimelineContent({
     ).map((hour) => start + hour);
   };
 
+  const getShort = (studio: StudioId) => {
+    switch (studio) {
+      case "blue":
+        return "B";
+      case "purple":
+        return "P";
+      case "orange":
+        return "O";
+    }
+  };
+
+  const getSoftColor = (studio: StudioId) =>
+    ({
+      blue: "bg-blue-300",
+      purple: "bg-purple-300",
+      orange: "bg-orange-300",
+    })[studio];
+
   return (
-    <div className="flex w-full flex-row">
-      <div>
-        <div style={{ height: `${cellHeight * 2}rem` }} />
-        <TimeColumn
+    <Table>
+      <TablePrefix headerHeight={4}>
+        <TableTimeColumn
           cellHeight={cellHeight}
           startHour={startHour}
           endHour={endHour}
         />
-      </div>
-      <div className="flex flex-1 flex-row">
+      </TablePrefix>
+      <TableContent>
         {datedDays.map((day, index) => (
-          <div
+          <TableContentColumn
             key={index}
-            className="flex flex-1 flex-col border-l border-gray-500"
+            headerHeight={4}
+            header={
+              <>
+                <div
+                  className="border-b-2 border-gray-300 text-center"
+                  style={{ height: `${cellHeight}rem` }}
+                >
+                  {format(day, "dd")}
+                </div>
+                <div className="flex flex-row">
+                  {studios.map((studio) => (
+                    <div className="flex-1">
+                      <div
+                        className={`flex w-full items-center justify-center ${getSoftColor(studio)}`}
+                        style={{ height: `${cellHeight}rem` }}
+                      >
+                        {getShort(studio)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            }
           >
-            <div
-              className="border-b-2 border-gray-300 text-center"
-              style={{ height: `${cellHeight}rem` }}
-            >
-              {format(day, "dd")}
-            </div>
             <DayView
               hours={getHours(day)}
               cellHeight={cellHeight}
               bookings={bookings}
               studios={studios}
             />
-          </div>
+          </TableContentColumn>
         ))}
-      </div>
-    </div>
+      </TableContent>
+    </Table>
   );
 }
 

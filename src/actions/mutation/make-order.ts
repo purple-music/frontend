@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import prisma from "@/lib/db";
 import { error, Result, success } from "@/lib/utils/result";
+import { dateToHour, hourToDate } from "@/lib/utils/time";
 import { MakeOrderSchema } from "@/schemas/schemas";
 import { Order } from "@prisma/client";
 import { z } from "zod";
@@ -23,6 +24,24 @@ export async function makeOrder(
   }
 
   const { studio, slots, peopleCount } = validatedFields.data;
+
+  // Check if any of the slots for the selected studio are already booked
+  const existingBookings = await prisma.booking.findMany({
+    where: {
+      studio,
+      hour: { in: slots }, // Check if any of the requested slots are already booked
+    },
+  });
+
+  // If there are existing bookings for any of the requested slots, return an error
+  if (existingBookings.length > 0) {
+    return error("Some slots are already booked.");
+  }
+
+  const now = dateToHour(new Date());
+  if (slots.some((hour) => now >= hour)) {
+    return error("Could not book in the past.");
+  }
 
   const bookings = slots.map((hour) => {
     return {

@@ -10,6 +10,8 @@ interface SlotSelectorWrapperProps {
   selectedSlots: Hour[];
   onSelectedSlots: (slots: Hour[]) => void;
   disabled: boolean;
+  refreshBookings: () => void;
+  bookings: Booking[] | null;
 }
 
 export function SlotSelectorWrapper({
@@ -18,11 +20,11 @@ export function SlotSelectorWrapper({
   selectedSlots,
   onSelectedSlots,
   disabled,
+  refreshBookings,
+  bookings,
 }: SlotSelectorWrapperProps) {
-  const [bookings, setBookings] = useState<Booking[] | null>(null);
-
   useEffect(() => {
-    getAllBookings().then((response) => setBookings(response));
+    refreshBookings();
   }, []);
 
   if (!bookings) return <span>SlotSlector Skeleton</span>;

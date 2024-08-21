@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -12,6 +12,11 @@ import { StudioId } from "@/lib/types";
 import { SlotSelectorWrapper } from "@/app/lk/booking/_components/slot-selector-wrapper";
 import { getPriceRate } from "@/app/lk/booking/_data/prices";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { getAllBookings } from "@/actions/query/booking";
+import { type Booking } from "@prisma/client";
+import { SuccessToast } from "@/components/toasts/success-toast";
+import { ErrorToast } from "@/components/toasts/error-toast";
 
 type Hour = number;
 
@@ -44,14 +49,46 @@ export function Booking() {
   });
   const router = useRouter();
 
+  const [bookings, setBookings] = useState<Booking[] | null>(null);
+
+  const refreshBookings = () => {
+    getAllBookings().then((response) => setBookings(response));
+    setValue("slots", []);
+  };
+
   const selectedSlots = watch("slots");
   const peopleCount = watch("peopleCount");
 
   const onSubmit = async (data: z.infer<typeof MakeOrderSchema>) => {
-    await makeOrder(data);
-    router.refresh();
-    // TODO: do something with the result;
+    const result = await makeOrder(data);
+    if (result.type === "success") {
+      toast.custom(() => (
+        <SuccessToast>
+          <span>Successfully booked!</span>
+          // TODO: add button "Go to my bookings"
+        </SuccessToast>
+      ));
+      refreshBookings();
+    } else {
+      toast.custom((t) => (
+        <ErrorToast>
+          <span>Error: {result.error}</span>
+          <button onClick={() => refreshBookings()} className="btn btn-block">
+            Refresh the bookings
+          </button>
+        </ErrorToast>
+      ));
+    }
   };
+
+  useEffect(() => {
+    errors.slots &&
+      toast.custom(() => (
+        <ErrorToast>
+          <span>Error: {errors.slots?.message}</span>
+        </ErrorToast>
+      ));
+  }, [errors.slots]);
 
   const totalPrice = selectedSlots.reduce(
     (sum, hour) => sum + getPriceRate(Number(hour), peopleCount),
@@ -91,9 +128,9 @@ export function Booking() {
         selectedSlots={selectedSlots}
         onSelectedSlots={(slots) => setValue("slots", slots)}
         disabled={isSubmitting}
+        bookings={bookings}
+        refreshBookings={refreshBookings}
       />
-
-      {errors.slots && <p className="text-red-500">{errors.slots.message}</p>}
 
       <div className="flex items-center justify-end">
         <div className="mr-4">

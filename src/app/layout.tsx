@@ -4,6 +4,7 @@ import "./globals.css";
 import React from "react";
 import { NextAuthProvider } from "@/providers/NextAuthProvider";
 import { auth } from "@/auth";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <NextAuthProvider session={session}>{children}</NextAuthProvider>
+        <Toaster closeButton />
       </body>
     </html>
   );

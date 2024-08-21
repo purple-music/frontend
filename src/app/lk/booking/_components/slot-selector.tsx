@@ -1,31 +1,11 @@
 import React, { useState } from "react";
-import { Hour, StudioId } from "@/lib/types";
-import { MobileTable } from "@/app/lk/booking/_components/mobile-table";
-import { DesktopTable } from "@/app/lk/booking/_components/desktop-table";
-import { add, addDays, format, startOfDay } from "date-fns";
+import { Hour } from "@/lib/types";
+import { addDays, startOfDay } from "date-fns";
 import { Booking } from "@prisma/client";
 import { StartDaySelector } from "@/app/lk/booking/_components/start-day-selector";
-import { dateToHour, hourToDate } from "@/lib/utils/time";
 import { getPriceRate } from "@/app/lk/booking/_data/prices";
-import { TimeColumn } from "@/components/tables/time-column";
-
-type DayDuration = {
-  prevLabel: string;
-  nextLabel: string;
-  days: number;
-};
-
-const mobileDuration: DayDuration = {
-  prevLabel: "Предудыщий день",
-  nextLabel: "Следующий день",
-  days: 1,
-};
-
-const desktopDuration: DayDuration = {
-  prevLabel: "Предудыщая неделя",
-  nextLabel: "Следующая неделя",
-  days: 7,
-};
+import { BookingTable } from "@/app/lk/booking/_components/booking-table";
+import { TbCaretLeftFilled, TbCaretRightFilled } from "react-icons/tb";
 
 interface SlotSelectorProps {
   selectedStudio: string;
@@ -114,13 +94,14 @@ export function DynamicSlotSelector({
   return (
     <>
       <StartDaySelector
-        onPrevClick={() => setCurrentStart(addDays(currentStart, days))}
-        onNextClick={() => setCurrentStart(addDays(currentStart, -days))}
-        prevLabel={"Пред"}
-        nextLabel={"След"}
+        onPrevClick={() => setCurrentStart(addDays(currentStart, -1))}
+        onNextClick={() => setCurrentStart(addDays(currentStart, 1))}
+        prevLabel={<TbCaretLeftFilled />}
+        nextLabel={<TbCaretRightFilled />}
         disabled={disabled}
+        day={currentStart}
       />
-      <DynamicTable
+      <BookingTable
         days={days}
         unavailableBookings={unavailableBookings}
         disabled={disabled}
@@ -131,99 +112,5 @@ export function DynamicSlotSelector({
         isAvailable={isAvailable}
       />
     </>
-  );
-}
-
-export function DynamicTable({
-  days,
-  unavailableBookings: data,
-  disabled,
-  start,
-  selectedSlots,
-  onSlotClick,
-  getPrice,
-  isAvailable,
-}: {
-  days: number;
-  unavailableBookings: Booking[];
-  disabled: boolean;
-  start: Date;
-  selectedSlots: number[];
-  onSlotClick: (hour: number) => void;
-  getPrice: (hour: Hour) => number;
-  isAvailable: (hour: Hour) => boolean;
-}) {
-  const end = startOfDay(add(start, { days })); // Exclusive
-  const bookings = new Map(data.map((i) => [i.hour, i]));
-
-  const datedDays = Array.from({ length: days }, (_, i) => addDays(start, i));
-
-  const startHour = 9;
-  const endHour = 23;
-
-  const cellHeight = 2;
-
-  const getHours = (day: Date) => {
-    const start = dateToHour(startOfDay(day));
-    return Array.from(
-      { length: endHour - startHour },
-      (_, i) => startHour + i,
-    ).map((hour) => start + hour);
-  };
-
-  return (
-    <div className="flex w-full flex-row">
-      <div className={"divide-y divide-base-300"}>
-        <div style={{ height: `${cellHeight}rem` }} />
-        <TimeColumn
-          cellHeight={cellHeight}
-          startHour={startHour}
-          endHour={endHour}
-        />
-      </div>
-      <div className="flex flex-1 flex-row">
-        {datedDays.map((day, index) => (
-          <div
-            key={index}
-            className="flex flex-1 flex-col divide-y divide-base-300 border-l border-base-content"
-          >
-            <div className="text-center" style={{ height: `${cellHeight}rem` }}>
-              {format(day, "dd")}
-            </div>
-            <div className="flex flex-col divide-y divide-base-300">
-              {getHours(day).map((hour) => {
-                const price = getPrice(hour);
-                const isUnavailable = !isAvailable(hour);
-                const slotKey = hour;
-                const isSelected = selectedSlots.indexOf(slotKey) !== -1;
-
-                return (
-                  <div
-                    key={hour}
-                    style={{ height: `${cellHeight}rem` }}
-                    className={`box-border flex items-center justify-start px-2 ${isUnavailable ? "bg-base-300" : `cursor-pointer ${isSelected ? "bg-primary text-primary-content hover:bg-base-content" : "hover:bg-primary-content"}`}`}
-                    onClick={() => {
-                      console.log(hourToDate(slotKey));
-                      return (
-                        !isUnavailable && !disabled && onSlotClick(slotKey)
-                      );
-                    }}
-                  >
-                    {price}
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* <DayView
-              hours={getHours(day)}
-              cellHeight={cellHeight}
-              bookings={bookings}
-              studios={studios}
-            /> */}
-          </div>
-        ))}
-      </div>
-    </div>
   );
 }

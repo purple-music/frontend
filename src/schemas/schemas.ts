@@ -9,16 +9,18 @@ export const UserSchema = z.object({
   password: z.string(), // We don't want to break old users if PasswordSchema changes
 });
 
+const OrderIdSchema = z.number().positive();
+
 const BookingSchema = z.object({
   title: z.string().max(255),
   hour: z.number().int().positive(),
   studio: z.string(),
   createdAt: z.date(),
-  orderId: z.string().cuid(),
+  orderId: OrderIdSchema,
 });
 
 const OrderSchema = z.object({
-  id: z.string().cuid(),
+  id: OrderIdSchema,
   payload: z.string(),
   updatedAt: z.date(),
   createdAt: z.date(),

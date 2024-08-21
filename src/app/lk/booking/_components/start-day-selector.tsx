@@ -1,32 +1,44 @@
+import { format } from "date-fns";
+import { ReactNode } from "react";
+
 export function StartDaySelector({
   onNextClick,
   onPrevClick,
   nextLabel,
   prevLabel,
   disabled,
+  day,
 }: {
   onNextClick: () => void;
   onPrevClick: () => void;
-  nextLabel: string;
-  prevLabel: string;
+  nextLabel: ReactNode;
+  prevLabel: ReactNode;
   disabled: boolean;
+  day: Date;
 }) {
   return (
-    <div className="">
+    <div className="flex flex-row items-center justify-start gap-4">
       <button
-        className="btn"
-        onClick={(e) => onPrevClick()}
+        className="btn btn-circle"
+        onClick={(e) => {
+          e.preventDefault();
+          return onPrevClick();
+        }}
         disabled={disabled}
       >
         {prevLabel}
       </button>
       <button
-        className="btn ml-4"
-        onClick={(e) => onNextClick()}
+        className="btn btn-circle"
+        onClick={(e) => {
+          e.preventDefault();
+          return onNextClick();
+        }}
         disabled={disabled}
       >
         {nextLabel}
       </button>
+      <span>{format(day, "EEE dd MMMM")}</span>
     </div>
   );
 }

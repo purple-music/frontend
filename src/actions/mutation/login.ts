@@ -25,6 +25,8 @@ export async function authCredentials(
   if (!existingUser.password)
     return authError("Use another provider to login!");
 
+  // TODO: wrap prisma calls into authError
+  // TODO: rewrite authError as Result.error
   if (!existingUser.emailVerified) {
     const verificationToken = await generateVerificationToken(
       existingUser.email,
