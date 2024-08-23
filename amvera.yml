@@ -1,3 +1,4 @@
+---
 meta:
   environment: node
   toolchain:
@@ -5,9 +6,9 @@ meta:
     version: 18
 build:
   artifacts:
-    "*": /
+    '*': /
 run:
   scriptName: index.js
-  command: npm run start
+  command: npm next start
   persistenceMount: /data
-  containerPort: "3000"
+  containerPort: 3000
