@@ -9,8 +9,26 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+
 ARG DATABASE_URL
+ARG AUTH_SECRET
+ARG AUTH_YANDEX_ID
+ARG AUTH_YANDEX_SECRET
+ARG RESEND_API_KEY
+
 ENV DATABASE_URL=${DATABASE_URL}
+ENV AUTH_SECRET=${AUTH_SECRET}
+ENV AUTH_YANDEX_ID=${AUTH_YANDEX_ID}
+ENV AUTH_YANDEX_SECRET=${AUTH_YANDEX_SECRET}
+ENV RESEND_API_KEY=${RESEND_API_KEY}
+
+# Create .env file with the environment variables
+RUN echo "DATABASE_URL=${DATABASE_URL}" > .env && \
+    echo "AUTH_SECRET=${AUTH_SECRET}" >> .env && \
+    echo "AUTH_YANDEX_ID=${AUTH_YANDEX_ID}" >> .env && \
+    echo "AUTH_YANDEX_SECRET=${AUTH_YANDEX_SECRET}" >> .env && \
+    echo "RESEND_API_KEY=${RESEND_API_KEY}" >> .env
+
 COPY prisma /app/prisma
 RUN tree /app
 
