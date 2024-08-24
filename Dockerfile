@@ -31,6 +31,7 @@ RUN echo "DATABASE_URL=${DATABASE_URL}" > .env && \
 
 COPY prisma /app/prisma
 RUN tree /app
+RUN cat /app/.env
 
 RUN $(grep '^DATABASE_URL' ../.env) corepack enable pnpm && pnpm i --frozen-lockfile
 
