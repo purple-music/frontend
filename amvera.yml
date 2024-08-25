@@ -1,15 +1,12 @@
 ---
 meta:
-  environment: node
+  environment: docker
   toolchain:
-    name: npm
-    version: 18
+    name: docker
+    version: latest
 build:
+  dockerfile: Dockerfile
   skip: false
-  artifacts:
-    '*': /
 run:
-  scriptName: index.js
-  command: npm start
   persistenceMount: /data
   containerPort: 80
