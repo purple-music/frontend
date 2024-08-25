@@ -9,7 +9,7 @@ WORKDIR /app
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 ARG DATABASE_URL
-ENV DATABASE_URL="postgresql://khodis:prisma_music@amvera-khodis-cnpg-purple-studio-db-rw/purple?schema=public"
+ENV DATABASE_URL="postgresql://prisma:prisma_music@amvera-khodis-cnpg-purple-studio-db-rw/purple?schema=public"
 COPY prisma ./prisma
 RUN corepack enable pnpm && pnpm i --frozen-lockfile
 
