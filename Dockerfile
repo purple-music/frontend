@@ -31,6 +31,9 @@ RUN corepack enable pnpm && pnpm i --frozen-lockfile;
 FROM base AS runner
 WORKDIR /app
 
+ARG DATABASE_URL
+ENV DATABASE_URL="postgresql://prisma:prisma_music@amvera-khodis-cnpg-purple-studio-db-rw/purple?schema=public"
+
 ENV NODE_ENV=production
 # Uncomment the following line in case you want to disable telemetry during runtime.
 ENV NEXT_TELEMETRY_DISABLED=1
