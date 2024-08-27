@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:13.3
+    environment:
+      POSTGRES_DB: "music"
+      POSTGRES_USER: "purple"
+      POSTGRES_PASSWORD: "music_purple"
+    ports:
+      - "5432:5432"
+    restart: always
+  nextjs:
+    image: ghcr.io/template-inc/prod-template-server:latest
+    environment:
+      DATABASE_URL: "${DATABASE_URL}"
+    command: npm run start
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
