@@ -44,8 +44,5 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            echo "Current dir: $PWD"
-            echo "Tree of /app"
-            tree /app
-            sudo docker-compose -f /app/docker-compose.prod-ci.yml -p prod pull
-            sudo docker-compose -f /app/docker-compose.prod-ci.yml -p prod up -d
+            sudo docker-compose -f docker-compose.prod-ci.yml -p prod pull
+            sudo docker-compose -f docker-compose.prod-ci.yml -p prod up -d

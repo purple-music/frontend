@@ -10,7 +10,7 @@ services:
     restart: always
 
   nextjs:
-    image: ghcr.io/template-inc/prod-template-server:latest
+    image: ghcr.io/template-inc/prod-purple-nextjs:latest
     environment:
       DATABASE_URL: "postgresql://purple:music_purple@db:5432/music"
     command: npm run start
