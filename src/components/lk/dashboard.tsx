@@ -4,7 +4,6 @@ import { ru } from "date-fns/locale";
 import { hourToDate } from "@/lib/utils/time";
 import { groupBookingsByDay } from "@/lib/utils/bookings";
 import { PseudoLine } from "@/components/pseudo-line";
-import _ from "lodash";
 import { StudioId } from "@/lib/types";
 import { TbPencil, TbSquareRoundedMinus } from "react-icons/tb";
 
@@ -63,7 +62,10 @@ export function Dashboard({ bookings }: { bookings: Booking[] }) {
                         <PseudoLine color={getColor(studio as StudioId)}>
                           <ul className="flex flex-col gap-1">
                             {bookings.map((b) => (
-                              <li className="flex w-full flex-row items-center justify-between">
+                              <li
+                                className="flex w-full flex-row items-center justify-between"
+                                key={b.hour}
+                              >
                                 <span>
                                   {format(hourToDate(b.hour), "p", {
                                     locale: ru,

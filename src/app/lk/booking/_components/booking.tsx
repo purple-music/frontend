@@ -61,11 +61,11 @@ export function Booking() {
 
   const onSubmit = async (data: z.infer<typeof MakeOrderSchema>) => {
     const result = await makeOrder(data);
+    // TODO: add button "Go to my bookings"
     if (result.type === "success") {
       toast.custom(() => (
         <SuccessToast>
           <span>Successfully booked!</span>
-          // TODO: add button "Go to my bookings"
         </SuccessToast>
       ));
       refreshBookings();

@@ -36,7 +36,7 @@ export const useCurrentSession = () => {
       router.push("/auth/error");
       // setState({ session: null, status: "unauthenticated" });
     }
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     retrieveSession();

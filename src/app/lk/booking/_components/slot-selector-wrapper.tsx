@@ -25,7 +25,7 @@ export function SlotSelectorWrapper({
 }: SlotSelectorWrapperProps) {
   useEffect(() => {
     refreshBookings();
-  }, []);
+  }, [refreshBookings]);
 
   if (!bookings) return <span>SlotSlector Skeleton</span>;
 

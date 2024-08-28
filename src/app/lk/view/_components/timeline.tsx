@@ -127,7 +127,7 @@ export function TimelineContent({
                 </div>
                 <div className="flex flex-row">
                   {studios.map((studio) => (
-                    <div className="flex-1">
+                    <div className="flex-1" key={studio}>
                       <div
                         className={`flex w-full items-center justify-center ${getSoftColor(studio)}`}
                         style={{ height: `${cellHeight}rem` }}

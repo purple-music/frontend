@@ -15,7 +15,7 @@ export function useAsyncAction(
       .catch(() => {
         setResult({ type: "error", message: "Unexpected error occurred!" });
       });
-  }, [...dependencies, result]);
+  }, [...dependencies, result, action]);
 
   useEffect(() => {
     execute();

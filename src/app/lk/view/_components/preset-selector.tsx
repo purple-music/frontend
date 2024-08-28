@@ -19,11 +19,10 @@ export function PresetSelector({
           className="menu dropdown-content z-[1] mt-4 w-52 rounded-box bg-base-100 p-2 shadow"
         >
           {days.map((d) => (
-            <li>
+            <li key={d}>
               <label>
                 {getPresetLabel(d)}
                 <input
-                  key={d}
                   className="sr-only"
                   type="radio"
                   name="preset"
