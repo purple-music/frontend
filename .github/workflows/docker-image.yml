@@ -44,18 +44,5 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            echo "Deploying purple-nextjs..."
-            echo "Current dir: $(pwd)"
-            echo "Current ls: $(ls -la)"
-            echo "Current docker: $(sudo docker ps -a)"
-            echo "Current tree: $(tree .)"
-            echo "Current tree -d: $(tree -d .)"
-            echo "Writing the same stuff to the file..."
-            mkdir "/info"
-            echo "Current dir: $(pwd)" > "/info/current_dir.txt"
-            echo "Current ls: $(ls -la)" > "/info/current_ls.txt"
-            echo "Current docker: $(sudo docker ps -a)" > "/info/current_docker.txt"
-            echo "Current tree: $(tree .)" > "/info/current_tree.txt"
-            echo "Current tree -d: $(tree -d .)" > "/info/current_tree_d.txt"
             sudo docker-compose -f docker-compose.prod-ci.yml -p prod pull
             sudo docker-compose -f docker-compose.prod-ci.yml -p prod up -d
