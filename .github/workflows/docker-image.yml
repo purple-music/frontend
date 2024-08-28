@@ -36,9 +36,6 @@ jobs:
           build-args: |
             build_mode=Release
 
-      - name: Debug current directory
-        run: echo ${{ github.workspace }}
-
       - name: "Run deploy on server"
         uses: appleboy/ssh-action@master
         with:
@@ -47,5 +44,6 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
+            tree .
             sudo docker-compose -f /app/docker-compose.prod-ci.yml -p prod pull
             sudo docker-compose -f /app/docker-compose.prod-ci.yml -p prod up -d
