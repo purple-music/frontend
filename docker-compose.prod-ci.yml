@@ -18,7 +18,8 @@ services:
       - npm
       - run
       - start
-    depends_on: db
+    depends_on:
+      - db
     environment:
       DATABASE_URL: postgresql://purple:music_purple@db:5432/music
     image: ghcr.io/template-inc/prod-purple-nextjs:latest
