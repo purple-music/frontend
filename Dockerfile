@@ -11,9 +11,21 @@ RUN echo "DATABASE_URL=postgresql://purple:music_purple@db:5432/music" > .env
 
 RUN npm install
 
+COPY migrate-and-start.sh .
+RUN chmod +x migrate-and-start.sh
+
 COPY . .
 
-EXPOSE 3000
+RUN npm run build
 
-# Replace the 'npm run build' with a script to ensure db is up and Prisma migrations run
-CMD ["sh", "-c", "npx prisma generate && npm run build && npm run start"]
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
+EXPOSE 3000
+ENV PORT=3000
+
+ENV HOSTNAME="0.0.0.0"
+CMD ["./migrate-and-start.sh"]

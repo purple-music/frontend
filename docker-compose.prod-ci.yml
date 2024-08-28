@@ -41,6 +41,8 @@ services:
         target: 5555
         published: "5555"
         protocol: tcp
+    depends_on:
+      - db
 networks:
   purple-net:
     name: purple-studio_purple-net
