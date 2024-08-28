@@ -21,8 +21,13 @@ RUN npm run build
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
 RUN mkdir -p .next
 RUN chown nextjs:nodejs .next
+
+USER nextjs
 
 EXPOSE 3000
 ENV PORT=3000
