@@ -29,8 +29,8 @@ RUN chown nextjs:nodejs .next
 
 USER nextjs
 
-EXPOSE 3000
-ENV PORT=3000
+EXPOSE 80
+ENV PORT=80
 
 ENV HOSTNAME="0.0.0.0"
 CMD ["./migrate-and-start.sh"]

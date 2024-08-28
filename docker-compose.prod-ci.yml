@@ -27,8 +27,8 @@ services:
       purple-net: null
     ports:
       - mode: ingress
-        target: 3000
-        published: "3000"
+        target: 80
+        published: "80"
         protocol: tcp
   prisma-studio:
     environment:
