@@ -2,37 +2,48 @@ services:
   db:
     environment:
       POSTGRES_DB: music
-      POSTGRES_USER: purple
       POSTGRES_PASSWORD: music_purple
+      POSTGRES_USER: purple
     image: postgres:13.3
-    ports:
-      - "5432:5432" # Expose PostgreSQL port
     networks:
-      - purple-net
+      purple-net: null
+    ports:
+      - mode: ingress
+        target: 5432
+        published: "5432"
+        protocol: tcp
     restart: always
-
   nextjs:
-    image: ghcr.io/template-inc/prod-purple-nextjs:latest
-    command: ["npm", "run", "start"]
-    environment:
-      DATABASE_URL: postgresql://purple:music_purple@db:5432/music
+    command:
+      - npm
+      - run
+      - start
     depends_on:
       db:
-        condition: service_healthy # Ensure db is ready before starting nextjs
-    ports:
-      - "3000:3000" # Expose Next.js on port 3000
-    networks:
-      - purple-net
-
-  prisma-studio:
-    image: prismagraphql/prisma:1.34 # Adjust to the correct version for Prisma Studio
+        condition: service_healthy
+        required: true
     environment:
       DATABASE_URL: postgresql://purple:music_purple@db:5432/music
-    ports:
-      - "5555:5555" # Expose Prisma Studio on port 5555
+    image: ghcr.io/template-inc/prod-purple-nextjs:latest
     networks:
-      - purple-net
-
+      purple-net: null
+    ports:
+      - mode: ingress
+        target: 3000
+        published: "3000"
+        protocol: tcp
+  prisma-studio:
+    environment:
+      DATABASE_URL: postgresql://purple:music_purple@db:5432/music
+    image: prismagraphql/prisma:1.34
+    networks:
+      purple-net: null
+    ports:
+      - mode: ingress
+        target: 5555
+        published: "5555"
+        protocol: tcp
 networks:
   purple-net:
+    name: purple-studio_purple-net
     driver: bridge
