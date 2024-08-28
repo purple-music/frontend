@@ -44,5 +44,11 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
+            echo "Deploying purple-nextjs..."
+            echo "Current dir: $(pwd)"
+            echo "Current ls: $(ls -la)"
+            echo "Current docker: $(sudo docker ps -a)"
+            echo "Current tree: $(tree .)"
+            echo "Current tree -d: $(tree -d .)"
             sudo docker-compose -f docker-compose.prod-ci.yml -p prod pull
             sudo docker-compose -f docker-compose.prod-ci.yml -p prod up -d
