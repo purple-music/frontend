@@ -13,6 +13,7 @@ services:
         published: "5432"
         protocol: tcp
     restart: always
+
   nextjs:
     command:
       - npm
@@ -30,8 +31,15 @@ services:
         target: 80
         published: "80"
         protocol: tcp
+
   prisma-studio:
     environment:
+      PRISMA_CONFIG: |
+        port: 5555
+        databases:
+          default:
+            connector: postgresql
+            uri: 'postgresql://purple:music_purple@db:5432/music'
       DATABASE_URL: postgresql://purple:music_purple@db:5432/music
     image: prismagraphql/prisma:1.34
     networks:
@@ -43,6 +51,21 @@ services:
         protocol: tcp
     depends_on:
       - db
+
+  nocodb:
+    image: nocodb/nocodb:latest
+    depends_on:
+      - db
+    environment:
+      NC_DB: "postgresql://purple:music_purple@db:5432/music"
+    networks:
+      purple-net: null
+    ports:
+      - mode: ingress
+        target: 4444
+        published: "4444"
+        protocol: tcp
+
 networks:
   purple-net:
     name: purple-studio_purple-net
