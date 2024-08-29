@@ -49,6 +49,8 @@ jobs:
       - name: "Run deploy on server"
         uses: appleboy/ssh-action@master
         with:
+          timeout: 30m
+          command_timeout: 30m
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
