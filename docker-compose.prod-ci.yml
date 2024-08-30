@@ -13,6 +13,8 @@ services:
         published: "5432"
         protocol: tcp
     restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
   nextjs:
     command:
