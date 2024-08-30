@@ -4,7 +4,7 @@ services:
       POSTGRES_DB: music
       POSTGRES_PASSWORD: music_purple
       POSTGRES_USER: purple
-    image: postgres:13.3
+    image: postgres
     networks:
       purple-net: null
     ports:
@@ -57,7 +57,8 @@ services:
   nocodb:
     image: nocodb/nocodb:latest
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       NC_DB: "postgresql://purple:music_purple@db:5432/music"
     networks:
@@ -67,6 +68,8 @@ services:
         target: 4444
         published: "4444"
         protocol: tcp
+    volumes:
+      - "ncdata:/usr/app/data"
 
 networks:
   purple-net:
@@ -75,3 +78,4 @@ networks:
 
 volumes:
   pgdata:
+  ncdata:
