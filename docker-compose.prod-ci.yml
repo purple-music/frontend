@@ -57,8 +57,7 @@ services:
   nocodb:
     image: nocodb/nocodb:latest
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     environment:
       NC_DB: "postgresql://purple:music_purple@db:5432/music"
     networks:
