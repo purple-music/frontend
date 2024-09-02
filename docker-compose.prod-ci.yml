@@ -17,10 +17,6 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   nextjs:
-    command:
-      - npm
-      - run
-      - start
     depends_on:
       - db
     environment:
