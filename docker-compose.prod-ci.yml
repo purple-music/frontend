@@ -4,7 +4,7 @@ services:
       POSTGRES_DB: music
       POSTGRES_PASSWORD: music_purple
       POSTGRES_USER: purple
-    image: postgres
+    image: postgres:latest
     networks:
       purple-net: null
     ports:
@@ -64,7 +64,7 @@ services:
       purple-net: null
     ports:
       - mode: ingress
-        target: 4444
+        target: 8080
         published: "4444"
         protocol: tcp
     volumes:
