@@ -11,7 +11,7 @@ RUN echo "DATABASE_URL=postgresql://purple:music_purple@db:5432/music" > .env
 
 RUN npm install
 
-COPY migrate-and-start.sh .
+COPY migrate-and-start.sh ./
 RUN chmod +x migrate-and-start.sh
 
 COPY . .
