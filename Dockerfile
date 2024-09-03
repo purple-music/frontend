@@ -37,4 +37,5 @@ RUN chmod +x migrate-and-start.sh
 USER nextjs
 EXPOSE 80
 ENV PORT=80
+COPY .env .env
 CMD ["sh", "./migrate-and-start.sh"]

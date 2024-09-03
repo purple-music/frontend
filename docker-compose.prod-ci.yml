@@ -19,8 +19,8 @@ services:
   nextjs:
     depends_on:
       - db
-    environment:
-      DATABASE_URL: postgresql://purple:music_purple@db:5432/music
+    env_file:
+      - .env
     image: ghcr.io/khodis/prod-purple-nextjs:latest
     networks:
       - purple-net
