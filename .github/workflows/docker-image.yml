@@ -19,6 +19,16 @@ jobs:
           touch .env
           echo "${{ secrets.DEPLOY_ENV }}" > .env
 
+      - name: "Copy .env to server"
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.SERVER_PORT }}
+          source: ".env"
+          target: "/root/"
+
       - name: "Set up QEMU"
         uses: docker/setup-qemu-action@v1
 
@@ -49,16 +59,6 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           source: "docker-compose.prod-ci.yml"
-          target: "/root/"
-
-      - name: "Copy .env to server"
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          password: ${{ secrets.SERVER_PASSWORD }}
-          port: ${{ secrets.SERVER_PORT }}
-          source: ".env"
           target: "/root/"
 
       - name: "Run deploy on server"
