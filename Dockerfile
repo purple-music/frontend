@@ -33,7 +33,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --chown=nextjs:nodejs prisma ./prisma/
 COPY --chown=nextjs:nodejs migrate-and-start.sh ./
+RUN chmod +x migrate-and-start.sh
 USER nextjs
 EXPOSE 80
 ENV PORT=80
-CMD ["./migrate-and-start.sh"]
+CMD ["sh", "./migrate-and-start.sh"]
