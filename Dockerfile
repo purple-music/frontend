@@ -34,6 +34,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --chown=nextjs:nodejs prisma ./prisma/
 COPY --chown=nextjs:nodejs migrate-and-start.sh ./
 RUN chmod +x migrate-and-start.sh
+RUN npm install -g prisma
 USER nextjs
 EXPOSE 80
 ENV PORT=80
