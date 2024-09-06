@@ -16,14 +16,6 @@ export default auth(async function middleware(req) {
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-  console.log(
-    "Route: ",
-    nextUrl.pathname,
-    isApiAuthRoute,
-    isPublicRoute,
-    isAuthRoute,
-  );
-
   if (isApiAuthRoute) {
     return;
   }
@@ -32,7 +24,6 @@ export default auth(async function middleware(req) {
     if (isLoggedIn) {
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
-    console.log("Do nothing.");
     return;
   }
 
