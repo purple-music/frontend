@@ -1,0 +1,25 @@
+services:
+  db:
+    environment:
+      POSTGRES_DB: music
+      POSTGRES_PASSWORD: music_purple
+      POSTGRES_USER: purple
+    image: postgres:latest
+    networks:
+      - purple-net
+    ports:
+      - mode: ingress
+        target: 5432
+        published: "5432"
+        protocol: tcp
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+networks:
+  purple-net:
+    name: purple-studio_purple-net
+    driver: bridge
+
+volumes:
+  pgdata:
