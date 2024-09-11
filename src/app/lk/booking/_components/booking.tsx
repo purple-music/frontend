@@ -56,6 +56,11 @@ export function Booking() {
     setValue("slots", []);
   };
 
+  useEffect(() => {
+    // On initial load fetch bookings
+    getAllBookings().then((response) => setBookings(response));
+  }, []);
+
   const selectedSlots = watch("slots");
   const peopleCount = watch("peopleCount");
 
@@ -94,6 +99,10 @@ export function Booking() {
     (sum, hour) => sum + getPriceRate(Number(hour), peopleCount),
     0,
   );
+
+  if (bookings === null) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>

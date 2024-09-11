@@ -11,7 +11,7 @@ interface SlotSelectorWrapperProps {
   onSelectedSlots: (slots: Hour[]) => void;
   disabled: boolean;
   refreshBookings: () => void;
-  bookings: Booking[] | null;
+  bookings: Booking[];
 }
 
 export function SlotSelectorWrapper({
@@ -20,15 +20,8 @@ export function SlotSelectorWrapper({
   selectedSlots,
   onSelectedSlots,
   disabled,
-  refreshBookings,
   bookings,
 }: SlotSelectorWrapperProps) {
-  useEffect(() => {
-    refreshBookings();
-  }, [refreshBookings]);
-
-  if (!bookings) return <span>SlotSlector Skeleton</span>;
-
   return (
     <SlotSelector
       selectedStudio={selectedStudio}
