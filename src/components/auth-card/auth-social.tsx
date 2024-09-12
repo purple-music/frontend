@@ -3,7 +3,12 @@ import { FaYandex } from "react-icons/fa6";
 
 export function YandexButton() {
   return (
-    <form action={authYandex}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        authYandex();
+      }}
+    >
       <button
         type="submit"
         className="btn flex w-full items-center justify-center bg-red-600 text-white hover:bg-red-700"
