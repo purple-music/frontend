@@ -11,10 +11,14 @@ import AuthForm from "@/components/auth/auth-form";
 
 export default function LoginForm() {
   const searchParams = useSearchParams();
-  const urlError =
-    searchParams.get("error") === "OAuthAccountNotLinked"
-      ? "Email is already in use with a different provider!"
-      : undefined;
+
+  console.log("Search params", searchParams);
+
+  // Handle OAuth errors
+  const urlError = {
+    OAuthAccountNotLinked: "Email is already in use with a different provider!",
+    OAuthCallbackError: "Provider error",
+  }[searchParams.get("error") || ""];
 
   const { form, onSubmit, result, isSubmitting } = useAuthForm(
     LoginSchema,
