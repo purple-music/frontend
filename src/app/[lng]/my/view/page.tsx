@@ -1,25 +1,26 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
-import { Booking } from "@/app/my/booking/_components/booking";
+import { Booking } from "@/app/[lng]/my/booking/_components/booking";
 import { PageWrapper } from "@/components/my/page-wrapper";
+import { View } from "@/app/[lng]/my/view/_components/view";
 
-function BookingWrapper() {
+function ViewWrapper() {
   const { session, status } = useCurrentSession();
 
   if (status === "loading") {
     // TODO: add skeleton
-    return <span>TODO: Dashboard skeleton...</span>;
+    return <span>TODO: View skeleton...</span>;
   }
 
-  return <Booking />;
+  return <View />;
 }
 
 export default function BookingPage() {
   return (
-    <PageWrapper title="Бронирование">
-      <BookingWrapper />
+    <PageWrapper title="Просмотр">
+      <ViewWrapper />
     </PageWrapper>
   );
 }

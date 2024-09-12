@@ -70,7 +70,7 @@ export default function Home() {
                   </ul>
                 </div>
                 <div className="navbar-end flex flex-row gap-2">
-                  <Link className="btn btn-primary rounded-full" href="/lk">
+                  <Link className="btn btn-primary rounded-full" href="/my">
                     Личный кабинет
                   </Link>
                   {/*<a className="btn btn-primary rounded-full">*/}

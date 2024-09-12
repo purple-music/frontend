@@ -1,4 +1,4 @@
-import { getStudioLabel, studios } from "@/app/my/view/_data/studios";
+import { getStudioLabel, studios } from "@/app/[lng]/my/view/_data/studios";
 import { StudioId } from "@/lib/types";
 
 export function StudiosSelector({

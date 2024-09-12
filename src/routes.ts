@@ -4,7 +4,7 @@
 export const publicRoutes: string[] = ["/", "/auth/new-verification"];
 
 /**
- * Routes that redirect to /lk
+ * Routes that redirect to /my
  */
 export const authRoutes: string[] = [
   "/auth/login",
@@ -24,4 +24,4 @@ export const apiAuthPrefix: string = "/api/auth";
 /**
  * The default redirect path after loggin in
  */
-export const DEFAULT_LOGIN_REDIRECT = "/lk";
+export const DEFAULT_LOGIN_REDIRECT = "/my";
