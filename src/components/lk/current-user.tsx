@@ -24,7 +24,12 @@ export function CurrentUser() {
     <div className="rounded-xl bg-base-200 p-4">
       <p className="font-bold">Вошли как:</p>
       <p>Welcome {session.user.email}</p>
-      <form action={async () => logout()}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          logout();
+        }}
+      >
         <button className="btn btn-outline btn-sm mt-2" type="submit">
           Выйти
         </button>
