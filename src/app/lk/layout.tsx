@@ -1,11 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { CurrentUser } from "@/components/lk/current-user";
 
 function Sidebar() {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <nav className="drawer-side z-[10]">
       <label
@@ -13,11 +14,19 @@ function Sidebar() {
         aria-label="close sidebar"
         className="drawer-overlay"
       ></label>
+      <input
+        type="checkbox"
+        id="my-drawer"
+        className="drawer-toggle"
+        checked={isOpen}
+        onChange={() => setIsOpen(!isOpen)}
+      />
       <div className="flex min-h-full w-80 flex-col justify-between gap-2 bg-base-100 p-2">
         <div className="flex flex-col gap-2">
           <Link
             className="h-48 w-full overflow-hidden rounded-xl text-center"
             href="/"
+            onClick={() => setIsOpen(false)}
           >
             <Image
               style={{ objectFit: "cover", width: "100%", height: "100%" }}
@@ -29,13 +38,19 @@ function Sidebar() {
           </Link>
           <ul className="menu rounded-xl bg-base-200 text-base-content">
             <li>
-              <Link href="/lk">Дашборд</Link>
+              <Link href="/lk" onClick={() => setIsOpen(false)}>
+                Дашборд
+              </Link>
             </li>
             <li>
-              <Link href="/lk/booking">Бронирование</Link>
+              <Link href="/lk/booking" onClick={() => setIsOpen(false)}>
+                Бронирование
+              </Link>
             </li>
             <li>
-              <Link href="/lk/view">Просмотр</Link>
+              <Link href="/lk/view" onClick={() => setIsOpen(false)}>
+                Просмотр
+              </Link>
             </li>
           </ul>
         </div>
