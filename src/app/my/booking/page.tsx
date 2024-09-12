@@ -2,8 +2,8 @@
 
 import React, { useEffect } from "react";
 import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
-import { Booking } from "@/app/lk/booking/_components/booking";
-import { PageWrapper } from "@/components/lk/page-wrapper";
+import { Booking } from "@/app/my/booking/_components/booking";
+import { PageWrapper } from "@/components/my/page-wrapper";
 
 function BookingWrapper() {
   const { session, status } = useCurrentSession();

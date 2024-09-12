@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { PageWrapper } from "@/components/lk/page-wrapper";
+import { PageWrapper } from "@/components/my/page-wrapper";
 import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
-import { Dashboard } from "@/components/lk/dashboard";
+import { Dashboard } from "@/components/my/dashboard";
 import { getCurrentBookingsByUserId } from "@/actions/query/booking";
 import { Booking } from "@prisma/client";
 

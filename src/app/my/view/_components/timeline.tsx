@@ -1,7 +1,7 @@
 "use client";
 
 import { getAllBookings } from "@/actions/query/booking";
-import { DayView } from "@/app/lk/view/_components/day-view";
+import { DayView } from "@/app/my/view/_components/day-view";
 import { Table } from "@/components/table/table";
 import { TableContent } from "@/components/table/table-content";
 import { TableContentColumn } from "@/components/table/table-content-column";

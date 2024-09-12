@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { CurrentUser } from "@/components/lk/current-user";
+import { CurrentUser } from "@/components/my/current-user";
 
 function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,17 +38,17 @@ function Sidebar() {
           </Link>
           <ul className="menu rounded-xl bg-base-200 text-base-content">
             <li>
-              <Link href="/lk" onClick={() => setIsOpen(false)}>
+              <Link href="/my" onClick={() => setIsOpen(false)}>
                 Дашборд
               </Link>
             </li>
             <li>
-              <Link href="/lk/booking" onClick={() => setIsOpen(false)}>
+              <Link href="/my/booking" onClick={() => setIsOpen(false)}>
                 Бронирование
               </Link>
             </li>
             <li>
-              <Link href="/lk/view" onClick={() => setIsOpen(false)}>
+              <Link href="/my/view" onClick={() => setIsOpen(false)}>
                 Просмотр
               </Link>
             </li>
