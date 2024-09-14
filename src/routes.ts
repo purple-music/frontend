@@ -15,6 +15,11 @@ export const authRoutes: string[] = [
 ];
 
 /**
+ * Routes that shouldn't be redirected to /[lng]
+ */
+export const noLngRoutes: string[] = ["/_next", "/api"];
+
+/**
  * The prefix for API authentication routes
  *
  * Routes that start with this prefix are used for API authentication purposes

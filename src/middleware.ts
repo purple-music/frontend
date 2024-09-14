@@ -1,37 +1,24 @@
 import authConfig from "@/auth.config";
+import { authMiddleware } from "@/lib/middlewares/auth";
+import { i18nMiddleware } from "@/lib/middlewares/i18n";
 import NextAuth from "next-auth";
-import {
-  apiAuthPrefix,
-  authRoutes,
-  DEFAULT_LOGIN_REDIRECT,
-  publicRoutes,
-} from "@/routes";
+import { NextResponse } from "next/server";
 
 const { auth } = NextAuth(authConfig);
-export default auth(async function middleware(req) {
-  const { nextUrl } = req;
-  const isLoggedIn = !!req.auth;
+export default auth(async (req, _next) => {
+  const authResponse = await authMiddleware(req);
 
-  const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
-  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
-  const isAuthRoute = authRoutes.includes(nextUrl.pathname);
-
-  if (isApiAuthRoute) {
-    return;
+  if (authResponse) {
+    return authResponse;
   }
 
-  if (isAuthRoute) {
-    if (isLoggedIn) {
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
-    }
-    return;
+  const i18nResponse = await i18nMiddleware(req);
+
+  if (i18nResponse) {
+    return i18nResponse;
   }
 
-  if (!isLoggedIn && !isPublicRoute) {
-    return Response.redirect(new URL("/auth/login", nextUrl));
-  }
-
-  return;
+  return NextResponse.next();
 });
 
 export const config = {
