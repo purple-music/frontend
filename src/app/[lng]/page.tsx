@@ -1,3 +1,4 @@
+import { useTranslation } from "@/i18n/server";
 import Link from "next/link";
 
 function ServiceCard({
@@ -31,7 +32,10 @@ function ServiceCard({
   );
 }
 
-export default function Home() {
+export default async function Home({ params }: { params: { lng: string } }) {
+  const { t } = await useTranslation(params.lng, "index");
+  const { t: tc } = await useTranslation(params.lng, "common");
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       {/*TODO: remove extra div*/}
@@ -50,7 +54,7 @@ export default function Home() {
               <nav className="navbar rounded-full bg-primary-content bg-opacity-50 backdrop-blur">
                 <div className="navbar-start">
                   <a className="btn btn-ghost text-xl normal-case">
-                    Purple Studio
+                    {tc("company-name")}
                   </a>
                 </div>
                 <div className="navbar-center hidden lg:flex">
@@ -71,7 +75,7 @@ export default function Home() {
                 </div>
                 <div className="navbar-end flex flex-row gap-2">
                   <Link className="btn btn-primary rounded-full" href="/my">
-                    Личный кабинет
+                    {t("my-page")}
                   </Link>
                   {/*<a className="btn btn-primary rounded-full">*/}
                   {/*  +7(922)123-12-12*/}
@@ -82,13 +86,9 @@ export default function Home() {
           </div>
           <div className="hero-content text-center text-neutral-content">
             <div className="max-w-md">
-              <h1 className="mb-5 text-5xl font-bold">Hello there</h1>
-              <p className="mb-5">
-                Provident cupiditate voluptatem et in. Quaerat fugiat ut
-                assumenda excepturi exercitationem quasi. In deleniti eaque aut
-                repudiandae et a id nisi.
-              </p>
-              <button className="btn btn-primary">Get Started</button>
+              <h1 className="mb-5 text-5xl font-bold">{t("hello")}</h1>
+              <p className="mb-5">{t("hello-description")}</p>
+              <button className="btn btn-primary">{t("get-started")}</button>
             </div>
           </div>
         </header>
@@ -123,7 +123,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="footer footer-center bg-base-200 p-10 text-base-content">
         <div>
-          <p>&copy; 2024 Purple Studio. All rights reserved.</p>
+          <p>&copy; 2024 Purple Studio. {t("rights")}</p>
         </div>
       </footer>
     </main>

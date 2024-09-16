@@ -5,7 +5,7 @@ import { getOptions } from "./settings";
 
 // Define the types for the initI18next function parameters
 type InitI18nextParams = {
-  lng: string;
+  lng?: string;
   ns?: string;
 };
 
@@ -33,7 +33,7 @@ const initI18next = async ({ lng, ns }: InitI18nextParams): Promise<i18n> => {
 
 // useTranslation function with types
 export async function useTranslation(
-  lng: string,
+  lng?: string,
   ns?: string,
   options: UseTranslationOptions = {},
 ): Promise<{ t: TFunction; i18n: i18n }> {
@@ -41,7 +41,7 @@ export async function useTranslation(
 
   return {
     t: i18nextInstance.getFixedT(
-      lng,
+      lng || null,
       Array.isArray(ns) ? ns[0] : ns,
       options.keyPrefix,
     ),
