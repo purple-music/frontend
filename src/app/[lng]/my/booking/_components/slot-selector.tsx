@@ -6,6 +6,7 @@ import { StartDaySelector } from "@/app/[lng]/my/booking/_components/start-day-s
 import { getPriceRate } from "@/app/[lng]/my/booking/_data/prices";
 import { BookingTable } from "@/app/[lng]/my/booking/_components/booking-table";
 import { TbCaretLeftFilled, TbCaretRightFilled } from "react-icons/tb";
+import { useTranslation } from "@/i18n/server";
 
 interface SlotSelectorProps {
   selectedStudio: string;
@@ -16,7 +17,7 @@ interface SlotSelectorProps {
   unavailableBookings: Booking[];
 }
 
-export function SlotSelector({
+export async function SlotSelector({
   selectedStudio,
   peopleCount,
   selectedSlots,
@@ -24,6 +25,7 @@ export function SlotSelector({
   disabled,
   unavailableBookings,
 }: SlotSelectorProps) {
+  const { t } = await useTranslation(undefined, "my");
   const getWeekDates = (startDate: Date) => {
     return Array.from({ length: 7 }).map((_, i) => addDays(startDate, i));
   };
@@ -37,9 +39,9 @@ export function SlotSelector({
 
   return (
     <fieldset className="mt-4">
-      <legend className="sr-only">Выбор слотов</legend>
+      <legend className="sr-only">{t("booking.form.slots")}</legend>
       <div className="flex flex-col gap-4 md:hidden">
-        <DynamicSlotSelector
+        <SlotSelectorTable
           days={3}
           unavailableBookings={unavailableBookings}
           disabled={disabled}
@@ -50,7 +52,7 @@ export function SlotSelector({
         />
       </div>
       <div className="hidden flex-col gap-4 md:flex">
-        <DynamicSlotSelector
+        <SlotSelectorTable
           days={7}
           unavailableBookings={unavailableBookings}
           disabled={disabled}
@@ -64,7 +66,7 @@ export function SlotSelector({
   );
 }
 
-export function DynamicSlotSelector({
+export function SlotSelectorTable({
   days,
   unavailableBookings,
   disabled,

@@ -17,6 +17,7 @@ import { getAllBookings } from "@/actions/query/booking";
 import { type Booking } from "@prisma/client";
 import { SuccessToast } from "@/components/toasts/success-toast";
 import { ErrorToast } from "@/components/toasts/error-toast";
+import { useTranslation } from "@/i18n/client";
 
 type Hour = number;
 
@@ -47,6 +48,7 @@ export function Booking() {
     },
     resolver: zodResolver(MakeOrderSchema),
   });
+  const { t } = useTranslation(undefined, "my");
   const router = useRouter();
 
   const [bookings, setBookings] = useState<Booking[] | null>(null);
@@ -70,16 +72,16 @@ export function Booking() {
     if (result.type === "success") {
       toast.custom(() => (
         <SuccessToast>
-          <span>Successfully booked!</span>
+          <span>t("booking.post-action.success")</span>
         </SuccessToast>
       ));
       refreshBookings();
     } else {
-      toast.custom((t) => (
+      toast.custom((tst) => (
         <ErrorToast>
           <span>Error: {result.error}</span>
           <button onClick={() => refreshBookings()} className="btn btn-block">
-            Refresh the bookings
+            {t("booking.post-action.refresh")}
           </button>
         </ErrorToast>
       ));
@@ -90,7 +92,9 @@ export function Booking() {
     errors.slots &&
       toast.custom(() => (
         <ErrorToast>
-          <span>Error: {errors.slots?.message}</span>
+          <span>
+            {t("booking.post-action.error", { error: errors.slots?.message })}
+          </span>
         </ErrorToast>
       ));
   }, [errors.slots]);
@@ -101,6 +105,7 @@ export function Booking() {
   );
 
   if (bookings === null) {
+    // TODO: add skeleton
     return <div>Loading...</div>;
   }
 
@@ -143,14 +148,18 @@ export function Booking() {
 
       <div className="flex items-center justify-end">
         <div className="mr-4">
-          <h2 className="text-xl">Итоговая стоимость: ${totalPrice}</h2>
+          <span className="text-xl">
+            {t("booking.form.total-price", { price: totalPrice })}
+          </span>
         </div>
         <button
           className={`btn btn-primary ${isSubmitting && "btn-disabled"}`}
           type="submit"
           disabled={isSubmitting}
         >
-          Бронировать
+          {isSubmitting
+            ? t("booking.form.submitting")
+            : t("booking.form.submit")}
         </button>
       </div>
     </form>

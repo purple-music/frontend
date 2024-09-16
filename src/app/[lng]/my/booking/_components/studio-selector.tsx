@@ -1,3 +1,4 @@
+import { useTranslation } from "@/i18n/server";
 import { StudioId } from "@/lib/types";
 import React from "react";
 
@@ -14,15 +15,16 @@ interface StudioSelectorProps {
   disabled: boolean;
 }
 
-export function StudioSelector({
+export async function StudioSelector({
   studios,
   selectedStudio,
   onStudioSelect,
   disabled,
 }: StudioSelectorProps) {
+  const { t } = await useTranslation(undefined, "my");
   return (
     <fieldset>
-      <legend className="mb-4 text-2xl">Студия</legend>
+      <legend className="mb-4 text-2xl">{t("booking.form.studio")}</legend>
       <div className="flex flex-wrap gap-4">
         {studios.map((studio) => (
           <label

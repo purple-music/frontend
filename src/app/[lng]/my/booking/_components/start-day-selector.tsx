@@ -38,6 +38,7 @@ export function StartDaySelector({
       >
         {nextLabel}
       </button>
+      {/* TODO: use Luxon */}
       <span>{format(day, "EEE dd MMMM")}</span>
     </div>
   );

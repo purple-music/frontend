@@ -1,3 +1,4 @@
+import { useTranslation } from "@/i18n/server";
 import React from "react";
 
 interface PeopleCountSelectorProps {
@@ -6,14 +7,15 @@ interface PeopleCountSelectorProps {
   disabled: boolean;
 }
 
-export function PeopleCountSelector({
+export async function PeopleCountSelector({
   peopleCount,
   onPeopleCountSelect,
   disabled,
 }: PeopleCountSelectorProps) {
+  const { t } = await useTranslation(undefined, "my");
   return (
     <fieldset>
-      <legend className="mb-4 text-2xl">Количество человек</legend>
+      <legend className="mb-4 text-2xl">{t("booking.form.people")}</legend>
       <div className="flex flex-wrap items-center gap-4">
         {[...Array(10).keys()].map((n) => (
           <label

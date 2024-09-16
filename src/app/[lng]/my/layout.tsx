@@ -4,8 +4,11 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { CurrentUser } from "@/components/my/current-user";
+import { useTranslation as useClientTranslation } from "@/i18n/client";
+import { useTranslation as useServerTranslation } from "@/i18n/server";
 
 function Sidebar() {
+  const { t } = useClientTranslation(undefined, "my");
   const [isOpen, setIsOpen] = useState(false);
   return (
     <nav className="drawer-side z-[10]">
@@ -39,17 +42,17 @@ function Sidebar() {
           <ul className="menu rounded-xl bg-base-200 text-base-content">
             <li>
               <Link href="/my" onClick={() => setIsOpen(false)}>
-                Дашборд
+                {t("dashboard.title")}
               </Link>
             </li>
             <li>
               <Link href="/my/booking" onClick={() => setIsOpen(false)}>
-                Бронирование
+                {t("booking.title")}
               </Link>
             </li>
             <li>
               <Link href="/my/view" onClick={() => setIsOpen(false)}>
-                Просмотр
+                {t("view.title")}
               </Link>
             </li>
           </ul>
@@ -61,6 +64,7 @@ function Sidebar() {
 }
 
 function Navbar() {
+  const { t } = useClientTranslation(undefined, "common");
   return (
     <div className="navbar sticky top-4 z-[5] w-full rounded-full bg-primary-content lg:hidden">
       <div className="flex-none">
@@ -84,7 +88,7 @@ function Navbar() {
           </svg>
         </label>
       </div>
-      <span className="mx-2 flex-1 px-2 text-xl">Purple Studio</span>
+      <span className="mx-2 flex-1 px-2 text-xl">{t("company-name")}</span>
     </div>
   );
 }

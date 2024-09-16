@@ -6,6 +6,7 @@ import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
 import { Dashboard } from "@/components/my/dashboard";
 import { getCurrentBookingsByUserId } from "@/actions/query/booking";
 import { Booking } from "@prisma/client";
+import { useTranslation } from "@/i18n/client";
 
 function DashboardWrapper() {
   const { session, status } = useCurrentSession();
@@ -28,8 +29,9 @@ function DashboardWrapper() {
 }
 
 export default function DashboardPage() {
+  const { t } = useTranslation(undefined, "my");
   return (
-    <PageWrapper title="Дашборд">
+    <PageWrapper title={t("dashboard.title")}>
       <DashboardWrapper />
     </PageWrapper>
   );
