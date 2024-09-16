@@ -6,8 +6,10 @@ import { useAuthForm } from "@/lib/hooks/useAuthForm";
 import { ResetSchema } from "@/schemas/schemas";
 import { AuthInputField } from "@/components/auth-card/auth-input-field";
 import AuthForm from "@/components/auth/auth-form";
+import { useTranslation } from "@/i18n/client";
 
 export function ResetForm() {
+  const { t } = useTranslation(undefined, "auth");
   const { form, onSubmit, result, isSubmitting } = useAuthForm(
     ResetSchema,
     resetPassword,
@@ -16,22 +18,22 @@ export function ResetForm() {
   return (
     <AuthForm
       result={result}
-      title="Forgot your password?"
+      title={t("reset.title")}
       isSubmitting={isSubmitting}
-      buttonLabel="Send reset email!"
+      buttonLabel={isSubmitting ? t("reset.submitting") : t("reset.submit")}
       showSocial={false}
       onSubmit={form.handleSubmit(onSubmit)}
       extraAction={{
-        href: "/auth/register",
-        label: "Don't have an account? Register now!",
+        href: "/auth/login",
+        label: t("reset.extra-action"),
       }}
     >
       {/* Email Field */}
       <AuthInputField
         type="email"
-        label="Email"
+        label={t("reset.email.label")}
         register={form.register("email")}
-        placeholder="john@email.com"
+        placeholder={t("reset.email.placeholder")}
         error={form.formState.errors.email?.message}
         disabled={isSubmitting}
         icon={<TbMail />}

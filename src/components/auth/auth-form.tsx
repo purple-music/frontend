@@ -7,6 +7,7 @@ import { AuthCardTitle } from "@/components/auth-card/auth-card-title";
 import { AuthCard } from "@/components/auth-card/auth-card";
 import { AuthFooterAction } from "@/components/auth-card/auth-footer-action";
 import { ActionResult } from "@/lib/types";
+import { useTranslation } from "@/i18n/client";
 
 interface AuthFormProps {
   result: ActionResult | null;
@@ -30,6 +31,8 @@ export default function AuthForm({
   children,
   showSocial,
 }: AuthFormProps) {
+  const { t } = useTranslation(undefined, "auth");
+
   return (
     <AuthCard>
       <AuthCardTitle title={title} />
@@ -57,7 +60,7 @@ export default function AuthForm({
 
       {showSocial && (
         <>
-          <div className="divider my-0">or</div>
+          <div className="divider my-0">{t("social.or")}</div>
           <AuthSocial />
         </>
       )}

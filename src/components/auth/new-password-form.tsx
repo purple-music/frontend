@@ -7,8 +7,10 @@ import { AuthInputField } from "@/components/auth-card/auth-input-field";
 import AuthForm from "@/components/auth/auth-form";
 import { useSearchParams } from "next/navigation";
 import { newPassword } from "@/actions/mutation/new-password";
+import { useTranslation } from "@/i18n/client";
 
 export function NewPasswordForm() {
+  const { t } = useTranslation(undefined, "auth");
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
@@ -20,23 +22,23 @@ export function NewPasswordForm() {
   return (
     <AuthForm
       result={result}
-      title="Enter a new password"
+      title={t("new-password.title")}
       isSubmitting={isSubmitting}
       buttonLabel={
-        isSubmitting ? "Updating your password..." : "Update my password!"
+        isSubmitting ? t("new-password.submitting") : t("new-password.submit")
       }
       showSocial={false}
       onSubmit={form.handleSubmit(onSubmit)}
       extraAction={{
         href: "/auth/login",
-        label: "Remembered the password? Back to login!",
+        label: t("new-password.extra-action"),
       }}
     >
       {/* Password Field */}
       <AuthInputField
         type="password"
-        label="New password"
-        placeholder="******"
+        label={t("new-password.password.label")}
+        placeholder={t("new-password.password.placeholder")}
         register={form.register("password")}
         disabled={isSubmitting}
         error={form.formState.errors.password?.message}

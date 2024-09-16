@@ -5,11 +5,13 @@ import { AuthAlert } from "@/components/auth-card/auth-alert";
 import { AuthCard } from "@/components/auth-card/auth-card";
 import { AuthCardTitle } from "@/components/auth-card/auth-card-title";
 import { AuthFooterAction } from "@/components/auth-card/auth-footer-action";
+import { useTranslation } from "@/i18n/client";
 import { useAsyncAction } from "@/lib/hooks/useAsyncAction";
 import { ActionResult } from "@/lib/types";
 import { useSearchParams } from "next/navigation";
 
 export default function NewVerificationForm() {
+  const { t } = useTranslation(undefined, "auth");
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
@@ -17,7 +19,7 @@ export default function NewVerificationForm() {
     if (!token) {
       return {
         type: "error",
-        message: "Missing token!",
+        message: t("new-verification.error.missing-token"),
       };
     }
     return await newVerification(token);
@@ -25,7 +27,7 @@ export default function NewVerificationForm() {
 
   return (
     <AuthCard>
-      <AuthCardTitle title={"Confirming your email..."} />
+      <AuthCardTitle title={t("new-verification.title")} />
 
       {result ? (
         <AuthAlert result={result} />
@@ -35,7 +37,10 @@ export default function NewVerificationForm() {
         </div>
       )}
 
-      <AuthFooterAction href={"/auth/login"} label={"Back to login!"} />
+      <AuthFooterAction
+        href={"/auth/login"}
+        label={t("new-verification.extra-action")}
+      />
     </AuthCard>
   );
 }

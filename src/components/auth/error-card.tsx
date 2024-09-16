@@ -1,13 +1,15 @@
 import { AuthCard } from "@/components/auth-card/auth-card";
 import { AuthCardTitle } from "@/components/auth-card/auth-card-title";
 import { AuthFooterAction } from "@/components/auth-card/auth-footer-action";
+import { useTranslation } from "@/i18n/server";
 import { FaExclamationTriangle } from "react-icons/fa";
 
-export function ErrorCard() {
+export async function ErrorCard() {
+  const { t } = await useTranslation(undefined, "auth");
   return (
     <AuthCard>
       <AuthCardTitle title={"Error!"} />
-      Something went wrong...
+      <p>{t("error.message")}</p>
       <div className="flex w-full items-center justify-center">
         <FaExclamationTriangle />
       </div>

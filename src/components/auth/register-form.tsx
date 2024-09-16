@@ -7,8 +7,10 @@ import { RegisterSchema } from "@/schemas/schemas";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
 import { AuthInputField } from "@/components/auth-card/auth-input-field";
 import AuthForm from "@/components/auth/auth-form";
+import { useTranslation } from "@/i18n/client";
 
 export default function RegisterForm() {
+  const { t } = useTranslation(undefined, "auth");
   const { form, onSubmit, result, isSubmitting } = useAuthForm(
     RegisterSchema,
     registerUser,
@@ -17,22 +19,24 @@ export default function RegisterForm() {
   return (
     <AuthForm
       result={result}
-      title="Register"
+      title={t("register.title")}
       isSubmitting={isSubmitting}
-      buttonLabel={isSubmitting ? "Registering..." : "Register"}
+      buttonLabel={
+        isSubmitting ? t("register.submitting") : t("register.submit")
+      }
       showSocial={true}
       onSubmit={form.handleSubmit(onSubmit)}
       extraAction={{
         href: "/auth/login",
-        label: "Already have an account? Sign in",
+        label: t("register.extra-action"),
       }}
     >
       {/* Name Field */}
       <AuthInputField
         type="text"
-        label="Name"
+        label={t("register.name.label")}
         register={form.register("name")}
-        placeholder="John"
+        placeholder={t("register.name.placeholder")}
         error={form.formState.errors.name?.message}
         icon={<TbUser />}
       />
@@ -40,9 +44,9 @@ export default function RegisterForm() {
       {/* Email Field */}
       <AuthInputField
         type="email"
-        label="Email"
+        label={t("register.email.label")}
         register={form.register("email")}
-        placeholder="john@gmail.com"
+        placeholder={t("register.email.placeholder")}
         error={form.formState.errors.email?.message}
         icon={<TbMail />}
       />
@@ -50,9 +54,9 @@ export default function RegisterForm() {
       {/* Password Field */}
       <AuthInputField
         type="password"
-        label="Password"
+        label={t("register.password.label")}
         register={form.register("password")}
-        placeholder="******"
+        placeholder={t("register.password.placeholder")}
         error={form.formState.errors.password?.message}
         icon={<TbLock />}
       />

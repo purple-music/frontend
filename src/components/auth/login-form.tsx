@@ -8,16 +8,18 @@ import { LoginSchema } from "@/schemas/schemas";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
 import { AuthInputField } from "@/components/auth-card/auth-input-field";
 import AuthForm from "@/components/auth/auth-form";
+import { useTranslation } from "@/i18n/client";
 
 export default function LoginForm() {
   const searchParams = useSearchParams();
+  const { t } = useTranslation(undefined, "auth");
 
   console.log("Search params", searchParams);
 
   // Handle OAuth errors
   const urlError = {
-    OAuthAccountNotLinked: "Email is already in use with a different provider!",
-    OAuthCallbackError: "Provider error",
+    OAuthAccountNotLinked: t("login.oauth-error.OAuthAccountNotLinked"),
+    OAuthCallbackError: t("login.oauth-error.OAuthCallbackError"),
   }[searchParams.get("error") || ""];
 
   const { form, onSubmit, result, isSubmitting } = useAuthForm(
@@ -33,21 +35,21 @@ export default function LoginForm() {
   return (
     <AuthForm
       result={result}
-      title="Login"
+      title={t("login.title")}
       isSubmitting={isSubmitting}
-      buttonLabel={isSubmitting ? "Logging in..." : "Login"}
+      buttonLabel={isSubmitting ? t("login.submitting") : t("login.submit")}
       showSocial={true}
       onSubmit={form.handleSubmit(onSubmit)}
       extraAction={{
         href: "/auth/register",
-        label: "Don't have an account? Create one",
+        label: t("login.extra-action"),
       }}
     >
       {/* Email Field */}
       <AuthInputField
         type="email"
-        label="Email"
-        placeholder="john@email.com"
+        label={t("login.email.label")}
+        placeholder={t("login.email.placeholder")}
         register={form.register("email")}
         error={form.formState.errors.email?.message}
         disabled={isSubmitting}
@@ -57,12 +59,12 @@ export default function LoginForm() {
       {/* Password Field */}
       <AuthInputField
         type="password"
-        label="Password"
-        placeholder="******"
+        label={t("login.password.label")}
+        placeholder={t("login.password.placeholder")}
         register={form.register("password")}
         disabled={isSubmitting}
         error={form.formState.errors.password?.message}
-        action={{ href: "/auth/reset", label: "Forgot password?" }}
+        action={{ href: "/auth/reset", label: t("login.password.forgot") }}
         icon={<TbLock />}
       />
     </AuthForm>
