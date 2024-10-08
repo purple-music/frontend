@@ -3,8 +3,8 @@
 import { TbLock } from "react-icons/tb";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
 import { NewPasswordSchema } from "@/schemas/schemas";
-import { AuthInputField } from "@/components/auth-card/auth-input-field";
-import AuthForm from "@/components/auth/auth-form";
+import { AuthInputField } from "@/components/auth-card/AuthInputField";
+import AuthForm from "@/components/auth/AuthForm";
 import { useSearchParams } from "next/navigation";
 import { newPassword } from "@/actions/mutation/new-password";
 import { useTranslation } from "@/i18n/client";

@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import { hourToDate } from "@/lib/utils/time";
 import { groupBookingsByDay } from "@/lib/utils/bookings";
-import { PseudoLine } from "@/components/pseudo-line";
+import { PseudoLine } from "@/components/PseudoLine";
 import { StudioId } from "@/lib/types";
 import { TbPencil, TbSquareRoundedMinus } from "react-icons/tb";
 

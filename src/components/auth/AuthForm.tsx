@@ -1,13 +1,13 @@
 "use client";
 
 import React, { ReactNode } from "react";
-import { AuthAlert } from "@/components/auth-card/auth-alert";
-import { AuthSocial } from "@/components/auth-card/auth-social";
-import { AuthCardTitle } from "@/components/auth-card/auth-card-title";
-import { AuthCard } from "@/components/auth-card/auth-card";
-import { AuthFooterAction } from "@/components/auth-card/auth-footer-action";
 import { ActionResult } from "@/lib/types";
 import { useTranslation } from "@/i18n/client";
+import { AuthAlert } from "@/components/auth-card/AuthAlert";
+import { AuthCard } from "@/components/auth-card/AuthCard";
+import { AuthCardTitle } from "@/components/auth-card/AuthCardTitile";
+import { AuthFooterAction } from "@/components/auth-card/AuthFooterAction";
+import { AuthSocial } from "@/components/auth-card/AuthSocial";
 
 interface AuthFormProps {
   result: ActionResult | null;

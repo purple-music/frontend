@@ -1,6 +1,6 @@
-import { AuthCard } from "@/components/auth-card/auth-card";
-import { AuthCardTitle } from "@/components/auth-card/auth-card-title";
-import { AuthFooterAction } from "@/components/auth-card/auth-footer-action";
+import { AuthCard } from "@/components/auth-card/AuthCard";
+import { AuthCardTitle } from "@/components/auth-card/AuthCardTitile";
+import { AuthFooterAction } from "@/components/auth-card/AuthFooterAction";
 import { useTranslation } from "@/i18n/server";
 import { FaExclamationTriangle } from "react-icons/fa";
 

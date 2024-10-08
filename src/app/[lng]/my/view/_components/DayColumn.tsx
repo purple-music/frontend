@@ -1,4 +1,4 @@
-import { BookingCell } from "@/app/[lng]/my/view/_components/booking-cell";
+import { BookingCell } from "@/app/[lng]/my/view/_components/BookingCell";
 import { StudioId } from "@/lib/types";
 import { Booking } from "@prisma/client";
 

@@ -1,9 +1,9 @@
-import { Table } from "@/components/table/table";
-import { TableCell } from "@/components/table/table-cell";
-import { TableContent } from "@/components/table/table-content";
-import { TableContentColumn } from "@/components/table/table-content-column";
-import { TablePrefix } from "@/components/table/table-prefix";
-import { TableTimeColumn } from "@/components/table/table-time-column";
+import { Table } from "@/components/table/Table";
+import { TableCell } from "@/components/table/TableCell";
+import { TableContent } from "@/components/table/TableContent";
+import { TableContentColumn } from "@/components/table/TableContentColumn";
+import { TablePrefix } from "@/components/table/TablePrefix";
+import { TableTimeColumn } from "@/components/table/TableTimeColumn";
 import { Hour } from "@/lib/types";
 import { dateToHour } from "@/lib/utils/time";
 import { Booking } from "@prisma/client";

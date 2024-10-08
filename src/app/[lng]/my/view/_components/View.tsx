@@ -1,9 +1,9 @@
 import { StudioId } from "@/lib/types";
 import { useState } from "react";
-import { PresetSelector } from "./preset-selector";
+import { PresetSelector } from "./PresetSelector";
 import { studios } from "@/app/[lng]/my/view/_data/studios";
-import { StudiosSelector } from "@/app/[lng]/my/view/_components/studio-selector";
-import { TimelineWrapper } from "@/app/[lng]/my/view/_components/timeline";
+import { StudiosSelector } from "@/app/[lng]/my/view/_components/StudiosSelector";
+import { TimelineWrapper } from "@/app/[lng]/my/view/_components/Timeline";
 
 type GetLabel = (studio: StudioId) => string;
 const getShortest: GetLabel = (studio) => studio.substring(0, 1).toUpperCase();

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Hour } from "@/lib/types";
 import { addDays, startOfDay } from "date-fns";
 import { Booking } from "@prisma/client";
-import { StartDaySelector } from "@/app/[lng]/my/booking/_components/start-day-selector";
+import { StartDaySelector } from "@/app/[lng]/my/booking/_components/StartDaySelector";
 import { getPriceRate } from "@/app/[lng]/my/booking/_data/prices";
-import { BookingTable } from "@/app/[lng]/my/booking/_components/booking-table";
+import { BookingTable } from "@/app/[lng]/my/booking/_components/BookingTable";
 import { TbCaretLeftFilled, TbCaretRightFilled } from "react-icons/tb";
 import { useTranslation } from "@/i18n/server";
 

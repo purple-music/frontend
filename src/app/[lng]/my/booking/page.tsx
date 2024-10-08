@@ -2,8 +2,8 @@
 
 import React, { useEffect } from "react";
 import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
-import { Booking } from "@/app/[lng]/my/booking/_components/booking";
-import { PageWrapper } from "@/components/my/page-wrapper";
+import { Booking } from "@/app/[lng]/my/booking/_components/Booking";
+import { PageWrapper } from "@/components/my/PageWrapper";
 import { useTranslation } from "@/i18n/client";
 
 function BookingWrapper() {
