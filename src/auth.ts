@@ -28,6 +28,7 @@ declare module "next-auth" {
   }
 }
 
+// @ts-ignore
 declare module "next-auth/jwt" {
   /** Returned by the `jwt` callback and `auth`, when using JWT sessions */
   interface JWT {
