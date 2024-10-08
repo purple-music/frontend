@@ -5,8 +5,8 @@ import { registerUser } from "@/actions/mutation/register";
 import { TbLock, TbMail, TbUser } from "react-icons/tb";
 import { RegisterSchema } from "@/schemas/schemas";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
-import { AuthInputField } from "@/components/auth-card/auth-input-field";
-import AuthForm from "@/components/auth/auth-form";
+import { AuthInputField } from "@/components/auth-card/AuthInputField";
+import AuthForm from "@/components/auth/AuthForm";
 import { useTranslation } from "@/i18n/client";
 
 export default function RegisterForm() {

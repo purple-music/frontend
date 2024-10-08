@@ -2,9 +2,8 @@
 
 import React from "react";
 import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
-import { Booking } from "@/app/[lng]/my/booking/_components/booking";
-import { PageWrapper } from "@/components/my/page-wrapper";
-import { View } from "@/app/[lng]/my/view/_components/view";
+import { PageWrapper } from "@/components/my/PageWrapper";
+import { View } from "@/app/[lng]/my/view/_components/View";
 import { useTranslation } from "@/i18n/client";
 
 function ViewWrapper() {

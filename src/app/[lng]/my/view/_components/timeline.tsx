@@ -1,12 +1,12 @@
 "use client";
 
 import { getAllBookings } from "@/actions/query/booking";
-import { DayView } from "@/app/[lng]/my/view/_components/day-view";
-import { Table } from "@/components/table/table";
-import { TableContent } from "@/components/table/table-content";
-import { TableContentColumn } from "@/components/table/table-content-column";
-import { TablePrefix } from "@/components/table/table-prefix";
-import { TableTimeColumn } from "@/components/table/table-time-column";
+import { DayView } from "@/app/[lng]/my/view/_components/DayView";
+import { Table } from "@/components/table/Table";
+import { TableContent } from "@/components/table/TableContent";
+import { TableContentColumn } from "@/components/table/TableContentColumn";
+import { TablePrefix } from "@/components/table/TablePrefix";
+import { TableTimeColumn } from "@/components/table/TableTimeColumn";
 import { StudioId } from "@/lib/types";
 import { dateToHour, hourToDate } from "@/lib/utils/time";
 import { Booking } from "@prisma/client";

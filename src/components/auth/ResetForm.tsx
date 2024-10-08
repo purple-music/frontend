@@ -4,8 +4,8 @@ import { resetPassword } from "@/actions/mutation/reset";
 import { TbMail } from "react-icons/tb";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
 import { ResetSchema } from "@/schemas/schemas";
-import { AuthInputField } from "@/components/auth-card/auth-input-field";
-import AuthForm from "@/components/auth/auth-form";
+import { AuthInputField } from "@/components/auth-card/AuthInputField";
+import AuthForm from "@/components/auth/AuthForm";
 import { useTranslation } from "@/i18n/client";
 
 export function ResetForm() {

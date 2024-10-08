@@ -6,8 +6,8 @@ import { useSearchParams } from "next/navigation";
 import { TbLock, TbMail } from "react-icons/tb";
 import { LoginSchema } from "@/schemas/schemas";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
-import { AuthInputField } from "@/components/auth-card/auth-input-field";
-import AuthForm from "@/components/auth/auth-form";
+import { AuthInputField } from "@/components/auth-card/AuthInputField";
+import AuthForm from "@/components/auth/AuthForm";
 import { useTranslation } from "@/i18n/client";
 
 export default function LoginForm() {

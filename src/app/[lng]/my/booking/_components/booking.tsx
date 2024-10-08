@@ -5,19 +5,19 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { makeOrder } from "@/actions/mutation/make-order";
-import PeopleCountSelector from "@/app/[lng]/my/booking/_components/people-count-selector";
-import StudioSelector from "@/app/[lng]/my/booking/_components/studio-selector";
 import { MakeOrderSchema } from "@/schemas/schemas";
 import { StudioId } from "@/lib/types";
-import { SlotSelectorWrapper } from "@/app/[lng]/my/booking/_components/slot-selector-wrapper";
 import { getPriceRate } from "@/app/[lng]/my/booking/_data/prices";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { getAllBookings } from "@/actions/query/booking";
 import { type Booking } from "@prisma/client";
-import { SuccessToast } from "@/components/toasts/success-toast";
-import { ErrorToast } from "@/components/toasts/error-toast";
 import { useTranslation } from "@/i18n/client";
+import PeopleCountSelector from "@/app/[lng]/my/booking/_components/PeopleCountSelector";
+import { SlotSelectorWrapper } from "@/app/[lng]/my/booking/_components/SlotSelectorWrapper";
+import StudioSelector from "@/app/[lng]/my/booking/_components/StudioSelector";
+import { ErrorToast } from "@/components/toasts/ErrorToast";
+import { SuccessToast } from "@/components/toasts/SuccessToast";
 
 type Hour = number;
 

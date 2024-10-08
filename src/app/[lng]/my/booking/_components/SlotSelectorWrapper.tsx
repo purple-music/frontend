@@ -1,8 +1,6 @@
-import { getAllBookings } from "@/actions/query/booking";
-import { SlotSelector } from "@/app/[lng]/my/booking/_components/slot-selector";
+import { SlotSelector } from "@/app/[lng]/my/booking/_components/SlotSelector";
 import { Hour } from "@/lib/types";
 import { Booking } from "@prisma/client";
-import { useEffect, useState } from "react";
 
 interface SlotSelectorWrapperProps {
   selectedStudio: string;

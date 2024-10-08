@@ -1,4 +1,4 @@
-import { DayColumn } from "@/app/[lng]/my/view/_components/day-column";
+import { DayColumn } from "@/app/[lng]/my/view/_components/DayColumn";
 import { StudioId } from "@/lib/types";
 import { Booking } from "@prisma/client";
 
