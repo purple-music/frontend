@@ -1,5 +1,6 @@
-import { StudioId } from "@/lib/types";
 import { Booking } from "@prisma/client";
+
+import { StudioId } from "@/lib/types";
 
 export function BookingCell({
   hours,

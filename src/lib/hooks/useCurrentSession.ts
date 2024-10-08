@@ -1,7 +1,7 @@
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 // Define the type for the session state
 type SessionState =

@@ -1,13 +1,14 @@
 "use client";
 
 import React from "react";
-import { registerUser } from "@/actions/mutation/register";
 import { TbLock, TbMail, TbUser } from "react-icons/tb";
-import { RegisterSchema } from "@/schemas/schemas";
-import { useAuthForm } from "@/lib/hooks/useAuthForm";
+
+import { registerUser } from "@/actions/mutation/register";
 import { AuthInputField } from "@/components/auth-card/AuthInputField";
 import AuthForm from "@/components/auth/AuthForm";
 import { useTranslation } from "@/i18n/client";
+import { useAuthForm } from "@/lib/hooks/useAuthForm";
+import { RegisterSchema } from "@/schemas/schemas";
 
 export default function RegisterForm() {
   const { t } = useTranslation(undefined, "auth");

@@ -1,9 +1,12 @@
-import NextAuth, { User, DefaultSession } from "next-auth";
-import authConfig from "@/auth.config";
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import prisma from "@/lib/db";
-import { getUserById } from "@/actions/query/user";
+import NextAuth, { DefaultSession, User } from "next-auth";
+
 import { UserRole } from "@prisma/client";
+
+import { PrismaAdapter } from "@auth/prisma-adapter";
+
+import { getUserById } from "@/actions/query/user";
+import authConfig from "@/auth.config";
+import prisma from "@/lib/db";
 
 declare module "next-auth" {
   /**
@@ -24,8 +27,6 @@ declare module "next-auth" {
     } & DefaultSession["user"];
   }
 }
-
-import { JWT } from "next-auth/jwt";
 
 declare module "next-auth/jwt" {
   /** Returned by the `jwt` callback and `auth`, when using JWT sessions */

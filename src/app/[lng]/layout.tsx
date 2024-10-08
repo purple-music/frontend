@@ -1,11 +1,13 @@
+import { dir } from "i18next";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 import React from "react";
-import { NextAuthProvider } from "@/providers/NextAuthProvider";
-import { auth } from "@/auth";
 import { Toaster } from "sonner";
-import { dir } from "i18next";
+
+import { auth } from "@/auth";
+import { NextAuthProvider } from "@/providers/NextAuthProvider";
+
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 

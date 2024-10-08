@@ -1,13 +1,14 @@
 "use server";
 
+import bcrypt from "bcryptjs";
+import { z } from "zod";
+
 import { getPasswordResetTokenByToken } from "@/actions/query/password-reset-token";
 import { getUserByEmail } from "@/actions/query/user";
+import prisma from "@/lib/db";
 import { ActionResult } from "@/lib/types";
 import { authError, authSuccess } from "@/lib/utils/actions";
 import { NewPasswordSchema, ResetSchema } from "@/schemas/schemas";
-import { z } from "zod";
-import bcrypt from "bcryptjs";
-import prisma from "@/lib/db";
 
 export async function newPassword(
   data: z.infer<typeof NewPasswordSchema>,

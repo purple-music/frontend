@@ -1,5 +1,6 @@
-import { TableHeader } from "@/components/table/TableHeader";
 import { ReactNode } from "react";
+
+import { TableHeader } from "@/components/table/TableHeader";
 
 export function TableContentColumn({
   children,

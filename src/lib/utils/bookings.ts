@@ -1,5 +1,7 @@
-import { Booking } from "@prisma/client";
 import { format } from "date-fns";
+
+import { Booking } from "@prisma/client";
+
 import { hourToDate } from "@/lib/utils/time";
 
 type GroupedBookings = {

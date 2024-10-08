@@ -1,5 +1,8 @@
 "use server";
 
+import { AuthError } from "next-auth";
+import { z } from "zod";
+
 import { generateVerificationToken } from "@/actions/mutation/tokens";
 import { getUserByEmail } from "@/actions/query/user";
 import { signIn } from "@/auth";
@@ -8,8 +11,6 @@ import { ActionResult } from "@/lib/types";
 import { authError, authSuccess } from "@/lib/utils/actions";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { LoginSchema } from "@/schemas/schemas";
-import { AuthError } from "next-auth";
-import { z } from "zod";
 
 export async function authCredentials(
   data: z.infer<typeof LoginSchema>,

@@ -1,6 +1,7 @@
+import React from "react";
+
 import { useTranslation } from "@/i18n/server";
 import { StudioId } from "@/lib/types";
-import React from "react";
 
 export type StudioInfo = {
   name: string;

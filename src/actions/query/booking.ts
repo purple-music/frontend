@@ -1,8 +1,9 @@
 "use server";
 
+import { Booking } from "@prisma/client";
+
 import prisma from "@/lib/db";
 import { dateToHour } from "@/lib/utils/time";
-import { Booking } from "@prisma/client";
 
 export async function getAllBookings(): Promise<Booking[]> {
   return prisma.booking.findMany();

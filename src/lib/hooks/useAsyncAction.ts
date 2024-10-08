@@ -1,5 +1,6 @@
+import { useCallback, useEffect, useState } from "react";
+
 import { ActionResult } from "@/lib/types";
-import { useState, useCallback, useEffect } from "react";
 
 export function useAsyncAction(
   action: () => Promise<ActionResult>,

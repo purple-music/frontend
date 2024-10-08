@@ -1,5 +1,7 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
+
 import { newVerification } from "@/actions/mutation/new-verification";
 import { AuthAlert } from "@/components/auth-card/AuthAlert";
 import { AuthCard } from "@/components/auth-card/AuthCard";
@@ -8,7 +10,6 @@ import { AuthFooterAction } from "@/components/auth-card/AuthFooterAction";
 import { useTranslation } from "@/i18n/client";
 import { useAsyncAction } from "@/lib/hooks/useAsyncAction";
 import { ActionResult } from "@/lib/types";
-import { useSearchParams } from "next/navigation";
 
 export default function NewVerificationForm() {
   const { t } = useTranslation(undefined, "auth");

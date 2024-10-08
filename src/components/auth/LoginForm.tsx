@@ -1,14 +1,15 @@
 "use client";
 
-import React from "react";
-import { authCredentials } from "@/actions/mutation/login";
 import { useSearchParams } from "next/navigation";
+import React from "react";
 import { TbLock, TbMail } from "react-icons/tb";
-import { LoginSchema } from "@/schemas/schemas";
-import { useAuthForm } from "@/lib/hooks/useAuthForm";
+
+import { authCredentials } from "@/actions/mutation/login";
 import { AuthInputField } from "@/components/auth-card/AuthInputField";
 import AuthForm from "@/components/auth/AuthForm";
 import { useTranslation } from "@/i18n/client";
+import { useAuthForm } from "@/lib/hooks/useAuthForm";
+import { LoginSchema } from "@/schemas/schemas";
 
 export default function LoginForm() {
   const searchParams = useSearchParams();

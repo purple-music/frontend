@@ -1,5 +1,5 @@
-import { NextMiddleware, NextRequest } from "next/server";
 import { Session } from "next-auth";
+import { NextMiddleware, NextRequest } from "next/server";
 
 export type MiddlewareFactory = (middleware: NextMiddleware) => NextMiddleware;
 

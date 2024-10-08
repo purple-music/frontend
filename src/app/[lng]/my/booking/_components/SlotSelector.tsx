@@ -1,12 +1,14 @@
-import React, { useState } from "react";
-import { Hour } from "@/lib/types";
 import { addDays, startOfDay } from "date-fns";
+import React, { useState } from "react";
+import { TbCaretLeftFilled, TbCaretRightFilled } from "react-icons/tb";
+
 import { Booking } from "@prisma/client";
+
+import { BookingTable } from "@/app/[lng]/my/booking/_components/BookingTable";
 import { StartDaySelector } from "@/app/[lng]/my/booking/_components/StartDaySelector";
 import { getPriceRate } from "@/app/[lng]/my/booking/_data/prices";
-import { BookingTable } from "@/app/[lng]/my/booking/_components/BookingTable";
-import { TbCaretLeftFilled, TbCaretRightFilled } from "react-icons/tb";
 import { useTranslation } from "@/i18n/server";
+import { Hour } from "@/lib/types";
 
 interface SlotSelectorProps {
   selectedStudio: string;

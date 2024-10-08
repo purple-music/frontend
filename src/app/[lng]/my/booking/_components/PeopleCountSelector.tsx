@@ -1,5 +1,6 @@
-import { useTranslation } from "@/i18n/server";
 import React from "react";
+
+import { useTranslation } from "@/i18n/server";
 
 interface PeopleCountSelectorProps {
   peopleCount: number;

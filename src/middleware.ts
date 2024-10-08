@@ -1,8 +1,9 @@
+import NextAuth from "next-auth";
+import { NextResponse } from "next/server";
+
 import authConfig from "@/auth.config";
 import { authMiddleware } from "@/lib/middlewares/auth";
 import { i18nMiddleware } from "@/lib/middlewares/i18n";
-import NextAuth from "next-auth";
-import { NextResponse } from "next/server";
 
 const { auth } = NextAuth(authConfig);
 export default auth(async (req, _next) => {

@@ -1,13 +1,14 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { TbLock } from "react-icons/tb";
-import { useAuthForm } from "@/lib/hooks/useAuthForm";
-import { NewPasswordSchema } from "@/schemas/schemas";
+
+import { newPassword } from "@/actions/mutation/new-password";
 import { AuthInputField } from "@/components/auth-card/AuthInputField";
 import AuthForm from "@/components/auth/AuthForm";
-import { useSearchParams } from "next/navigation";
-import { newPassword } from "@/actions/mutation/new-password";
 import { useTranslation } from "@/i18n/client";
+import { useAuthForm } from "@/lib/hooks/useAuthForm";
+import { NewPasswordSchema } from "@/schemas/schemas";
 
 export function NewPasswordForm() {
   const { t } = useTranslation(undefined, "auth");

@@ -1,6 +1,7 @@
+import { Booking } from "@prisma/client";
+
 import { SlotSelector } from "@/app/[lng]/my/booking/_components/SlotSelector";
 import { Hour } from "@/lib/types";
-import { Booking } from "@prisma/client";
 
 interface SlotSelectorWrapperProps {
   selectedStudio: string;

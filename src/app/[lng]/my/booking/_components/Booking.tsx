@@ -1,23 +1,25 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { makeOrder } from "@/actions/mutation/make-order";
-import { MakeOrderSchema } from "@/schemas/schemas";
-import { StudioId } from "@/lib/types";
-import { getPriceRate } from "@/app/[lng]/my/booking/_data/prices";
 import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { getAllBookings } from "@/actions/query/booking";
+import * as z from "zod";
+
 import { type Booking } from "@prisma/client";
-import { useTranslation } from "@/i18n/client";
+
+import { makeOrder } from "@/actions/mutation/make-order";
+import { getAllBookings } from "@/actions/query/booking";
 import PeopleCountSelector from "@/app/[lng]/my/booking/_components/PeopleCountSelector";
 import { SlotSelectorWrapper } from "@/app/[lng]/my/booking/_components/SlotSelectorWrapper";
 import StudioSelector from "@/app/[lng]/my/booking/_components/StudioSelector";
+import { getPriceRate } from "@/app/[lng]/my/booking/_data/prices";
 import { ErrorToast } from "@/components/toasts/ErrorToast";
 import { SuccessToast } from "@/components/toasts/SuccessToast";
+import { useTranslation } from "@/i18n/client";
+import { StudioId } from "@/lib/types";
+import { MakeOrderSchema } from "@/schemas/schemas";
 
 type Hour = number;
 

@@ -1,15 +1,16 @@
 "use server";
 
-import prisma from "@/lib/db";
-import { RegisterSchema } from "@/schemas/schemas";
 import bcrypt from "bcryptjs";
-import { getUserByEmail } from "@/actions/query/user";
-import { generateVerificationToken } from "@/actions/mutation/tokens";
-import { ActionResult } from "@/lib/types";
-import { sendVerificationEmail } from "@/lib/mail";
 import { z } from "zod";
-import { authError, authSuccess } from "@/lib/utils/actions";
+
+import { generateVerificationToken } from "@/actions/mutation/tokens";
+import { getUserByEmail } from "@/actions/query/user";
 import { getVerificationTokenByEmail } from "@/actions/query/verification-token";
+import prisma from "@/lib/db";
+import { sendVerificationEmail } from "@/lib/mail";
+import { ActionResult } from "@/lib/types";
+import { authError, authSuccess } from "@/lib/utils/actions";
+import { RegisterSchema } from "@/schemas/schemas";
 
 // Helper function to send verification email
 async function sendVerification(email: string): Promise<void> {
