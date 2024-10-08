@@ -72,7 +72,7 @@ export function Booking() {
     if (result.type === "success") {
       toast.custom(() => (
         <SuccessToast>
-          <span>t("booking.post-action.success")</span>
+          <span>{t("booking.post-action.success")}</span>
         </SuccessToast>
       ));
       refreshBookings();
