@@ -2,7 +2,6 @@
 
 import { logout } from "@/actions/mutation/logout";
 import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
-import { useSession } from "next-auth/react";
 
 export function CurrentUser() {
   const { session, status } = useCurrentSession();

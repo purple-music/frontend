@@ -1,8 +1,9 @@
+import acceptLanguage from "accept-language";
+import { NextResponse } from "next/server";
+
 import { cookieName, fallbackLng, languages } from "@/i18n/settings";
 import { NextAuthRequest } from "@/lib/middlewares/types";
 import { noLngRoutes } from "@/routes";
-import { NextResponse } from "next/server";
-import acceptLanguage from "accept-language";
 
 acceptLanguage.languages(languages);
 

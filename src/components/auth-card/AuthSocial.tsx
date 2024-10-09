@@ -1,6 +1,7 @@
+import { FaYandex } from "react-icons/fa6";
+
 import { authYandex } from "@/actions/mutation/login";
 import { useTranslation } from "@/i18n/client";
-import { FaYandex } from "react-icons/fa6";
 
 export function YandexButton() {
   const { t } = useTranslation(undefined, "auth");

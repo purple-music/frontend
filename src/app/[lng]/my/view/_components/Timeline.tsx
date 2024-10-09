@@ -1,5 +1,10 @@
 "use client";
 
+import { add, addDays, format, startOfDay } from "date-fns";
+import { useEffect, useState } from "react";
+
+import { Booking } from "@prisma/client";
+
 import { getAllBookings } from "@/actions/query/booking";
 import { DayView } from "@/app/[lng]/my/view/_components/DayView";
 import { Table } from "@/components/table/Table";
@@ -9,9 +14,6 @@ import { TablePrefix } from "@/components/table/TablePrefix";
 import { TableTimeColumn } from "@/components/table/TableTimeColumn";
 import { StudioId } from "@/lib/types";
 import { dateToHour, hourToDate } from "@/lib/utils/time";
-import { Booking } from "@prisma/client";
-import { addDays, format, startOfDay, add } from "date-fns";
-import { useState, useEffect } from "react";
 
 export function TimelineContent({
   days,

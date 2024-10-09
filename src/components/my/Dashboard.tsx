@@ -1,11 +1,13 @@
-import { Booking } from "@prisma/client";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
-import { hourToDate } from "@/lib/utils/time";
-import { groupBookingsByDay } from "@/lib/utils/bookings";
+import { TbPencil, TbSquareRoundedMinus } from "react-icons/tb";
+
+import { Booking } from "@prisma/client";
+
 import { PseudoLine } from "@/components/PseudoLine";
 import { StudioId } from "@/lib/types";
-import { TbPencil, TbSquareRoundedMinus } from "react-icons/tb";
+import { groupBookingsByDay } from "@/lib/utils/bookings";
+import { hourToDate } from "@/lib/utils/time";
 
 type GroupedBookings = {
   [date: string]: Booking[]; // Key is the date in yyyy-MM-dd format, value is array of bookings for that day

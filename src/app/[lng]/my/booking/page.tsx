@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
+
 import { Booking } from "@/app/[lng]/my/booking/_components/Booking";
 import { PageWrapper } from "@/components/my/PageWrapper";
 import { useTranslation } from "@/i18n/client";
+import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
 
 function BookingWrapper() {
   const { session, status } = useCurrentSession();

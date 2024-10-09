@@ -1,7 +1,8 @@
 "use server";
 
-import prisma from "@/lib/db";
 import { v4 as uuidv4 } from "uuid";
+
+import prisma from "@/lib/db";
 
 export async function generateVerificationToken(email: string) {
   const expires = new Date(Date.now() + 3600 * 1000); // one hour from now

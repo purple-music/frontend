@@ -1,12 +1,13 @@
 "use server";
 
+import { z } from "zod";
+
 import { generatePasswordResetToken } from "@/actions/mutation/tokens";
 import { getUserByEmail } from "@/actions/query/user";
 import { sendPasswordResetEmail } from "@/lib/mail";
 import { ActionResult } from "@/lib/types";
 import { authError, authSuccess } from "@/lib/utils/actions";
 import { ResetSchema } from "@/schemas/schemas";
-import { z } from "zod";
 
 export async function resetPassword(
   data: z.infer<typeof ResetSchema>,

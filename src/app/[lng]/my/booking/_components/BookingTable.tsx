@@ -1,3 +1,7 @@
+import { add, addDays, format, startOfDay } from "date-fns";
+
+import { Booking } from "@prisma/client";
+
 import { Table } from "@/components/table/Table";
 import { TableCell } from "@/components/table/TableCell";
 import { TableContent } from "@/components/table/TableContent";
@@ -6,8 +10,6 @@ import { TablePrefix } from "@/components/table/TablePrefix";
 import { TableTimeColumn } from "@/components/table/TableTimeColumn";
 import { Hour } from "@/lib/types";
 import { dateToHour } from "@/lib/utils/time";
-import { Booking } from "@prisma/client";
-import { startOfDay, add, addDays, format } from "date-fns";
 
 export function BookingTable({
   days,

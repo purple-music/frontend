@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
-import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
-import { PageWrapper } from "@/components/my/PageWrapper";
+
 import { View } from "@/app/[lng]/my/view/_components/View";
+import { PageWrapper } from "@/components/my/PageWrapper";
 import { useTranslation } from "@/i18n/client";
+import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
 
 function ViewWrapper() {
   const { session, status } = useCurrentSession();

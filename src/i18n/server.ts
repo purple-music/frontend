@@ -1,6 +1,7 @@
-import { createInstance, i18n, InitOptions, TFunction } from "i18next";
+import { InitOptions, TFunction, createInstance, i18n } from "i18next";
 import resourcesToBackend from "i18next-resources-to-backend";
 import { initReactI18next } from "react-i18next/initReactI18next";
+
 import { getOptions } from "./settings";
 
 // Define the types for the initI18next function parameters

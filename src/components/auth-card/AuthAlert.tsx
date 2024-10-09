@@ -1,5 +1,6 @@
-import { ActionResult } from "@/lib/types";
 import { TbExclamationCircle, TbRosetteDiscountCheck } from "react-icons/tb";
+
+import { ActionResult } from "@/lib/types";
 
 export function AuthAlert({ result }: { result: ActionResult }) {
   const isSuccess = result.type === "success";

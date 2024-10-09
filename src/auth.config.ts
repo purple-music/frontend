@@ -1,11 +1,10 @@
-import { getUserByEmail } from "@/actions/query/user";
+import bcrypt from "bcryptjs";
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
-import { LoginSchema } from "@/schemas/schemas";
 import Yandex from "next-auth/providers/yandex";
-import VK from "next-auth/providers/vk";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+
+import { getUserByEmail } from "@/actions/query/user";
+import { LoginSchema } from "@/schemas/schemas";
 
 export default {
   pages: {

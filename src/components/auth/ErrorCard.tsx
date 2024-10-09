@@ -1,8 +1,9 @@
+import { FaExclamationTriangle } from "react-icons/fa";
+
 import { AuthCard } from "@/components/auth-card/AuthCard";
 import { AuthCardTitle } from "@/components/auth-card/AuthCardTitile";
 import { AuthFooterAction } from "@/components/auth-card/AuthFooterAction";
 import { useTranslation } from "@/i18n/server";
-import { FaExclamationTriangle } from "react-icons/fa";
 
 export async function ErrorCard() {
   const { t } = await useTranslation(undefined, "auth");

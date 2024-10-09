@@ -1,6 +1,7 @@
+import { Booking } from "@prisma/client";
+
 import { BookingCell } from "@/app/[lng]/my/view/_components/BookingCell";
 import { StudioId } from "@/lib/types";
-import { Booking } from "@prisma/client";
 
 const getColor = (studio: StudioId) => {
   switch (studio) {

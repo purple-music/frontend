@@ -1,5 +1,6 @@
-import { useTranslation } from "@/i18n/server";
 import Link from "next/link";
+
+import { useTranslation } from "@/i18n/server";
 
 function ServiceCard({
   imageSrc,

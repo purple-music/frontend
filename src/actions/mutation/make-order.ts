@@ -1,12 +1,14 @@
 "use server";
 
+import { z } from "zod";
+
+import { Order } from "@prisma/client";
+
 import { auth } from "@/auth";
 import prisma from "@/lib/db";
-import { error, Result, success } from "@/lib/utils/result";
+import { Result, error, success } from "@/lib/utils/result";
 import { dateToHour, hourToDate } from "@/lib/utils/time";
 import { MakeOrderSchema } from "@/schemas/schemas";
-import { Order } from "@prisma/client";
-import { z } from "zod";
 
 export async function makeOrder(
   data: z.infer<typeof MakeOrderSchema>,

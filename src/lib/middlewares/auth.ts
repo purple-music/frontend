@@ -1,10 +1,10 @@
 import { languages } from "@/i18n/settings";
 import { NextAuthRequest } from "@/lib/middlewares/types";
 import {
-  apiAuthPrefix,
-  publicRoutes,
-  authRoutes,
   DEFAULT_LOGIN_REDIRECT,
+  apiAuthPrefix,
+  authRoutes,
+  publicRoutes,
 } from "@/routes";
 
 function removeLngFromPath(path: string) {
