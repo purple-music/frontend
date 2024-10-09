@@ -1,4 +1,6 @@
 import NextAuth, { DefaultSession, User } from "next-auth";
+// Do not remove this import, otherwise it will break the typechecker
+import { JWT } from "next-auth/jwt";
 
 import { UserRole } from "@prisma/client";
 
@@ -28,7 +30,6 @@ declare module "next-auth" {
   }
 }
 
-// @ts-ignore
 declare module "next-auth/jwt" {
   /** Returned by the `jwt` callback and `auth`, when using JWT sessions */
   interface JWT {
@@ -83,7 +84,6 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
 
       if (token.role && session.user) {
         session.user.role = token.role;
-        // session.user.role = token.role;
       }
       return session;
     },
