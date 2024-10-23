@@ -7,7 +7,7 @@ import { Toaster } from "sonner";
 import { auth } from "@/auth";
 import { NextAuthProvider } from "@/providers/NextAuthProvider";
 
-import "./globals.css";
+import "./tailwind.css";
 
 const inter = Inter({ subsets: ["latin"] });
 

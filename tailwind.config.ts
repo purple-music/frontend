@@ -23,5 +23,6 @@ const config: Config = {
   daisyui: {
     themes: ["fantasy"],
   },
+  darkMode: ["class", "[data-mode=dark]"],
 };
 export default config;
