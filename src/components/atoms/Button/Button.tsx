@@ -5,11 +5,12 @@ import Typography from "@/components/atoms/Typography/Typograhy";
 
 interface Button {
   label: string;
-  onClick: () => void;
+  onClick?: () => void;
   disabled?: boolean;
   variant?: "filled" | "tonal" | "elevated" | "outlined" | "text";
   startIcon?: ReactNode;
   endIcon?: ReactNode;
+  className?: string;
 }
 
 const Button = ({
@@ -19,6 +20,7 @@ const Button = ({
   variant = "filled",
   startIcon,
   endIcon,
+  className,
 }: Button) => {
   return (
     <button
@@ -40,6 +42,7 @@ const Button = ({
         startIcon && "pl-4",
         endIcon && "pr-4",
         disabled && "opacity-50 cursor-not-allowed",
+        className,
       )}
     >
       {startIcon}
