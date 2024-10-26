@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
+import { FaMusic } from "react-icons/fa6";
 
 import Button from "./Button";
 
@@ -48,3 +49,12 @@ export const Text: Story = {
     label: "Button",
   },
 };
+
+export const StartIcon: Story = {
+  args: {
+    startIcon: <FaMusic />,
+    variant: "filled",
+    label: "Button",
+  },
+};
+

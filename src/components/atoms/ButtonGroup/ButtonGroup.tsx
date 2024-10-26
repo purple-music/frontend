@@ -2,6 +2,9 @@ import clsx from "clsx";
 import { set } from "date-fns";
 import { useState } from "react";
 
+import ButtonBase from "../ButtonBase/ButtonBase";
+import Typography from "../Typography/Typograhy";
+
 interface GroupItemProps {
   label: string;
   onClick: () => void;
@@ -18,8 +21,6 @@ const GroupItem = ({ label, onClick, selected, position }: GroupItemProps) => {
         {
           "bg-secondary-container text-on-secondary-container": selected,
           "text-on-surface": !selected,
-          "rounded-l-full": position === "first",
-          "rounded-r-full": position === "last",
         },
       )}
     >
@@ -50,23 +51,40 @@ const ButtonGroup = ({ buttons, defaultValue, onClick }: ButtonGroupProps) => {
         const isSelected = value === selected;
 
         return (
-          <GroupItem
+          <ButtonBase
             key={value}
-            label={label}
             onClick={() => handleClick(value)}
-            selected={isSelected}
-            position={
-              index === 0
-                ? "first"
-                : index === buttons.length - 1
-                  ? "last"
-                  : "middle"
-            }
-          />
+            className={clsx({
+              "bg-secondary-container text-on-secondary-container enabled:hover:brightness-90 focus:outline-secondary z-10":
+                isSelected,
+              "bg-transparent text-on-surface enabled:hover:bg-primary-container focus:outline-primary":
+                !isSelected,
+            })}
+          >
+            <Typography variant="label" size={"large"} component="span">
+              {label}
+            </Typography>
+          </ButtonBase>
         );
+        // return (
+        //   <GroupItem
+        //     key={value}
+        //     label={label}
+        //     onClick={() => handleClick(value)}
+        //     selected={isSelected}
+        //     position={
+        //       index === 0
+        //         ? "first"
+        //         : index === buttons.length - 1
+        //           ? "last"
+        //           : "middle"
+        //     }
+        //   />
+        // );
       })}
     </div>
   );
 };
 
 export default ButtonGroup;
+
