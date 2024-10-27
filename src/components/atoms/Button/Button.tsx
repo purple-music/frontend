@@ -1,61 +1,70 @@
-import clsx from "clsx";
+import { clsx } from "clsx";
 import { ReactNode } from "react";
 
-import Typography from "@/components/atoms/Typography/Typograhy";
+import ButtonBase from "@/components/atoms/ButtonBase/ButtonBase";
+import Typography from "@/components/atoms/Typography/Typography";
 
-import ButtonBase from "../ButtonBase/ButtonBase";
+// Define button variants as a const to enable type inference
+const BUTTON_VARIANTS = {
+  filled:
+    "bg-primary text-on-primary enabled:hover:brightness-90 focus:outline-primary-container",
+  tonal:
+    "bg-secondary-container text-on-secondary-container enabled:hover:brightness-90 focus:outline-secondary",
+  elevated:
+    "bg-surface-container-low text-primary border border-outline enabled:hover:brightness-90 focus:outline-primary-container box-border",
+  outlined:
+    "bg-transparent text-primary border border-outline enabled:hover:bg-primary-container focus:outline-primary-container box-border",
+  text: "bg-transparent text-primary enabled:hover:bg-primary-container focus:outline-primary-container",
+} as const;
+
+// Create type from the object keys
+type ButtonVariant = keyof typeof BUTTON_VARIANTS;
 
 interface ButtonProps {
-  label?: string;
+  /** The text content of the button */
+  label: string;
+  /** Optional click handler */
   onClick?: () => void;
+  /** Whether the button is disabled */
   disabled?: boolean;
-  variant?: "filled" | "tonal" | "elevated" | "outlined" | "text";
+  /** The visual style variant of the button */
+  variant?: ButtonVariant;
+  /** Icon to display before the label */
   startIcon?: ReactNode;
+  /** Icon to display after the label */
   endIcon?: ReactNode;
-  className?: string; // TODO: instead of doing this, make IconButton use ButtonBase instead?
-  squared?: boolean;
+  /** Additional CSS classes */
+  className?: string;
 }
 
 const Button = ({
-  label: children,
+  label,
   onClick,
   disabled = false,
   variant = "filled",
   startIcon,
   endIcon,
   className,
-  squared,
 }: ButtonProps) => {
+  const variantClasses = BUTTON_VARIANTS[variant];
+
+  const buttonClasses = clsx(
+    variantClasses,
+    disabled && "opacity-50 cursor-not-allowed",
+    className,
+  );
+
   return (
     <ButtonBase
-      startIcon={startIcon}
-      endIcon={endIcon}
       onClick={onClick}
       disabled={disabled}
-      squared={squared}
-      className={clsx(
-        {
-          filled:
-            "bg-primary text-on-primary enabled:hover:brightness-90 outline-primary",
-          tonal:
-            "bg-secondary-container text-on-secondary-container enabled:hover:brightness-90 outline-secondary",
-          elevated:
-            "bg-surface-container-low text-primary border border-outline enabled:hover:brightness-90 outline-primary box-border",
-          outlined:
-            "bg-transparent text-primary border border-outline enabled:hover:bg-primary-container outline-primary box-border",
-          text: "bg-transparent text-primary enabled:hover:bg-primary-container outline-primary",
-        }[variant],
-        className,
-      )}
+      className={buttonClasses}
+      startIcon={startIcon}
+      endIcon={endIcon}
     >
-      {children && (
-        <Typography variant="labelBold" size={"large"} component="span">
-          {children}
-        </Typography>
-      )}
+      <Typography variant="labelBold">{label}</Typography>
     </ButtonBase>
   );
 };
 
 export default Button;
-

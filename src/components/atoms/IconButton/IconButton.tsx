@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 import Button from "../Button/Button";
 import ButtonBase from "../ButtonBase/ButtonBase";
-import Typography from "../Typography/Typograhy";
+import Typography from "../Typography/Typography";
 
 interface IconButtonProps {
   onClick?: () => void;
@@ -32,4 +32,3 @@ const IconButton = ({
 };
 
 export default IconButton;
-
