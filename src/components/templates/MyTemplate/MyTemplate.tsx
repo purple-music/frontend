@@ -1,14 +1,18 @@
 import { Content } from "next/font/google";
 import Image from "next/image";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { FaBook, FaMusic } from "react-icons/fa";
 import { FaHouse } from "react-icons/fa6";
 
+import Typography from "@/components/atoms/Typography/Typography";
 import Sidebar from "@/components/organisms/Sidebar/Sidebar";
 
-interface MyTemplateProps {}
+interface MyTemplateProps {
+  children: ReactNode;
+}
 
-const MyTemplate = ({}: MyTemplateProps) => {
+const MyTemplate = ({ children }: MyTemplateProps) => {
+  const [page, setPage] = useState<"home" | "library" | "search">("home");
   const buttons = [
     { label: "Home", value: "home", icon: <FaHouse size={20} /> },
     { label: "Library", value: "library", icon: <FaBook size={20} /> },
@@ -26,11 +30,15 @@ const MyTemplate = ({}: MyTemplateProps) => {
         onClick={onClick}
       />
 
-      <main className="h-full bg-surface-container-lowest flex-1 p-8 rounded-[28px]">
-        Content
+      <main className="h-full bg-surface-container-lowest flex-1 p-8 rounded-[28px] flex flex-col gap-8 justify-start items-start">
+        <Typography variant="headline" size="large">
+          {page}
+        </Typography>
+        {children}
       </main>
     </div>
   );
 };
 
 export default MyTemplate;
+
