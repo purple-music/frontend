@@ -21,7 +21,7 @@ const Navbar = ({ buttons, defaultValue, onClick }: NavbarProps) => {
   };
 
   return (
-    <nav className="inline-flex items-center justify-center flex-col rounded-[28px] bg-surface-container-low w-96">
+    <nav className="inline-flex items-center justify-center flex-col rounded-[28px] bg-surface-container w-96">
       {buttons.map(({ label, value }, index) => (
         <NavbarItem
           icon={buttons[index].icon}
