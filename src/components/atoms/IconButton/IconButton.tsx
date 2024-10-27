@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { ReactNode } from "react";
 
-import Button from "../Button/Button";
+import Button, { BUTTON_VARIANTS } from "../Button/Button";
 import ButtonBase from "../ButtonBase/ButtonBase";
 import Typography from "../Typography/Typography";
 
@@ -9,26 +9,32 @@ interface IconButtonProps {
   onClick?: () => void;
   disabled?: boolean;
   variant?: "filled" | "tonal" | "elevated" | "outlined" | "text";
-  icon?: ReactNode;
-  className?: string;
+  children?: ReactNode;
 }
 
 const IconButton = ({
   onClick,
   disabled = false,
   variant = "filled",
-  icon,
-  className,
+  children,
 }: IconButtonProps) => {
+  const variantClasses = BUTTON_VARIANTS[variant];
+
+  const buttonClasses = clsx(
+    variantClasses,
+    disabled && "opacity-50 cursor-not-allowed",
+  );
+
   return (
-    <Button
-      startIcon={icon}
+    <ButtonBase
       onClick={onClick}
       disabled={disabled}
-      squared={true}
-      variant={variant}
-    ></Button>
+      className={buttonClasses}
+      startIcon={children}
+      width={"squared"}
+    ></ButtonBase>
   );
 };
 
 export default IconButton;
+

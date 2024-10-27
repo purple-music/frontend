@@ -5,20 +5,20 @@ import ButtonBase from "@/components/atoms/ButtonBase/ButtonBase";
 import Typography from "@/components/atoms/Typography/Typography";
 
 // Define button variants as a const to enable type inference
-const BUTTON_VARIANTS = {
+export const BUTTON_VARIANTS = {
   filled:
-    "bg-primary text-on-primary enabled:hover:brightness-90 focus:outline-primary-container",
+    "bg-primary text-on-primary enabled:hover:brightness-90 focus:outline-primary",
   tonal:
     "bg-secondary-container text-on-secondary-container enabled:hover:brightness-90 focus:outline-secondary",
   elevated:
-    "bg-surface-container-low text-primary border border-outline enabled:hover:brightness-90 focus:outline-primary-container box-border",
+    "bg-surface-container-low text-primary border border-outline enabled:hover:brightness-90 focus:outline-primary box-border",
   outlined:
-    "bg-transparent text-primary border border-outline enabled:hover:bg-primary-container focus:outline-primary-container box-border",
-  text: "bg-transparent text-primary enabled:hover:bg-primary-container focus:outline-primary-container",
+    "bg-transparent text-primary border border-outline enabled:hover:bg-primary-container focus:outline-primary box-border",
+  text: "bg-transparent text-primary enabled:hover:bg-primary-container focus:outline-primary",
 } as const;
 
 // Create type from the object keys
-type ButtonVariant = keyof typeof BUTTON_VARIANTS;
+export type ButtonVariant = keyof typeof BUTTON_VARIANTS;
 
 interface ButtonProps {
   /** The text content of the button */
@@ -68,3 +68,4 @@ const Button = ({
 };
 
 export default Button;
+
