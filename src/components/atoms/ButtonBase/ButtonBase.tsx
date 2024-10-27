@@ -90,7 +90,6 @@ const ButtonBase = ({
       {startIcon}
       {children}
       {endIcon}
-      {BUTTON_PADDINGS[size]}
     </button>
   );
 };
