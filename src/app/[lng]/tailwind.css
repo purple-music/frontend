@@ -53,6 +53,21 @@
     --md-sys-color-surface-container: rgb(242 236 244);
     --md-sys-color-surface-container-high: rgb(236 230 238);
     --md-sys-color-surface-container-highest: rgb(230 225 233);
+
+    --extended-color-brand-purple: #6F528A;
+    --extended-color-brand-on-purple: #FFFFFF;
+    --extended-color-brand-purple-container: #F0DBFF;
+    --extended-color-brand-on-purple-container: #280D42;
+
+    --extended-color-brand-orange: #8D4E2A;
+    --extended-color-brand-on-orange: #FFFFFF;
+    --extended-color-brand-orange-container: #FFDBCA;
+    --extended-color-brand-on-orange-container: #341100;
+
+    --extended-color-brand-blue: #445E91;
+    --extended-color-brand-on-blue: #FFFFFF;
+    --extended-color-brand-blue-container: #D8E2FF;
+    --extended-color-brand-on-blue-container: #001A42;
   }
 
   :root[class~="dark"] {
@@ -105,5 +120,20 @@
     --md-sys-color-surface-container: rgb(33 31 36);
     --md-sys-color-surface-container-high: rgb(43 41 47);
     --md-sys-color-surface-container-highest: rgb(54 52 58);
+
+    --extended-color-brand-purple: #DBB9F9;
+    --extended-color-brand-on-purple: #3E2458;
+    --extended-color-brand-purple-container: #563B70;
+    --extended-color-brand-on-purple-container: #F0DBFF;
+
+    --extended-color-brand-orange: #FFB690;
+    --extended-color-brand-on-orange: #542202;
+    --extended-color-brand-orange-container: #703715;
+    --extended-color-brand-on-orange-container: #FFDBCA;
+
+    --extended-color-brand-blue: #ADC6FF;
+    --extended-color-brand-on-blue: #112F60;
+    --extended-color-brand-blue-container: #2B4678;
+    --extended-color-brand-on-blue-container: #D8E2FF;
   }
 }
