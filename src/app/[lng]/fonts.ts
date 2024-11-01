@@ -9,4 +9,5 @@ export const balsamiqSans = Balsamiq_Sans({
 export const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  weight: ["500"],
 });

@@ -85,18 +85,21 @@ const styles = {
       lineHeight: "1.25rem",
       fontSize: "14px",
       letterSpacing: "0.1px",
+      fontWeight: "500",
     },
     medium: {
       height: "1rem",
       lineHeight: "1rem",
       fontSize: "12px",
       letterSpacing: "0.5px",
+      fontWeight: "500",
     },
     small: {
       height: "1rem",
       lineHeight: "1rem",
       fontSize: "11px",
       letterSpacing: "0.5px",
+      fontWeight: "500",
     },
   },
   labelBold: {
