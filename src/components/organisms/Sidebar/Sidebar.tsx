@@ -22,7 +22,7 @@ const Sidebar = ({ buttons, defaultValue, onClick }: SidebarProps) => {
           height={0}
           src="/logo.webp"
           alt="Logo"
-          className={"w-full h-64 rounded-[28px] object-cover"}
+          className={"w-full h-64 rounded-[32px] object-cover"}
         />
         <Navbar
           buttons={buttons}

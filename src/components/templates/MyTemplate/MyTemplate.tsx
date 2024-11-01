@@ -30,7 +30,7 @@ const MyTemplate = ({ children }: MyTemplateProps) => {
         onClick={onClick}
       />
 
-      <main className="h-full bg-surface-container-lowest flex-1 p-8 rounded-[28px] flex flex-col gap-8 justify-start items-start">
+      <main className="h-full bg-surface-container-lowest flex-1 p-8 rounded-[32px] flex flex-col gap-8 justify-start items-start">
         <Typography variant="headline" size="large">
           {page}
         </Typography>

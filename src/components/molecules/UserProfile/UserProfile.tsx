@@ -16,7 +16,7 @@ const UserProfile = ({ profilePicture, name, email }: UserProfileProps) => {
     <div
       className={clsx(
         "flex items-start gap-4",
-        "bg-surface-container-high rounded-[28px] p-4",
+        "bg-surface-container-high rounded-[32px] p-4",
       )}
     >
       <div className="w-16 h-16 rounded-full">{profilePicture}</div>
