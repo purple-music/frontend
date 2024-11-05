@@ -10,6 +10,7 @@ interface IconButtonProps {
   disabled?: boolean;
   variant?: "filled" | "tonal" | "elevated" | "outlined" | "text";
   children?: ReactNode;
+  size?: "sm" | "md";
 }
 
 const IconButton = ({
@@ -17,6 +18,7 @@ const IconButton = ({
   disabled = false,
   variant = "filled",
   children,
+  size = "md",
 }: IconButtonProps) => {
   const variantClasses = BUTTON_VARIANTS[variant];
 
@@ -32,6 +34,7 @@ const IconButton = ({
       className={buttonClasses}
       startIcon={children}
       width={"squared"}
+      size={size}
     ></ButtonBase>
   );
 };
