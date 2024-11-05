@@ -122,7 +122,7 @@ const PersonalBookings = ({ date }: PersonalBookingsProps) => {
                 <IconButton variant="text">
                   <FaPencil size={20} />
                 </IconButton>
-                <IconButton variant="filled">
+                <IconButton variant="danger">
                   <FaTrash size={20} />
                 </IconButton>
               </div>
