@@ -1,6 +1,21 @@
+import { ReactNode } from "react";
+import { FaEdit, FaPlus } from "react-icons/fa";
+import {
+  FaArrowDown,
+  FaChevronDown,
+  FaPencil,
+  FaPeopleGroup,
+  FaPerson,
+  FaRegClock,
+  FaTrash,
+} from "react-icons/fa6";
+
+import Divider from "@/components/atoms/Divider/Divider";
+import IconButton from "@/components/atoms/IconButton/IconButton";
+import IconLabel from "@/components/atoms/IconLabel/IconLabel";
 import PseudoLine from "@/components/atoms/PseudoLine/PseudoLine";
 import Typography from "@/components/atoms/Typography/Typography";
-import { StudioId } from "@/lib/types";
+import { Hour, StudioId } from "@/lib/types";
 
 type PersonalBooking = {
   studio: StudioId;
@@ -24,6 +39,47 @@ const PersonalBooking = ({ booking }: PersonalBookingProps) => {
   );
 };
 
+type IconLabel = {
+  icon: ReactNode;
+  label: string;
+};
+
+interface InfoRibbonProps {
+  startHour: Hour;
+  endHour: Hour;
+  totalPeopleFrom: number;
+  totalPeopleTo: number;
+}
+
+const InfoRibbon = ({
+  startHour,
+  endHour,
+  totalPeopleFrom,
+  totalPeopleTo,
+}: InfoRibbonProps) => {
+  return (
+    <div className="h-6 items-center flex">
+      <IconLabel
+        icon={<FaRegClock size={20} />}
+        label={`${startHour} - ${endHour}`}
+      />
+      <Divider direction="vertical" />
+      <IconLabel
+        icon={<FaPerson size={20} />}
+        label={`${totalPeopleFrom} - ${totalPeopleTo}`}
+      />
+      <Divider direction="vertical" />
+      <IconButton variant="outlined" size="sm">
+        <FaPlus size={14} />
+      </IconButton>
+      <Divider direction="vertical" />
+      <IconButton variant="filled" size="sm">
+        <FaChevronDown size={14} />
+      </IconButton>
+    </div>
+  );
+};
+
 interface PersonalBookingsProps {
   date: Date;
   bookings: PersonalBooking[];
@@ -32,18 +88,45 @@ interface PersonalBookingsProps {
 const PersonalBookings = ({ date }: PersonalBookingsProps) => {
   return (
     <div className="w-full flex flex-col bg-surface-container-low rounded-[32px] p-4 gap-4">
-      <div className="w-full justify-between flex">
-        <Typography variant="title">{date.toDateString()}</Typography>
-        <div>Time, People, Button</div>
+      <div className="w-full justify-between flex items-center px-2 h-12">
+        <Typography variant="headline" size="small">
+          {date.toDateString()}
+        </Typography>
+        <InfoRibbon
+          startHour={9}
+          endHour={12}
+          totalPeopleFrom={1}
+          totalPeopleTo={2}
+        />
       </div>
 
       <div className="w-full gap-4 flex flex-col">
         {["Orange", "Purple", "Blue"].map((name) => (
           <div
             key={name}
-            className="w-full bg-surface-container-lowest h-10 items-center flex rounded-[16px]"
+            className="w-full bg-surface-container-lowest h-20 items-center rounded-[16px] p-4 flex justify-between flex-row"
           >
-            <Typography variant="label">{name}</Typography>
+            <PseudoLine color="bg-brand-orange-container">
+              <Typography variant="body" size="large">
+                {name} Studio
+              </Typography>
+            </PseudoLine>
+            <div className="flex items-center">
+              <div className="flex items-center h-6">
+                <IconLabel icon={<FaRegClock size={20} />} label="09:00" />
+                <Divider direction="vertical" />
+                <IconLabel icon={<FaPerson size={20} />} label="2" />
+                <Divider direction="vertical" />
+              </div>
+              <div className="flex gap-2">
+                <IconButton variant="text">
+                  <FaPencil size={20} />
+                </IconButton>
+                <IconButton variant="filled">
+                  <FaTrash size={20} />
+                </IconButton>
+              </div>
+            </div>
           </div>
         ))}
       </div>
