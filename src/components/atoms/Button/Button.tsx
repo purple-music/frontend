@@ -15,6 +15,8 @@ export const BUTTON_VARIANTS = {
   outlined:
     "bg-transparent text-primary border border-outline enabled:hover:bg-primary-container focus:outline-primary box-border",
   text: "bg-transparent text-primary enabled:hover:bg-primary-container focus:outline-primary",
+  danger:
+    "bg-error-container text-on-error-container enabled:hover:brightness-90 focus:outline-error",
 } as const;
 
 // Create type from the object keys
@@ -68,4 +70,3 @@ const Button = ({
 };
 
 export default Button;
-

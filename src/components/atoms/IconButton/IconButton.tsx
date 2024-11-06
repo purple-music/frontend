@@ -1,14 +1,14 @@
 import clsx from "clsx";
 import { ReactNode } from "react";
 
-import Button, { BUTTON_VARIANTS } from "../Button/Button";
+import Button, { BUTTON_VARIANTS, ButtonVariant } from "../Button/Button";
 import ButtonBase from "../ButtonBase/ButtonBase";
 import Typography from "../Typography/Typography";
 
 interface IconButtonProps {
   onClick?: () => void;
   disabled?: boolean;
-  variant?: "filled" | "tonal" | "elevated" | "outlined" | "text";
+  variant?: ButtonVariant;
   children?: ReactNode;
   size?: "sm" | "md";
 }
@@ -40,4 +40,3 @@ const IconButton = ({
 };
 
 export default IconButton;
-
