@@ -104,5 +104,10 @@ const config: Config = {
     themes: ["fantasy"],
   },
   darkMode: ["class", "[data-mode=dark]"],
+  safelist: [
+      {
+        pattern: /bg-brand-(.*)/
+      }
+    ]
 };
 export default config;
