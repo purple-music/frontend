@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 import { StudiosSelector } from "@/app/[lng]/my/view/_components/StudiosSelector";
-import { TimelineWrapper } from "@/app/[lng]/my/view/_components/Timeline";
 import { studios } from "@/app/[lng]/my/view/_data/studios";
+import { TimelineWrapper } from "@/components/organisms/Timetable/TimetableContent";
 import { StudioId } from "@/lib/types";
 
 import { PresetSelector } from "./PresetSelector";
@@ -29,3 +29,4 @@ export function View() {
     </>
   );
 }
+

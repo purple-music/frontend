@@ -6,16 +6,77 @@ import { useEffect, useState } from "react";
 import { Booking } from "@prisma/client";
 
 import { getAllBookings } from "@/actions/query/booking";
-import { DayView } from "@/app/[lng]/my/view/_components/DayView";
+import { DayView } from "@/components/organisms/Timetable/DayView";
 import { Table } from "@/components/table/Table";
 import { TableContent } from "@/components/table/TableContent";
 import { TableContentColumn } from "@/components/table/TableContentColumn";
 import { TablePrefix } from "@/components/table/TablePrefix";
 import { TableTimeColumn } from "@/components/table/TableTimeColumn";
-import { StudioId } from "@/lib/types";
+import { Hour, StudioId } from "@/lib/types";
+import {
+  getOneLetterStudioName,
+  getSoftStudioColor,
+} from "@/lib/utils/studios";
 import { dateToHour, hourToDate } from "@/lib/utils/time";
 
-export function TimelineContent({
+/**
+ * Find the earliest booking hour across all days within the range, defaulting to the default start hour if no bookings are found
+ *
+ * @param datedDays
+ * @param bookings
+ * @param defaultStart
+ * @returns
+ */
+const getStartHour = (
+  datedDays: Date[],
+  bookings: Map<Hour, Booking>,
+  defaultStart: number,
+) => {
+  // Find the earliest booking hour across all days within the range
+  const earliestHour = datedDays.reduce((minHour, day) => {
+    const dayStart = dateToHour(startOfDay(day));
+    const dayEnd = dateToHour(startOfDay(addDays(day, 1)));
+    const hoursInDay = Array.from(bookings.keys()).filter(
+      (hour) => hour >= dayStart && hour < dayEnd,
+    ); // Bookings for the day
+
+    if (hoursInDay.length === 0) return minHour;
+    return Math.min(minHour, hourToDate(Math.min(...hoursInDay)).getHours());
+  }, Infinity);
+
+  return Math.min(
+    earliestHour === Infinity ? defaultStart : earliestHour,
+    defaultStart,
+  );
+};
+
+const getEndHour = (
+  datedDays: Date[],
+  bookings: Map<Hour, Booking>,
+  defaultEnd: number,
+) => {
+  // Find the latest booking hour across all days within the range
+  const latestHour = datedDays.reduce((maxHour, day) => {
+    const dayStart = dateToHour(startOfDay(day));
+    const dayEnd = dateToHour(startOfDay(addDays(day, 1)));
+    const hoursInDay = Array.from(bookings.keys()).filter(
+      (hour) => hour >= dayStart && hour < dayEnd,
+    );
+
+    if (hoursInDay.length === 0) return maxHour;
+    return Math.max(
+      maxHour,
+      hourToDate(Math.max(...hoursInDay)).getHours() + 1,
+    ); // % 24 to get hour within the day
+  }, -Infinity);
+
+  return Math.max(
+    latestHour === -Infinity ? defaultEnd : latestHour,
+    defaultEnd,
+  );
+};
+
+export function TimetableContent({
   days,
   studios,
   bookings: data,
@@ -33,51 +94,11 @@ export function TimelineContent({
   const defaultStart = 9;
   const defaultEnd = 23;
 
-  const getStartHour = () => {
-    // Find the earliest booking hour across all days within the range
-    const earliestHour = datedDays.reduce((minHour, day) => {
-      const dayStart = dateToHour(startOfDay(day));
-      const dayEnd = dateToHour(startOfDay(addDays(day, 1)));
-      const hoursInDay = Array.from(bookings.keys()).filter(
-        (hour) => hour >= dayStart && hour < dayEnd,
-      ); // Bookings for the day
+  const startHour = getStartHour(datedDays, bookings, defaultStart);
+  const endHour = getEndHour(datedDays, bookings, defaultEnd);
 
-      if (hoursInDay.length === 0) return minHour;
-      return Math.min(minHour, hourToDate(Math.min(...hoursInDay)).getHours());
-    }, Infinity);
-
-    return Math.min(
-      earliestHour === Infinity ? defaultStart : earliestHour,
-      defaultStart,
-    );
-  };
-
-  const getEndHour = () => {
-    // Find the latest booking hour across all days within the range
-    const latestHour = datedDays.reduce((maxHour, day) => {
-      const dayStart = dateToHour(startOfDay(day));
-      const dayEnd = dateToHour(startOfDay(addDays(day, 1)));
-      const hoursInDay = Array.from(bookings.keys()).filter(
-        (hour) => hour >= dayStart && hour < dayEnd,
-      );
-
-      if (hoursInDay.length === 0) return maxHour;
-      return Math.max(
-        maxHour,
-        hourToDate(Math.max(...hoursInDay)).getHours() + 1,
-      ); // % 24 to get hour within the day
-    }, -Infinity);
-
-    return Math.max(
-      latestHour === -Infinity ? defaultEnd : latestHour,
-      defaultEnd,
-    );
-  };
-
-  const startHour = getStartHour();
-  const endHour = getEndHour();
-
-  const cellHeight = 2;
+  const cellHeight = "2rem";
+  const cellMinHeight = "2rem";
 
   const getHours = (day: Date) => {
     const start = dateToHour(startOfDay(day));
@@ -87,29 +108,12 @@ export function TimelineContent({
     ).map((hour) => start + hour);
   };
 
-  const getShort = (studio: StudioId) => {
-    switch (studio) {
-      case "blue":
-        return "B";
-      case "purple":
-        return "P";
-      case "orange":
-        return "O";
-    }
-  };
-
-  const getSoftColor = (studio: StudioId) =>
-    ({
-      blue: "bg-blue-300",
-      purple: "bg-purple-300",
-      orange: "bg-orange-300",
-    })[studio];
-
   return (
     <Table>
       <TablePrefix headerHeight={4}>
         <TableTimeColumn
           cellHeight={cellHeight}
+          cellMinWidth={cellMinHeight}
           startHour={startHour}
           endHour={endHour}
         />
@@ -123,7 +127,7 @@ export function TimelineContent({
               <>
                 <div
                   className="border-b-2 border-gray-300 text-center"
-                  style={{ height: `${cellHeight}rem` }}
+                  style={{ height: cellHeight, minWidth: cellMinHeight }}
                 >
                   {format(day, "dd")}
                 </div>
@@ -131,10 +135,10 @@ export function TimelineContent({
                   {studios.map((studio) => (
                     <div className="flex-1" key={studio}>
                       <div
-                        className={`flex w-full items-center justify-center ${getSoftColor(studio)}`}
+                        className={`flex w-full items-center justify-center ${getSoftStudioColor(studio)}`}
                         style={{ height: `${cellHeight}rem` }}
                       >
-                        {getShort(studio)}
+                        {getOneLetterStudioName(studio)}
                       </div>
                     </div>
                   ))}
@@ -144,6 +148,7 @@ export function TimelineContent({
           >
             <DayView
               hours={getHours(day)}
+              cellMinHeight={cellMinHeight}
               cellHeight={cellHeight}
               bookings={bookings}
               studios={studios}
@@ -170,5 +175,6 @@ export function TimelineWrapper({
 
   if (!bookings) return <span>Timeline Skeleton</span>;
 
-  return <TimelineContent bookings={bookings} days={days} studios={studios} />;
+  return <TimetableContent bookings={bookings} days={days} studios={studios} />;
 }
+
