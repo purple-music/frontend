@@ -4,7 +4,7 @@ import DashboardPage from "./DashboardPage";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "organisms/DashboardPage",
+  title: "pages/DashboardPage",
   component: DashboardPage,
   parameters: {
     layout: "fullscreen",
@@ -17,3 +17,4 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: { date: new Date() },
 };
+
