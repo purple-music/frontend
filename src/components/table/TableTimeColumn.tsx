@@ -1,9 +1,11 @@
 export function TableTimeColumn({
   cellHeight,
+  cellMinWidth,
   startHour,
   endHour,
 }: {
-  cellHeight: number;
+  cellMinWidth: string;
+  cellHeight: string;
   startHour: number;
   endHour: number;
 }) {
@@ -11,8 +13,9 @@ export function TableTimeColumn({
     { length: endHour - startHour },
     (_, i) => startHour + i,
   ).map((hour) => (
-    <div key={hour} style={{ height: `${cellHeight}rem` }}>
+    <div key={hour} style={{ height: cellHeight, minWidth: cellMinWidth }}>
       {hour}:00
     </div>
   ));
 }
+

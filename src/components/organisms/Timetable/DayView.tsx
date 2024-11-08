@@ -1,16 +1,18 @@
 import { Booking } from "@prisma/client";
 
-import { DayColumn } from "@/app/[lng]/my/view/_components/DayColumn";
+import { DayColumn } from "@/components/organisms/Timetable/DayColumn";
 import { StudioId } from "@/lib/types";
 
 export function DayView({
   bookings,
   cellHeight,
+  cellMinWidth,
   hours,
   studios,
 }: {
   bookings: Map<number, Booking>;
-  cellHeight: number;
+  cellHeight: string;
+  cellMinWidth: string;
   hours: number[];
   studios: StudioId[];
 }) {
@@ -22,9 +24,11 @@ export function DayView({
           studio={studio}
           bookings={bookings}
           cellHeight={cellHeight}
+          cellMinWidth={cellMinWidth}
           hours={hours}
         />
       ))}
     </div>
   );
 }
+
