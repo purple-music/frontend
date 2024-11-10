@@ -7,8 +7,12 @@ import {
   getSoftStudioColor,
 } from "@/lib/utils/studios";
 
+import styles from "./Timetable.module.css";
+
 const TimetableHeaderDayStudios = ({ studios }: { studios: StudioId[] }) => (
-  <div className="flex flex-row justify-between h-8">
+  <div
+    className={`flex flex-row justify-between h-8 ${styles["header-day-studios"]}`}
+  >
     {studios.map((studio) => (
       <div
         key={studio}
@@ -55,7 +59,9 @@ const TimetableHeaderDay = ({
   studios: StudioId[];
 }) => {
   return (
-    <div className="min-w-2 flex-1 flex flex-col">
+    <div
+      className={`min-w-2 flex-1 flex flex-col overflow-clip ${styles["header-day"]}`}
+    >
       <TimetableHeaderDayDate date={date} timezone={timezone} />
       <TimetableHeaderDayStudios studios={studios} />
     </div>
@@ -76,14 +82,16 @@ const TimetableHeader = ({
   return (
     <div className="flex flex-row justify-between">
       <TimetableHeaderTimezone timezone={timezone} />
-      {dates.map((date) => (
-        <TimetableHeaderDay
-          key={date.toISO()}
-          date={date}
-          timezone={timezone}
-          studios={studios}
-        />
-      ))}
+      <div className="flex flex-row flex-1 divide-x divide-outline-variant">
+        {dates.map((date) => (
+          <TimetableHeaderDay
+            key={date.toISO()}
+            date={date}
+            timezone={timezone}
+            studios={studios}
+          />
+        ))}
+      </div>
     </div>
   );
 };

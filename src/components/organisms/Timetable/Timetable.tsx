@@ -36,7 +36,7 @@ const Timetable = ({
         days={30}
         studios={["blue", "orange", "purple"]}
       />
-      <div className="flex flex-col bg-surface-container-low rounded-[32px] p-4 pt-0">
+      <div className="flex flex-col bg-surface-container-low rounded-[32px] p-4">
         <TimetableHeader dates={dates} timezone={timezone} studios={studios} />
         <TimetableContent
           dates={dates}

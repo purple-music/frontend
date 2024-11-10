@@ -33,12 +33,9 @@ const TimetableContentDay = ({
   timeSlots,
 }: TimetableContentDayProps) => {
   return (
-    <div className="flex flex-1 flex-row justify-between bg-surface-container-lowest">
+    <div className="flex flex-1 flex-row justify-between bg-surface-container-lowest divide-x divide-outline-variant">
       {studios.map((studio) => (
-        <div
-          key={studio}
-          className={`flex-1 flex items-center justify-center border-l`}
-        >
+        <div key={studio} className={`flex-1 flex items-center justify-center`}>
           {/* {date.setLocale(timezone).toLocaleString({ hour: "numeric" })} */}
         </div>
       ))}
@@ -68,15 +65,17 @@ const TimetableContent = ({
   return (
     <div className="flex flex-row justify-between rounded-[16px] rounded-tr-none overflow-clip">
       <TimetableContentTime timeSlots={timeSlots} />
-      {dates.map((date) => (
-        <TimetableContentDay
-          key={date.toISO()}
-          date={date}
-          timezone={timezone}
-          studios={studios}
-          timeSlots={timeSlots}
-        />
-      ))}
+      <div className="flex flex-row flex-1 divide-x divide-outline">
+        {dates.map((date) => (
+          <TimetableContentDay
+            key={date.toISO()}
+            date={date}
+            timezone={timezone}
+            studios={studios}
+            timeSlots={timeSlots}
+          />
+        ))}
+      </div>
     </div>
   );
 };
