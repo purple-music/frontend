@@ -131,6 +131,7 @@ interface TypographyProps {
   variant: "display" | "headline" | "title" | "body" | "label" | "labelBold";
   children: ReactNode;
   size?: "small" | "medium" | "large";
+  className?: string;
   component?:
     | "h1"
     | "h2"
@@ -148,7 +149,8 @@ const Typography = ({
   variant,
   children,
   size = "medium",
-  component: Component = "p",
+  className,
+  component: Component = "span",
 }: TypographyProps) => {
   // Determine the font to use based on the variant
   const fontFamily = ["display", "headline", "title"].includes(variant)
@@ -163,6 +165,7 @@ const Typography = ({
       ...fontFamily.style,
       ...textStyle,
     },
+    className: `${fontFamily.className} ${className}`,
     children,
   });
 };
