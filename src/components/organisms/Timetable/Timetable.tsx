@@ -9,8 +9,8 @@ const openHour = 9;
 const closeHour = 21;
 
 interface TimetableProps {
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   timezone: string;
   studios: StudioId[];
 }
@@ -21,8 +21,8 @@ const Timetable = ({
   timezone,
   studios,
 }: TimetableProps) => {
-  const start = DateTime.fromISO(startDate);
-  const end = DateTime.fromISO(endDate);
+  const start = DateTime.fromJSDate(startDate);
+  const end = DateTime.fromJSDate(endDate);
   const dates = [];
 
   for (let d = start; d <= end; d = d.plus({ days: 1 })) {
@@ -31,12 +31,12 @@ const Timetable = ({
 
   return (
     <>
-      <TimetableContentOld
+      {/* <TimetableContentOld
         bookings={[]}
         days={30}
         studios={["blue", "orange", "purple"]}
-      />
-      <div className="flex flex-col bg-surface-container-low rounded-[32px] p-4">
+      /> */}
+      <div className="flex flex-col bg-surface-container-low rounded-[32px] p-4 w-full">
         <TimetableHeader dates={dates} timezone={timezone} studios={studios} />
         <TimetableContent
           dates={dates}

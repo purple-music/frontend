@@ -16,8 +16,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    startDate: "2023-01-01",
-    endDate: "2023-01-08",
+    startDate: new Date("2023-01-01"),
+    endDate: new Date("2023-01-08"),
     timezone: "en-US",
     studios: ["blue", "orange", "purple"],
   },

@@ -1,11 +1,10 @@
 import ButtonGroup from "@/components/atoms/ButtonGroup/ButtonGroup";
-import PersonalBookings from "@/components/organisms/PersonalBookings/PersonalBookings";
 import Timetable from "@/components/organisms/Timetable/Timetable";
 import MyTemplate from "@/components/templates/MyTemplate/MyTemplate";
 
-interface DashboardPageProps {}
+interface ViewPageProps {}
 
-const DashboardPage = ({}: DashboardPageProps) => {
+const ViewPage = ({}: ViewPageProps) => {
   return (
     <MyTemplate>
       <ButtonGroup
@@ -14,11 +13,14 @@ const DashboardPage = ({}: DashboardPageProps) => {
           { label: "Library", value: "library" },
         ]}
       />
-      <Timetable></Timetable>
-      <PersonalBookings date={new Date()} bookings={[]} />
+      <Timetable
+        startDate={new Date("2023-01-01")}
+        endDate={new Date("2023-01-08")}
+        timezone="en-US"
+        studios={["blue", "orange", "purple"]}
+      ></Timetable>
     </MyTemplate>
   );
 };
 
-export default DashboardPage;
-
+export default ViewPage;
