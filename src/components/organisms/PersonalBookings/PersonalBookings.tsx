@@ -14,6 +14,7 @@ import Divider from "@/components/atoms/Divider/Divider";
 import IconButton from "@/components/atoms/IconButton/IconButton";
 import IconLabel from "@/components/atoms/IconLabel/IconLabel";
 import PseudoLine from "@/components/atoms/PseudoLine/PseudoLine";
+import Surface from "@/components/atoms/Surface/Surface";
 import Typography from "@/components/atoms/Typography/Typography";
 import { Hour, StudioId } from "@/lib/types";
 
@@ -87,7 +88,7 @@ interface PersonalBookingsProps {
 
 const PersonalBookings = ({ date }: PersonalBookingsProps) => {
   return (
-    <div className="w-full flex flex-col bg-surface-container-low rounded-[32px] p-4 gap-4">
+    <Surface className="w-full">
       <div className="w-full justify-between flex items-center px-2 h-12">
         <Typography variant="headline" size="small">
           {date.toDateString()}
@@ -130,8 +131,9 @@ const PersonalBookings = ({ date }: PersonalBookingsProps) => {
           </div>
         ))}
       </div>
-    </div>
+    </Surface>
   );
 };
 
 export default PersonalBookings;
+

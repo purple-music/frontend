@@ -1,5 +1,6 @@
 import { DateTime } from "luxon";
 
+import Surface from "@/components/atoms/Surface/Surface";
 import TimetableContent from "@/components/organisms/Timetable/TimetableContent";
 import { TimetableContent as TimetableContentOld } from "@/components/organisms/Timetable/TimetableContentOld";
 import TimetableHeader from "@/components/organisms/Timetable/TimetableHeader";
@@ -36,7 +37,7 @@ const Timetable = ({
         days={30}
         studios={["blue", "orange", "purple"]}
       /> */}
-      <div className="flex flex-col bg-surface-container-low rounded-[32px] p-4 w-full">
+      <Surface className="w-full !gap-0">
         <TimetableHeader dates={dates} timezone={timezone} studios={studios} />
         <TimetableContent
           dates={dates}
@@ -45,9 +46,10 @@ const Timetable = ({
           openHour={openHour}
           closeHour={closeHour}
         />
-      </div>
+      </Surface>
     </>
   );
 };
 
 export default Timetable;
+
