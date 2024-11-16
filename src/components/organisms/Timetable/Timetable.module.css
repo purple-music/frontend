@@ -1,9 +1,0 @@
-.header-day:first-child > .header-day-studios {
-  border-top-left-radius: 16px;
-  overflow: clip;
-}
-
-.header-day:last-child > .header-day-studios {
-  border-top-right-radius: 16px;
-  overflow: clip;
-}

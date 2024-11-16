@@ -1,23 +1,8 @@
 import { DateTime } from "luxon";
 
 import Typography from "@/components/atoms/Typography/Typography";
+import { VerticalTimeline } from "@/components/atoms/VerticalTimeline/VerticalTimeline";
 import { StudioId } from "@/lib/types";
-
-const TimetableContentTime = ({ timeSlots }: { timeSlots: number[] }) => (
-  <div className="w-12 flex items-center flex-col justify-center bg-surface-container-high divide-y divide-outline-variant">
-    {timeSlots.map((hour) => (
-      <div className="h-8 w-full flex items-end justify-end pr-1">
-        <Typography
-          key={hour}
-          variant="label"
-          className="text-on-surface-variant"
-        >
-          {hour}:00
-        </Typography>
-      </div>
-    ))}
-  </div>
-);
 
 interface TimetableContentDayProps {
   date: DateTime;
@@ -40,7 +25,7 @@ const TimetableContentDayStudio = ({
   timeSlots,
 }: TimetableContentDayStudioProps) => {
   return (
-    <div className="flex-col flex-1 flex items-center justify-center h-full w-full divide-y divide-surface-container-high">
+    <div className="flex-col flex-1 flex items-center justify-center h-full divide-y divide-surface-container-high">
       {timeSlots.map((hour) => (
         <div
           key={hour}
@@ -61,6 +46,7 @@ const TimetableContentDay = ({
     <div className="flex flex-1 flex-row justify-between bg-surface-container-lowest divide-x divide-surface-container-high">
       {studios.map((studio) => (
         <TimetableContentDayStudio
+          key={studio}
           studio={studio}
           date={date}
           timezone={timezone}
@@ -92,7 +78,7 @@ const TimetableContent = ({
 
   return (
     <div className="flex flex-row justify-between rounded-[16px] rounded-tr-none overflow-clip">
-      <TimetableContentTime timeSlots={timeSlots} />
+      <VerticalTimeline startHour={openHour} endHour={closeHour} />
       <div className="flex flex-row flex-1 divide-x divide-outline-variant">
         {dates.map((date) => (
           <TimetableContentDay
@@ -109,3 +95,4 @@ const TimetableContent = ({
 };
 
 export default TimetableContent;
+

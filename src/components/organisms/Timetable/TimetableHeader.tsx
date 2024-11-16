@@ -1,28 +1,8 @@
 import { DateTime } from "luxon";
 
+import StudiosHeader from "@/components/atoms/StudiosHeader/StudiosHeader";
 import Typography from "@/components/atoms/Typography/Typography";
 import { StudioId } from "@/lib/types";
-import {
-  getOneLetterStudioName,
-  getSoftStudioColor,
-} from "@/lib/utils/studios";
-
-import styles from "./Timetable.module.css";
-
-const TimetableHeaderDayStudios = ({ studios }: { studios: StudioId[] }) => (
-  <div
-    className={`flex flex-row justify-between h-8 ${styles["header-day-studios"]}`}
-  >
-    {studios.map((studio) => (
-      <div
-        key={studio}
-        className={`flex-1 ${getSoftStudioColor(studio)} flex items-center justify-center`}
-      >
-        {getOneLetterStudioName(studio)}
-      </div>
-    ))}
-  </div>
-);
 
 const TimetableHeaderTimezone = ({ timezone }: { timezone: string }) => (
   <div className="w-12 flex items-center flex-col justify-center">
@@ -49,25 +29,6 @@ const TimetableHeaderDayDate = ({
   </div>
 );
 
-const TimetableHeaderDay = ({
-  date,
-  timezone,
-  studios,
-}: {
-  date: DateTime;
-  timezone: string;
-  studios: StudioId[];
-}) => {
-  return (
-    <div
-      className={`min-w-2 flex-1 flex flex-col overflow-clip ${styles["header-day"]}`}
-    >
-      <TimetableHeaderDayDate date={date} timezone={timezone} />
-      <TimetableHeaderDayStudios studios={studios} />
-    </div>
-  );
-};
-
 interface TimetableHeaderProps {
   dates: DateTime[];
   timezone: string;
@@ -82,18 +43,28 @@ const TimetableHeader = ({
   return (
     <div className="flex flex-row justify-between">
       <TimetableHeaderTimezone timezone={timezone} />
-      <div className="flex flex-row flex-1 divide-x divide-outline-variant">
-        {dates.map((date) => (
-          <TimetableHeaderDay
-            key={date.toISO()}
-            date={date}
-            timezone={timezone}
-            studios={studios}
-          />
-        ))}
+      <div className="flex flex-col flex-1">
+        <div className="flex flex-row divide-x divide-outline-variant">
+          {dates.map((date) => (
+            <div key={date.toISO()} className="min-w-2 flex-1 flex flex-col">
+              <TimetableHeaderDayDate date={date} timezone={timezone} />
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-row rounded-t-[16px] overflow-clip divide-x divide-outline-variant">
+          {dates.map((date, index) => (
+            <div
+              key={date.toISO()}
+              className={"min-w-2 flex-1 flex flex-row overflow-clip"}
+            >
+              <StudiosHeader studios={studios} studioNameSize="three" />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
 export default TimetableHeader;
+
