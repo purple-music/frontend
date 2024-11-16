@@ -4,14 +4,7 @@ import Typography from "@/components/atoms/Typography/Typography";
 import { VerticalTimeline } from "@/components/atoms/VerticalTimeline/VerticalTimeline";
 import { StudioId } from "@/lib/types";
 
-interface TimetableContentDayProps {
-  date: DateTime;
-  timezone: string;
-  studios: StudioId[];
-  timeSlots: number[];
-}
-
-interface TimetableContentDayStudioProps {
+interface TimetableBodyDayStudioProps {
   studio: StudioId;
   date: DateTime;
   timezone: string;
@@ -23,7 +16,7 @@ const TimetableContentDayStudio = ({
   date,
   timezone,
   timeSlots,
-}: TimetableContentDayStudioProps) => {
+}: TimetableBodyDayStudioProps) => {
   return (
     <div className="flex-col flex-1 flex items-center justify-center h-full divide-y divide-surface-container-high">
       {timeSlots.map((hour) => (
@@ -36,12 +29,19 @@ const TimetableContentDayStudio = ({
   );
 };
 
-const TimetableContentDay = ({
+interface TimetableBodyDayProps {
+  date: DateTime;
+  timezone: string;
+  studios: StudioId[];
+  timeSlots: number[];
+}
+
+const TimetableBodyDay = ({
   date,
   timezone,
   studios,
   timeSlots,
-}: TimetableContentDayProps) => {
+}: TimetableBodyDayProps) => {
   return (
     <div className="flex flex-1 flex-row justify-between bg-surface-container-lowest divide-x divide-surface-container-high">
       {studios.map((studio) => (
@@ -57,7 +57,7 @@ const TimetableContentDay = ({
   );
 };
 
-interface TimetableContentProps {
+interface TimetableBodyProps {
   dates: DateTime[];
   timezone: string;
   openHour: number;
@@ -65,13 +65,13 @@ interface TimetableContentProps {
   studios: StudioId[];
 }
 
-const TimetableContent = ({
+const TimetableBody = ({
   dates,
   timezone,
   openHour,
   closeHour,
   studios,
-}: TimetableContentProps) => {
+}: TimetableBodyProps) => {
   const timeSlots = Array.from({ length: closeHour - openHour }).map(
     (_, i) => i + openHour,
   );
@@ -81,7 +81,7 @@ const TimetableContent = ({
       <VerticalTimeline startHour={openHour} endHour={closeHour} />
       <div className="flex flex-row flex-1 divide-x divide-outline-variant">
         {dates.map((date) => (
-          <TimetableContentDay
+          <TimetableBodyDay
             key={date.toISO()}
             date={date}
             timezone={timezone}
@@ -94,5 +94,5 @@ const TimetableContent = ({
   );
 };
 
-export default TimetableContent;
+export default TimetableBody;
 
