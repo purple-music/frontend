@@ -2,7 +2,6 @@ import { DateTime } from "luxon";
 
 import Surface from "@/components/atoms/Surface/Surface";
 import TimetableContent from "@/components/organisms/Timetable/TimetableContent";
-import { TimetableContent as TimetableContentOld } from "@/components/organisms/Timetable/TimetableContentOld";
 import TimetableHeader from "@/components/organisms/Timetable/TimetableHeader";
 import { StudioId } from "@/lib/types";
 
@@ -31,23 +30,16 @@ const Timetable = ({
   }
 
   return (
-    <>
-      {/* <TimetableContentOld
-        bookings={[]}
-        days={30}
-        studios={["blue", "orange", "purple"]}
-      /> */}
-      <Surface className="w-full !gap-0">
-        <TimetableHeader dates={dates} timezone={timezone} studios={studios} />
-        <TimetableContent
-          dates={dates}
-          timezone={timezone}
-          studios={studios}
-          openHour={openHour}
-          closeHour={closeHour}
-        />
-      </Surface>
-    </>
+    <Surface className="w-full !gap-0">
+      <TimetableHeader dates={dates} timezone={timezone} studios={studios} />
+      <TimetableContent
+        dates={dates}
+        timezone={timezone}
+        studios={studios}
+        openHour={openHour}
+        closeHour={closeHour}
+      />
+    </Surface>
   );
 };
 

@@ -6,7 +6,7 @@ const Surface = ({ children, className }: SurfaceProps) => {
   return (
     <div
       className={clsx(
-        "flex flex-col bg-surface-container-low rounded-[32px] p-4 gap-4",
+        "flex flex-col bg-surface-container-low rounded-[32px] p-4",
         className,
       )}
     >
