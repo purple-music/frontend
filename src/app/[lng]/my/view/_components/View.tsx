@@ -1,8 +1,7 @@
 import { useState } from "react";
 
 import { StudiosSelector } from "@/app/[lng]/my/view/_components/StudiosSelector";
-import { studios } from "@/app/[lng]/my/view/_data/studios";
-import { TimelineWrapper } from "@/components/organisms/Timetable/TimetableContent";
+// import { studios } from "@/app/[lng]/my/view/_data/studios";
 import { StudioId } from "@/lib/types";
 
 import { PresetSelector } from "./PresetSelector";
@@ -14,18 +13,18 @@ const getFull: GetLabel = (studio) => studio.toUpperCase();
 
 export function View() {
   const [days, setDays] = useState<number>(7);
-  const [selectedStudios, setSelectedStudios] = useState<StudioId[]>(studios);
+  //   const [selectedStudios, setSelectedStudios] = useState<StudioId[]>(studios);
 
   return (
     <>
       <div className="flex flex-row flex-wrap items-center justify-between">
-        <StudiosSelector
+        {/* <StudiosSelector
           selectedStudios={selectedStudios}
           selectStudios={setSelectedStudios}
-        />
+        /> */}
         <PresetSelector day={days} onDaySelect={setDays} />
       </div>
-      <TimelineWrapper days={days} studios={selectedStudios} />
+      {/* <TimelineWrapper days={days} studios={selectedStudios} /> */}
     </>
   );
 }

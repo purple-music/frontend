@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 
 import Surface from "@/components/atoms/Surface/Surface";
-import TimetableContent from "@/components/organisms/Timetable/TimetableContent";
+import TimetableBody from "@/components/organisms/Timetable/TimetableBody";
 import TimetableHeader from "@/components/organisms/Timetable/TimetableHeader";
 import { StudioId } from "@/lib/types";
 
@@ -32,7 +32,7 @@ const Timetable = ({
   return (
     <Surface className="w-full !gap-0">
       <TimetableHeader dates={dates} timezone={timezone} studios={studios} />
-      <TimetableContent
+      <TimetableBody
         dates={dates}
         timezone={timezone}
         studios={studios}
