@@ -4,7 +4,7 @@ import { TbPencil, TbSquareRoundedMinus } from "react-icons/tb";
 
 import { Booking } from "@prisma/client";
 
-import { PseudoLine } from "@/components/PseudoLine";
+import PseudoLine from "@/components/atoms/PseudoLine/PseudoLine";
 import { StudioId } from "@/lib/types";
 import { groupBookingsByDay } from "@/lib/utils/bookings";
 import { hourToDate } from "@/lib/utils/time";
@@ -97,3 +97,4 @@ export function Dashboard({ bookings }: { bookings: Booking[] }) {
     </div>
   );
 }
+

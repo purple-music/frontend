@@ -130,3 +130,4 @@ export default async function Home({ params }: { params: { lng: string } }) {
     </main>
   );
 }
+
