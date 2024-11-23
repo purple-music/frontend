@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 
 import { newVerification } from "@/actions/mutation/new-verification";
@@ -7,12 +8,11 @@ import { AuthAlert } from "@/components/auth-card/AuthAlert";
 import { AuthCard } from "@/components/auth-card/AuthCard";
 import { AuthCardTitle } from "@/components/auth-card/AuthCardTitile";
 import { AuthFooterAction } from "@/components/auth-card/AuthFooterAction";
-import { useTranslation } from "@/i18n/client";
 import { useAsyncAction } from "@/lib/hooks/useAsyncAction";
 import { ActionResult } from "@/lib/types";
 
 export default function NewVerificationForm() {
-  const { t } = useTranslation(undefined, "auth");
+  const t = useTranslations("auth");
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
@@ -45,3 +45,4 @@ export default function NewVerificationForm() {
     </AuthCard>
   );
 }
+

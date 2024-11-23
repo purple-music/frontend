@@ -39,7 +39,7 @@ export function Dashboard({ bookings }: { bookings: Booking[] }) {
       {Object.entries(groupedBookings).map(([day, bookingsForDay]) => {
         const studioed = Object.groupBy(
           bookingsForDay,
-          (booking) => booking.studio,
+          (booking) => booking.studioId,
         );
         return (
           <div key={day} className="card bg-base-100 shadow-md">
@@ -57,7 +57,7 @@ export function Dashboard({ bookings }: { bookings: Booking[] }) {
                     bookings &&
                     bookings.length > 0 && (
                       <li
-                        key={`${studio}_${bookings.map((b) => b.hour)}`}
+                        key={`${studio}_${bookings.map((b) => b.startTime)}`}
                         className="flex flex-col gap-1"
                       >
                         <h3 className="text-xl">{studio}</h3>
@@ -66,10 +66,10 @@ export function Dashboard({ bookings }: { bookings: Booking[] }) {
                             {bookings.map((b) => (
                               <li
                                 className="flex w-full flex-row items-center justify-between"
-                                key={b.hour}
+                                key={b.startTime.getTime()}
                               >
                                 <span>
-                                  {format(hourToDate(b.hour), "p", {
+                                  {format(b.startTime, "p", {
                                     locale: ru,
                                   })}
                                 </span>

@@ -1,6 +1,6 @@
+import { useTranslations } from "next-intl";
 import React from "react";
 
-import { useTranslation } from "@/i18n/server";
 import { StudioId } from "@/lib/types";
 
 export type StudioInfo = {
@@ -16,13 +16,13 @@ interface StudioSelectorProps {
   disabled: boolean;
 }
 
-export async function StudioSelector({
+export function StudioSelector({
   studios,
   selectedStudio,
   onStudioSelect,
   disabled,
 }: StudioSelectorProps) {
-  const { t } = await useTranslation(undefined, "my");
+  const t = useTranslations("my");
   return (
     <fieldset>
       <legend className="mb-4 text-2xl">{t("booking.form.studio")}</legend>
@@ -49,3 +49,4 @@ export async function StudioSelector({
 }
 
 export default StudioSelector;
+

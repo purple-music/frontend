@@ -1,12 +1,12 @@
+import { useTranslations } from "next-intl";
 import { FaExclamationTriangle } from "react-icons/fa";
 
 import { AuthCard } from "@/components/auth-card/AuthCard";
 import { AuthCardTitle } from "@/components/auth-card/AuthCardTitile";
 import { AuthFooterAction } from "@/components/auth-card/AuthFooterAction";
-import { useTranslation } from "@/i18n/server";
 
-export async function ErrorCard() {
-  const { t } = await useTranslation(undefined, "auth");
+export function ErrorCard() {
+  const t = useTranslations("auth");
   return (
     <AuthCard>
       <AuthCardTitle title={"Error!"} />
@@ -18,3 +18,4 @@ export async function ErrorCard() {
     </AuthCard>
   );
 }
+

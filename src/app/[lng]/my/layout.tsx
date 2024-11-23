@@ -3,13 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { CurrentUser } from "@/components/my/CurrentUser";
-import { useTranslation as useClientTranslation } from "@/i18n/client";
-import { useTranslation as useServerTranslation } from "@/i18n/server";
 
 function Sidebar() {
-  const { t } = useClientTranslation(undefined, "my");
+  const { t } = useTranslation("my");
   const [isOpen, setIsOpen] = useState(false);
   return (
     <nav className="drawer-side z-[10]">
@@ -65,7 +64,7 @@ function Sidebar() {
 }
 
 function Navbar() {
-  const { t } = useClientTranslation(undefined, "common");
+  const { t } = useTranslation("common");
   return (
     <div className="navbar sticky top-4 z-[5] w-full rounded-full bg-primary-content lg:hidden">
       <div className="flex-none">
@@ -106,3 +105,4 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
+

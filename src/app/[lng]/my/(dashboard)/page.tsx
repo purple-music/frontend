@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 
 import { Booking } from "@prisma/client";
@@ -7,7 +8,6 @@ import { Booking } from "@prisma/client";
 import { getCurrentBookingsByUserId } from "@/actions/query/booking";
 import { Dashboard } from "@/components/my/Dashboard";
 import { PageWrapper } from "@/components/my/PageWrapper";
-import { useTranslation } from "@/i18n/client";
 import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
 
 function DashboardWrapper() {
@@ -31,10 +31,11 @@ function DashboardWrapper() {
 }
 
 export default function DashboardPage() {
-  const { t } = useTranslation(undefined, "my");
+  const t = useTranslations("my");
   return (
     <PageWrapper title={t("dashboard.title")}>
       <DashboardWrapper />
     </PageWrapper>
   );
 }
+

@@ -1,6 +1,5 @@
+import { useTranslations } from "next-intl";
 import React from "react";
-
-import { useTranslation } from "@/i18n/server";
 
 interface PeopleCountSelectorProps {
   peopleCount: number;
@@ -8,12 +7,12 @@ interface PeopleCountSelectorProps {
   disabled: boolean;
 }
 
-export async function PeopleCountSelector({
+export function PeopleCountSelector({
   peopleCount,
   onPeopleCountSelect,
   disabled,
 }: PeopleCountSelectorProps) {
-  const { t } = await useTranslation(undefined, "my");
+  const t = useTranslations("my");
   return (
     <fieldset>
       <legend className="mb-4 text-2xl">{t("booking.form.people")}</legend>
@@ -38,3 +37,4 @@ export async function PeopleCountSelector({
 }
 
 export default PeopleCountSelector;
+

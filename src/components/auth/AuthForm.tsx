@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import React, { ReactNode } from "react";
 
 import { AuthAlert } from "@/components/auth-card/AuthAlert";
@@ -7,7 +8,6 @@ import { AuthCard } from "@/components/auth-card/AuthCard";
 import { AuthCardTitle } from "@/components/auth-card/AuthCardTitile";
 import { AuthFooterAction } from "@/components/auth-card/AuthFooterAction";
 import { AuthSocial } from "@/components/auth-card/AuthSocial";
-import { useTranslation } from "@/i18n/client";
 import { ActionResult } from "@/lib/types";
 
 interface AuthFormProps {
@@ -32,7 +32,7 @@ export default function AuthForm({
   children,
   showSocial,
 }: AuthFormProps) {
-  const { t } = useTranslation(undefined, "auth");
+  const t = useTranslations("auth");
 
   return (
     <AuthCard>
@@ -72,3 +72,4 @@ export default function AuthForm({
     </AuthCard>
   );
 }
+

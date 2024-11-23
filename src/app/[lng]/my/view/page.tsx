@@ -1,10 +1,10 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import React from "react";
 
 import { View } from "@/app/[lng]/my/view/_components/View";
 import { PageWrapper } from "@/components/my/PageWrapper";
-import { useTranslation } from "@/i18n/client";
 import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
 
 function ViewWrapper() {
@@ -19,10 +19,11 @@ function ViewWrapper() {
 }
 
 export default function BookingPage() {
-  const { t } = useTranslation(undefined, "my");
+  const t = useTranslations("my");
   return (
     <PageWrapper title={t("view.title")}>
       <ViewWrapper />
     </PageWrapper>
   );
 }
+

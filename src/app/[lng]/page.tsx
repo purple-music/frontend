@@ -1,6 +1,5 @@
+import { useTranslations } from "next-intl";
 import Link from "next/link";
-
-import { useTranslation } from "@/i18n/server";
 
 function ServiceCard({
   imageSrc,
@@ -33,9 +32,9 @@ function ServiceCard({
   );
 }
 
-export default async function Home({ params }: { params: { lng: string } }) {
-  const { t } = await useTranslation(params.lng, "index");
-  const { t: tc } = await useTranslation(params.lng, "common");
+export default function Home({ params }: { params: { lng: string } }) {
+  const t = useTranslations("index");
+  const tc = useTranslations("common");
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">

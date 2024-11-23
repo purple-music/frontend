@@ -1,10 +1,10 @@
+import { useTranslations } from "next-intl";
 import { FaYandex } from "react-icons/fa6";
 
 import { authYandex } from "@/actions/mutation/login";
-import { useTranslation } from "@/i18n/client";
 
 export function YandexButton() {
-  const { t } = useTranslation(undefined, "auth");
+  const t = useTranslations("auth");
 
   return (
     <form
@@ -31,3 +31,4 @@ export function AuthSocial() {
     </div>
   );
 }
+

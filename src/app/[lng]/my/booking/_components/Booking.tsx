@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -17,7 +18,6 @@ import StudioSelector from "@/app/[lng]/my/booking/_components/StudioSelector";
 import { getPriceRate } from "@/app/[lng]/my/booking/_data/prices";
 import { ErrorToast } from "@/components/toasts/ErrorToast";
 import { SuccessToast } from "@/components/toasts/SuccessToast";
-import { useTranslation } from "@/i18n/client";
 import { StudioId } from "@/lib/types";
 import { MakeOrderSchema } from "@/schemas/schemas";
 
@@ -50,7 +50,7 @@ export function Booking() {
     },
     resolver: zodResolver(MakeOrderSchema),
   });
-  const { t } = useTranslation(undefined, "my");
+  const t = useTranslations("my");
   const router = useRouter();
 
   const [bookings, setBookings] = useState<Booking[] | null>(null);
@@ -167,3 +167,4 @@ export function Booking() {
     </form>
   );
 }
+

@@ -1,10 +1,10 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import React, { useEffect } from "react";
 
 import { Booking } from "@/app/[lng]/my/booking/_components/Booking";
 import { PageWrapper } from "@/components/my/PageWrapper";
-import { useTranslation } from "@/i18n/client";
 import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
 
 function BookingWrapper() {
@@ -19,7 +19,7 @@ function BookingWrapper() {
 }
 
 export default function BookingPage() {
-  const { t } = useTranslation(undefined, "my");
+  const t = useTranslations("my");
 
   return (
     <PageWrapper title={t("booking.title")}>
@@ -27,3 +27,4 @@ export default function BookingPage() {
     </PageWrapper>
   );
 }
+
