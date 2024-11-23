@@ -25,39 +25,52 @@ export async function makeOrder(
     return error("No session specified!");
   }
 
-  const { studio, slots, peopleCount } = validatedFields.data;
+  //   const { studio, slots, peopleCount } = validatedFields.data;
 
-  // Check if any of the slots for the selected studio are already booked
-  const existingBookings = await prisma.booking.findMany({
-    where: {
-      studio,
-      hour: { in: slots }, // Check if any of the requested slots are already booked
-    },
-  });
+  //   // Get Studio Id
+  //   const studioId = await prisma.studio.findUnique({
+  //     where: { name: studio },
+  //     select: { id: true },
+  //   });
 
-  // If there are existing bookings for any of the requested slots, return an error
-  if (existingBookings.length > 0) {
-    return error("Some slots are already booked.");
-  }
+  //   if (!studioId) {
+  //     return error("Studio not found!");
+  //   }
 
-  const now = dateToHour(new Date());
-  if (slots.some((hour) => now >= hour)) {
-    return error("Could not book in the past.");
-  }
+  //   // Check if any of the slots for the selected studio are already booked
+  //   const existingBookings = await prisma.booking.findMany({
+  //     where: {
+  //       studioId: studioId.id,
+  //       createdAt: { in: slots }, // Check if any of the requested slots are already booked
+  //     },
+  //   });
 
-  const bookings = slots.map((hour) => {
-    return {
-      hour,
-      studio,
-    };
-  });
+  //   // If there are existing bookings for any of the requested slots, return an error
+  //   if (existingBookings.length > 0) {
+  //     return error("Some slots are already booked.");
+  //   }
 
-  const order = await prisma.order.create({
-    data: {
-      user: { connect: { id: session.user.id } },
-      bookings: { create: bookings },
-    },
-  });
+  //   const now = dateToHour(new Date());
+  //   if (slots.some((hour) => now >= hour)) {
+  //     return error("Could not book in the past.");
+  //   }
 
-  return success(order);
+  //   const bookings = slots.map((hour) => {
+  //     return {
+  //       hour,
+  //       studio,
+  //     };
+  //   });
+
+  //   const order = await prisma.order.create({
+  //     data: {
+  //       user: { connect: { id: session.user.id } },
+  //       bookings: { create: bookings },
+  //     },
+  //   });
+
+  //   return success(order);
+
+  return error("Not implemented");
 }
+

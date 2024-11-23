@@ -1,13 +1,13 @@
 import { addDays, startOfDay } from "date-fns";
+import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { TbCaretLeftFilled, TbCaretRightFilled } from "react-icons/tb";
 
 import { Booking } from "@prisma/client";
 
-import { BookingTable } from "@/app/[lng]/my/booking/_components/BookingTable";
+// import { BookingTable } from "@/app/[lng]/my/booking/_components/BookingTable";
 import { StartDaySelector } from "@/app/[lng]/my/booking/_components/StartDaySelector";
 import { getPriceRate } from "@/app/[lng]/my/booking/_data/prices";
-import { useTranslation } from "@/i18n/server";
 import { Hour } from "@/lib/types";
 
 interface SlotSelectorProps {
@@ -19,7 +19,7 @@ interface SlotSelectorProps {
   unavailableBookings: Booking[];
 }
 
-export async function SlotSelector({
+export function SlotSelector({
   selectedStudio,
   peopleCount,
   selectedSlots,
@@ -27,15 +27,15 @@ export async function SlotSelector({
   disabled,
   unavailableBookings,
 }: SlotSelectorProps) {
-  const { t } = await useTranslation(undefined, "my");
+  const t = useTranslations("my");
   const getWeekDates = (startDate: Date) => {
     return Array.from({ length: 7 }).map((_, i) => addDays(startDate, i));
   };
 
-  const isAvailable = (hour: number) =>
-    !unavailableBookings.some(
-      (booking) => booking.hour === hour && booking.studio === selectedStudio,
-    );
+  //   const isAvailable = (hour: number) =>
+  //     !unavailableBookings.some(
+  //       (booking) => booking.hour === hour && booking.studio === selectedStudio,
+  //     );
 
   const getPrice = (hour: number) => getPriceRate(hour, peopleCount);
 
@@ -43,7 +43,7 @@ export async function SlotSelector({
     <fieldset className="mt-4">
       <legend className="sr-only">{t("booking.form.slots")}</legend>
       <div className="flex flex-col gap-4 md:hidden">
-        <SlotSelectorTable
+        {/* <SlotSelectorTable
           days={3}
           unavailableBookings={unavailableBookings}
           disabled={disabled}
@@ -51,10 +51,10 @@ export async function SlotSelector({
           isAvailable={isAvailable}
           selectedSlots={selectedSlots}
           onSelectedSlots={onSelectedSlots}
-        />
+        /> */}
       </div>
       <div className="hidden flex-col gap-4 md:flex">
-        <SlotSelectorTable
+        {/* <SlotSelectorTable
           days={7}
           unavailableBookings={unavailableBookings}
           disabled={disabled}
@@ -62,7 +62,7 @@ export async function SlotSelector({
           isAvailable={isAvailable}
           selectedSlots={selectedSlots}
           onSelectedSlots={onSelectedSlots}
-        />
+        /> */}
       </div>
     </fieldset>
   );
@@ -105,7 +105,7 @@ export function SlotSelectorTable({
         disabled={disabled}
         day={currentStart}
       />
-      <BookingTable
+      {/* <BookingTable
         days={days}
         unavailableBookings={unavailableBookings}
         disabled={disabled}
@@ -114,7 +114,8 @@ export function SlotSelectorTable({
         onSlotClick={onSlotClick}
         getPrice={getPrice}
         isAvailable={isAvailable}
-      />
+      /> */}
     </>
   );
 }
+

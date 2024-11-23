@@ -1,17 +1,17 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { TbLock } from "react-icons/tb";
 
 import { newPassword } from "@/actions/mutation/new-password";
 import { AuthInputField } from "@/components/auth-card/AuthInputField";
 import AuthForm from "@/components/auth/AuthForm";
-import { useTranslation } from "@/i18n/client";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
 import { NewPasswordSchema } from "@/schemas/schemas";
 
 export function NewPasswordForm() {
-  const { t } = useTranslation(undefined, "auth");
+  const t = useTranslations("auth");
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
@@ -48,3 +48,4 @@ export function NewPasswordForm() {
     </AuthForm>
   );
 }
+

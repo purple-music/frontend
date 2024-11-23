@@ -25,17 +25,20 @@ export async function getCurrentBookingsByUserId(
   // Get current time in your "hour" format
   const currentHour = dateToHour(new Date());
 
-  return prisma.booking.findMany({
-    where: {
-      order: {
-        userId: userId,
-      },
-      hour: {
-        gte: currentHour, // Only get bookings that are after the current hour
-      },
-    },
-    include: {
-      order: true, // Include order if you need it
-    },
-  });
+  //   return prisma.booking.findMany({
+  //     where: {
+  //       order: {
+  //         userId: userId,
+  //       },
+  //       hour: {
+  //         gte: currentHour, // Only get bookings that are after the current hour
+  //       },
+  //     },
+  //     include: {
+  //       order: true, // Include order if you need it
+  //     },
+  //   });
+
+  return Promise.resolve([]);
 }
+

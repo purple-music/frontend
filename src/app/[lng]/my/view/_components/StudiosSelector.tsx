@@ -1,5 +1,5 @@
-import { getStudioLabel, studios } from "@/app/[lng]/my/view/_data/studios";
 import { StudioId } from "@/lib/types";
+import { getAllStudios, getStudioLabel } from "@/lib/utils/studios";
 
 export function StudiosSelector({
   selectedStudios,
@@ -17,7 +17,7 @@ export function StudiosSelector({
 
     // Sort according to the predefined studios order
     const sortedStudios = updatedStudios.sort(
-      (a, b) => studios.indexOf(a) - studios.indexOf(b),
+      (a, b) => getAllStudios().indexOf(a) - getAllStudios().indexOf(b),
     );
 
     selectStudios(sortedStudios);
@@ -25,7 +25,7 @@ export function StudiosSelector({
 
   return (
     <div className="join">
-      {studios.map((s, index) => (
+      {getAllStudios().map((s, index) => (
         <input
           key={s}
           className="btn join-item"
@@ -39,3 +39,4 @@ export function StudiosSelector({
     </div>
   );
 }
+

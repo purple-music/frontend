@@ -160,14 +160,18 @@ const Typography = ({
   // Retrieve the style for the specified variant and size
   const textStyle = styles[variant]?.[size] || {};
 
-  return React.createElement(Component, {
-    style: {
-      ...fontFamily.style,
-      ...textStyle,
+  return React.createElement(
+    Component,
+    {
+      style: {
+        ...fontFamily.style,
+        ...textStyle,
+      },
+      className: `${fontFamily.className} ${className}`,
     },
-    className: `${fontFamily.className} ${className}`,
     children,
-  });
+  );
 };
 
 export default Typography;
+
