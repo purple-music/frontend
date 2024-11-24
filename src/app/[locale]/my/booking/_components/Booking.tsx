@@ -12,10 +12,10 @@ import { type Booking } from "@prisma/client";
 
 import { makeOrder } from "@/actions/mutation/make-order";
 import { getAllBookings } from "@/actions/query/booking";
-import PeopleCountSelector from "@/app/[lng]/my/booking/_components/PeopleCountSelector";
-import { SlotSelectorWrapper } from "@/app/[lng]/my/booking/_components/SlotSelectorWrapper";
-import StudioSelector from "@/app/[lng]/my/booking/_components/StudioSelector";
-import { getPriceRate } from "@/app/[lng]/my/booking/_data/prices";
+import PeopleCountSelector from "@/app/[locale]/my/booking/_components/PeopleCountSelector";
+import { SlotSelectorWrapper } from "@/app/[locale]/my/booking/_components/SlotSelectorWrapper";
+import StudioSelector from "@/app/[locale]/my/booking/_components/StudioSelector";
+import { getPriceRate } from "@/app/[locale]/my/booking/_data/prices";
 import { ErrorToast } from "@/components/toasts/ErrorToast";
 import { SuccessToast } from "@/components/toasts/SuccessToast";
 import { StudioId } from "@/lib/types";

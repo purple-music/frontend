@@ -1,7 +1,7 @@
 import { he } from "date-fns/locale";
 import React, { ElementType, HTMLAttributes, ReactNode } from "react";
 
-import { balsamiqSans, inter } from "@/app/[lng]/fonts";
+import { balsamiqSans, inter } from "@/lib/fonts";
 
 // Define styles for each variant and size
 const styles = {

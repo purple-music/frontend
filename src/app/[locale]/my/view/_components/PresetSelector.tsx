@@ -1,4 +1,4 @@
-import { days, getPresetLabel } from "@/app/[lng]/my/view/_data/presets";
+import { days, getPresetLabel } from "@/app/[locale]/my/view/_data/presets";
 
 export function PresetSelector({
   day,
@@ -50,3 +50,4 @@ export function PresetSelector({
     </>
   );
 }
+

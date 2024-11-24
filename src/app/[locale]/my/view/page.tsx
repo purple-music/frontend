@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import React from "react";
 
-import { View } from "@/app/[lng]/my/view/_components/View";
+import { View } from "@/app/[locale]/my/view/_components/View";
 import { PageWrapper } from "@/components/my/PageWrapper";
 import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
 

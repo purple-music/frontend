@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { StudiosSelector } from "@/app/[lng]/my/view/_components/StudiosSelector";
+import { StudiosSelector } from "@/app/[locale]/my/view/_components/StudiosSelector";
 // import { studios } from "@/app/[lng]/my/view/_data/studios";
 import { StudioId } from "@/lib/types";
 

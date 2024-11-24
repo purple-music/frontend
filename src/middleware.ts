@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 
 import authConfig from "@/auth.config";
 import { authMiddleware } from "@/lib/middlewares/auth";
-import { i18nMiddleware } from "@/lib/middlewares/i18n";
 
 import { nextIntlMiddleware } from "./lib/middlewares/next-intl";
 
@@ -13,12 +12,6 @@ export default auth(async (req, _next) => {
 
   if (authResponse) {
     return authResponse;
-  }
-
-  const i18nResponse = await i18nMiddleware(req);
-
-  if (i18nResponse) {
-    return i18nResponse;
   }
 
   const nextIntlResponse = await nextIntlMiddleware(req);
@@ -38,7 +31,7 @@ export const config = {
     // Always run for API routes
     "/(api|trpc)(.*)",
     // Match internationalized pathnames
-    "/(ru|en)/:path*",
+    "/(ru|en)/(.*)",
     "/",
   ],
 };

@@ -1,6 +1,6 @@
 import { Booking } from "@prisma/client";
 
-import { SlotSelector } from "@/app/[lng]/my/booking/_components/SlotSelector";
+import { SlotSelector } from "@/app/[locale]/my/booking/_components/SlotSelector";
 import { Hour } from "@/lib/types";
 
 interface SlotSelectorWrapperProps {
@@ -32,3 +32,4 @@ export function SlotSelectorWrapper({
     />
   );
 }
+

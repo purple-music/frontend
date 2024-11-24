@@ -6,8 +6,8 @@ import { TbCaretLeftFilled, TbCaretRightFilled } from "react-icons/tb";
 import { Booking } from "@prisma/client";
 
 // import { BookingTable } from "@/app/[lng]/my/booking/_components/BookingTable";
-import { StartDaySelector } from "@/app/[lng]/my/booking/_components/StartDaySelector";
-import { getPriceRate } from "@/app/[lng]/my/booking/_data/prices";
+import { StartDaySelector } from "@/app/[locale]/my/booking/_components/StartDaySelector";
+import { getPriceRate } from "@/app/[locale]/my/booking/_data/prices";
 import { Hour } from "@/lib/types";
 
 interface SlotSelectorProps {
