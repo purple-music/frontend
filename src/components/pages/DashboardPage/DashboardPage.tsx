@@ -6,7 +6,7 @@ interface DashboardPageProps {}
 
 const DashboardPage = ({}: DashboardPageProps) => {
   return (
-    <MyTemplate>
+    <>
       <ButtonGroup
         buttons={[
           { label: "Home", value: "home" },
@@ -14,7 +14,7 @@ const DashboardPage = ({}: DashboardPageProps) => {
         ]}
       />
       <PersonalBookings date={new Date()} bookings={[]} />
-    </MyTemplate>
+    </>
   );
 };
 

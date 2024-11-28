@@ -8,6 +8,7 @@ import { Booking } from "@prisma/client";
 import { getCurrentBookingsByUserId } from "@/actions/query/booking";
 import { Dashboard } from "@/components/my/Dashboard";
 import { PageWrapper } from "@/components/my/PageWrapper";
+import DashboardPage from "@/components/pages/DashboardPage/DashboardPage";
 import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
 
 function DashboardWrapper() {
@@ -30,12 +31,14 @@ function DashboardWrapper() {
   return <Dashboard bookings={bookings} />;
 }
 
-export default function DashboardPage() {
+export default function Page() {
   const t = useTranslations("my");
   return (
-    <PageWrapper title={t("dashboard.title")}>
-      <DashboardWrapper />
-    </PageWrapper>
+    <>
+      <DashboardPage />
+      <PageWrapper title={t("dashboard.title")}>
+        <DashboardWrapper />
+      </PageWrapper>
+    </>
   );
 }
-
