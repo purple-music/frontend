@@ -38,7 +38,7 @@ const MyTemplate = ({ children }: MyTemplateProps) => {
       <main className="h-full bg-surface-container-lowest flex-1 p-8 rounded-[32px] flex flex-col gap-8 justify-start items-start">
         <Typography variant="headline" size="large">
           {/* Get label by href */}
-          {buttons.find((button) => button.href === pathname)?.label}
+          {buttons.find((button) => button.href === `/my/${page}`)?.label}
         </Typography>
         {children}
       </main>
