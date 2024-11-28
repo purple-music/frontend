@@ -15,13 +15,19 @@ interface MyTemplateProps {
 
 const MyTemplate = ({ children }: MyTemplateProps) => {
   const pathname = usePathname();
+  // Remove language code
+  const splitPathname = pathname.split("/");
+  const page = splitPathname[3] || "";
   const buttons: NavbarButton[] = [
     { label: "Dashboard", href: "", icon: <FaHouse size={20} /> },
     { label: "View", href: "view", icon: <FaBook size={20} /> },
     { label: "Booking", href: "booking", icon: <FaMusic size={20} /> },
   ]
-    .map((button) => ({ ...button, href: `/my/${button.href}` }))
-    .map((button) => ({ ...button, isSelected: pathname === button.href }));
+    .map((button) => ({
+      ...button,
+      isSelected: page === button.href,
+    }))
+    .map((button) => ({ ...button, href: `/my/${button.href}` }));
 
   const defaultHref = "/";
 
