@@ -35,7 +35,7 @@ const MyTemplate = ({ children }: MyTemplateProps) => {
     <div className="flex h-screen w-full gap-8 flex-row bg-surface-container p-8">
       <Sidebar buttons={buttons} defaultHref={defaultHref} />
 
-      <main className="h-full bg-surface-container-lowest flex-1 p-8 rounded-[32px] flex flex-col gap-8 justify-start items-start">
+      <main className="h-full bg-surface-container-lowest flex-1 p-8 rounded-[32px] flex flex-col gap-8 justify-start items-start overflow-auto">
         <Typography variant="headline" size="large">
           {/* Get label by href */}
           {buttons.find((button) => button.href === `/my/${page}`)?.label}

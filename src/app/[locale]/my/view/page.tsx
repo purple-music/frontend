@@ -5,25 +5,28 @@ import React from "react";
 
 import { View } from "@/app/[locale]/my/view/_components/View";
 import { PageWrapper } from "@/components/my/PageWrapper";
+import ViewPage from "@/components/pages/ViewPage/ViewPage";
 import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
 
-function ViewWrapper() {
-  const { session, status } = useCurrentSession();
+// function ViewWrapper() {
+//   const { session, status } = useCurrentSession();
 
-  if (status === "loading") {
-    // TODO: add skeleton
-    return <span>TODO: View skeleton...</span>;
-  }
+//   if (status === "loading") {
+//     // TODO: add skeleton
+//     return <span>TODO: View skeleton...</span>;
+//   }
 
-  return <View />;
-}
+//   return <View />;
+// }
 
-export default function BookingPage() {
+export default function Page() {
   const t = useTranslations("my");
   return (
-    <PageWrapper title={t("view.title")}>
-      <ViewWrapper />
-    </PageWrapper>
+    <>
+      <ViewPage />
+      {/* <PageWrapper title={t("view.title")}>
+        <ViewWrapper />
+      </PageWrapper> */}
+    </>
   );
 }
-
