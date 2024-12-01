@@ -127,10 +127,34 @@ const styles = {
   },
 };
 
+type Variant =
+  | "display"
+  | "headline"
+  | "title"
+  | "body"
+  | "label"
+  | "labelBold";
+type Size = "small" | "medium" | "large";
+
+export function getTypographyStyles(variant: Variant, size: Size = "medium") {
+  // Determine the font to use based on the variant
+  const fontFamily = ["display", "headline", "title"].includes(variant)
+    ? balsamiqSans
+    : inter;
+
+  // Retrieve the style for the specified variant and size
+  const textStyle = styles[variant]?.[size] || {};
+
+  return {
+    className: fontFamily.className,
+    style: { ...fontFamily.style, ...textStyle },
+  };
+}
+
 interface TypographyProps {
-  variant: "display" | "headline" | "title" | "body" | "label" | "labelBold";
+  variant: Variant;
   children: ReactNode;
-  size?: "small" | "medium" | "large";
+  size?: Size;
   className?: string;
   component?:
     | "h1"
@@ -174,4 +198,3 @@ const Typography = ({
 };
 
 export default Typography;
-

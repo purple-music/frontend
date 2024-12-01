@@ -31,24 +31,48 @@ const BUTTON_PADDINGS = {
   xl: "px-10",
 } as const;
 
-const ButtonBase = ({
-  children,
-  onClick,
-  disabled = false,
-  startIcon,
-  endIcon,
-  className,
+const BUTTON_VARIANTS = {
+  filled:
+    "bg-primary text-on-primary enabled:hover:brightness-90 focus:outline-primary",
+  tonal:
+    "bg-secondary-container text-on-secondary-container enabled:hover:brightness-90 focus:outline-secondary",
+  elevated:
+    "bg-surface-container-low text-primary border border-outline enabled:hover:brightness-90 focus:outline-primary box-border",
+  outlined:
+    "bg-transparent text-primary border border-outline enabled:hover:bg-primary-container focus:outline-primary box-border",
+  text: "bg-transparent text-primary enabled:hover:bg-primary-container focus:outline-primary",
+  danger:
+    "bg-error-container text-on-error-container enabled:hover:brightness-90 focus:outline-error",
+} as const;
+
+interface ButtonStylesOptions {
+  variant?: "filled" | "tonal" | "elevated" | "outlined" | "text" | "danger";
+  width?: "full" | "squared" | "regular";
+  size?: "sm" | "md" | "lg" | "xl";
+  disabled?: boolean;
+  startIcon?: boolean;
+  endIcon?: boolean;
+  className?: string;
+}
+
+export const getButtonClasses = ({
+  variant = "filled",
   width = "regular",
   size = "md",
-  type = "button",
-  ...restProps
-}: ButtonBaseProps) => {
-  const baseClasses = clsx(
+  disabled = false,
+  startIcon = false,
+  endIcon = false,
+  className = "",
+}: ButtonStylesOptions) => {
+  return clsx(
     // Base styles
     "flex items-center",
     "focus:outline outline-offset-2 outline-4",
     "rounded-full",
     "duration-200 ease-out",
+
+    // Variant styles
+    BUTTON_VARIANTS[variant],
 
     // Size styles
     BUTTON_SIZES[size],
@@ -78,6 +102,28 @@ const ButtonBase = ({
     // Custom classes
     className,
   );
+};
+
+const ButtonBase = ({
+  children,
+  onClick,
+  disabled = false,
+  startIcon,
+  endIcon,
+  className,
+  width = "regular",
+  size = "md",
+  type = "button",
+  ...restProps
+}: ButtonBaseProps) => {
+  const baseClasses = getButtonClasses({
+    width,
+    size,
+    disabled,
+    startIcon: !!startIcon,
+    endIcon: !!endIcon,
+    className,
+  });
 
   return (
     <button
