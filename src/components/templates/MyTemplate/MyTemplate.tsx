@@ -1,7 +1,4 @@
-import { Content } from "next/font/google";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { FaBook, FaMusic } from "react-icons/fa";
 import { FaHouse } from "react-icons/fa6";
 
@@ -9,15 +6,14 @@ import Typography from "@/components/atoms/Typography/Typography";
 import { NavbarButton } from "@/components/molecules/Navbar/Navbar";
 import Sidebar from "@/components/organisms/Sidebar/Sidebar";
 
+export type MyPage = "" | "view" | "booking";
+
 interface MyTemplateProps {
   children: ReactNode;
+  page: MyPage;
 }
 
-const MyTemplate = ({ children }: MyTemplateProps) => {
-  const pathname = usePathname();
-  // Remove language code
-  const splitPathname = pathname.split("/");
-  const page = splitPathname[3] || "";
+const MyTemplate = ({ children, page }: MyTemplateProps) => {
   const buttons: NavbarButton[] = [
     { label: "Dashboard", href: "", icon: <FaHouse size={20} /> },
     { label: "View", href: "view", icon: <FaBook size={20} /> },

@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
+import MyTemplate from "@/components/templates/MyTemplate/MyTemplate";
+
 import ViewPage from "./ViewPage";
 
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
   title: "pages/ViewPage",
   component: ViewPage,
@@ -16,5 +17,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: { date: new Date() },
+  render: (args) => (
+    <MyTemplate page={"view"}>
+      <ViewPage {...args} />
+    </MyTemplate>
+  ),
 };
-

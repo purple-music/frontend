@@ -1,6 +1,5 @@
 import ButtonGroup from "@/components/atoms/ButtonGroup/ButtonGroup";
-import PersonalBookings from "@/components/organisms/PersonalBookings/PersonalBookings";
-import MyTemplate from "@/components/templates/MyTemplate/MyTemplate";
+import BookingCalendar from "@/components/molecules/BookingCalendar/BookingCalendar";
 
 interface BookingPageProps {}
 
@@ -13,7 +12,7 @@ const BookingPage = ({}: BookingPageProps) => {
           { label: "Library", value: "library" },
         ]}
       />
-      <PersonalBookings date={new Date()} bookings={[]} />
+      <BookingCalendar />
     </>
   );
 };
