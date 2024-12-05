@@ -7,7 +7,6 @@ import {
   CalendarGridBody,
   CalendarGridHeader,
   CalendarHeaderCell,
-  Heading,
   HeadingContext,
   HeadingProps,
   useContextProps,
