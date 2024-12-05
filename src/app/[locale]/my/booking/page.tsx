@@ -1,29 +1,102 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { z } from "zod";
 
-import { Booking } from "@/app/[locale]/my/booking/_components/Booking";
+import { type Booking } from "@prisma/client";
+
+import { Booking as OldBooking } from "@/app/[locale]/my/booking/_components/Booking";
+import PeopleInput from "@/components/atoms/PeopleInput/PeopleInput";
+import StudioInput from "@/components/atoms/StudioInput/StudioInput";
+import Typography from "@/components/atoms/Typography/Typography";
+import BookingCalendar from "@/components/molecules/BookingCalendar/BookingCalendar";
 import { PageWrapper } from "@/components/my/PageWrapper";
+import BookingStudioTimeSelect, {
+  SelectedTimeSlot,
+} from "@/components/organisms/BookingStudioTimeSelect/BookingStudioTimeSelect";
 import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
+import { MakeOrderSchema } from "@/schemas/schemas";
 
-function BookingWrapper() {
-  const { session, status } = useCurrentSession();
+const InputHeading = ({
+  children,
+  label,
+}: {
+  children: React.ReactNode;
+  label: string;
+}) => {
+  return (
+    <div className="flex flex-col gap-2">
+      <Typography variant="headline" size="small">
+        {label}
+      </Typography>
+      {children}
+    </div>
+  );
+};
 
-  if (status === "loading") {
-    // TODO: add skeleton
-    return <span>TODO: Dashboard skeleton...</span>;
-  }
-
-  return <Booking />;
-}
-
-export default function BookingPage() {
+const Page = () => {
+  const {
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm<z.infer<typeof MakeOrderSchema>>({
+    defaultValues: {
+      studio: "blue",
+      peopleCount: 1,
+      slots: [],
+    },
+    resolver: zodResolver(MakeOrderSchema),
+  });
   const t = useTranslations("my");
 
+  const [bookings, setBookings] = useState<Booking[] | null>(null);
+
   return (
-    <PageWrapper title={t("booking.title")}>
-      <BookingWrapper />
-    </PageWrapper>
+    <>
+      <Controller
+        name="studio"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <InputHeading label={t("booking.form.studio")}>
+            <StudioInput onChange={onChange} value={value} />
+          </InputHeading>
+        )}
+      />
+
+      <Controller
+        name="peopleCount"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <InputHeading label={t("booking.form.people")}>
+            <PeopleInput onChange={onChange} value={value} />
+          </InputHeading>
+        )}
+      />
+      <div className="flex flex-row gap-4 flex-wrap">
+        <BookingCalendar />
+        <BookingStudioTimeSelect
+          day={new Date()}
+          timeSlots={new Map()}
+          selectedTimeSlots={[]}
+          setSelectedTimeSlots={() => {}}
+        />
+      </div>
+
+      {/* Submit Button that shows an alert for debugging */}
+      <button
+        type="submit"
+        className="btn btn-primary"
+        onClick={() => alert(JSON.stringify(watch()))}
+      >
+        {t("booking.form.submit")}
+      </button>
+    </>
   );
-}
+};
+
+export default Page;

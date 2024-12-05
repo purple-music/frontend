@@ -7,16 +7,19 @@ import Surface from "@/components/atoms/Surface/Surface";
 import { StudioId } from "@/lib/types";
 import { getAllStudios, getStudioLabel } from "@/lib/utils/studios";
 
-const StudioInput = () => {
+export interface StudioInputProps {
+  onChange: (value: StudioId) => void;
+  value: StudioId;
+}
+
+const StudioInput = ({ onChange, value }: StudioInputProps) => {
   const allStudios = getAllStudios();
   return (
     <CardRadioInput
       options={allStudios}
       name="studio"
-      value={"blue"}
-      onChange={function (value: StudioId): void {
-        throw new Error("Function not implemented.");
-      }}
+      value={value}
+      onChange={onChange}
     >
       {(studio: StudioId, isChecked: boolean) => {
         return (
