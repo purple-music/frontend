@@ -1,4 +1,5 @@
 import Surface from "@/components/atoms/Surface/Surface";
+import Typography from "@/components/atoms/Typography/Typography";
 import { StudioId } from "@/lib/types";
 
 import BookingStudioTimeSelectBody from "./BookingStudioTimeSelectBody";
@@ -6,7 +7,6 @@ import BookingStudioTimeSelectHeader from "./BookingStudioTimeSelectHeader";
 
 export type StudioTimeSlotInfo = {
   slotTime: Date;
-  available: boolean;
   price: number;
 };
 
@@ -17,26 +17,39 @@ export type SelectedTimeSlot = {
 
 interface BookingStudioTimeSelectProps {
   day: Date;
-  timeSlots: Map<StudioId, StudioTimeSlotInfo>;
+  workingHours: [number, number];
+  availableTimeSlots: Map<StudioId, StudioTimeSlotInfo[]>;
   selectedTimeSlots: SelectedTimeSlot[];
   setSelectedTimeSlots: (timeSlots: SelectedTimeSlot[]) => void;
 }
 
 const BookingStudioTimeSelect = ({
   day,
-  timeSlots,
+  workingHours,
+  availableTimeSlots,
   selectedTimeSlots,
   setSelectedTimeSlots,
 }: BookingStudioTimeSelectProps) => {
   return (
     <Surface className="h-96 box-content w-[calc(3rem+8rem+8rem+8rem)] overflow-hidden relative">
+      <Typography
+        variant={"title"}
+        size={"large"}
+        className={"h-12 flex items-center justify-center"}
+      >
+        {day.toLocaleDateString("en-GB", {
+          weekday: "long",
+          day: "numeric",
+        })}
+      </Typography>
       <BookingStudioTimeSelectHeader
         day={day}
-        studios={Array.from(timeSlots.keys())}
+        studios={Array.from(availableTimeSlots.keys())}
       />
       <BookingStudioTimeSelectBody
         day={day}
-        timeSlots={timeSlots}
+        workingHours={workingHours}
+        availableTimeSlots={availableTimeSlots}
         selectedTimeSlots={selectedTimeSlots}
         setSelectedTimeSlots={setSelectedTimeSlots}
       />

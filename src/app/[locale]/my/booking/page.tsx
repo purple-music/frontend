@@ -2,22 +2,20 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { type Booking } from "@prisma/client";
 
-import { Booking as OldBooking } from "@/app/[locale]/my/booking/_components/Booking";
 import PeopleInput from "@/components/atoms/PeopleInput/PeopleInput";
 import StudioInput from "@/components/atoms/StudioInput/StudioInput";
 import Typography from "@/components/atoms/Typography/Typography";
 import BookingCalendar from "@/components/molecules/BookingCalendar/BookingCalendar";
-import { PageWrapper } from "@/components/my/PageWrapper";
 import BookingStudioTimeSelect, {
-  SelectedTimeSlot,
+  StudioTimeSlotInfo,
 } from "@/components/organisms/BookingStudioTimeSelect/BookingStudioTimeSelect";
-import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
+import { StudioId } from "@/lib/types";
 import { MakeOrderSchema } from "@/schemas/schemas";
 
 const InputHeading = ({
@@ -54,6 +52,11 @@ const Page = () => {
   });
   const t = useTranslations("my");
 
+  // TODO: fetch this from the server
+  const availableTimeSlots: Map<StudioId, StudioTimeSlotInfo[]> = new Map([
+    ["blue", [{ slotTime: new Date("2024-12-06T10:00:00"), price: 200 }]],
+  ]);
+
   const [bookings, setBookings] = useState<Booking[] | null>(null);
 
   return (
@@ -77,15 +80,24 @@ const Page = () => {
           </InputHeading>
         )}
       />
-      <div className="flex flex-row gap-4 flex-wrap">
-        <BookingCalendar />
-        <BookingStudioTimeSelect
-          day={new Date()}
-          timeSlots={new Map()}
-          selectedTimeSlots={[]}
-          setSelectedTimeSlots={() => {}}
-        />
-      </div>
+      <Controller
+        name="slots"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <InputHeading label={t("booking.form.slots.label")}>
+            <div className="flex flex-row gap-4 flex-wrap">
+              <BookingCalendar />
+              <BookingStudioTimeSelect
+                day={new Date()}
+                workingHours={[9, 21]}
+                availableTimeSlots={availableTimeSlots}
+                selectedTimeSlots={[]}
+                setSelectedTimeSlots={() => {}}
+              />
+            </div>
+          </InputHeading>
+        )}
+      />
 
       {/* Submit Button that shows an alert for debugging */}
       <button

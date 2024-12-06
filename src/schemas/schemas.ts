@@ -45,6 +45,6 @@ const StudioIdSchema = z.enum(["purple", "orange", "blue"]);
 
 export const MakeOrderSchema = z.object({
   studio: StudioIdSchema,
-  slots: z.number().array().min(1, "At least one slot must be selected"),
+  slots: z.date().array().min(1, "At least one slot must be selected"),
   peopleCount: z.number().int().positive().min(1).max(10),
 });
