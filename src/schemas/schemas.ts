@@ -44,7 +44,12 @@ export const NewPasswordSchema = z.object({
 const StudioIdSchema = z.enum(["purple", "orange", "blue"]);
 
 export const MakeOrderSchema = z.object({
-  studio: StudioIdSchema,
-  slots: z.date().array().min(1, "At least one slot must be selected"),
+  slots: z
+    .object({
+      slotTime: z.date(),
+      studio: StudioIdSchema,
+    })
+    .array()
+    .min(1, "At least one slot must be selected"),
   peopleCount: z.number().int().positive().min(1).max(10),
 });

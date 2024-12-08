@@ -1,3 +1,4 @@
+import { clsx } from "clsx";
 import React from "react";
 import {
   Button,
@@ -7,6 +8,8 @@ import {
   CalendarGridBody,
   CalendarGridHeader,
   CalendarHeaderCell,
+  CalendarProps,
+  DateValue,
   HeadingContext,
   HeadingProps,
   useContextProps,
@@ -29,7 +32,11 @@ const BookingCalendarHeading = React.forwardRef(
 );
 BookingCalendarHeading.displayName = "BookingCalendarHeading";
 
-const BookingCalendar = () => {
+interface BookingCalendarProps<T extends DateValue> extends CalendarProps<T> {}
+
+const BookingCalendar = <T extends DateValue>({
+  ...props
+}: BookingCalendarProps<T>) => {
   const buttonClasses = getButtonClasses({
     variant: "filled",
     width: "squared",
@@ -40,7 +47,11 @@ const BookingCalendar = () => {
 
   return (
     <Surface>
-      <Calendar aria-label="Appointment date" className={"w-[21rem]"}>
+      <Calendar
+        aria-label="Appointment date"
+        className={"w-[21rem]"}
+        {...props}
+      >
         <header className="flex items-center h-12 justify-between w-[21rem]">
           <div className="flex items-center justify-center w-12">
             <Button slot="previous" className={buttonClasses}>
@@ -79,7 +90,16 @@ const BookingCalendar = () => {
               return (
                 <CalendarCell
                   date={date}
-                  className="w-12 h-12 flex items-center justify-center"
+                  className={({ isSelected }) => {
+                    return clsx(
+                      "w-12 h-12",
+                      "rounded-full",
+                      "flex items-center justify-center",
+                      isSelected
+                        ? "bg-secondary-container text-on-secondary-container"
+                        : "",
+                    );
+                  }}
                 >
                   <span className={className} style={style}>
                     {date.day}
