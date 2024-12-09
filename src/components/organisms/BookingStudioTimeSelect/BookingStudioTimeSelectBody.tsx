@@ -1,24 +1,31 @@
 import clsx from "clsx";
 
-import Typography from "@/components/atoms/Typography/Typography";
+import Typography, {
+  getTypographyStyles,
+} from "@/components/atoms/Typography/Typography";
 import VerticalTimeline from "@/components/atoms/VerticalTimeline/VerticalTimeline";
 import { StudioId } from "@/lib/types";
 import { getAllStudios } from "@/lib/utils/studios";
 
-import { SelectedTimeSlot } from "./BookingStudioTimeSelect";
+import { SelectedTimeSlot, isSlotSame } from "./BookingStudioTimeSelect";
 
 interface BookingStudioTimeSelectBodyStudioProps {
   studio: StudioId;
   day: Date;
   studioTimeSlots: StudioTimeSlotInfoWithAvailable[];
   selectedTimeSlots: SelectedTimeSlot[];
-  setSelectedTimeSlots: (timeSlots: SelectedTimeSlot[]) => void;
+  onSlotClick: (timeSlots: SelectedTimeSlot) => void;
 }
 
 const BookingStudioTimeSelectBodyStudio = ({
   studio,
   studioTimeSlots,
+  selectedTimeSlots,
+  onSlotClick,
+  day,
 }: BookingStudioTimeSelectBodyStudioProps) => {
+  const { style, className } = getTypographyStyles("label", "medium");
+
   return (
     <div className="flex flex-col flex-1 w-32 divide-y divide-outline-variant">
       {studioTimeSlots.map((timeSlot) => (
@@ -26,20 +33,33 @@ const BookingStudioTimeSelectBodyStudio = ({
           key={`${studio}-${timeSlot.slotTime}`}
           className="shrink-0 h-12 bg-surface-container-lowest p-2"
         >
-          <Typography
-            variant={"label"}
-            size="medium"
+          <button
+            style={style}
+            onClick={() =>
+              timeSlot.available &&
+              onSlotClick({ studio, slotTime: timeSlot.slotTime })
+            }
             className={clsx(
+              className,
               "shrink-0",
               "flex items-center justify-center",
               "w-full h-full rounded-[8px]",
               timeSlot.available
                 ? "bg-surface-container"
-                : "bg-surface-container-lowest",
+                : "bg-surface-container-lowest cursor-not-allowed",
+              selectedTimeSlots.find((slot) =>
+                isSlotSame(slot, {
+                  studio,
+                  slotTime: timeSlot.slotTime,
+                }),
+              )
+                ? "!bg-secondary-container !text-on-secondary-container"
+                : "",
             )}
           >
-            {timeSlot.price}
-          </Typography>
+            {/* TODO: Fix this */}
+            {timeSlot.price === 0 ? "" : `$${timeSlot.price}`}
+          </button>
         </div>
       ))}
     </div>
@@ -51,7 +71,7 @@ interface BookingStudioTimeSelectBodyProps {
   workingHours: [number, number];
   availableTimeSlots: Map<StudioId, StudioTimeSlotInfo[]>;
   selectedTimeSlots: SelectedTimeSlot[];
-  setSelectedTimeSlots: (timeSlots: SelectedTimeSlot[]) => void;
+  onSlotClick: (slot: SelectedTimeSlot) => void;
 }
 
 export type StudioTimeSlotInfo = {
@@ -68,7 +88,7 @@ const BookingStudioTimeSelectBody = ({
   workingHours,
   availableTimeSlots,
   selectedTimeSlots,
-  setSelectedTimeSlots,
+  onSlotClick,
 }: BookingStudioTimeSelectBodyProps) => {
   /**
    * Generates an array of time slots for a given range of hours on the specified day.
@@ -144,7 +164,7 @@ const BookingStudioTimeSelectBody = ({
             day={day}
             studioTimeSlots={filledTimeSlots.get(studio) ?? []}
             selectedTimeSlots={selectedTimeSlots}
-            setSelectedTimeSlots={setSelectedTimeSlots}
+            onSlotClick={onSlotClick}
           />
         ))}
       </div>

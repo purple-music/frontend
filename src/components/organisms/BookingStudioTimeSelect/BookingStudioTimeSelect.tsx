@@ -23,6 +23,16 @@ interface BookingStudioTimeSelectProps {
   setSelectedTimeSlots: (timeSlots: SelectedTimeSlot[]) => void;
 }
 
+export const isSlotSame = (
+  slot1: SelectedTimeSlot,
+  slot2: SelectedTimeSlot,
+) => {
+  return (
+    slot1.slotTime.getTime() === slot2.slotTime.getTime() &&
+    slot1.studio === slot2.studio
+  );
+};
+
 const BookingStudioTimeSelect = ({
   day,
   workingHours,
@@ -30,6 +40,15 @@ const BookingStudioTimeSelect = ({
   selectedTimeSlots,
   setSelectedTimeSlots,
 }: BookingStudioTimeSelectProps) => {
+  const onSlotClick = (slot: SelectedTimeSlot) => {
+    if (selectedTimeSlots.some((s) => isSlotSame(s, slot))) {
+      setSelectedTimeSlots(
+        selectedTimeSlots.filter((s) => !isSlotSame(s, slot)),
+      );
+    } else {
+      setSelectedTimeSlots([...selectedTimeSlots, slot]);
+    }
+  };
   return (
     <Surface className="h-96 box-content w-[calc(3rem+8rem+8rem+8rem)] overflow-hidden relative">
       <Typography
@@ -51,7 +70,7 @@ const BookingStudioTimeSelect = ({
         workingHours={workingHours}
         availableTimeSlots={availableTimeSlots}
         selectedTimeSlots={selectedTimeSlots}
-        setSelectedTimeSlots={setSelectedTimeSlots}
+        onSlotClick={onSlotClick}
       />
     </Surface>
   );

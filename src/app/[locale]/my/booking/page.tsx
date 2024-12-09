@@ -39,16 +39,17 @@ const InputHeading = ({
 interface BookingSlotInputProps {
   availableTimeSlots: Map<StudioId, StudioTimeSlotInfo[]>;
   selectedTimeSlots: SelectedTimeSlot[];
-  setSelectedTimeSLots: (timeSlots: SelectedTimeSlot[]) => void;
+  setSelectedTimeSlots: (timeSlots: SelectedTimeSlot[]) => void;
 }
 
 const BookingSlotInput = ({
   availableTimeSlots,
   selectedTimeSlots,
-  setSelectedTimeSLots,
+  setSelectedTimeSlots,
 }: BookingSlotInputProps) => {
   // TODO: use Luxon
   const [selectedDay, setSelectedDay] = useState(today(getLocalTimeZone()));
+
   return (
     <div className="flex flex-row gap-4 flex-wrap">
       <BookingCalendar value={selectedDay} onChange={setSelectedDay} />
@@ -57,7 +58,7 @@ const BookingSlotInput = ({
         workingHours={[9, 21]}
         availableTimeSlots={availableTimeSlots}
         selectedTimeSlots={selectedTimeSlots}
-        setSelectedTimeSlots={setSelectedTimeSLots}
+        setSelectedTimeSlots={setSelectedTimeSlots}
       />
     </div>
   );
@@ -81,8 +82,11 @@ const Page = () => {
   const t = useTranslations("my");
 
   // TODO: fetch this from the server based on the day
+  // TODO: consider using array of objects with "studioId" instead of Map
   const availableTimeSlots: Map<StudioId, StudioTimeSlotInfo[]> = new Map([
-    ["blue", [{ slotTime: new Date("2024-12-08T10:00:00"), price: 200 }]],
+    ["blue", [{ slotTime: new Date("2024-12-09T10:00:00"), price: 200 }]],
+    ["orange", [{ slotTime: new Date("2024-12-09T10:00:00"), price: 200 }]],
+    ["purple", [{ slotTime: new Date("2024-12-09T10:00:00"), price: 200 }]],
   ]);
 
   const [bookings, setBookings] = useState<Booking[] | null>(null);
@@ -116,7 +120,7 @@ const Page = () => {
             <BookingSlotInput
               availableTimeSlots={availableTimeSlots}
               selectedTimeSlots={value}
-              setSelectedTimeSLots={onChange}
+              setSelectedTimeSlots={onChange}
             />
           </InputHeading>
         )}
