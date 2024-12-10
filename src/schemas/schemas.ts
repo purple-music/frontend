@@ -53,3 +53,12 @@ export const MakeOrderSchema = z.object({
     .min(1, "At least one slot must be selected"),
   peopleCount: z.number().int().positive().min(1).max(10),
 });
+
+export const GetAvailableSlotsSchema = z.object({
+  from: z
+    .string()
+    .refine((date) => !isNaN(Date.parse(date)), "Invalid date format"),
+  to: z
+    .string()
+    .refine((date) => !isNaN(Date.parse(date)), "Invalid date format"),
+});

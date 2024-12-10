@@ -55,8 +55,7 @@ model User {
 
 model Booking {
   id        Int      @id @default(autoincrement())
-  startTime DateTime // Start time of the booking (UTC)
-  endTime   DateTime // End time of the booking (UTC)
+  slotTime  DateTime
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

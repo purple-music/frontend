@@ -13,11 +13,13 @@ import PeopleInput from "@/components/atoms/PeopleInput/PeopleInput";
 import Typography from "@/components/atoms/Typography/Typography";
 import BookingCalendar from "@/components/molecules/BookingCalendar/BookingCalendar";
 import BookingStudioTimeSelect, {
+  BookingSlotInfo,
   SelectedTimeSlot,
   StudioTimeSlotInfo,
 } from "@/components/organisms/BookingStudioTimeSelect/BookingStudioTimeSelect";
 import { StudioId } from "@/lib/types";
 import { MakeOrderSchema } from "@/schemas/schemas";
+import { getAvailableSlots } from "@/actions/query/booking";
 
 const InputHeading = ({
   children,
@@ -37,7 +39,7 @@ const InputHeading = ({
 };
 
 interface BookingSlotInputProps {
-  availableTimeSlots: Map<StudioId, StudioTimeSlotInfo[]>;
+  availableTimeSlots: BookingSlotInfo[];
   selectedTimeSlots: SelectedTimeSlot[];
   setSelectedTimeSlots: (timeSlots: SelectedTimeSlot[]) => void;
 }
@@ -83,11 +85,9 @@ const Page = () => {
 
   // TODO: fetch this from the server based on the day
   // TODO: consider using array of objects with "studioId" instead of Map
-  const availableTimeSlots: Map<StudioId, StudioTimeSlotInfo[]> = new Map([
-    ["blue", [{ slotTime: new Date("2024-12-09T10:00:00"), price: 200 }]],
-    ["orange", [{ slotTime: new Date("2024-12-09T10:00:00"), price: 200 }]],
-    ["purple", [{ slotTime: new Date("2024-12-09T10:00:00"), price: 200 }]],
-  ]);
+  const availableTimeSlots: BookingSlotInfo = getAvailableSlots({
+    from: // TODO
+  })
 
   const [bookings, setBookings] = useState<Booking[] | null>(null);
 

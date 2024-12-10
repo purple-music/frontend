@@ -25,52 +25,42 @@ export async function makeOrder(
     return error("No session specified!");
   }
 
-  //   const { studio, slots, peopleCount } = validatedFields.data;
+  const { slots, peopleCount } = validatedFields.data;
 
-  //   // Get Studio Id
-  //   const studioId = await prisma.studio.findUnique({
-  //     where: { name: studio },
-  //     select: { id: true },
-  //   });
+  // Extract slot times and studio IDs
+  const slotTimes = slots.map((slot) => slot.slotTime);
+  const studioIds = slots.map((slot) => slot.studio);
 
-  //   if (!studioId) {
-  //     return error("Studio not found!");
-  //   }
+  // Check for overlapping bookings
+  const overlappingBookings = await prisma.booking.findMany({
+    where: {
+      studioId: { in: studioIds },
+      slotTime: { in: slotTimes },
+    },
+  });
 
-  //   // Check if any of the slots for the selected studio are already booked
-  //   const existingBookings = await prisma.booking.findMany({
-  //     where: {
-  //       studioId: studioId.id,
-  //       createdAt: { in: slots }, // Check if any of the requested slots are already booked
-  //     },
-  //   });
+  if (overlappingBookings.length > 0) {
+    return error("Some of the selected slots are already booked.");
+  }
 
-  //   // If there are existing bookings for any of the requested slots, return an error
-  //   if (existingBookings.length > 0) {
-  //     return error("Some slots are already booked.");
-  //   }
+  // Create a new order
+  try {
+    const newOrder = await prisma.order.create({
+      data: {
+        userId: session.user.id,
+        bookings: {
+          create: slots.map((slot) => ({
+            slotTime: slot.slotTime,
+            studio: { connect: { id: slot.studio } },
+          })),
+        },
+      },
+      include: { bookings: true },
+    });
 
-  //   const now = dateToHour(new Date());
-  //   if (slots.some((hour) => now >= hour)) {
-  //     return error("Could not book in the past.");
-  //   }
-
-  //   const bookings = slots.map((hour) => {
-  //     return {
-  //       hour,
-  //       studio,
-  //     };
-  //   });
-
-  //   const order = await prisma.order.create({
-  //     data: {
-  //       user: { connect: { id: session.user.id } },
-  //       bookings: { create: bookings },
-  //     },
-  //   });
-
-  //   return success(order);
-
-  return error("Not implemented");
+    return success(newOrder);
+  } catch (err) {
+    console.error("Failed to create order:", err);
+    return error("Failed to create order. Please try again later.");
+  }
 }
-

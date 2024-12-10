@@ -10,6 +10,12 @@ export type StudioTimeSlotInfo = {
   price: number;
 };
 
+export type BookingSlotInfo = {
+  studioId: StudioId;
+  slotTime: Date;
+  price: number;
+};
+
 export type SelectedTimeSlot = {
   slotTime: Date;
   studio: StudioId;
@@ -18,7 +24,7 @@ export type SelectedTimeSlot = {
 interface BookingStudioTimeSelectProps {
   day: Date;
   workingHours: [number, number];
-  availableTimeSlots: Map<StudioId, StudioTimeSlotInfo[]>;
+  availableTimeSlots: BookingSlotInfo[];
   selectedTimeSlots: SelectedTimeSlot[];
   setSelectedTimeSlots: (timeSlots: SelectedTimeSlot[]) => void;
 }
@@ -63,7 +69,7 @@ const BookingStudioTimeSelect = ({
       </Typography>
       <BookingStudioTimeSelectHeader
         day={day}
-        studios={Array.from(availableTimeSlots.keys())}
+        studios={[...new Set(availableTimeSlots.map((s) => s.studioId))]}
       />
       <BookingStudioTimeSelectBody
         day={day}
