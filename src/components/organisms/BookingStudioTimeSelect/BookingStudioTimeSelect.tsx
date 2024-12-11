@@ -1,3 +1,8 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+
+import { getAvailableSlots } from "@/actions/query/booking";
 import Surface from "@/components/atoms/Surface/Surface";
 import Typography from "@/components/atoms/Typography/Typography";
 import { StudioId } from "@/lib/types";
@@ -24,7 +29,6 @@ export type SelectedTimeSlot = {
 interface BookingStudioTimeSelectProps {
   day: Date;
   workingHours: [number, number];
-  availableTimeSlots: BookingSlotInfo[];
   selectedTimeSlots: SelectedTimeSlot[];
   setSelectedTimeSlots: (timeSlots: SelectedTimeSlot[]) => void;
 }
@@ -42,10 +46,35 @@ export const isSlotSame = (
 const BookingStudioTimeSelect = ({
   day,
   workingHours,
-  availableTimeSlots,
   selectedTimeSlots,
   setSelectedTimeSlots,
 }: BookingStudioTimeSelectProps) => {
+  // TODO: fetch this from the server based on the day
+  // TODO: consider using array of objects with "studioId" instead of Map
+  // TODO: use Moscow timezone with Luxon
+  const [availableTimeSlots, setAvailableTimeSlots] = useState<
+    BookingSlotInfo[] | null
+  >(null);
+
+  useEffect(() => {
+    console.log("Fetching available slots...");
+    const fetchAvailableSlots = async () => {
+      const slots = await getAvailableSlots({
+        from: day.toISOString(),
+        to: day.toISOString(),
+      });
+      if (slots.type === "error") return; // TODO: handle error
+      setAvailableTimeSlots(slots.content);
+    };
+
+    console.log("Fetched available slots: ", availableTimeSlots);
+
+    void fetchAvailableSlots();
+  }, [availableTimeSlots, day]); // Refetch whenever the selected day changes
+
+  // TODO: draw loading skeleton
+  if (!availableTimeSlots) return <div>Loading...</div>;
+
   const onSlotClick = (slot: SelectedTimeSlot) => {
     if (selectedTimeSlots.some((s) => isSlotSame(s, slot))) {
       setSelectedTimeSlots(

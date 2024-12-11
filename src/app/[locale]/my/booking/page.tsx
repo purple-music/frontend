@@ -3,12 +3,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getLocalTimeZone, today } from "@internationalized/date";
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { type Booking } from "@prisma/client";
 
+import { getAvailableSlots } from "@/actions/query/booking";
 import PeopleInput from "@/components/atoms/PeopleInput/PeopleInput";
 import Typography from "@/components/atoms/Typography/Typography";
 import BookingCalendar from "@/components/molecules/BookingCalendar/BookingCalendar";
@@ -19,7 +20,6 @@ import BookingStudioTimeSelect, {
 } from "@/components/organisms/BookingStudioTimeSelect/BookingStudioTimeSelect";
 import { StudioId } from "@/lib/types";
 import { MakeOrderSchema } from "@/schemas/schemas";
-import { getAvailableSlots } from "@/actions/query/booking";
 
 const InputHeading = ({
   children,
@@ -39,13 +39,11 @@ const InputHeading = ({
 };
 
 interface BookingSlotInputProps {
-  availableTimeSlots: BookingSlotInfo[];
   selectedTimeSlots: SelectedTimeSlot[];
   setSelectedTimeSlots: (timeSlots: SelectedTimeSlot[]) => void;
 }
 
 const BookingSlotInput = ({
-  availableTimeSlots,
   selectedTimeSlots,
   setSelectedTimeSlots,
 }: BookingSlotInputProps) => {
@@ -58,7 +56,6 @@ const BookingSlotInput = ({
       <BookingStudioTimeSelect
         day={selectedDay.toDate(getLocalTimeZone())}
         workingHours={[9, 21]}
-        availableTimeSlots={availableTimeSlots}
         selectedTimeSlots={selectedTimeSlots}
         setSelectedTimeSlots={setSelectedTimeSlots}
       />
@@ -82,12 +79,6 @@ const Page = () => {
     resolver: zodResolver(MakeOrderSchema),
   });
   const t = useTranslations("my");
-
-  // TODO: fetch this from the server based on the day
-  // TODO: consider using array of objects with "studioId" instead of Map
-  const availableTimeSlots: BookingSlotInfo = getAvailableSlots({
-    from: // TODO
-  })
 
   const [bookings, setBookings] = useState<Booking[] | null>(null);
 
@@ -118,7 +109,6 @@ const Page = () => {
         render={({ field: { onChange, value } }) => (
           <InputHeading label={t("booking.form.slots.label")}>
             <BookingSlotInput
-              availableTimeSlots={availableTimeSlots}
               selectedTimeSlots={value}
               setSelectedTimeSlots={onChange}
             />
