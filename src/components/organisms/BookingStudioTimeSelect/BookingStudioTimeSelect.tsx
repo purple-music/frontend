@@ -1,5 +1,6 @@
 "use client";
 
+import { endOfDay, startOfDay } from "date-fns";
 import React, { useEffect, useState } from "react";
 
 import { getAvailableSlots } from "@/actions/query/booking";
@@ -60,8 +61,8 @@ const BookingStudioTimeSelect = ({
     console.log("Fetching available slots...");
     const fetchAvailableSlots = async () => {
       const slots = await getAvailableSlots({
-        from: day.toISOString(),
-        to: day.toISOString(),
+        from: startOfDay(day).toISOString(),
+        to: endOfDay(day).toISOString(),
       });
       if (slots.type === "error") return; // TODO: handle error
       setAvailableTimeSlots(slots.content);
@@ -70,7 +71,7 @@ const BookingStudioTimeSelect = ({
     console.log("Fetched available slots: ", availableTimeSlots);
 
     void fetchAvailableSlots();
-  }, [availableTimeSlots, day]); // Refetch whenever the selected day changes
+  }, [day]); // Refetch whenever the selected day changes
 
   // TODO: draw loading skeleton
   if (!availableTimeSlots) return <div>Loading...</div>;

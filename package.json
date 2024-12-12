@@ -12,10 +12,14 @@
         "db:push": "npx prisma db push",
         "db:view": "npx prisma studio",
         "db:reset": "npx prisma db push --force-reset",
+        "db:seed": "ts-node prisma/seed.ts",
         "storybook": "storybook dev -p 6006",
         "build-storybook": "storybook build",
         "docker:dev": "docker-compose -f docker-compose.dev.yml up -d",
         "docker:prod": "docker-compose -f docker-compose.prod.yml up -d"
+    },
+    "prisma": {
+        "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
     },
     "dependencies": {
         "@auth/prisma-adapter": "^2.4.2",
@@ -60,7 +64,7 @@
         "@types/bcrypt": "^5.0.2",
         "@types/bcryptjs": "^2.4.6",
         "@types/luxon": "^3.4.2",
-        "@types/node": "^20",
+        "@types/node": "^20.17.10",
         "@types/react": "^18",
         "@types/react-dom": "^18",
         "@types/uuid": "^10.0.0",
@@ -76,6 +80,7 @@
         "prisma": "5.19.1",
         "storybook": "^8.3.6",
         "tailwindcss": "^3.4.7",
-        "typescript": "^5"
+        "ts-node": "^10.9.2",
+        "typescript": "^5.7.2"
     }
 }
