@@ -17,8 +17,9 @@ import PseudoLine from "@/components/atoms/PseudoLine/PseudoLine";
 import Surface from "@/components/atoms/Surface/Surface";
 import Typography from "@/components/atoms/Typography/Typography";
 import { Hour, StudioId } from "@/lib/types";
+import { getSoftStudioColor } from "@/lib/utils/studios";
 
-type PersonalBooking = {
+export type PersonalBooking = {
   studio: StudioId;
   time: Date;
   people: number;
@@ -86,7 +87,29 @@ interface PersonalBookingsProps {
   bookings: PersonalBooking[];
 }
 
-const PersonalBookings = ({ date }: PersonalBookingsProps) => {
+function groupBookingsByStudio(
+  bookings: PersonalBooking[],
+): Record<StudioId, PersonalBooking[]> {
+  return bookings.reduce(
+    (grouped, booking) => {
+      // If the studio doesn't exist in the grouped object, create an empty array
+      if (!grouped[booking.studio]) {
+        grouped[booking.studio] = [];
+      }
+
+      // Add the booking to its studio's array
+      grouped[booking.studio].push(booking);
+
+      return grouped;
+    },
+    {} as Record<StudioId, PersonalBooking[]>,
+  );
+}
+
+const PersonalBookings = ({ date, bookings }: PersonalBookingsProps) => {
+  // Group bookings by studio
+  const groupedBookings = groupBookingsByStudio(bookings);
+
   return (
     <Surface className="w-full">
       <div className="w-full justify-between flex items-center px-2 h-12">
@@ -102,14 +125,14 @@ const PersonalBookings = ({ date }: PersonalBookingsProps) => {
       </div>
 
       <div className="w-full gap-4 flex flex-col">
-        {["Orange", "Purple", "Blue"].map((name) => (
+        {Object.keys(groupedBookings).map((name) => (
           <div
             key={name}
             className="w-full bg-surface-container-lowest h-20 items-center rounded-[16px] p-4 flex justify-between flex-row"
           >
-            <PseudoLine color="bg-brand-orange-container">
+            <PseudoLine color={`${getSoftStudioColor(name as StudioId)}`}>
               <Typography variant="body" size="large">
-                {name} Studio
+                {name}
               </Typography>
             </PseudoLine>
             <div className="flex items-center">
@@ -136,4 +159,3 @@ const PersonalBookings = ({ date }: PersonalBookingsProps) => {
 };
 
 export default PersonalBookings;
-

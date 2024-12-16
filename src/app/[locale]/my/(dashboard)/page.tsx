@@ -36,9 +36,9 @@ export default function Page() {
   return (
     <>
       <DashboardPage />
-      <PageWrapper title={t("dashboard.title")}>
-        <DashboardWrapper />
-      </PageWrapper>
+      {/*<PageWrapper title={t("dashboard.title")}>*/}
+      {/*  <DashboardWrapper />*/}
+      {/*</PageWrapper>*/}
     </>
   );
 }
