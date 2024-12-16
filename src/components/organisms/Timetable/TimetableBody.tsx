@@ -1,14 +1,15 @@
 import { DateTime } from "luxon";
 
-import Typography from "@/components/atoms/Typography/Typography";
 import { VerticalTimeline } from "@/components/atoms/VerticalTimeline/VerticalTimeline";
 import { StudioId } from "@/lib/types";
+import { getSoftStudioColor, getStudioColor } from "@/lib/utils/studios";
 
 interface TimetableBodyDayStudioProps {
   studio: StudioId;
   date: DateTime;
   timezone: string;
   timeSlots: number[];
+  busySlots: Date[];
 }
 
 const TimetableContentDayStudio = ({
@@ -16,13 +17,27 @@ const TimetableContentDayStudio = ({
   date,
   timezone,
   timeSlots,
+  busySlots,
 }: TimetableBodyDayStudioProps) => {
   return (
-    <div className="flex-col flex-1 flex items-center justify-center h-full divide-y divide-surface-container-high">
+    <div className="flex-col flex-1 flex items-center justify-center h-full divide-y divide-surface-container-high relative">
       {timeSlots.map((hour) => (
         <div
           key={hour}
           className={`h-8 w-full flex items-start justify-center box-border`}
+        ></div>
+      ))}
+      {/*  Now let's try to draw something with position absolute*/}
+      <div className="absolute top-0 left-0 right-0 bottom-0 w-full h-8 flex items-center justify-center">
+        pig
+      </div>
+      {busySlots.map((slot) => (
+        <div
+          key={slot.getTime()}
+          className={`absolute left-0 right-0 bottom-0 w-full h-8 flex items-center justify-center ${getSoftStudioColor(studio)}`}
+          style={{
+            top: `calc(${slot.getHours() - timeSlots[0]} * 2rem)`,
+          }}
         ></div>
       ))}
     </div>
@@ -34,6 +49,7 @@ interface TimetableBodyDayProps {
   timezone: string;
   studios: StudioId[];
   timeSlots: number[];
+  busySlots: Record<StudioId, Date[]>;
 }
 
 const TimetableBodyDay = ({
@@ -41,6 +57,7 @@ const TimetableBodyDay = ({
   timezone,
   studios,
   timeSlots,
+  busySlots,
 }: TimetableBodyDayProps) => {
   return (
     <div className="flex flex-1 flex-row justify-between bg-surface-container-lowest divide-x divide-surface-container-high">
@@ -51,6 +68,7 @@ const TimetableBodyDay = ({
           date={date}
           timezone={timezone}
           timeSlots={timeSlots}
+          busySlots={busySlots[studio] || []}
         />
       ))}
     </div>
@@ -63,6 +81,7 @@ interface TimetableBodyProps {
   openHour: number;
   closeHour: number;
   studios: StudioId[];
+  busySlots: Record<string, Record<StudioId, Date[]>>;
 }
 
 const TimetableBody = ({
@@ -71,6 +90,7 @@ const TimetableBody = ({
   openHour,
   closeHour,
   studios,
+  busySlots,
 }: TimetableBodyProps) => {
   const timeSlots = Array.from({ length: closeHour - openHour }).map(
     (_, i) => i + openHour,
@@ -87,6 +107,7 @@ const TimetableBody = ({
             timezone={timezone}
             studios={studios}
             timeSlots={timeSlots}
+            busySlots={busySlots[date.toFormat("yyyy-MM-dd")] || ""}
           />
         ))}
       </div>
@@ -95,4 +116,3 @@ const TimetableBody = ({
 };
 
 export default TimetableBody;
-

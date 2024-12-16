@@ -9,6 +9,7 @@ import { z } from "zod";
 
 import { type Booking } from "@prisma/client";
 
+import { makeOrder } from "@/actions/mutation/make-order";
 import { getAvailableSlots } from "@/actions/query/booking";
 import PeopleInput from "@/components/atoms/PeopleInput/PeopleInput";
 import Typography from "@/components/atoms/Typography/Typography";
@@ -120,7 +121,7 @@ const Page = () => {
       <button
         type="submit"
         className="btn btn-primary"
-        onClick={() => alert(JSON.stringify(watch()))}
+        onClick={() => makeOrder(watch())}
       >
         {t("booking.form.submit")}
       </button>
