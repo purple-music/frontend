@@ -5,16 +5,22 @@ import { useState } from "react";
 import ButtonBase from "../ButtonBase/ButtonBase";
 import Typography from "../Typography/Typography";
 
-interface ButtonGroupProps {
-  buttons: { label: string; value: string }[];
-  defaultValue?: string;
-  onClick?: (value: string) => void;
+type Key = string | number;
+
+interface ButtonGroupProps<KeyT extends Key> {
+  buttons: { label: string; value: KeyT }[];
+  defaultValue?: KeyT;
+  onClick?: (value: KeyT) => void;
 }
 
-const ButtonGroup = ({ buttons, defaultValue, onClick }: ButtonGroupProps) => {
-  const [selected, setSelected] = useState(defaultValue);
+const ButtonGroup = <KeyT extends Key>({
+  buttons,
+  defaultValue,
+  onClick,
+}: ButtonGroupProps<KeyT>) => {
+  const [selected, setSelected] = useState<KeyT | undefined>(defaultValue);
 
-  const handleClick = (value: string) => {
+  const handleClick = (value: KeyT) => {
     setSelected(value);
     if (onClick) {
       onClick(value);
