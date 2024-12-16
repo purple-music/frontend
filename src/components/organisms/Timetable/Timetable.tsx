@@ -13,6 +13,7 @@ interface TimetableProps {
   endDate: Date;
   timezone: string;
   studios: StudioId[];
+  busySlots: Record<string, Record<StudioId, Date[]>>;
 }
 
 const Timetable = ({
@@ -20,6 +21,7 @@ const Timetable = ({
   endDate,
   timezone,
   studios,
+  busySlots,
 }: TimetableProps) => {
   const start = DateTime.fromJSDate(startDate);
   const end = DateTime.fromJSDate(endDate);
@@ -38,10 +40,10 @@ const Timetable = ({
         studios={studios}
         openHour={openHour}
         closeHour={closeHour}
+        busySlots={busySlots}
       />
     </Surface>
   );
 };
 
 export default Timetable;
-
