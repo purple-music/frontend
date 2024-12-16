@@ -18,7 +18,7 @@ export const Default: Story = {
         width={64}
         height={64}
         layout="fixed"
-        src={"logo.webp"}
+        src={"/logo.webp"}
         alt="Logo"
         className="w-16 h-16 rounded-full"
       />

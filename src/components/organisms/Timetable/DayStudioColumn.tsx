@@ -59,12 +59,12 @@ const DayStudioColumn = ({
 }: BookingCellProps) => {
   const elements: React.ReactNode[] = [];
   for (let i = 0; i < hours.length; ) {
-    if (bookings.has(hours[i]) && bookings.get(hours[i])!.studio === studio) {
+    if (bookings.has(hours[i]) && bookings.get(hours[i])!.studioId === studio) {
       let count = 0;
       const orderId = bookings.get(hours[i])!.orderId;
       while (
         bookings.has(hours[i]) &&
-        bookings.get(hours[i])!.studio === studio &&
+        bookings.get(hours[i])!.studioId === studio &&
         bookings.get(hours[i])!.orderId === orderId
       ) {
         count++;

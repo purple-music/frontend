@@ -18,35 +18,55 @@ type Story = StoryObj<typeof meta>;
 export const Filled: Story = {
   args: {
     variant: "filled",
-    icon: <FaMusic />,
   },
+  render: (args) => (
+    <IconButton {...args}>
+      <FaMusic />
+    </IconButton>
+  ),
 };
 
 export const Tonal: Story = {
   args: {
     variant: "tonal",
-    icon: <FaMusic />,
   },
+  render: (args) => (
+    <IconButton {...args}>
+      <FaMusic />
+    </IconButton>
+  ),
 };
 
 export const Elevated: Story = {
   args: {
     variant: "elevated",
-    icon: <FaMusic />,
   },
+  render: (args) => (
+    <IconButton {...args}>
+      <FaMusic />
+    </IconButton>
+  ),
 };
 
 export const Outlined: Story = {
   args: {
     variant: "outlined",
-    icon: <FaMusic />,
   },
+  render: (args) => (
+    <IconButton {...args}>
+      <FaMusic />
+    </IconButton>
+  ),
 };
 
 export const Text: Story = {
   args: {
     variant: "text",
-    icon: <FaMusic />,
   },
+  render: (args) => (
+    <IconButton {...args}>
+      <FaMusic />
+    </IconButton>
+  ),
 };
 

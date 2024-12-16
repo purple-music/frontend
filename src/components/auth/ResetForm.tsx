@@ -1,16 +1,16 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { TbMail } from "react-icons/tb";
 
 import { resetPassword } from "@/actions/mutation/reset";
 import { AuthInputField } from "@/components/auth-card/AuthInputField";
 import AuthForm from "@/components/auth/AuthForm";
-import { useTranslation } from "@/i18n/client";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
 import { ResetSchema } from "@/schemas/schemas";
 
 export function ResetForm() {
-  const { t } = useTranslation(undefined, "auth");
+  const t = useTranslations("auth");
   const { form, onSubmit, result, isSubmitting } = useAuthForm(
     ResetSchema,
     resetPassword,
@@ -42,3 +42,4 @@ export function ResetForm() {
     </AuthForm>
   );
 }
+

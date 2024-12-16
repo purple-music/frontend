@@ -6,7 +6,7 @@ interface ViewPageProps {}
 
 const ViewPage = ({}: ViewPageProps) => {
   return (
-    <MyTemplate>
+    <>
       <ButtonGroup
         buttons={[
           { label: "Home", value: "home" },
@@ -19,7 +19,7 @@ const ViewPage = ({}: ViewPageProps) => {
         timezone="en-US"
         studios={["blue", "orange", "purple"]}
       ></Timetable>
-    </MyTemplate>
+    </>
   );
 };
 

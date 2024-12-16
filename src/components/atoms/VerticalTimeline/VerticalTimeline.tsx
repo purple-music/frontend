@@ -14,7 +14,7 @@ export const VerticalTimeline = ({
   );
 
   return (
-    <div className="w-12 flex items-center flex-col justify-center divide-y divide-outline-variant rounded-l-[16px]">
+    <div className="w-12 flex items-center flex-col justify-center divide-y divide-outline-variant rounded-l-[16px] overflow-clip">
       {timeSlots.map((hour) => (
         <div
           className={`w-full flex items-end justify-end pr-1 flex-shrink-0 bg-surface-container-high`}

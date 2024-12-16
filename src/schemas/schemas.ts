@@ -44,7 +44,21 @@ export const NewPasswordSchema = z.object({
 const StudioIdSchema = z.enum(["purple", "orange", "blue"]);
 
 export const MakeOrderSchema = z.object({
-  studio: StudioIdSchema,
-  slots: z.number().array().min(1, "At least one slot must be selected"),
+  slots: z
+    .object({
+      slotTime: z.date(),
+      studio: StudioIdSchema,
+    })
+    .array()
+    .min(1, "At least one slot must be selected"),
   peopleCount: z.number().int().positive().min(1).max(10),
+});
+
+export const GetAvailableSlotsSchema = z.object({
+  from: z
+    .string()
+    .refine((date) => !isNaN(Date.parse(date)), "Invalid date format"),
+  to: z
+    .string()
+    .refine((date) => !isNaN(Date.parse(date)), "Invalid date format"),
 });

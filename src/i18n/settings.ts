@@ -1,16 +1,12 @@
-export const fallbackLng = "en";
-export const languages = [fallbackLng, "ru"];
-export const defaultNS = "common";
-export const cookieName = "i18next";
+export const fallbackLocale = "en";
+export const locales = [fallbackLocale, "ru"];
+export const cookieName = "nextIntlLocale";
 
-export function getOptions(lng = fallbackLng, ns = defaultNS) {
+export function getOptions(locale = fallbackLocale) {
   return {
     // debug: true,
-    supportedLngs: languages,
-    fallbackLng,
-    lng,
-    fallbackNS: defaultNS,
-    defaultNS,
-    ns,
+    supportedLocales: locales,
+    fallbackLocale,
+    locale,
   };
 }
