@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import { ReactNode } from "react";
+import { ButtonHTMLAttributes, ReactNode } from "react";
 
 import ButtonBase from "@/components/atoms/ButtonBase/ButtonBase";
 import Typography from "@/components/atoms/Typography/Typography";
@@ -22,7 +22,7 @@ export const BUTTON_VARIANTS = {
 // Create type from the object keys
 export type ButtonVariant = keyof typeof BUTTON_VARIANTS;
 
-interface ButtonProps {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** The text content of the button */
   label: string;
   /** Optional click handler */
@@ -47,6 +47,7 @@ const Button = ({
   startIcon,
   endIcon,
   className,
+  ...props
 }: ButtonProps) => {
   const variantClasses = BUTTON_VARIANTS[variant];
 
@@ -63,6 +64,7 @@ const Button = ({
       className={buttonClasses}
       startIcon={startIcon}
       endIcon={endIcon}
+      {...props}
     >
       <Typography variant="labelBold">{label}</Typography>
     </ButtonBase>

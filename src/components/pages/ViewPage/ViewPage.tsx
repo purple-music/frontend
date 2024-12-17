@@ -35,6 +35,11 @@ function transformSlotsToCalendar(
   slots.forEach((slot) => {
     const dayKey = format(slot.slotTime, "yyyy-MM-dd");
 
+    // If the day doesn't exist in the result object, create an empty structure
+    if (!calendarSlots[dayKey]) {
+      calendarSlots[dayKey] = {} as Record<StudioId, Date[]>;
+    }
+
     // Ensure the studio exists in the day's record
     if (!calendarSlots[dayKey][slot.studioId as StudioId]) {
       calendarSlots[dayKey][slot.studioId as StudioId] = [];

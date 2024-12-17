@@ -3,23 +3,20 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getLocalTimeZone, today } from "@internationalized/date";
 import { useTranslations } from "next-intl";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { type Booking } from "@prisma/client";
 
 import { makeOrder } from "@/actions/mutation/make-order";
-import { getAvailableSlots } from "@/actions/query/booking";
+import Button from "@/components/atoms/Button/Button";
 import PeopleInput from "@/components/atoms/PeopleInput/PeopleInput";
 import Typography from "@/components/atoms/Typography/Typography";
 import BookingCalendar from "@/components/molecules/BookingCalendar/BookingCalendar";
 import BookingStudioTimeSelect, {
-  BookingSlotInfo,
   SelectedTimeSlot,
-  StudioTimeSlotInfo,
 } from "@/components/organisms/BookingStudioTimeSelect/BookingStudioTimeSelect";
-import { StudioId } from "@/lib/types";
 import { MakeOrderSchema } from "@/schemas/schemas";
 
 const InputHeading = ({
@@ -118,13 +115,12 @@ const Page = () => {
       />
 
       {/* Submit Button that shows an alert for debugging */}
-      <button
+      <Button
+        label={t("booking.form.submit")}
         type="submit"
         className="btn btn-primary"
         onClick={() => makeOrder(watch())}
-      >
-        {t("booking.form.submit")}
-      </button>
+      ></Button>
     </>
   );
 };

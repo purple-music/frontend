@@ -1,8 +1,6 @@
 import clsx from "clsx";
 
-import Typography, {
-  getTypographyStyles,
-} from "@/components/atoms/Typography/Typography";
+import { getTypographyStyles } from "@/components/atoms/Typography/Typography";
 import VerticalTimeline from "@/components/atoms/VerticalTimeline/VerticalTimeline";
 import { StudioId } from "@/lib/types";
 import { getAllStudios } from "@/lib/utils/studios";
@@ -62,7 +60,7 @@ const BookingStudioTimeSelectBodyStudio = ({
             )}
           >
             {/* TODO: Fix this */}
-            {timeSlot.price === 0 ? "" : `$${timeSlot.price}`}
+            {timeSlot.price === 0 ? "🚫" : `$${timeSlot.price}`}
           </button>
         </div>
       ))}

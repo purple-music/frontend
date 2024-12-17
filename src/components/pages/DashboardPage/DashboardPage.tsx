@@ -39,6 +39,10 @@ function transformSlotsToPersonalBookings(
       cost: Math.floor(Math.random() * 100) + 50, // Random cost between 50-150
     };
 
+    // If the day doesn't exist in the result object, create an empty array
+    if (!personalBookings[dayKey]) {
+      personalBookings[dayKey] = [];
+    }
     personalBookings[dayKey].push(personalBooking);
   });
 
