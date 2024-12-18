@@ -4,6 +4,7 @@ import { FaHouse } from "react-icons/fa6";
 
 import Typography from "@/components/atoms/Typography/Typography";
 import { NavbarButton } from "@/components/molecules/Navbar/Navbar";
+import BottomNavbar from "@/components/organisms/BottomNavbar/BottomNavbar";
 import Sidebar from "@/components/organisms/Sidebar/Sidebar";
 
 export type MyPage = "" | "view" | "booking";
@@ -28,17 +29,26 @@ const MyTemplate = ({ children, page }: MyTemplateProps) => {
   const defaultHref = "/";
 
   return (
-    <div className="flex h-screen w-full gap-8 flex-row bg-surface-container p-8">
-      <Sidebar buttons={buttons} defaultHref={defaultHref} />
+    <>
+      <div className="flex h-screen w-full gap-8 flex-row bg-surface-container p-8">
+        <Sidebar
+          buttons={buttons}
+          defaultHref={defaultHref}
+          className="hidden md:flex"
+        />
 
-      <main className="h-full bg-surface-container-lowest flex-1 p-8 rounded-[32px] flex flex-col gap-8 justify-start items-start overflow-auto">
-        <Typography variant="headline" size="large">
-          {/* Get label by href */}
-          {buttons.find((button) => button.href === `/my/${page}`)?.label}
-        </Typography>
-        {children}
-      </main>
-    </div>
+        <main className="h-full bg-surface-container-lowest flex-1 p-8 rounded-[32px] flex flex-col gap-8 justify-start items-start overflow-auto">
+          <Typography variant="headline" size="large">
+            {/* TODO: move label to page */}
+            {/* Get label by href */}
+            {buttons.find((button) => button.href === `/my/${page}`)?.label}
+          </Typography>
+          {children}
+        </main>
+      </div>
+
+      <BottomNavbar className="md:hidden" buttons={buttons} />
+    </>
   );
 };
 

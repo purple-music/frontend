@@ -1,17 +1,25 @@
 import Image from "next/image";
-import { ReactNode } from "react";
+import { HTMLAttributes, ReactNode } from "react";
 
 import Navbar, { NavbarButton } from "@/components/molecules/Navbar/Navbar";
 import UserProfile from "@/components/molecules/UserProfile/UserProfile";
 
-interface SidebarProps {
+interface SidebarProps extends HTMLAttributes<HTMLDivElement> {
   buttons: NavbarButton[];
   defaultHref?: string;
 }
 
-const Sidebar = ({ buttons, defaultHref }: SidebarProps) => {
+const Sidebar = ({
+  buttons,
+  defaultHref,
+  className,
+  ...props
+}: SidebarProps) => {
   return (
-    <div className="flex flex-col gap-8 max-w-96 justify-between">
+    <div
+      className={`flex flex-col gap-8 max-w-96 justify-between ${className}`}
+      {...props}
+    >
       <div className="flex flex-col gap-8 max-w-96 h-full">
         <Image
           width={512}
