@@ -6,6 +6,7 @@ import Typography from "@/components/atoms/Typography/Typography";
 import { NavbarButton } from "@/components/molecules/Navbar/Navbar";
 import BottomNavbar from "@/components/organisms/BottomNavbar/BottomNavbar";
 import Sidebar from "@/components/organisms/Sidebar/Sidebar";
+import TopAppBar from "@/components/organisms/TopAppBar/TopAppBar";
 
 export type MyPage = "" | "view" | "booking";
 
@@ -30,7 +31,8 @@ const MyTemplate = ({ children, page }: MyTemplateProps) => {
 
   return (
     <>
-      <div className="flex h-screen w-full gap-8 flex-row bg-surface-container p-8">
+      <TopAppBar className="md:hidden" />
+      <div className="flex h-screen w-full gap-8 flex-row bg-surface-container md:p-8 p-4 pt-0 md:pt-8">
         <Sidebar
           buttons={buttons}
           defaultHref={defaultHref}
