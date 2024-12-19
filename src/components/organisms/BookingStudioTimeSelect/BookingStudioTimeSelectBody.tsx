@@ -29,7 +29,7 @@ const BookingStudioTimeSelectBodyStudio = ({
   const { style, className } = getTypographyStyles("label", "medium");
 
   return (
-    <div className="flex flex-col flex-1 w-32 divide-y divide-outline-variant">
+    <div className="flex flex-col flex-1 divide-y divide-outline-variant">
       {studioTimeSlots.map((timeSlot) => (
         <div
           key={`${studio}-${timeSlot.slotTime}`}
@@ -178,7 +178,7 @@ const BookingStudioTimeSelectBody = ({
           cellHeight="calc(3rem)"
         />
       </div>
-      <div className="flex flex-row rounded-br-[16px] divide-x divide-outline-variant flex-grow">
+      <div className="flex flex-1 flex-row rounded-br-[16px] divide-x divide-outline-variant">
         {getAllStudios().map((studio) => (
           <BookingStudioTimeSelectBodyStudio
             key={studio}

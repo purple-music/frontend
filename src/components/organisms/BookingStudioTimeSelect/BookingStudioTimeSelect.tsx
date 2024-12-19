@@ -86,7 +86,7 @@ const BookingStudioTimeSelect = ({
     }
   };
   return (
-    <Surface className="h-96 box-content w-[calc(3rem+8rem+8rem+8rem)] overflow-hidden relative">
+    <Surface className="h-96 box-content max-w-[calc(3rem+8rem+8rem+8rem)] overflow-hidden relative flex-grow">
       <Typography
         variant={"title"}
         size={"large"}

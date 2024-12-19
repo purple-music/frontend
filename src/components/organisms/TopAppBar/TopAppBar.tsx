@@ -15,7 +15,7 @@ const TopAppBar = ({ className, ...props }: TopAppBarProps) => {
         <Image src="/logo.webp" alt="Logo" width={32} height={32} />
       </div>
       <div className="flex-1 flex items-center justify-center">
-        <Typography variant={"headline"} size="small">
+        <Typography variant={"title"} size="large">
           Purple Studio
         </Typography>
       </div>

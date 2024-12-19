@@ -27,10 +27,6 @@ const TimetableContentDayStudio = ({
           className={`h-8 w-full flex items-start justify-center box-border`}
         ></div>
       ))}
-      {/*  Now let's try to draw something with position absolute*/}
-      <div className="absolute top-0 left-0 right-0 bottom-0 w-full h-8 flex items-center justify-center">
-        pig
-      </div>
       {busySlots.map((slot) => (
         <div
           key={slot.getTime()}

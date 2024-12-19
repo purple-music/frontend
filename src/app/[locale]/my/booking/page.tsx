@@ -27,7 +27,7 @@ const InputHeading = ({
   label: string;
 }) => {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 w-full">
       <Typography variant="headline" size="small">
         {label}
       </Typography>

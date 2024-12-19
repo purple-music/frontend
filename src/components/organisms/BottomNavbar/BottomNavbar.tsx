@@ -50,7 +50,7 @@ export interface BottomNavbarProps extends HTMLAttributes<HTMLDivElement> {
 
 const BottomNavbar = ({ buttons, className, ...props }: BottomNavbarProps) => {
   return (
-    <div className={`fixed bottom-0 w-full ${className}`} {...props}>
+    <div className={`sticky bottom-0 w-full ${className}`} {...props}>
       <div className="flex justify-between px-2 gap-2 bg-surface-container">
         {buttons.map((button) => (
           <NavbarItem

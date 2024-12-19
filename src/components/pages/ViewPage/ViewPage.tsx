@@ -92,7 +92,7 @@ const ViewPage = ({}: ViewPageProps) => {
 
   return (
     <>
-      <div className="flex flex-row justify-between w-full">
+      <div className="flex flex-row justify-between w-full flex-wrap gap-2">
         <MultiSelectButtonGroup
           buttons={studioButtons}
           onClick={(values) => setSelectedStudios(values as StudioId[])}

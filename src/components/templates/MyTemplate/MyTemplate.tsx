@@ -32,14 +32,14 @@ const MyTemplate = ({ children, page }: MyTemplateProps) => {
   return (
     <>
       <TopAppBar className="md:hidden" />
-      <div className="flex h-screen w-full gap-8 flex-row bg-surface-container md:p-8 p-4 pt-0 md:pt-8">
+      <div className="flex h-screen w-full gap-8 flex-row bg-surface-container md:p-8 pt-0 md:pt-8">
         <Sidebar
           buttons={buttons}
           defaultHref={defaultHref}
           className="hidden md:flex"
         />
 
-        <main className="h-full bg-surface-container-lowest flex-1 p-8 rounded-[32px] flex flex-col gap-8 justify-start items-start overflow-auto">
+        <main className="h-full bg-surface-container-lowest flex-1 md:p-8 p-4 rounded-[32px] flex flex-col gap-8 justify-start items-start overflow-auto">
           <Typography variant="headline" size="large">
             {/* TODO: move label to page */}
             {/* Get label by href */}
