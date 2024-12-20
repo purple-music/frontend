@@ -1,111 +1,112 @@
 {
-    "index": {
-        "my-page": "Личный кабинет",
-        "hello": "Привет",
-        "hello-description": "Это сайт для бронирования студии",
-        "get-started": "Начать",
-        "rights": "Все права защищены"
+  "index": {
+    "my-page": "Личный кабинет",
+    "hello": "Привет",
+    "hello-description": "Это сайт для бронирования студии",
+    "get-started": "Начать",
+    "rights": "Все права защищены"
+  },
+  "common": {
+    "company-name": "Purple Studio"
+  },
+  "auth": {
+    "error": {
+      "message": "Что-то пошло не так. Пожалуйста, попробуйте позже."
     },
-    "common": {
-        "company-name": "Purple Studio"
+    "login": {
+      "title": "Вход",
+      "email": {
+        "label": "Email",
+        "placeholder": "maksim@gmail.com"
+      },
+      "password": {
+        "label": "Пароль",
+        "placeholder": "******",
+        "forgot": "Забыли пароль?"
+      },
+      "submit": "Вход",
+      "submitting": "Вход...",
+      "oauth-error": {
+        "OAuthAccountNotLinked": "Email уже используется другим провайдером!",
+        "OAuthCallbackError": "Ошибка провайдера"
+      },
+      "extra-action": "Нет аккаунта? Зарегистрируйтесь!"
     },
-    "auth": {
-        "error": {
-            "message": "Something went wrong. Please try again later."
-        },
-        "login": {
-            "title": "Login",
-            "email": {
-                "label": "Email",
-                "placeholder": "john@email.com"
-            },
-            "password": {
-                "label": "Password",
-                "placeholder": "******",
-                "forgot": "Forgot password?"
-            },
-            "submit": "Login",
-            "submitting": "Logging in...",
-            "oauth-error": {
-                "OAuthAccountNotLinked": "Email is already in use with a different provider!",
-                "OAuthCallbackError": "Provider error"
-            },
-            "extra-action": "Don't have an account? Register now!"
-        },
-        "new-password": {
-            "title": "Enter new password",
-            "submit": "Update my password!",
-            "submitting": "Updating your password...",
-            "extra-action": "Remembered the password? Back to login!",
-            "password": {
-                "label": "New password",
-                "placeholder": "******"
-            }
-        },
-        "new-verification": {
-            "title": "Confirming your email",
-            "error": {
-                "missing-token": "Missing token. Open your email and click on the link."
-            },
-            "extra-action": "Back to login"
-        },
-        "register": {
-            "title": "Register",
-            "name": {
-                "label": "Name",
-                "placeholder": "John"
-            },
-            "email": {
-                "label": "Email",
-                "placeholder": "john@email.com"
-            },
-            "password": {
-                "label": "Password",
-                "placeholder": "******"
-            },
-            "submit": "Register",
-            "submitting": "Registering...",
-            "extra-action": "Already have an account? Login!"
-        },
-        "reset": {
-            "title": "Forgot your password?",
-            "submit": "Send password reset email!",
-            "submitting": "Sending password reset email...",
-            "extra-action": "Remembered the password? Back to login!",
-            "email": {
-                "label": "Email",
-                "placeholder": "john@email.com"
-            }
-        },
-        "social": {
-            "or": "or",
-            "yandex-login": "Login with Yandex ID"
-        }
+    "new-password": {
+      "title": "Введите новый пароль",
+      "submit": "Обновить мой пароль!",
+      "submitting": "Обновление вашего пароля...",
+      "extra-action": "Вспомнили пароль? Вернуться к входу!",
+      "password": {
+        "label": "Новый пароль",
+        "placeholder": "******"
+      }
     },
-    "my": {
-        "dashboard": {
-            "title": "Dashboard"
-        },
-        "booking": {
-            "title": "Booking",
-            "post-action": {
-                "success": "Successfully booked!",
-                "error": "Error: {{ error }}",
-                "refresh": "Refresh the bookings"
-            },
-            "form": {
-                "studio": "Studio",
-                "people": "People count",
-                "slots": {
-                    "label": "Time slots"
-                },
-                "total-price": "Total price: {{ price }}",
-                "submit": "Book now!",
-                "submitting": "Booking..."
-            }
-        },
-        "view": {
-            "title": "View"
-        }
+    "new-verification": {
+      "title": "Подтверждение вашего email",
+      "error": {
+        "missing-token": "Отсутствует токен. Откройте ваш email и перейдите по ссылке."
+      },
+      "extra-action": "Вернуться к входу"
+    },
+    "register": {
+      "title": "Регистрация",
+      "name": {
+        "label": "Имя",
+        "placeholder": "Максим"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "maksim@gmail.com"
+      },
+      "password": {
+        "label": "Пароль",
+        "placeholder": "******"
+      },
+      "submit": "Регистрация",
+      "submitting": "Регистрация...",
+      "extra-action": "Уже есть аккаунт? Войти!"
+    },
+    "reset": {
+      "title": "Сброс пароля",
+      "submit": "Отправить письмо для сброса пароля!",
+      "submitting": "Отправка письма для сброса пароля...",
+      "extra-action": "Вспомнили пароль? Вернуться к входу!",
+      "email": {
+        "label": "Email",
+        "placeholder": "maksim@gmail.com"
+      }
+    },
+    "social": {
+      "or": "или",
+      "yandex-login": "Вход через Yandex ID"
     }
+  },
+  "my": {
+    "dashboard": {
+      "title": "Главная",
+      "no-bookings": "У вас нет бронирований"
+    },
+    "booking": {
+      "title": "Бронирование",
+      "post-action": {
+        "success": "Успешно забронировано!",
+        "error": "Ошибка: {{ error }}",
+        "refresh": "Обновить бронирования"
+      },
+      "form": {
+        "studio": "Студия",
+        "people": "Количество людей",
+        "slots": {
+          "label": "Время"
+        },
+        "total-price": "Итого: {{ price }}",
+        "submit": "Забронировать",
+        "submitting": "Бронирование..."
+      }
+    },
+    "view": {
+      "title": "Просмотр"
+    }
+  }
 }

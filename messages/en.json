@@ -84,7 +84,8 @@
     },
     "my": {
         "dashboard": {
-            "title": "Dashboard"
+            "title": "Dashboard",
+            "no-bookings": "You have no bookings"
         },
         "booking": {
             "title": "Booking",
