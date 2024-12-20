@@ -110,7 +110,9 @@ export async function getAvailableSlots(
       }
     }
 
-    return success(availableSlots);
+    // And make slots that are after NOW() unavailable
+    const now = new Date();
+    return success(availableSlots.filter((slot) => slot.slotTime > now));
   } catch (err) {
     console.error("Error fetching available slots:", err);
     return error("Error fetching available slots");
