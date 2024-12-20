@@ -12,7 +12,7 @@ const TopAppBar = ({ className, ...props }: TopAppBarProps) => {
       className={`sticky top-0 w-full h-16 bg-surface-container ${className} z-50 flex items-center justify-center flex-row px-4`}
       {...props}
     >
-      <div className="flex-1 flex items-center justify-start">
+      <div className="flex items-center justify-start">
         <Image src="/logo.webp" alt="Logo" width={32} height={32} />
       </div>
       <div className="flex-1 flex items-center justify-center">
@@ -20,7 +20,7 @@ const TopAppBar = ({ className, ...props }: TopAppBarProps) => {
           Purple Studio
         </Typography>
       </div>
-      <div className="flex-1 flex items-center justify-end">
+      <div className="flex items-center justify-end">
         <Image
           width={48}
           height={48}
