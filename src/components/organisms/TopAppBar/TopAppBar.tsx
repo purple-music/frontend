@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { HTMLAttributes } from "react";
 
+import { logout } from "@/actions/mutation/logout";
 import Typography from "@/components/atoms/Typography/Typography";
 
 export interface TopAppBarProps extends HTMLAttributes<HTMLDivElement> {}
@@ -27,6 +28,7 @@ const TopAppBar = ({ className, ...props }: TopAppBarProps) => {
           src={"/pfp.jpg"}
           alt="Profile Picture"
           className="w-12 h-12 rounded-full"
+          onClick={() => logout()}
         />
       </div>
     </div>
