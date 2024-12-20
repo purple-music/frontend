@@ -27,7 +27,7 @@ const Timetable = ({
   const end = DateTime.fromJSDate(endDate);
   const dates = [];
 
-  for (let d = start; d <= end; d = d.plus({ days: 1 })) {
+  for (let d = start; d < end; d = d.plus({ days: 1 })) {
     dates.push(d);
   }
 

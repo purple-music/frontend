@@ -57,7 +57,7 @@ const TimetableHeader = ({
               key={date.toISO()}
               className={"min-w-2 flex-1 flex flex-row overflow-clip"}
             >
-              <StudiosHeader studios={studios} studioNameSize="three" />
+              <StudiosHeader studios={studios} studioNameSize="letter" />
             </div>
           ))}
         </div>
@@ -67,4 +67,3 @@ const TimetableHeader = ({
 };
 
 export default TimetableHeader;
-
