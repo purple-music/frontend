@@ -52,6 +52,7 @@ export async function makeOrder(
           create: slots.map((slot) => ({
             slotTime: slot.slotTime,
             studio: { connect: { id: slot.studio } },
+            peopleCount,
           })),
         },
       },

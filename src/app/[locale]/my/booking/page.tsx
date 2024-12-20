@@ -70,9 +70,8 @@ const Page = () => {
     formState: { errors, isSubmitting },
   } = useForm<z.infer<typeof MakeOrderSchema>>({
     defaultValues: {
-      // studio: "blue",
-      peopleCount: 1,
       slots: [],
+      peopleCount: 1,
     },
     resolver: zodResolver(MakeOrderSchema),
   });
