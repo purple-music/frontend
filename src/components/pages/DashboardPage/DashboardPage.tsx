@@ -1,9 +1,13 @@
 import { addDays, format } from "date-fns";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 import { Booking } from "@prisma/client";
 
-import { getAllBookings } from "@/actions/query/booking";
+import {
+  getAllBookings,
+  getCurrentBookingsByUserId,
+} from "@/actions/query/booking";
 import ButtonGroup from "@/components/atoms/ButtonGroup/ButtonGroup";
 import PersonalBookings, {
   PersonalBooking,
@@ -34,9 +38,9 @@ function transformSlotsToPersonalBookings(
       studio: slot.studioId as StudioId,
       time: slot.slotTime,
       // Placeholder values
-      people: Math.floor(Math.random() * 5) + 1, // Random number of people 1-5
+      people: slot.peopleCount,
       status: "paid",
-      cost: Math.floor(Math.random() * 100) + 50, // Random cost between 50-150
+      cost: Math.floor(Math.random() * 100) + 50, // TODO: use proper values
     };
 
     // If the day doesn't exist in the result object, create an empty array
@@ -54,14 +58,17 @@ interface DashboardPageProps {}
 const DashboardPage = ({}: DashboardPageProps) => {
   const [bookings, setBookings] = useState<Booking[]>([]);
 
+  const { data: session } = useSession();
+
   useEffect(() => {
     const fetchBookings = async () => {
-      const bookings = await getAllBookings();
+      if (!session?.user?.id) return;
+      const bookings = await getCurrentBookingsByUserId(session?.user?.id);
 
       setBookings(bookings);
     };
     void fetchBookings();
-  }, []);
+  }, [session]);
 
   const today = new Date();
   const endDate = addDays(today, 7);

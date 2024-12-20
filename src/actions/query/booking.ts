@@ -8,7 +8,6 @@ import { BookingSlotInfo } from "@/components/organisms/BookingStudioTimeSelect/
 import prisma from "@/lib/db";
 import { StudioId } from "@/lib/types";
 import { Result, error, success } from "@/lib/utils/result";
-import { dateToHour } from "@/lib/utils/time";
 import { GetAvailableSlotsSchema } from "@/schemas/schemas";
 
 export async function getAllBookings(): Promise<Booking[]> {
@@ -28,24 +27,18 @@ export async function getBookingsByUserId(userId: string): Promise<Booking[]> {
 export async function getCurrentBookingsByUserId(
   userId: string,
 ): Promise<Booking[]> {
-  // Get current time in your "hour" format
-  const currentHour = dateToHour(new Date());
+  const currentDate = new Date();
 
-  //   return prisma.booking.findMany({
-  //     where: {
-  //       order: {
-  //         userId: userId,
-  //       },
-  //       hour: {
-  //         gte: currentHour, // Only get bookings that are after the current hour
-  //       },
-  //     },
-  //     include: {
-  //       order: true, // Include order if you need it
-  //     },
-  //   });
-
-  return Promise.resolve([]);
+  return prisma.booking.findMany({
+    where: {
+      order: {
+        userId: userId,
+      },
+      slotTime: {
+        gte: currentDate,
+      },
+    },
+  });
 }
 
 const getPrice = (studioId: StudioId | string) => {
