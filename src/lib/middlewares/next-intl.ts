@@ -83,7 +83,10 @@ export function nextIntlMiddleware(req: NextAuthRequest) {
     !noLngRoutes.some((route) => req.nextUrl.pathname.startsWith(route))
   ) {
     return NextResponse.redirect(
-      new URL(`/${locale}${req.nextUrl.pathname}`, req.url),
+      new URL(
+        `/${locale}${req.nextUrl.pathname}${req.nextUrl.search}`,
+        req.url,
+      ),
     );
   }
 

@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { ReactNode } from "react";
 import { FaEllipsisVertical } from "react-icons/fa6";
 
+import { logout } from "@/actions/mutation/logout";
 import IconButton from "@/components/atoms/IconButton/IconButton";
 import Typography from "@/components/atoms/Typography/Typography";
 
@@ -24,7 +25,7 @@ const UserProfile = ({ profilePicture, name, email }: UserProfileProps) => {
         <Typography variant="title">{name}</Typography>
         <Typography variant="label">{email}</Typography>
       </div>
-      <IconButton variant={"text"}>
+      <IconButton variant={"text"} onClick={() => logout()}>
         <FaEllipsisVertical size={24} />
       </IconButton>
     </div>
@@ -32,4 +33,3 @@ const UserProfile = ({ profilePicture, name, email }: UserProfileProps) => {
 };
 
 export default UserProfile;
-
