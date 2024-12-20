@@ -1,10 +1,9 @@
+import { useTranslations } from "next-intl";
 import { ReactNode } from "react";
-import { FaEdit, FaPlus } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import {
-  FaArrowDown,
   FaChevronDown,
   FaPencil,
-  FaPeopleGroup,
   FaPerson,
   FaRegClock,
   FaTrash,
@@ -113,6 +112,17 @@ const PersonalBooking = ({ booking }: PersonalBookingProps) => {
 };
 
 const PersonalBookings = ({ date, bookings }: PersonalBookingsProps) => {
+  const t = useTranslations("my");
+
+  if (bookings.length === 0)
+    return (
+      <Surface className="w-full">
+        <Typography variant={"label"} size={"large"} className="text-center">
+          {t("dashboard.no-bookings")}
+        </Typography>
+      </Surface>
+    );
+
   // Get min and max amount of people
   const totalPeopleFrom = Math.min(
     ...bookings.map((booking) => booking.people),

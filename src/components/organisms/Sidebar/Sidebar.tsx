@@ -30,20 +30,7 @@ const Sidebar = ({
         />
         <Navbar buttons={buttons} defaultHref={defaultHref} />
       </div>
-      <UserProfile
-        profilePicture={
-          <Image
-            width={64}
-            height={64}
-            layout="fixed"
-            src={"/logo.webp"}
-            alt="Logo"
-            className="w-16 h-16 rounded-full"
-          />
-        }
-        name={"John Doe"}
-        email={"jdoe@me.com"}
-      />
+      <UserProfile />
     </div>
   );
 };
