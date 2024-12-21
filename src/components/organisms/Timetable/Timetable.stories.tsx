@@ -20,5 +20,6 @@ export const Default: Story = {
     endDate: new Date("2023-01-08"),
     timezone: "en-US",
     studios: ["blue", "orange", "purple"],
+    busySlots: {},
   },
 };

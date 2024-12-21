@@ -14,10 +14,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     day: new Date(),
-    timeSlots: new Map([
-      ["orange", { slotTime: new Date(), available: true, price: 100 }],
-      ["blue", { slotTime: new Date(), available: true, price: 100 }],
-    ]),
+    workingHours: [9, 21],
     selectedTimeSlots: [],
     setSelectedTimeSlots: () => {},
   },

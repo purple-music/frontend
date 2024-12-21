@@ -57,7 +57,7 @@ export function Dashboard({ bookings }: { bookings: Booking[] }) {
                     bookings &&
                     bookings.length > 0 && (
                       <li
-                        key={`${studio}_${bookings.map((b) => b.startTime)}`}
+                        key={`${studio}_${bookings.map((b) => b.slotTime)}`}
                         className="flex flex-col gap-1"
                       >
                         <h3 className="text-xl">{studio}</h3>
@@ -66,10 +66,10 @@ export function Dashboard({ bookings }: { bookings: Booking[] }) {
                             {bookings.map((b) => (
                               <li
                                 className="flex w-full flex-row items-center justify-between"
-                                key={b.startTime.getTime()}
+                                key={b.slotTime.getTime()}
                               >
                                 <span>
-                                  {format(b.startTime, "p", {
+                                  {format(b.slotTime, "p", {
                                     locale: ru,
                                   })}
                                 </span>
@@ -97,4 +97,3 @@ export function Dashboard({ bookings }: { bookings: Booking[] }) {
     </div>
   );
 }
-

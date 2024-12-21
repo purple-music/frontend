@@ -18,17 +18,16 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const buttons = [
-  { label: "Home", value: "home", icon: <FaHouse size={20} /> },
-  { label: "Library", value: "library", icon: <FaBook size={20} /> },
-  { label: "Search", value: "search", icon: <FaMusic size={20} /> },
+  { label: "Home", href: "home", icon: <FaHouse size={20} /> },
+  { label: "Library", href: "library", icon: <FaBook size={20} /> },
+  { label: "Search", href: "search", icon: <FaMusic size={20} /> },
 ];
 
 export const Default: Story = {
-  args: { children: <FaHouse size={20} /> },
+  args: { children: <FaHouse size={20} />, page: "" },
   render: (args) => (
     <MyTemplate {...args}>
       <ButtonGroup {...Two.args} />
     </MyTemplate>
   ),
 };
-

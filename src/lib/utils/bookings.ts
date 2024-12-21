@@ -11,7 +11,7 @@ type GroupedBookings = {
 // TODO: timezone
 export const groupBookingsByDay = (bookings: Booking[]): GroupedBookings => {
   return bookings.reduce((grouped: GroupedBookings, booking: Booking) => {
-    const bookingDate = booking.startTime; // Convert hour to Date
+    const bookingDate = booking.slotTime; // Convert hour to Date
     const day = format(bookingDate, "yyyy-MM-dd"); // Format the date as "yyyy-MM-dd" (without time)
 
     if (!grouped[day]) {
@@ -23,4 +23,3 @@ export const groupBookingsByDay = (bookings: Booking[]): GroupedBookings => {
     return grouped;
   }, {});
 };
-

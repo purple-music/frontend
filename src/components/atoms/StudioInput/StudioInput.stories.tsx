@@ -12,5 +12,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    value: "purple",
+    onChange: (value: string) => console.log(value),
+  },
 };

@@ -9,7 +9,7 @@ const meta = {
   title: "molecules/Navbar",
   component: Navbar,
   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
-  args: { onClick: fn() },
+  args: {},
 } satisfies Meta<typeof Navbar>;
 
 export default meta;
@@ -25,9 +25,9 @@ export const Default: Story = {
   args: {
     buttons: [
       // Icon size should be 24, but Fa icons don't have 2px padding
-      { label: "Home", value: "home", icon: <FaHouse size={20} /> },
-      { label: "Library", value: "library", icon: <FaBook size={20} /> },
-      { label: "Search", value: "search", icon: <FaMusic size={20} /> },
+      { label: "Home", href: "home", icon: <FaHouse size={20} /> },
+      { label: "Library", href: "library", icon: <FaBook size={20} /> },
+      { label: "Search", href: "search", icon: <FaMusic size={20} /> },
     ],
   },
 };
