@@ -1,17 +1,17 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import React from "react";
 import { TbLock, TbMail, TbUser } from "react-icons/tb";
 
 import { registerUser } from "@/actions/mutation/register";
 import { AuthInputField } from "@/components/auth-card/AuthInputField";
 import AuthForm from "@/components/auth/AuthForm";
-import { useTranslation } from "@/i18n/client";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
 import { RegisterSchema } from "@/schemas/schemas";
 
 export default function RegisterForm() {
-  const { t } = useTranslation(undefined, "auth");
+  const t = useTranslations("auth");
   const { form, onSubmit, result, isSubmitting } = useAuthForm(
     RegisterSchema,
     registerUser,
@@ -64,3 +64,4 @@ export default function RegisterForm() {
     </AuthForm>
   );
 }
+

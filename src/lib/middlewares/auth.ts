@@ -1,4 +1,4 @@
-import { languages } from "@/i18n/settings";
+import { locales } from "@/i18n/settings";
 import { NextAuthRequest } from "@/lib/middlewares/types";
 import {
   DEFAULT_LOGIN_REDIRECT,
@@ -11,7 +11,7 @@ function removeLngFromPath(path: string) {
   let newPath = path;
 
   // If a path is starting with a language code, remove it
-  if (languages.some((loc) => newPath.startsWith(`/${loc}`))) {
+  if (locales.some((loc) => newPath.startsWith(`/${loc}`))) {
     newPath = newPath.replace(`/${newPath.split("/")[1]}`, "");
   }
 
@@ -50,3 +50,4 @@ export async function authMiddleware(req: NextAuthRequest) {
 
   return;
 }
+
