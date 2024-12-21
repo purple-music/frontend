@@ -34,6 +34,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --chown=nextjs:nodejs prisma ./prisma/
 COPY --chown=nextjs:nodejs migrate-and-start.sh ./
+# Install openssh
+RUN apk add --no-cache openssh
+RUN chown -R nextjs:nodejs /app/node_modules
 RUN chmod +x migrate-and-start.sh
 USER nextjs
 EXPOSE 80
