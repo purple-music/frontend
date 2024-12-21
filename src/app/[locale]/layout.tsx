@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import React from "react";
 import { Toaster } from "sonner";
 
+import { initializeStudios } from "@/actions/mutation/initialize-studios";
 import { auth } from "@/auth";
 import { routing } from "@/i18n/routing";
 import { NextAuthProvider } from "@/providers/NextAuthProvider";
@@ -33,6 +34,8 @@ export default async function RootLayout({
   // side is the easiest way to get started
   const messages = await getMessages();
 
+  await initializeStudios();
+
   return (
     <html lang={locale}>
       <body>
@@ -44,4 +47,3 @@ export default async function RootLayout({
     </html>
   );
 }
-
