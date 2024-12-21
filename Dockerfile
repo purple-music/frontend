@@ -1,44 +1,46 @@
-# Adapted from https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
 # Install dependencies only when needed
-FROM node:20-alpine AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat openssl
+FROM node:20-bullseye AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      openssl && \
+    rm -rf /var/lib/apt/lists/*
 RUN npm ci
 
 # Rebuild the source code only when needed
-FROM node:20-alpine AS builder
-RUN apk add --no-cache libc6-compat openssl
+FROM node:20-bullseye AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED 1
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      openssl && \
+    rm -rf /var/lib/apt/lists/*
 RUN npx prisma generate
 RUN npm run build
 
-# Production image, copy all the files and run next
-FROM node:20-alpine AS runner
-RUN apk add --no-cache libc6-compat openssl
+# Production image
+FROM node:20-bullseye AS runner
 WORKDIR /app
 ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-# You only need to copy next.config.js if you are NOT using the default configuration
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      openssl && \
+    rm -rf /var/lib/apt/lists/*
 COPY --from=builder /app/next.config.mjs ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/node_modules ./node_modules
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --chown=nextjs:nodejs prisma ./prisma/
-COPY --chown=nextjs:nodejs migrate-and-start.sh ./
-RUN chown -R nextjs:nodejs /app/node_modules
+COPY --from=builder --chown=node:node /app/.next/standalone ./
+COPY --from=builder --chown=node:node /app/.next/static ./.next/static
+COPY --chown=node:node prisma ./prisma/
+COPY --chown=node:node migrate-and-start.sh ./
+RUN chown -R node:node /app/node_modules
 RUN chmod +x migrate-and-start.sh
-USER nextjs
+USER node
 EXPOSE 80
 ENV PORT=80
 CMD ["sh", "./migrate-and-start.sh"]
