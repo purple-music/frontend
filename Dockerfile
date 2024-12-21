@@ -9,6 +9,7 @@ RUN npm ci
 
 # Rebuild the source code only when needed
 FROM node:20-alpine AS builder
+RUN apk add --no-cache libc6-compat openssl1.1-compat
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -18,6 +19,7 @@ RUN npm run build
 
 # Production image, copy all the files and run next
 FROM node:20-alpine AS runner
+RUN apk add --no-cache libc6-compat openssl1.1-compat
 WORKDIR /app
 ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
@@ -34,8 +36,6 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --chown=nextjs:nodejs prisma ./prisma/
 COPY --chown=nextjs:nodejs migrate-and-start.sh ./
-# Install openssh
-RUN apk add --no-cache openssh
 RUN chown -R nextjs:nodejs /app/node_modules
 RUN chmod +x migrate-and-start.sh
 USER nextjs
