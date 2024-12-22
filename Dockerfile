@@ -13,6 +13,8 @@ FROM node:20-bullseye AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+# Copy the .env file into the container
+COPY .env ./
 ENV NEXT_TELEMETRY_DISABLED 1
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -38,6 +40,8 @@ COPY --from=builder --chown=node:node /app/.next/standalone ./
 COPY --from=builder --chown=node:node /app/.next/static ./.next/static
 COPY --chown=node:node prisma ./prisma/
 COPY --chown=node:node migrate-and-start.sh ./
+# Ensure .env is also available in the runner stage
+COPY .env ./
 RUN chown -R node:node /app/node_modules
 RUN chmod +x migrate-and-start.sh
 USER node
