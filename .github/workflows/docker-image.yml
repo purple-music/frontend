@@ -16,7 +16,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: "Create env file"
+      - name: "Create .env file"
         run: |
           touch .env
           echo "${{ secrets.DEPLOY_ENV }}" > .env
@@ -29,7 +29,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           source: ".env"
-          target: "/root/"
+          target: "/app/"
 
       - name: "Set up QEMU"
         uses: docker/setup-qemu-action@v1
@@ -62,7 +62,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           source: "docker-compose.prod-ci.yml"
-          target: "/root/"
+          target: "/app/"
 
       - name: "Run deploy on server"
         uses: appleboy/ssh-action@master
@@ -74,6 +74,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
+            cd /app
             sudo docker compose -f docker-compose.prod-ci.yml -p prod down
             sudo docker compose -f docker-compose.prod-ci.yml -p prod pull
             sudo docker compose -f docker-compose.prod-ci.yml -p prod up -d

@@ -8,10 +8,10 @@ services:
     networks:
       - purple-net
     ports:
-      - mode: ingress
-        target: 5432
-        published: "5432"
+      - target: 5432
+        published: 5432
         protocol: tcp
+        mode: ingress
     restart: always
     volumes:
       - pgdata:/var/lib/postgresql/data
@@ -20,14 +20,13 @@ services:
     depends_on:
       - db
     env_file:
-      - .env
+      - /app/.env
     image: ghcr.io/khodis/prod-purple-nextjs:latest
     networks:
       - purple-net
     ports:
-      - mode: ingress
-        target: 80
-        published: "80"
+      - target: 80
+        published: 80
         protocol: tcp
 
   # prisma-studio:
