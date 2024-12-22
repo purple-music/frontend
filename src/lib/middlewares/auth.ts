@@ -33,11 +33,6 @@ export async function authMiddleware(req: NextAuthRequest) {
   const isPublicRoute = publicRoutes.includes(pathname);
   const isAuthRoute = authRoutes.includes(pathname);
 
-  console.log("isApiAuthRoute", isApiAuthRoute);
-  console.log("isPublicRoute", isPublicRoute);
-  console.log("isAuthRoute", isAuthRoute);
-  console.log("isLoggedIn", isLoggedIn);
-
   if (isApiAuthRoute) {
     return;
   }

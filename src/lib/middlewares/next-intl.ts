@@ -77,11 +77,36 @@ const middleware = createMiddleware(routing);
 export function nextIntlMiddleware(req: NextAuthRequest) {
   const locale = findLocale(req);
 
+  console.log("locale", locale);
+  console.log("noLngRoutes", noLngRoutes);
+  console.log("req.nextUrl.pathname", req.nextUrl.pathname);
+  console.log(
+    "noLngRoutes.some((route) => req.nextUrl.pathname.startsWith(route))",
+    noLngRoutes.some((route) => req.nextUrl.pathname.startsWith(route)),
+  );
+  console.log(
+    "locales.some((loc) => req.nextUrl.pathname.startsWith(`/${loc}`))",
+    locales.some((loc) => req.nextUrl.pathname.startsWith(`/${loc}`)),
+  );
   // Redirect if locale in path is not supported (has already path prefix or shouldn't be localized)
   if (
-    !locales.some((loc) => req.nextUrl.pathname.startsWith(`/${loc}`)) &&
-    !noLngRoutes.some((route) => req.nextUrl.pathname.startsWith(route))
+    locales.some((loc) => req.nextUrl.pathname.startsWith(`/${loc}`)) ||
+    noLngRoutes.some((route) => req.nextUrl.pathname.startsWith(route))
   ) {
+    const referer = req.headers.get("referer");
+    if (referer) {
+      const refererUrl = new URL(referer);
+      const refererLocale = locales.find((l) =>
+        refererUrl.pathname.startsWith(`/${l}`),
+      );
+      const response = NextResponse.next();
+      if (refererLocale) {
+        response.cookies.set(cookieName, refererLocale);
+      }
+      return response;
+    }
+    return NextResponse.next();
+  } else {
     return NextResponse.redirect(
       new URL(
         `/${locale}${req.nextUrl.pathname}${req.nextUrl.search}`,
@@ -91,18 +116,4 @@ export function nextIntlMiddleware(req: NextAuthRequest) {
   }
 
   // If there is a referer, set the locale in the cookie
-  const referer = req.headers.get("referer");
-  if (referer) {
-    const refererUrl = new URL(referer);
-    const refererLocale = locales.find((l) =>
-      refererUrl.pathname.startsWith(`/${l}`),
-    );
-    const response = NextResponse.next();
-    if (refererLocale) {
-      response.cookies.set(cookieName, refererLocale);
-    }
-    return response;
-  }
-
-  return middleware(req);
 }
