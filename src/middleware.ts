@@ -8,18 +8,25 @@ import { nextIntlMiddleware } from "./lib/middlewares/next-intl";
 
 const { auth } = NextAuth(authConfig);
 export default auth(async (req, _next) => {
+  console.log("Running middleware");
   const authResponse = await authMiddleware(req);
 
+  console.log("authResponse", authResponse);
   if (authResponse) {
+    console.log("Returning authResponse");
     return authResponse;
   }
 
+  console.log("Running nextIntlMiddleware");
   const nextIntlResponse = await nextIntlMiddleware(req);
 
+  console.log("nextIntlResponse", nextIntlResponse);
   if (nextIntlResponse) {
+    console.log("Returning nextIntlResponse");
     return nextIntlResponse;
   }
 
+  console.log("Returning NextResponse.next()");
   return NextResponse.next();
 });
 
@@ -35,4 +42,3 @@ export const config = {
     "/",
   ],
 };
-
