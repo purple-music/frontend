@@ -13,7 +13,7 @@ export default auth(async (req, _next) => {
 
   // console.log("authResponse", authResponse);
   if (authResponse) {
-    // console.log("Returning authResponse");
+    console.log("===> Returning authResponse");
     return authResponse;
   }
 
@@ -22,7 +22,7 @@ export default auth(async (req, _next) => {
 
   // console.log("nextIntlResponse", nextIntlResponse);
   if (nextIntlResponse) {
-    // console.log("Returning nextIntlResponse");
+    console.log("===> Returning nextIntlResponse");
     return nextIntlResponse;
   }
 

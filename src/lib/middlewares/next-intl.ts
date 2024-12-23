@@ -111,7 +111,7 @@ export function nextIntlMiddleware(req: NextAuthRequest) {
 
   // If there's a path like /api or /_next, don't do anything
   if (isNoLngRoute) {
-    // console.log(`i18n: Skipping ${req.nextUrl.pathname}`);
+    console.log(`i18n: Skipping ${req.nextUrl.pathname}`);
     return NextResponse.next();
   }
 
@@ -119,15 +119,15 @@ export function nextIntlMiddleware(req: NextAuthRequest) {
 
   const handleI18nRouting = createMiddleware(routing);
 
-  // console.log("i18n: Locale", locale);
-  // console.log("i18n: Pathname", req.nextUrl.pathname);
+  console.log("i18n: Locale", locale);
+  console.log("i18n: Pathname", req.nextUrl.pathname);
   const startsWithLocale = locales.some((loc) =>
     req.nextUrl.pathname.startsWith(`/${loc}`),
   );
 
   // Check if the path starts with a supported locale
   if (startsWithLocale) {
-    // console.log("i18n: Path starts with locale", locale);
+    console.log("i18n: Path starts with locale", locale);
     // If it does, check if the locale is matching the current locale
     const pathLocale = req.nextUrl.pathname.split("/")[1];
     if (pathLocale !== locale) {
@@ -142,12 +142,12 @@ export function nextIntlMiddleware(req: NextAuthRequest) {
 
   // If the path doesn't start with a locale, check the referer
   const refererLocale = getSupportedRefererLocale(req);
-  // console.log("i18n: Referer locale", refererLocale);
+  console.log("i18n: Referer locale", refererLocale);
 
   const finalLocale = refererLocale || locale;
 
   // Redirect to the same path with the new locale
-  // console.log("i18n: Redirecting to", finalLocale);
+  console.log("i18n: Redirecting to", finalLocale);
   return NextResponse.redirect(
     new URL(
       `/${finalLocale}${req.nextUrl.pathname}${req.nextUrl.search}`,
