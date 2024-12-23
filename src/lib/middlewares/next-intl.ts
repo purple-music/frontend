@@ -1,5 +1,4 @@
 import acceptLanguage from "accept-language";
-import createMiddleware from "next-intl/middleware";
 import { NextResponse } from "next/server";
 
 import { routing } from "@/i18n/routing";
@@ -48,6 +47,8 @@ import { NextAuthRequest } from "./types";
 
 //   return NextResponse.next();
 // }
+
+acceptLanguage.languages([...routing.locales]);
 
 function findLocale(req: NextAuthRequest) {
   let locale: string | null = null;
@@ -117,8 +118,6 @@ export function nextIntlMiddleware(req: NextAuthRequest) {
 
   const locale = findLocale(req);
 
-  const handleI18nRouting = createMiddleware(routing);
-
   console.log("i18n: Locale", locale);
   console.log("i18n: Pathname", req.nextUrl.pathname);
   const startsWithLocale = locales.some((loc) =>
@@ -130,11 +129,7 @@ export function nextIntlMiddleware(req: NextAuthRequest) {
     console.log("i18n: Path starts with locale", locale);
     // If it does, check if the locale is matching the current locale
     const pathLocale = req.nextUrl.pathname.split("/")[1];
-    if (pathLocale !== locale) {
-      // If it doesn't, we need to update the locale in the cookie
-      req.cookies.set(cookieName, pathLocale);
-    }
-    // If the locale is matching, we can return
+    req.cookies.set(cookieName, pathLocale);
     return NextResponse.next();
   }
 
