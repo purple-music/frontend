@@ -133,11 +133,9 @@ export function nextIntlMiddleware(req: NextAuthRequest) {
     if (pathLocale !== locale) {
       // If it doesn't, we need to update the locale in the cookie
       req.cookies.set(cookieName, pathLocale);
-      // TODO: Set the locale to nextIntl
-      return handleI18nRouting(req);
     }
     // If the locale is matching, we can return
-    return handleI18nRouting(req);
+    return NextResponse.next();
   }
 
   // If the path doesn't start with a locale, check the referer
