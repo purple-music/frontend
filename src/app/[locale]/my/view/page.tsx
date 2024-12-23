@@ -6,7 +6,6 @@ import React from "react";
 import { View } from "@/app/[locale]/my/view/_components/View";
 import { PageWrapper } from "@/components/my/PageWrapper";
 import ViewPage from "@/components/pages/ViewPage/ViewPage";
-import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
 
 // function ViewWrapper() {
 //   const { session, status } = useCurrentSession();
