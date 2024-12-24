@@ -1,14 +1,16 @@
+import { NextApiResponse } from "next";
 import NextAuth from "next-auth";
 import { NextResponse } from "next/server";
 
 import authConfig from "@/auth.config";
 import { authMiddleware } from "@/lib/middlewares/auth";
+import { NextAuthRequest } from "@/lib/middlewares/types";
 
 import { nextIntlMiddleware } from "./lib/middlewares/next-intl";
 
 const { auth } = NextAuth(authConfig);
-export default auth(async (req, _next) => {
-  console.log("===> Running middleware");
+const appRouteHandler = auth(async (req, _next) => {
+  console.log("===> Running middleware on path:", req.nextUrl.pathname);
   const authResponse = await authMiddleware(req);
 
   // console.log("authResponse", authResponse);
@@ -30,6 +32,11 @@ export default auth(async (req, _next) => {
   return NextResponse.next();
 });
 
+export default function handler(req: NextAuthRequest, res: any) {
+  console.log("===> handler on path:", req.nextUrl.pathname);
+  return appRouteHandler(req, res);
+}
+
 export const config = {
   // https://clerk.com/docs/references/nextjs/auth-middleware#usage
   matcher: [
@@ -38,7 +45,7 @@ export const config = {
     // Always run for API routes
     "/(api|trpc)(.*)",
     // Match internationalized pathnames
-    "/(ru|en)/:path*",
+    "/(ru|en)/(.*)",
     "/",
   ],
 };
