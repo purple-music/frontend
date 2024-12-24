@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import React from "react";
 import { Toaster } from "sonner";
@@ -9,7 +8,6 @@ import { Toaster } from "sonner";
 import { initializeStudios } from "@/actions/mutation/initialize-studios";
 import { auth } from "@/auth";
 import { routing } from "@/i18n/routing";
-import { cookieName } from "@/i18n/settings";
 import { NextAuthProvider } from "@/providers/NextAuthProvider";
 
 import "./tailwind.css";
@@ -28,20 +26,15 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
 
-  const cookieStore = cookies();
-  const cookieLocale = cookieStore.get(cookieName)?.value;
-
-  if (!routing.locales.includes(cookieLocale as any)) {
+  if (!routing.locales.includes(locale as any)) {
     notFound();
   }
 
-  console.log("root: Loading RootLayout with locale:", cookieLocale);
+  console.log("root: Loading RootLayout with locale:", locale);
 
   // Providing all messages to the client
   // side is the easiest way to get started
-  const messages = await getMessages({
-    locale: cookieLocale || routing.defaultLocale,
-  });
+  const messages = await getMessages();
 
   await initializeStudios();
 

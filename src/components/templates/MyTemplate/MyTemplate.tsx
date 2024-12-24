@@ -32,7 +32,7 @@ const MyTemplate = ({ children, page }: MyTemplateProps) => {
   return (
     <>
       <TopAppBar className="md:hidden" />
-      <div className="flex h-screen w-full gap-8 flex-row bg-surface-container md:p-8 pt-0 md:pt-8">
+      <div className="flex h-dvh w-full gap-8 flex-row bg-surface-container md:p-8 pt-0 md:pt-8">
         <Sidebar
           buttons={buttons}
           defaultHref={defaultHref}

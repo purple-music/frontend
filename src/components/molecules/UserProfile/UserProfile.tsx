@@ -1,6 +1,7 @@
 import clsx from "clsx";
+import { router } from "next/client";
 import Image from "next/image";
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEllipsisVertical } from "react-icons/fa6";
 
 import { User } from "@prisma/client";
@@ -20,6 +21,11 @@ const UserProfile = () => {
       setUser(response),
     );
   }, [session]);
+
+  const handleLogout = async () => {
+    await logout(); // Call the server function
+    await router.push("/auth"); // Redirect to the auth/login page
+  };
 
   if (session.status === "loading") return <span>Loading...</span>;
   if (!user) return <span>Loading...</span>;
@@ -45,7 +51,7 @@ const UserProfile = () => {
         <Typography variant="title">{user.name}</Typography>
         <Typography variant="label">{user.email}</Typography>
       </div>
-      <IconButton variant={"text"} onClick={() => logout()}>
+      <IconButton variant={"text"} onClick={handleLogout}>
         <FaEllipsisVertical size={24} />
       </IconButton>
     </div>

@@ -1,3 +1,4 @@
+import { router } from "next/client";
 import Image from "next/image";
 import { HTMLAttributes } from "react";
 
@@ -7,6 +8,10 @@ import Typography from "@/components/atoms/Typography/Typography";
 export interface TopAppBarProps extends HTMLAttributes<HTMLDivElement> {}
 
 const TopAppBar = ({ className, ...props }: TopAppBarProps) => {
+  const handleLogout = async () => {
+    await logout();
+    await router.push("/auth");
+  };
   return (
     <div
       className={`sticky top-0 w-full h-16 bg-surface-container ${className} z-50 flex items-center justify-center flex-row px-4`}
@@ -28,7 +33,7 @@ const TopAppBar = ({ className, ...props }: TopAppBarProps) => {
           src={"/pfp.jpg"}
           alt="Profile Picture"
           className="w-12 h-12 rounded-full"
-          onClick={() => logout()}
+          onClick={handleLogout}
         />
       </div>
     </div>

@@ -1,5 +1,7 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+
+import { routing } from "@/i18n/routing";
 
 function ServiceCard({
   imageSrc,
@@ -32,9 +34,12 @@ function ServiceCard({
   );
 }
 
-export default function Home({ params }: { params: { lng: string } }) {
-  const t = useTranslations("index");
-  const tc = useTranslations("common");
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+export default async function Home() {
+  const t = await getTranslations();
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
@@ -54,7 +59,7 @@ export default function Home({ params }: { params: { lng: string } }) {
               <nav className="navbar rounded-full bg-primary-content bg-opacity-50 backdrop-blur">
                 <div className="navbar-start">
                   <a className="btn btn-ghost text-xl normal-case">
-                    {tc("company-name")}
+                    {t("common.company-name")}
                   </a>
                 </div>
                 <div className="navbar-center hidden lg:flex">
@@ -75,7 +80,7 @@ export default function Home({ params }: { params: { lng: string } }) {
                 </div>
                 <div className="navbar-end flex flex-row gap-2">
                   <Link className="btn btn-primary rounded-full" href="/my">
-                    {t("my-page")}
+                    {t("index.my-page")}
                   </Link>
                   {/*<a className="btn btn-primary rounded-full">*/}
                   {/*  +7(922)123-12-12*/}
@@ -86,8 +91,8 @@ export default function Home({ params }: { params: { lng: string } }) {
           </div>
           <div className="hero-content text-center text-neutral-content">
             <div className="max-w-md">
-              <h1 className="mb-5 text-5xl font-bold">{t("hello")}</h1>
-              <p className="mb-5">{t("hello-description")}</p>
+              <h1 className="mb-5 text-5xl font-bold">{t("index.hello")}</h1>
+              <p className="mb-5">{t("index.hello-description")}</p>
               <button className="btn btn-primary">{t("get-started")}</button>
             </div>
           </div>
@@ -123,10 +128,9 @@ export default function Home({ params }: { params: { lng: string } }) {
       {/* Footer */}
       <footer className="footer footer-center bg-base-200 p-10 text-base-content">
         <div>
-          <p>&copy; 2024 Purple Studio. {t("rights")}</p>
+          <p>&copy; 2024 Purple Studio. {t("index.rights")}</p>
         </div>
       </footer>
     </main>
   );
 }
-
