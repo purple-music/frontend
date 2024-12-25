@@ -1,7 +1,6 @@
-import { getTranslations } from "next-intl/server";
+import getT from "next-translate/getT";
+import useTranslation from "next-translate/useTranslation";
 import Link from "next/link";
-
-import { routing } from "@/i18n/routing";
 
 function ServiceCard({
   imageSrc,
@@ -34,12 +33,13 @@ function ServiceCard({
   );
 }
 
-export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
-}
-
-export default async function Home() {
-  const t = await getTranslations();
+export default async function Home({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { t } = useTranslation("index");
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
@@ -59,7 +59,7 @@ export default async function Home() {
               <nav className="navbar rounded-full bg-primary-content bg-opacity-50 backdrop-blur">
                 <div className="navbar-start">
                   <a className="btn btn-ghost text-xl normal-case">
-                    {t("common.company-name")}
+                    {/*{t("common.company-name")}*/}
                   </a>
                 </div>
                 <div className="navbar-center hidden lg:flex">
@@ -80,7 +80,7 @@ export default async function Home() {
                 </div>
                 <div className="navbar-end flex flex-row gap-2">
                   <Link className="btn btn-primary rounded-full" href="/my">
-                    {t("index.my-page")}
+                    {/*{t("index.my-page")}*/}
                   </Link>
                   {/*<a className="btn btn-primary rounded-full">*/}
                   {/*  +7(922)123-12-12*/}
@@ -91,10 +91,10 @@ export default async function Home() {
           </div>
           <div className="hero-content text-center text-neutral-content">
             <div className="max-w-md">
-              <h1 className="mb-5 text-5xl font-bold">{t("index.hello")}</h1>
-              <p className="mb-5">{t("index.hello-description")}</p>
+              {/*<h1 className="mb-5 text-5xl font-bold">{t("index.hello")}</h1>*/}
+              {/*<p className="mb-5">{t("index.hello-description")}</p>*/}
               <button className="btn btn-primary">
-                {t("index.get-started")}
+                {/*{t("index.get-started")}*/}
               </button>
             </div>
           </div>
@@ -129,9 +129,7 @@ export default async function Home() {
 
       {/* Footer */}
       <footer className="footer footer-center bg-base-200 p-10 text-base-content">
-        <div>
-          <p>&copy; 2024 Purple Studio. {t("index.rights")}</p>
-        </div>
+        <div>{/*<p>&copy; 2024 Purple Studio. {t("index.rights")}</p>*/}</div>
       </footer>
     </main>
   );

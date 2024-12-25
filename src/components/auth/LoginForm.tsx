@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import useTranslation from "next-translate/useTranslation";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 import { TbLock, TbMail } from "react-icons/tb";
@@ -13,7 +13,7 @@ import { LoginSchema } from "@/schemas/schemas";
 
 export default function LoginForm() {
   const searchParams = useSearchParams();
-  const t = useTranslations("auth");
+  const { t } = useTranslation("auth");
 
   console.log("Search params", searchParams);
 
@@ -71,4 +71,3 @@ export default function LoginForm() {
     </AuthForm>
   );
 }
-

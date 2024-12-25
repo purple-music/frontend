@@ -1,0 +1,27 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "no-bookings": "You have no bookings"
+  },
+  "booking": {
+    "title": "Booking",
+    "post-action": {
+      "success": "Successfully booked!",
+      "error": "Error: {{ error }}",
+      "refresh": "Refresh the bookings"
+    },
+    "form": {
+      "studio": "Studio",
+      "people": "People count",
+      "slots": {
+        "label": "Time slots"
+      },
+      "total-price": "Total price: {{ price }}",
+      "submit": "Book now!",
+      "submitting": "Booking..."
+    }
+  },
+  "view": {
+    "title": "View"
+  }
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import useTranslation from "next-translate/useTranslation";
 import { useSearchParams } from "next/navigation";
 import { TbLock } from "react-icons/tb";
 
@@ -11,7 +11,7 @@ import { useAuthForm } from "@/lib/hooks/useAuthForm";
 import { NewPasswordSchema } from "@/schemas/schemas";
 
 export function NewPasswordForm() {
-  const t = useTranslations("auth");
+  const { t } = useTranslation("auth");
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
@@ -48,4 +48,3 @@ export function NewPasswordForm() {
     </AuthForm>
   );
 }
-

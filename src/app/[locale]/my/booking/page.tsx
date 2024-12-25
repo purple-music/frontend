@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getLocalTimeZone, today } from "@internationalized/date";
-import { useTranslations } from "next-intl";
+import useTranslation from "next-translate/useTranslation";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -75,7 +75,7 @@ const Page = () => {
     },
     resolver: zodResolver(MakeOrderSchema),
   });
-  const t = useTranslations("my");
+  const { t } = useTranslation("my");
 
   const [bookings, setBookings] = useState<Booking[] | null>(null);
 

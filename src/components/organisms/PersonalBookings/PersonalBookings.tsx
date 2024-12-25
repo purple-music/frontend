@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import useTranslation from "next-translate/useTranslation";
 import { ReactNode } from "react";
 import { FaPlus } from "react-icons/fa";
 import {
@@ -112,7 +112,7 @@ const PersonalBooking = ({ booking }: PersonalBookingProps) => {
 };
 
 const PersonalBookings = ({ date, bookings }: PersonalBookingsProps) => {
-  const t = useTranslations("my");
+  const { t } = useTranslation("my");
 
   if (bookings.length === 0)
     return (

@@ -1,13 +1,9 @@
 import type { Metadata } from "next";
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
-import { notFound } from "next/navigation";
 import React from "react";
 import { Toaster } from "sonner";
 
 import { initializeStudios } from "@/actions/mutation/initialize-studios";
 import { auth } from "@/auth";
-import { routing } from "@/i18n/routing";
 import { NextAuthProvider } from "@/providers/NextAuthProvider";
 
 import "./tailwind.css";
@@ -24,26 +20,16 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { locale: string };
 }>) {
-  const session = await auth();
-
-  if (!routing.locales.includes(locale as any)) {
-    notFound();
-  }
-
   console.log("root: Loading RootLayout with locale:", locale);
 
-  // Providing all messages to the client
-  // side is the easiest way to get started
-  const messages = await getMessages();
+  const session = await auth();
 
   await initializeStudios();
 
   return (
     <html lang={locale}>
       <body>
-        <NextIntlClientProvider messages={messages}>
-          <NextAuthProvider session={session}>{children}</NextAuthProvider>
-        </NextIntlClientProvider>
+        <NextAuthProvider session={session}>{children}</NextAuthProvider>
         <Toaster closeButton />
       </body>
     </html>

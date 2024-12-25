@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import useTranslation from "next-translate/useTranslation";
 import React, { ReactNode } from "react";
 
 import { AuthAlert } from "@/components/auth-card/AuthAlert";
@@ -32,7 +32,7 @@ export default function AuthForm({
   children,
   showSocial,
 }: AuthFormProps) {
-  const t = useTranslations("auth");
+  const { t } = useTranslation("auth");
 
   return (
     <AuthCard>
@@ -72,4 +72,3 @@ export default function AuthForm({
     </AuthCard>
   );
 }
-

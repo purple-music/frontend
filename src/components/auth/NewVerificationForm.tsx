@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import useTranslation from "next-translate/useTranslation";
 import { useSearchParams } from "next/navigation";
 
 import { newVerification } from "@/actions/mutation/new-verification";
@@ -12,7 +12,7 @@ import { useAsyncAction } from "@/lib/hooks/useAsyncAction";
 import { ActionResult } from "@/lib/types";
 
 export default function NewVerificationForm() {
-  const t = useTranslations("auth");
+  const { t } = useTranslation("auth");
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
@@ -45,4 +45,3 @@ export default function NewVerificationForm() {
     </AuthCard>
   );
 }
-
