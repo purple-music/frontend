@@ -1,5 +1,5 @@
-import { useTranslations } from "next-intl";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import { StudioId } from "@/lib/types";
 
@@ -22,7 +22,7 @@ export function StudioSelector({
   onStudioSelect,
   disabled,
 }: StudioSelectorProps) {
-  const t = useTranslations("my");
+  const { t } = useTranslation("my");
   return (
     <fieldset>
       <legend className="mb-4 text-2xl">{t("booking.form.studio")}</legend>
@@ -49,4 +49,3 @@ export function StudioSelector({
 }
 
 export default StudioSelector;
-

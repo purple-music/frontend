@@ -1,7 +1,7 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { TbLock, TbMail, TbUser } from "react-icons/tb";
 
 import { registerUser } from "@/actions/mutation/register";
@@ -11,7 +11,7 @@ import { useAuthForm } from "@/lib/hooks/useAuthForm";
 import { RegisterSchema } from "@/schemas/schemas";
 
 export default function RegisterForm() {
-  const t = useTranslations("auth");
+  const { t } = useTranslation("auth");
   const { form, onSubmit, result, isSubmitting } = useAuthForm(
     RegisterSchema,
     registerUser,
@@ -64,4 +64,3 @@ export default function RegisterForm() {
     </AuthForm>
   );
 }
-

@@ -1,7 +1,7 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import { View } from "@/app/[locale]/my/view/_components/View";
 import { PageWrapper } from "@/components/my/PageWrapper";
@@ -19,7 +19,7 @@ import ViewPage from "@/components/pages/ViewPage/ViewPage";
 // }
 
 export default function Page() {
-  const t = useTranslations("my");
+  const { t } = useTranslation("my");
   return (
     <>
       <ViewPage />

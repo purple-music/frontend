@@ -1,7 +1,7 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import React, { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 
 import { AuthAlert } from "@/components/auth-card/AuthAlert";
 import { AuthCard } from "@/components/auth-card/AuthCard";
@@ -32,7 +32,7 @@ export default function AuthForm({
   children,
   showSocial,
 }: AuthFormProps) {
-  const t = useTranslations("auth");
+  const { t } = useTranslation("auth");
 
   return (
     <AuthCard>
@@ -72,4 +72,3 @@ export default function AuthForm({
     </AuthCard>
   );
 }
-

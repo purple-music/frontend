@@ -1,0 +1,27 @@
+{
+  "dashboard": {
+    "title": "Главная",
+    "no-bookings": "У вас нет бронирований"
+  },
+  "booking": {
+    "title": "Бронирование",
+    "post-action": {
+      "success": "Успешно забронировано!",
+      "error": "Ошибка: {{ error }}",
+      "refresh": "Обновить бронирования"
+    },
+    "form": {
+      "studio": "Студия",
+      "people": "Количество людей",
+      "slots": {
+        "label": "Время"
+      },
+      "total-price": "Итого: {{ price }}",
+      "submit": "Забронировать",
+      "submitting": "Бронирование..."
+    }
+  },
+  "view": {
+    "title": "Просмотр"
+  }
+}
