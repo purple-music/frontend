@@ -1,5 +1,5 @@
-import useTranslation from "next-translate/useTranslation";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 interface PeopleCountSelectorProps {
   peopleCount: number;

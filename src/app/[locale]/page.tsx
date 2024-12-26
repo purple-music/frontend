@@ -1,6 +1,7 @@
-import getT from "next-translate/getT";
-import useTranslation from "next-translate/useTranslation";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
+
+import initTranslations from "@/app/i18n";
 
 function ServiceCard({
   imageSrc,
@@ -39,7 +40,7 @@ export default async function Home({
   params: { locale: string };
 }) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { t } = useTranslation("index");
+  const { t } = await initTranslations(locale, ["index", "common"]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
@@ -59,7 +60,7 @@ export default async function Home({
               <nav className="navbar rounded-full bg-primary-content bg-opacity-50 backdrop-blur">
                 <div className="navbar-start">
                   <a className="btn btn-ghost text-xl normal-case">
-                    {/*{t("common.company-name")}*/}
+                    {t("common:company-name")}
                   </a>
                 </div>
                 <div className="navbar-center hidden lg:flex">
@@ -80,7 +81,7 @@ export default async function Home({
                 </div>
                 <div className="navbar-end flex flex-row gap-2">
                   <Link className="btn btn-primary rounded-full" href="/my">
-                    {/*{t("index.my-page")}*/}
+                    {t("my-page")}
                   </Link>
                   {/*<a className="btn btn-primary rounded-full">*/}
                   {/*  +7(922)123-12-12*/}
@@ -93,9 +94,7 @@ export default async function Home({
             <div className="max-w-md">
               {/*<h1 className="mb-5 text-5xl font-bold">{t("index.hello")}</h1>*/}
               {/*<p className="mb-5">{t("index.hello-description")}</p>*/}
-              <button className="btn btn-primary">
-                {/*{t("index.get-started")}*/}
-              </button>
+              <button className="btn btn-primary">{t("get-started")}</button>
             </div>
           </div>
         </header>
@@ -129,7 +128,9 @@ export default async function Home({
 
       {/* Footer */}
       <footer className="footer footer-center bg-base-200 p-10 text-base-content">
-        <div>{/*<p>&copy; 2024 Purple Studio. {t("index.rights")}</p>*/}</div>
+        <div>
+          <p>&copy; 2024 Purple Studio. {t("rights")}</p>
+        </div>
       </footer>
     </main>
   );

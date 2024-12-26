@@ -1,13 +1,13 @@
 // import { createNavigation } from "next-intl/navigation";
 // import { defineRouting } from "next-intl/routing";
 //
-export const i18nConfig = {
-  // A list of all locales that are supported
-  locales: ["en", "ru"],
-
-  // Used when no locale matches
-  defaultLocale: "en",
-};
+// export const i18nConfig = {
+//   // A list of all locales that are supported
+//   locales: ["en", "ru"],
+//
+//   // Used when no locale matches
+//   defaultLocale: "en",
+// };
 
 //
 // // Lightweight wrappers around Next.js' navigation APIs

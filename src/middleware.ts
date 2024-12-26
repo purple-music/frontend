@@ -1,10 +1,11 @@
 import acceptLanguage from "accept-language";
 import { NextApiResponse } from "next";
 import NextAuth from "next-auth";
+import { i18nRouter } from "next-i18n-router";
 import { NextFetchEvent, NextResponse } from "next/server";
 
 import authConfig from "@/auth.config";
-import { i18nConfig } from "@/i18n/routing";
+import i18nConfig from "@/i18nConfig";
 import { authMiddleware } from "@/lib/middlewares/auth";
 import { NextAuthRequest } from "@/lib/middlewares/types";
 import { noLngRoutes } from "@/routes";
@@ -40,7 +41,7 @@ function findLocale(req: NextAuthRequest) {
 }
 
 const { auth } = NextAuth(authConfig);
-export default auth(async (req: NextAuthRequest, res) => {
+const appMiddleware = auth(async (req: NextAuthRequest, res) => {
   console.log("===> Running middleware on path:", req.nextUrl.pathname);
   const authResponse = await authMiddleware(req);
 
@@ -50,46 +51,64 @@ export default auth(async (req: NextAuthRequest, res) => {
     return authResponse;
   }
 
-  // TODO: Support referer header
-  const pathname = req.nextUrl.pathname;
+  const i18nResponse = i18nRouter(req, i18nConfig);
 
-  const isNoLngRoute = noLngRoutes.some((route) => pathname.startsWith(route));
-
-  // If there's a path like /api or /_next, don't do anything
-  if (isNoLngRoute) {
-    console.log("===> Skipping noLngRoute");
-    return NextResponse.next();
+  if (i18nResponse) {
+    console.log("===> Returning i18nResponse");
+    return i18nResponse;
   }
 
-  const locale = findLocale(req);
+  console.log("===> Allowing request to continue");
+  return NextResponse.next();
 
-  console.log("===> Locale found:", locale);
-  const startsWithLocale = i18nConfig.locales.some((loc) =>
-    pathname.startsWith(`/${loc}`),
-  );
-
-  // If the path doesn't start with a locale, redirect to the correct one
-  if (!startsWithLocale) {
-    console.log(
-      "===> Redirecting to",
-      `/${locale}${pathname}${req.nextUrl.search}`,
-    );
-    return NextResponse.redirect(
-      new URL(`/${locale}${pathname}${req.nextUrl.search}`, req.url),
-    );
-  }
-
-  console.log("===> Setting cookie");
-  const response = NextResponse.next();
-  response.cookies.set(cookieName, locale);
-  console.log(
-    "===> Returning response:",
-    response,
-    "on path:",
-    req.nextUrl.pathname,
-  );
-  return response;
+  // // TODO: Support referer header
+  // const pathname = req.nextUrl.pathname;
+  //
+  // const isNoLngRoute = noLngRoutes.some((route) => pathname.startsWith(route));
+  //
+  // // If there's a path like /api or /_next, don't do anything
+  // if (isNoLngRoute) {
+  //   console.log("===> Skipping noLngRoute");
+  //   return NextResponse.next();
+  // }
+  //
+  // const locale = findLocale(req);
+  //
+  // console.log("===> Locale found:", locale);
+  // const startsWithLocale = i18nConfig.locales.some((loc) =>
+  //   pathname.startsWith(`/${loc}`),
+  // );
+  //
+  // // If the path doesn't start with a locale, redirect to the correct one
+  // if (!startsWithLocale) {
+  //   console.log(
+  //     "===> Redirecting to",
+  //     `/${locale}${pathname}${req.nextUrl.search}`,
+  //   );
+  //   return NextResponse.redirect(
+  //     new URL(`/${locale}${pathname}${req.nextUrl.search}`, req.url),
+  //   );
+  // }
+  //
+  // console.log("===> Setting cookie");
+  // const response = NextResponse.next();
+  // response.cookies.set(cookieName, locale);
+  // console.log(
+  //   "===> Returning response:",
+  //   response,
+  //   "on path:",
+  //   req.nextUrl.pathname,
+  // );
+  // return response;
 });
+
+export default async function middleware(req: NextAuthRequest, ev: any) {
+  // try {
+  return appMiddleware(req, ev);
+  // } catch (e) {
+  //   console.log("ERROR", e);
+  // }
+}
 
 export const config = {
   // https://clerk.com/docs/references/nextjs/auth-middleware#usage

@@ -1,4 +1,6 @@
-import useTranslation from "next-translate/useTranslation";
+"use client";
+
+import { useTranslation } from "react-i18next";
 import { FaExclamationTriangle } from "react-icons/fa";
 
 import { AuthCard } from "@/components/auth-card/AuthCard";

@@ -1,7 +1,7 @@
 "use client";
 
-import useTranslation from "next-translate/useTranslation";
 import { useSearchParams } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 import { newVerification } from "@/actions/mutation/new-verification";
 import { AuthAlert } from "@/components/auth-card/AuthAlert";

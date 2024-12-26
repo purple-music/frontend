@@ -1,6 +1,6 @@
 "use client";
 
-import useTranslation from "next-translate/useTranslation";
+import { useTranslation } from "react-i18next";
 import { TbMail } from "react-icons/tb";
 
 import { resetPassword } from "@/actions/mutation/reset";

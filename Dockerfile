@@ -32,15 +32,13 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 COPY --from=builder /app/next.config.mjs ./
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/locales ./locales
-COPY --from=builder /app/i18n.json ./i18n.json
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder --chown=node:node /app/.next/standalone ./
 COPY --from=builder --chown=node:node /app/.next/static ./.next/static
 COPY --chown=node:node prisma ./prisma/
 COPY --chown=node:node migrate-and-start.sh ./
-RUN chown -R node:node /app/node_modules
+RUN #chown -R node:node /app/node_modules
 RUN chmod +x migrate-and-start.sh
 USER node
 EXPOSE 3000

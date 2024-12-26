@@ -1,7 +1,7 @@
 "use client";
 
-import useTranslation from "next-translate/useTranslation";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import DashboardPage from "@/components/pages/DashboardPage/DashboardPage";
 

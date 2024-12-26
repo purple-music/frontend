@@ -2,9 +2,9 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getLocalTimeZone, today } from "@internationalized/date";
-import useTranslation from "next-translate/useTranslation";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
 import { type Booking } from "@prisma/client";

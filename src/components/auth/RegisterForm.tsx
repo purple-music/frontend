@@ -1,7 +1,7 @@
 "use client";
 
-import useTranslation from "next-translate/useTranslation";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { TbLock, TbMail, TbUser } from "react-icons/tb";
 
 import { registerUser } from "@/actions/mutation/register";

@@ -1,8 +1,8 @@
 "use client";
 
-import useTranslation from "next-translate/useTranslation";
 import { useSearchParams } from "next/navigation";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { TbLock, TbMail } from "react-icons/tb";
 
 import { authCredentials } from "@/actions/mutation/login";

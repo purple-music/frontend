@@ -1,7 +1,7 @@
 "use client";
 
-import useTranslation from "next-translate/useTranslation";
 import React, { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 
 import { AuthAlert } from "@/components/auth-card/AuthAlert";
 import { AuthCard } from "@/components/auth-card/AuthCard";

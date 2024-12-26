@@ -1,4 +1,4 @@
-import useTranslation from "next-translate/useTranslation";
+import { useTranslation } from "react-i18next";
 import { FaYandex } from "react-icons/fa6";
 
 import { authYandex } from "@/actions/mutation/login";

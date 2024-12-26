@@ -1,6 +1,6 @@
 import { addDays, startOfDay } from "date-fns";
-import useTranslation from "next-translate/useTranslation";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { TbCaretLeftFilled, TbCaretRightFilled } from "react-icons/tb";
 
 import { Booking } from "@prisma/client";

@@ -1,7 +1,7 @@
 "use client";
 
-import useTranslation from "next-translate/useTranslation";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import { View } from "@/app/[locale]/my/view/_components/View";
 import { PageWrapper } from "@/components/my/PageWrapper";
