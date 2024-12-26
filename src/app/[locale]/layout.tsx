@@ -1,4 +1,3 @@
-import { createInstance } from "i18next";
 import type { Metadata } from "next";
 import React from "react";
 import { Toaster } from "sonner";
@@ -20,11 +19,13 @@ const i18nNamespaces = ["index", "common", "auth", "my"];
 
 export default async function RootLayout({
   children,
-  params: { locale },
+  params,
 }: Readonly<{
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }>) {
+  const awaitedParams = await params;
+  const locale = awaitedParams.locale;
   console.log("root: Loading RootLayout with locale:", locale);
 
   const session = await auth();

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { useTranslation } from "react-i18next";
 
 import initTranslations from "@/app/i18n";
 
@@ -35,11 +34,12 @@ function ServiceCard({
 }
 
 export default async function Home({
-  params: { locale },
+  params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const awaitedParams = await params;
+  const locale = awaitedParams.locale;
   const { t } = await initTranslations(locale, ["index", "common"]);
 
   return (
