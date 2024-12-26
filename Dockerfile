@@ -38,9 +38,9 @@ COPY --from=builder --chown=node:node /app/.next/standalone ./
 COPY --from=builder --chown=node:node /app/.next/static ./.next/static
 COPY --chown=node:node prisma ./prisma/
 COPY --chown=node:node migrate-and-start.sh ./
-RUN #chown -R node:node /app/node_modules
+RUN chown -R node:node /app/node_modules
 RUN chmod +x migrate-and-start.sh
 USER node
-EXPOSE 3000
-ENV PORT=3000
+EXPOSE 80
+ENV PORT=80
 CMD ["sh", "./migrate-and-start.sh"]
