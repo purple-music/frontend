@@ -21,20 +21,20 @@ function findLocale(req: NextAuthRequest) {
     const localeFromCookie = req.cookies.get(cookieName)?.value;
     if (localeFromCookie) {
       locale = acceptLanguage.get(localeFromCookie);
-      console.log("locale.cookie", locale);
+      // console.log("locale.cookie", locale);
     }
   }
 
   // If not, try to get it from the header
   if (!locale) {
     locale = acceptLanguage.get(req.headers.get("Accept-Language"));
-    console.log("locale.header", locale);
+    // console.log("locale.header", locale);
   }
   // Otherwise, use the fallback locale
   if (!locale) {
     locale = i18nConfig.defaultLocale;
   }
-  console.log("locale.fallback", locale);
+  // console.log("locale.fallback", locale);
 
   return locale;
 }
@@ -70,7 +70,7 @@ function i18nMiddleware(req: NextAuthRequest, i18nConfig: Config) {
     },
   } = i18nConfig;
 
-  console.log("===> Running i18n middleware with config:", i18nConfig);
+  // console.log("===> Running i18n middleware with config:", i18nConfig);
 
   const pathname = req.nextUrl.pathname;
   const basePathTrailingSlash = (i18nConfig.basePath || "").endsWith("/");
@@ -86,7 +86,7 @@ function i18nMiddleware(req: NextAuthRequest, i18nConfig: Config) {
   // If the path is a noLngRoute, skip the middleware
   const isNoLngRoute = noLngRoutes.some((route) => pathname.startsWith(route));
   if (isNoLngRoute) {
-    console.log("===> Skipping noLngRoute");
+    // console.log("===> Skipping noLngRoute");
     return NextResponse.next(responseOptions);
   }
 
@@ -99,13 +99,13 @@ function i18nMiddleware(req: NextAuthRequest, i18nConfig: Config) {
     }
   }
 
-  console.log("===> Cookie locale:", cookieLocale);
+  // console.log("===> Cookie locale:", cookieLocale);
 
   const pathLocale = locales.find(
     (loc) => pathname.startsWith(`/${loc}/`) || pathname === `/${loc}`,
   );
 
-  console.log("===> Path locale:", pathLocale);
+  // console.log("===> Path locale:", pathLocale);
 
   if (!pathLocale) {
     let locale = cookieLocale || findLocale(req);
@@ -130,7 +130,7 @@ function i18nMiddleware(req: NextAuthRequest, i18nConfig: Config) {
       newPathname += req.nextUrl.search;
     }
 
-    console.log("===> Redirecting to", newPathname);
+    // console.log("===> Redirecting to", newPathname);
     if (prefixDefault || locale !== defaultLocale) {
       // console.log("===> Redirecting with redirect");
       response = NextResponse.redirect(new URL(newPathname, req.url));
@@ -145,7 +145,7 @@ function i18nMiddleware(req: NextAuthRequest, i18nConfig: Config) {
       response.cookies.set(localeCookie, pathLocale, cookieOptions);
     };
 
-    console.log("===> Path locale found:", pathLocale);
+    // console.log("===> Path locale found:", pathLocale);
     // If the path starts with a locale, set the cookie
     if (cookieLocale && cookieLocale !== pathLocale) {
       // Cookie locale is different from path locale, update it
@@ -162,23 +162,23 @@ function i18nMiddleware(req: NextAuthRequest, i18nConfig: Config) {
 
 const { auth } = NextAuth(authConfig);
 const appMiddleware = auth(async (req: NextAuthRequest, res) => {
-  console.log("===> Running middleware on path:", req.nextUrl.pathname);
+  // console.log("===> Running middleware on path:", req.nextUrl.pathname);
   const authResponse = await authMiddleware(req);
 
   // console.log("authResponse", authResponse);
   if (authResponse) {
-    console.log("===> Returning authResponse");
+    // console.log("===> Returning authResponse");
     return authResponse;
   }
 
   const i18nResponse = i18nMiddleware(req, i18nConfig);
 
   if (i18nResponse) {
-    console.log("===> Returning i18nResponse");
+    // console.log("===> Returning i18nResponse");
     return i18nResponse;
   }
 
-  console.log("===> Allowing request to continue");
+  // console.log("===> Allowing request to continue");
   return NextResponse.next();
 
   // // TODO: Support referer header

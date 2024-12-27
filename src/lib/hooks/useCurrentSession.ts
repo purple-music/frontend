@@ -21,7 +21,12 @@ export const useCurrentSession = () => {
   const retrieveSession = useCallback(async () => {
     try {
       setState({ session: null, status: "loading" });
+      // console.log("===> useCurrentSession.ts: retrieveSession");
       const sessionData = await getSession();
+      // console.log(
+      //   "===> useCurrentSession.ts: retrieveSession: sessionData",
+      //   sessionData,
+      // );
 
       if (sessionData) {
         setState({ session: sessionData, status: "authenticated" });

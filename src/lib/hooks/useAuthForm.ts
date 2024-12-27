@@ -25,7 +25,7 @@ export function useAuthForm<T extends z.ZodType<any, any>>(
       const result = await action(data);
       setResult(result);
     } catch (error) {
-      console.error(error); // TODO: Replace with a logging tool if necessary
+      console.error("Error submitting form", error);
       setResult(authError("Server error occurred!"));
     }
   };
