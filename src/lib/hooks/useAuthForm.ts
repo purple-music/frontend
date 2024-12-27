@@ -24,7 +24,11 @@ export function useAuthForm<T extends z.ZodType<any, any>>(
     try {
       const result = await action(data);
       setResult(result);
-    } catch (error) {
+    } catch (error: any) {
+      // If it is NEXT_REDIRECT, we shouldn't catch it, so rethrow it
+      if (error.message === "NEXT_REDIRECT") {
+        throw error;
+      }
       console.error("Error submitting form", error);
       setResult(authError("Server error occurred!"));
     }
