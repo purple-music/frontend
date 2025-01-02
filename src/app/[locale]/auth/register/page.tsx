@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import RegisterForm from "@/components/auth/RegisterForm";
+import RegisterForm from "@/features/auth/RegisterForm";
 
 export default function Page() {
   return <RegisterForm />;
