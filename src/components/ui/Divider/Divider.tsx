@@ -10,11 +10,11 @@ const Divider = ({ children, direction = "horizontal" }: DividerProps) => {
   return (
     <div
       className={clsx(
-        "self-stretch whitespace-nowrap items-center before:bg-outline-variant after:bg-outline-variant flex before:flex-1 after:flex-1",
+        "flex items-center self-stretch whitespace-nowrap before:flex-1 before:bg-outline-variant after:flex-1 after:bg-outline-variant",
         {
-          "flex-row w-full h-4 my-2 before:h-[1px] after:h-[1px] before:w-full after:w-full":
+          "my-2 h-4 w-full flex-row before:h-[1px] before:w-full after:h-[1px] after:w-full":
             direction === "horizontal",
-          "flex-col w-4 h-full mx-2 before:h-full after:h-full before:w-[1px] after:w-[1px]":
+          "mx-2 h-full w-4 flex-col before:h-full before:w-[1px] after:h-full after:w-[1px]":
             direction === "vertical",
           "gap-2": children,
         },

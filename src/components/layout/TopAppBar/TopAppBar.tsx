@@ -14,13 +14,13 @@ const TopAppBar = ({ className, ...props }: TopAppBarProps) => {
   };
   return (
     <div
-      className={`sticky top-0 w-full h-16 bg-surface-container ${className} z-50 flex items-center justify-center flex-row px-4`}
+      className={`sticky top-0 h-16 w-full bg-surface-container ${className} z-50 flex flex-row items-center justify-center px-4`}
       {...props}
     >
       <div className="flex items-center justify-start">
         <Image src="/logo.webp" alt="Logo" width={32} height={32} />
       </div>
-      <div className="flex-1 flex items-center justify-center">
+      <div className="flex flex-1 items-center justify-center">
         <Typography variant={"title"} size="large">
           Purple Studio
         </Typography>
@@ -32,7 +32,7 @@ const TopAppBar = ({ className, ...props }: TopAppBarProps) => {
           layout="fixed"
           src={"/pfp.jpg"}
           alt="Profile Picture"
-          className="w-12 h-12 rounded-full"
+          className="h-12 w-12 rounded-full"
           onClick={handleLogout}
         />
       </div>

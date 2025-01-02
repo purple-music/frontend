@@ -17,14 +17,14 @@ const NavbarItem = ({ children, icon, isSelected, href }: NavbarItemProps) => {
       href={href}
       className={clsx(
         {
-          "bg-secondary-container text-on-secondary-container enabled:hover:brightness-90 focus:outline-secondary z-10":
+          "z-10 bg-secondary-container text-on-secondary-container focus:outline-secondary enabled:hover:brightness-90":
             isSelected,
-          "bg-transparent text-on-surface enabled:hover:bg-surface-container-high focus:outline-outline":
+          "bg-transparent text-on-surface focus:outline-outline enabled:hover:bg-surface-container-high":
             !isSelected,
         },
-        "w-full px-8 h-14 min-w-14",
+        "h-14 w-full min-w-14 px-8",
         "flex items-center gap-4",
-        "focus:outline outline-offset-2 outline-4",
+        "outline-4 outline-offset-2 focus:outline",
         "rounded-full",
         "duration-200 ease-out",
       )}

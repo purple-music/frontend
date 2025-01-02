@@ -10,7 +10,7 @@ interface IconLabelProps {
 
 const IconLabel = ({ icon, label }: IconLabelProps) => {
   return (
-    <div className="flex flex-row items-center gap-2 text-on-surface-variant h-6">
+    <div className="flex h-6 flex-row items-center gap-2 text-on-surface-variant">
       {icon}
       <Typography variant="label" component="span" size="large">
         {label}

@@ -19,7 +19,7 @@ const PeopleInput = ({ onChange, value }: PeopleInputProps) => {
       {(people: number, isChecked: boolean) => {
         return (
           <Surface
-            className={`justify-center items-center !w-12 !h-12 ${isChecked ? "!bg-secondary-container !text-on-secondary-container" : ""}`}
+            className={`!h-12 !w-12 items-center justify-center ${isChecked ? "!bg-secondary-container !text-on-secondary-container" : ""}`}
           >
             {/* Square with number on it */}
             <Typography variant="body">{people}</Typography>

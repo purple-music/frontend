@@ -52,14 +52,14 @@ const BookingCalendar = <T extends DateValue>({
         className={"w-[21rem]"}
         {...props}
       >
-        <header className="flex items-center h-12 justify-between w-[21rem]">
-          <div className="flex items-center justify-center w-12">
+        <header className="flex h-12 w-[21rem] items-center justify-between">
+          <div className="flex w-12 items-center justify-center">
             <Button slot="previous" className={buttonClasses}>
               <FaChevronLeft />
             </Button>
           </div>
           <BookingCalendarHeading />
-          <div className="flex items-center justify-center w-12">
+          <div className="flex w-12 items-center justify-center">
             <Button slot="next" className={buttonClasses}>
               <FaChevronRight />
             </Button>
@@ -73,7 +73,7 @@ const BookingCalendar = <T extends DateValue>({
                 "large",
               );
               return (
-                <CalendarHeaderCell className="w-12 h-12">
+                <CalendarHeaderCell className="h-12 w-12">
                   <span className={className} style={style}>
                     {day}
                   </span>
@@ -92,7 +92,7 @@ const BookingCalendar = <T extends DateValue>({
                   date={date}
                   className={({ isSelected }) => {
                     return clsx(
-                      "w-12 h-12",
+                      "h-12 w-12",
                       "rounded-full",
                       "flex items-center justify-center",
                       isSelected

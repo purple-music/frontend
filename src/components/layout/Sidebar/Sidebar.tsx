@@ -17,16 +17,16 @@ const Sidebar = ({
 }: SidebarProps) => {
   return (
     <div
-      className={`flex flex-col gap-8 max-w-96 justify-between ${className}`}
+      className={`flex max-w-96 flex-col justify-between gap-8 ${className}`}
       {...props}
     >
-      <div className="flex flex-col gap-8 max-w-96 h-full">
+      <div className="flex h-full max-w-96 flex-col gap-8">
         <Image
           width={512}
           height={512}
           src="/logo.webp"
           alt="Logo"
-          className={"w-full h-64 rounded-[32px] object-cover"}
+          className={"h-64 w-full rounded-[32px] object-cover"}
         />
         <Navbar buttons={buttons} defaultHref={defaultHref} />
       </div>

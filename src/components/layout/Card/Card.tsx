@@ -40,7 +40,7 @@ export interface CardProps {
 
 const Card = ({ children }: CardProps) => {
   return (
-    <div className="flex flex-col bg-surface-container-low rounded-[24px] w-fit overflow-clip">
+    <div className="flex w-fit flex-col overflow-clip rounded-[24px] bg-surface-container-low">
       {children}
     </div>
   );

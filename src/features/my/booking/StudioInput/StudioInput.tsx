@@ -33,9 +33,9 @@ const StudioInput = ({ onChange, value }: StudioInputProps) => {
             />
 
             <CardBody>
-              <div className="flex flex-row gap-4 justify-start items-start">
+              <div className="flex flex-row items-start justify-start gap-4">
                 {/* Checkmark */}
-                <div className="flex items-center justify-center mt-2">
+                <div className="mt-2 flex items-center justify-center">
                   {isChecked ? (
                     <FaCircleCheck />
                   ) : (

@@ -20,7 +20,7 @@ export const Default: Story = {
         layout="fixed"
         src={"/logo.webp"}
         alt="Logo"
-        className="w-16 h-16 rounded-full"
+        className="h-16 w-16 rounded-full"
       />
     ),
     name: "John Doe",

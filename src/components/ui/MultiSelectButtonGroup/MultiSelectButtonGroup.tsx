@@ -54,9 +54,9 @@ const MultiSelectButtonGroup = ({
             onClick={() => handleClick(value)}
             className={clsx(
               {
-                "bg-secondary-container text-on-secondary-container enabled:hover:brightness-90 focus:outline-secondary z-10":
+                "z-10 bg-secondary-container text-on-secondary-container focus:outline-secondary enabled:hover:brightness-90":
                   isSelected,
-                "bg-transparent text-on-surface enabled:hover:bg-surface-container-high focus:outline-outline":
+                "bg-transparent text-on-surface focus:outline-outline enabled:hover:bg-surface-container-high":
                   !isSelected,
               },
               className,

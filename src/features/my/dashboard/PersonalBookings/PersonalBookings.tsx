@@ -45,7 +45,7 @@ const InfoRibbon = ({
   totalPeopleTo,
 }: InfoRibbonProps) => {
   return (
-    <div className="h-6 items-center flex">
+    <div className="flex h-6 items-center">
       <IconLabel
         icon={<FaRegClock size={20} />}
         label={`${startHour} - ${endHour}`}
@@ -82,14 +82,14 @@ interface PersonalBookingProps {
 
 const PersonalBooking = ({ booking }: PersonalBookingProps) => {
   return (
-    <div className="w-full bg-surface-container-lowest h-20 items-center rounded-[16px] p-4 flex justify-between flex-row">
+    <div className="flex h-20 w-full flex-row items-center justify-between rounded-[16px] bg-surface-container-lowest p-4">
       <PseudoLine color={`${getSoftStudioColor(booking.studio)}`}>
         <Typography variant="body" size="large">
           {booking.studio}
         </Typography>
       </PseudoLine>
       <div className="flex items-center">
-        <div className="flex items-center h-6">
+        <div className="flex h-6 items-center">
           <IconLabel icon={<FaRegClock size={20} />} label="09:00" />
           <Divider direction="vertical" />
           <IconLabel
@@ -131,7 +131,7 @@ const PersonalBookings = ({ date, bookings }: PersonalBookingsProps) => {
 
   return (
     <Surface className="w-full">
-      <div className="w-full justify-between flex items-center px-2 h-12">
+      <div className="flex h-12 w-full items-center justify-between px-2">
         <Typography variant="headline" size="small">
           {date.toDateString()}
         </Typography>
@@ -143,7 +143,7 @@ const PersonalBookings = ({ date, bookings }: PersonalBookingsProps) => {
         />
       </div>
 
-      <div className="w-full gap-4 flex flex-col">
+      <div className="flex w-full flex-col gap-4">
         {bookings.map((booking) => (
           <PersonalBooking key={booking.time.toISOString()} booking={booking} />
         ))}

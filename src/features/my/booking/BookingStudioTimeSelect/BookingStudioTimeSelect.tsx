@@ -86,11 +86,11 @@ const BookingStudioTimeSelect = ({
     }
   };
   return (
-    <Surface className="h-96 box-content max-w-[calc(3rem+8rem+8rem+8rem)] overflow-hidden relative flex-grow">
+    <Surface className="relative box-content h-96 max-w-[calc(3rem+8rem+8rem+8rem)] flex-grow overflow-hidden">
       <Typography
         variant={"title"}
         size={"large"}
-        className={"h-12 flex items-center justify-center"}
+        className={"flex h-12 items-center justify-center"}
       >
         {day.toLocaleDateString("en-GB", {
           weekday: "long",

@@ -5,7 +5,7 @@ import Typography from "@/components/ui/Typography/Typography";
 import { StudioId } from "@/lib/types";
 
 const TimetableHeaderTimezone = ({ timezone }: { timezone: string }) => (
-  <div className="w-12 flex items-center flex-col justify-center">
+  <div className="flex w-12 flex-col items-center justify-center">
     <Typography variant="label" className="text-on-surface-variant">
       {timezone}
     </Typography>
@@ -19,7 +19,7 @@ const TimetableHeaderDayDate = ({
   date: DateTime;
   timezone: string;
 }) => (
-  <div className="h-16 flex items-center flex-col justify-center">
+  <div className="flex h-16 flex-col items-center justify-center">
     <Typography variant="label" className="text-on-surface-variant">
       {date.toLocaleString({ weekday: "short" })}
     </Typography>
@@ -43,19 +43,19 @@ const TimetableHeader = ({
   return (
     <div className="flex flex-row justify-between">
       <TimetableHeaderTimezone timezone={timezone} />
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-1 flex-col">
         <div className="flex flex-row divide-x divide-outline-variant">
           {dates.map((date) => (
-            <div key={date.toISO()} className="min-w-2 flex-1 flex flex-col">
+            <div key={date.toISO()} className="flex min-w-2 flex-1 flex-col">
               <TimetableHeaderDayDate date={date} timezone={timezone} />
             </div>
           ))}
         </div>
-        <div className="flex flex-row rounded-t-[16px] overflow-clip divide-x divide-outline-variant">
+        <div className="flex flex-row divide-x divide-outline-variant overflow-clip rounded-t-[16px]">
           {dates.map((date, index) => (
             <div
               key={date.toISO()}
-              className={"min-w-2 flex-1 flex flex-row overflow-clip"}
+              className={"flex min-w-2 flex-1 flex-row overflow-clip"}
             >
               <StudiosHeader studios={studios} studioNameSize="letter" />
             </div>

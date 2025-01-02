@@ -8,8 +8,8 @@ const PseudoLine = ({
   color: string;
 }) => {
   return (
-    <div className="flex gap-4 items-center h-full flex-row">
-      <div className={`w-2 ${color} rounded-full h-full`}></div>
+    <div className="flex h-full flex-row items-center gap-4">
+      <div className={`w-2 ${color} h-full rounded-full`}></div>
       <div className="flex-1">{children}</div>
     </div>
   );

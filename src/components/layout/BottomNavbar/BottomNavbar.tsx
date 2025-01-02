@@ -18,21 +18,21 @@ const NavbarItem = ({ children, icon, isSelected, href }: NavbarItemProps) => {
     <Link
       href={href}
       className={clsx(
-        "w-full px-8 h-20",
-        "flex flex-col justify-center items-center",
+        "h-20 w-full px-8",
+        "flex flex-col items-center justify-center",
       )}
     >
       <div
         className={clsx(
           {
-            "bg-secondary-container text-on-secondary-container enabled:hover:brightness-90 focus:outline-secondary z-10":
+            "z-10 bg-secondary-container text-on-secondary-container focus:outline-secondary enabled:hover:brightness-90":
               isSelected,
-            "bg-transparent text-on-surface enabled:hover:bg-surface-container-high focus:outline-outline":
+            "bg-transparent text-on-surface focus:outline-outline enabled:hover:bg-surface-container-high":
               !isSelected,
           },
-          "flex flex-col justify-center items-center gap-1",
-          "p-2 rounded-full w-16 h-8",
-          "focus:outline outline-offset-2 outline-4",
+          "flex flex-col items-center justify-center gap-1",
+          "h-8 w-16 rounded-full p-2",
+          "outline-4 outline-offset-2 focus:outline",
           "rounded-full",
           "duration-200 ease-out",
         )}
@@ -51,7 +51,7 @@ export interface BottomNavbarProps extends HTMLAttributes<HTMLDivElement> {
 const BottomNavbar = ({ buttons, className, ...props }: BottomNavbarProps) => {
   return (
     <div className={`sticky bottom-0 w-full ${className}`} {...props}>
-      <div className="flex justify-between px-2 gap-2 bg-surface-container">
+      <div className="flex justify-between gap-2 bg-surface-container px-2">
         {buttons.map((button) => (
           <NavbarItem
             key={button.href}

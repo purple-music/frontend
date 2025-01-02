@@ -12,7 +12,7 @@ export const StudiosHeader = ({
   studios: StudioId[];
   studioNameSize?: StudioNameSize;
 }) => (
-  <div className={`flex flex-row flex-1 justify-between h-8`}>
+  <div className={`flex h-8 flex-1 flex-row justify-between`}>
     {studios.map((studio) => (
       <div
         key={studio}

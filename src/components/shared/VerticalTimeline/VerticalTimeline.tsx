@@ -14,10 +14,10 @@ export const VerticalTimeline = ({
   );
 
   return (
-    <div className="w-12 flex items-center flex-col justify-center divide-y divide-outline-variant rounded-l-[16px] overflow-clip">
+    <div className="flex w-12 flex-col items-center justify-center divide-y divide-outline-variant overflow-clip rounded-l-[16px]">
       {timeSlots.map((hour) => (
         <div
-          className={`w-full flex items-end justify-end pr-1 flex-shrink-0 bg-surface-container-high`}
+          className={`flex w-full flex-shrink-0 items-end justify-end bg-surface-container-high pr-1`}
           style={{ height: cellHeight }}
           key={hour}
         >

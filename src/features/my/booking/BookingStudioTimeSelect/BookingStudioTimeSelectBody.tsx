@@ -29,11 +29,11 @@ const BookingStudioTimeSelectBodyStudio = ({
   const { style, className } = getTypographyStyles("label", "medium");
 
   return (
-    <div className="flex flex-col flex-1 divide-y divide-outline-variant">
+    <div className="flex flex-1 flex-col divide-y divide-outline-variant">
       {studioTimeSlots.map((timeSlot) => (
         <div
           key={`${studio}-${timeSlot.slotTime}`}
-          className="shrink-0 h-12 bg-surface-container-lowest p-2"
+          className="h-12 shrink-0 bg-surface-container-lowest p-2"
         >
           <button
             style={style}
@@ -45,10 +45,10 @@ const BookingStudioTimeSelectBodyStudio = ({
               className,
               "shrink-0",
               "flex items-center justify-center",
-              "w-full h-full rounded-[8px]",
+              "h-full w-full rounded-[8px]",
               timeSlot.available
                 ? "bg-surface-container"
-                : "bg-surface-container-lowest cursor-not-allowed",
+                : "cursor-not-allowed bg-surface-container-lowest",
               selectedTimeSlots.find((slot) =>
                 isSlotSame(slot, {
                   studio,
@@ -170,15 +170,15 @@ const BookingStudioTimeSelectBody = ({
   });
 
   return (
-    <div className="flex flex-row h-full overflow-y-scroll">
-      <div className="flex-shrink-0 h-full">
+    <div className="flex h-full flex-row overflow-y-scroll">
+      <div className="h-full flex-shrink-0">
         <VerticalTimeline
           startHour={workingHours[0]}
           endHour={workingHours[1]}
           cellHeight="calc(3rem)"
         />
       </div>
-      <div className="flex flex-1 flex-row rounded-br-[16px] divide-x divide-outline-variant">
+      <div className="flex flex-1 flex-row divide-x divide-outline-variant rounded-br-[16px]">
         {getAllStudios().map((studio) => (
           <BookingStudioTimeSelectBodyStudio
             key={studio}

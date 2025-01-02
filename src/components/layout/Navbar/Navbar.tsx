@@ -19,7 +19,7 @@ interface NavbarProps {
 
 const Navbar = ({ buttons }: NavbarProps) => {
   return (
-    <nav className="inline-flex items-center justify-center flex-col rounded-[28px] bg-surface-container w-96">
+    <nav className="inline-flex w-96 flex-col items-center justify-center rounded-[28px] bg-surface-container">
       {buttons.map(({ label, href, isSelected }, index) => (
         <NavbarItem
           icon={buttons[index].icon}

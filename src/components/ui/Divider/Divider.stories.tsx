@@ -17,7 +17,7 @@ export const Horizontal: Story = {
     children: "OR",
   },
   render: (args) => (
-    <div className="h-8 w-96 flex items-center justify-center">
+    <div className="flex h-8 w-96 items-center justify-center">
       <Divider {...args} />
     </div>
   ),
@@ -29,7 +29,7 @@ export const Vertical: Story = {
     children: "OR",
   },
   render: (args) => (
-    <div className="h-96 w-8 flex items-center justify-center">
+    <div className="flex h-96 w-8 items-center justify-center">
       <Divider {...args} />
     </div>
   ),

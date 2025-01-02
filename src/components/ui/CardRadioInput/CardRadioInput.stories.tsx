@@ -23,7 +23,7 @@ export const Filled: Story = {
     children: (option, isSelected) => {
       return (
         <div
-          className={`flex flex-col items-center justify-center gap-2 cursor-pointer ${
+          className={`flex cursor-pointer flex-col items-center justify-center gap-2 ${
             isSelected ? "bg-primary text-primary-content" : ""
           }`}
         >

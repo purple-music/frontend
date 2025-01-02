@@ -27,7 +27,7 @@ const InputHeading = ({
   label: string;
 }) => {
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex w-full flex-col gap-2">
       <Typography variant="headline" size="small">
         {label}
       </Typography>
@@ -49,7 +49,7 @@ const BookingSlotInput = ({
   const [selectedDay, setSelectedDay] = useState(today(getLocalTimeZone()));
 
   return (
-    <div className="flex flex-row gap-4 flex-wrap">
+    <div className="flex flex-row flex-wrap gap-4">
       <BookingCalendar value={selectedDay} onChange={setSelectedDay} />
       <BookingStudioTimeSelect
         day={selectedDay.toDate(getLocalTimeZone())}

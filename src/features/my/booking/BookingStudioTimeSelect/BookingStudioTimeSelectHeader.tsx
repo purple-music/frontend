@@ -14,7 +14,7 @@ const BookingStudioTimeSelectHeader = ({
   return (
     <div className="flex flex-row">
       <div className="w-12"></div>
-      <div className="flex-1 flex flex-row justify-between rounded-t-[16px] overflow-clip">
+      <div className="flex flex-1 flex-row justify-between overflow-clip rounded-t-[16px]">
         <StudiosHeader studios={getAllStudios()} studioNameSize="name" />
       </div>
     </div>

@@ -33,21 +33,21 @@ const UserProfile = () => {
     <div
       className={clsx(
         "flex items-start gap-4",
-        "bg-surface-container-high rounded-[32px] p-4",
+        "rounded-[32px] bg-surface-container-high p-4",
       )}
     >
-      <div className="w-16 h-16 rounded-full">
+      <div className="h-16 w-16 rounded-full">
         {user.image ? (
           <Image
             src={user.image}
             alt={user.name || "Profile Picture"}
-            className="w-16 h-16 rounded-full object-cover"
+            className="h-16 w-16 rounded-full object-cover"
           />
         ) : (
-          <div className="w-16 h-16 rounded-full bg-surface-container-highest" />
+          <div className="h-16 w-16 rounded-full bg-surface-container-highest" />
         )}
       </div>
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-1 flex-col">
         <Typography variant="title">{user.name}</Typography>
         <Typography variant="label">{user.email}</Typography>
       </div>
