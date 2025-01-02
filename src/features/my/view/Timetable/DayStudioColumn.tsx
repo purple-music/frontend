@@ -93,4 +93,3 @@ const DayStudioColumn = ({
 };
 
 export default DayStudioColumn;
-

@@ -57,4 +57,3 @@ export const StartIcon: Story = {
     label: "Button",
   },
 };
-

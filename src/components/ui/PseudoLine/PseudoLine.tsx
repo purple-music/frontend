@@ -16,4 +16,3 @@ const PseudoLine = ({
 };
 
 export default PseudoLine;
-

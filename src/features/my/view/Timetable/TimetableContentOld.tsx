@@ -177,4 +177,3 @@
 
 //   return <TimetableContent bookings={bookings} days={days} studios={studios} />;
 // }
-
