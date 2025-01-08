@@ -52,4 +52,3 @@ export const getStudioName = (
 };
 
 export const getAllStudios = (): StudioId[] => ["blue", "orange", "purple"];
-

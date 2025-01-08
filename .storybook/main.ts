@@ -20,7 +20,7 @@ const config: StorybookConfig = {
         },
       },
     },
-    "@storybook/addon-themes"
+    "@storybook/addon-themes",
   ],
 
   framework: {

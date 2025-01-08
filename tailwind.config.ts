@@ -2,7 +2,7 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/features/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
@@ -78,13 +78,15 @@ const config: Config = {
 
         "brand-purple": "var(--extended-color-brand-purple)",
         "brand-on-purple": "var(--extended-color-brand-on-purple)",
-        "brand-purple-container": "var(--extended-color-brand-purple-container)",
+        "brand-purple-container":
+          "var(--extended-color-brand-purple-container)",
         "brand-on-purple-container":
           "var(--extended-color-brand-on-purple-container)",
 
         "brand-orange": "var(--extended-color-brand-orange)",
         "brand-on-orange": "var(--extended-color-brand-on-orange)",
-        "brand-orange-container": "var(--extended-color-brand-orange-container)",
+        "brand-orange-container":
+          "var(--extended-color-brand-orange-container)",
         "brand-on-orange-container":
           "var(--extended-color-brand-on-orange-container)",
 
@@ -105,9 +107,9 @@ const config: Config = {
   },
   darkMode: ["class", "[data-mode=dark]"],
   safelist: [
-      {
-        pattern: /bg-brand-(.*)/
-      }
-    ]
+    {
+      pattern: /bg-brand-(.*)/,
+    },
+  ],
 };
 export default config;

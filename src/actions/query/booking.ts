@@ -4,7 +4,7 @@ import { z } from "zod";
 
 import { Booking } from "@prisma/client";
 
-import { BookingSlotInfo } from "@/components/organisms/BookingStudioTimeSelect/BookingStudioTimeSelect";
+import { BookingSlotInfo } from "@/features/my/booking/BookingStudioTimeSelect/BookingStudioTimeSelect";
 import prisma from "@/lib/db";
 import { StudioId } from "@/lib/types";
 import { Result, error, success } from "@/lib/utils/result";

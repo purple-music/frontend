@@ -3,9 +3,7 @@
 import { notFound, usePathname } from "next/navigation";
 import React from "react";
 
-import MyTemplate, {
-  MyPage,
-} from "@/components/templates/MyTemplate/MyTemplate";
+import MyTemplate, { MyPage } from "@/features/my/MyTemplate/MyTemplate";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();

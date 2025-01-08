@@ -5,7 +5,7 @@ import { Toaster } from "sonner";
 import { initializeStudios } from "@/actions/mutation/initialize-studios";
 import initTranslations from "@/app/i18n";
 import { auth } from "@/auth";
-import TranslationProvider from "@/components/providers/TranslationsProvider";
+import TranslationProvider from "@/components/shared/providers/TranslationsProvider";
 import { NextAuthProvider } from "@/providers/NextAuthProvider";
 
 import "./tailwind.css";

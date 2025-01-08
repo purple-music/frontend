@@ -1,6 +1,6 @@
 "use client";
 
-import { ErrorCard } from "@/components/auth/ErrorCard";
+import { ErrorCard } from "@/features/auth/ErrorCard";
 
 export default function Page() {
   return <ErrorCard />;

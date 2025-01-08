@@ -10,13 +10,13 @@ import { z } from "zod";
 import { type Booking } from "@prisma/client";
 
 import { makeOrder } from "@/actions/mutation/make-order";
-import Button from "@/components/atoms/Button/Button";
-import PeopleInput from "@/components/atoms/PeopleInput/PeopleInput";
-import Typography from "@/components/atoms/Typography/Typography";
-import BookingCalendar from "@/components/molecules/BookingCalendar/BookingCalendar";
+import Button from "@/components/ui/Button/Button";
+import Typography from "@/components/ui/Typography/Typography";
+import BookingCalendar from "@/features/my/booking/BookingCalendar/BookingCalendar";
 import BookingStudioTimeSelect, {
   SelectedTimeSlot,
-} from "@/components/organisms/BookingStudioTimeSelect/BookingStudioTimeSelect";
+} from "@/features/my/booking/BookingStudioTimeSelect/BookingStudioTimeSelect";
+import PeopleInput from "@/features/my/booking/PeopleInput/PeopleInput";
 import { MakeOrderSchema } from "@/schemas/schemas";
 
 const InputHeading = ({
@@ -27,7 +27,7 @@ const InputHeading = ({
   label: string;
 }) => {
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex w-full flex-col gap-2">
       <Typography variant="headline" size="small">
         {label}
       </Typography>
@@ -49,7 +49,7 @@ const BookingSlotInput = ({
   const [selectedDay, setSelectedDay] = useState(today(getLocalTimeZone()));
 
   return (
-    <div className="flex flex-row gap-4 flex-wrap">
+    <div className="flex flex-row flex-wrap gap-4">
       <BookingCalendar value={selectedDay} onChange={setSelectedDay} />
       <BookingStudioTimeSelect
         day={selectedDay.toDate(getLocalTimeZone())}

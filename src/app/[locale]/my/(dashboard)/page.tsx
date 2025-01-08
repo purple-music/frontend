@@ -3,7 +3,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import DashboardPage from "@/components/pages/DashboardPage/DashboardPage";
+import DashboardPage from "@/features/my/dashboard/DashboardPage/DashboardPage";
 
 // function DashboardWrapper() {
 //   const { session, status } = useCurrentSession();

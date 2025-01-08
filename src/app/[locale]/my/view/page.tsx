@@ -4,8 +4,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 import { View } from "@/app/[locale]/my/view/_components/View";
-import { PageWrapper } from "@/components/my/PageWrapper";
-import ViewPage from "@/components/pages/ViewPage/ViewPage";
+import { PageWrapper } from "@/features/my/PageWrapper";
+import ViewPage from "@/features/my/view/ViewPage/ViewPage";
 
 // function ViewWrapper() {
 //   const { session, status } = useCurrentSession();

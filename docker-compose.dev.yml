@@ -71,4 +71,3 @@ networks:
 volumes:
   pgdata:
   # ncdata:
-
