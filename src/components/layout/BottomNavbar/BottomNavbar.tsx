@@ -18,7 +18,7 @@ const NavbarItem = ({ children, icon, isSelected, href }: NavbarItemProps) => {
     <Link
       href={href}
       className={clsx(
-        "h-20 w-full px-8",
+        "h-20 w-full",
         "flex flex-col items-center justify-center",
       )}
     >
@@ -50,7 +50,7 @@ export interface BottomNavbarProps extends HTMLAttributes<HTMLDivElement> {
 
 const BottomNavbar = ({ buttons, className, ...props }: BottomNavbarProps) => {
   return (
-    <div className={`sticky bottom-0 w-full ${className}`} {...props}>
+    <div className={`fixed bottom-0 h-20 w-full ${className}`} {...props}>
       <div className="flex justify-between gap-2 bg-surface-container px-2">
         {buttons.map((button) => (
           <NavbarItem
