@@ -5,6 +5,7 @@ import { z } from "zod";
 import { Booking } from "@prisma/client";
 
 import { BookingSlotInfo } from "@/features/my/booking/BookingStudioTimeSelect/BookingStudioTimeSelect";
+import { PersonalBooking } from "@/features/my/dashboard/PersonalBookings/PersonalBookings";
 import prisma from "@/lib/db";
 import { StudioId } from "@/lib/types";
 import { Result, error, success } from "@/lib/utils/result";
@@ -22,6 +23,58 @@ export async function getBookingsByUserId(userId: string): Promise<Booking[]> {
       },
     },
   });
+}
+
+// TODO: this is usually made with "start" and "end" query params
+export async function getTransformedBookingsByUserId(
+  userId: string,
+): Promise<Record<string, PersonalBooking[]>> {
+  const currentDate = new Date();
+
+  const bookings = await prisma.booking.findMany({
+    where: {
+      order: {
+        userId: userId,
+      },
+      slotTime: {
+        gte: currentDate,
+      },
+    },
+  });
+
+  return transformBookings(bookings);
+}
+
+function transformBookings(
+  bookings: Booking[],
+): Record<string, PersonalBooking[]> {
+  const result: Record<string, PersonalBooking[]> = {};
+
+  bookings.forEach((booking) => {
+    const day = booking.slotTime.toISOString().split("T")[0]; // Group by day
+
+    if (!result[day]) {
+      result[day] = [];
+    }
+
+    result[day].push({
+      studio: booking.studioId as StudioId,
+      time: booking.slotTime,
+      people: booking.peopleCount,
+      status: getStatus(booking),
+      cost: calculateCost(booking),
+    });
+  });
+
+  return result;
+}
+
+function getStatus(booking: Booking): "unpaid" | "paid" | "cancelled" {
+  return "paid"; // Example placeholder
+}
+
+function calculateCost(booking: Booking): number {
+  return 100; // Example placeholder
 }
 
 export async function getCurrentBookingsByUserId(
