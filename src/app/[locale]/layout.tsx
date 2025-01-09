@@ -26,7 +26,6 @@ export default async function RootLayout({
 }>) {
   const awaitedParams = await params;
   const locale = awaitedParams.locale;
-  console.log("root: Loading RootLayout with locale:", locale);
 
   const session = await auth();
 

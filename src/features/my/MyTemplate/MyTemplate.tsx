@@ -31,7 +31,7 @@ const MyTemplate = ({ children, page }: MyTemplateProps) => {
 
   return (
     <>
-      <div className="flex h-dvh w-full flex-col bg-surface-container pb-20 pt-0 md:flex-row md:gap-8 md:p-8 md:pb-0 md:pt-8">
+      <div className="flex h-dvh w-full flex-col bg-surface-container pb-20 pt-0 md:flex-row md:gap-8 md:p-8 md:pt-8">
         <TopAppBar className="md:hidden" />
         <Sidebar
           buttons={buttons}
