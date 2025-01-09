@@ -1,7 +1,12 @@
 {
   "dashboard": {
     "title": "Dashboard",
-    "no-bookings": "You have no bookings"
+    "no-bookings": {
+      "image-alt": "No bookings",
+      "title": "No bookings",
+      "description": "You have no bookings yet.",
+      "action": "Book now!"
+    }
   },
   "booking": {
     "title": "Booking",

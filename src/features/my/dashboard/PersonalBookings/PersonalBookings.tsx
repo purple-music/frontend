@@ -26,11 +26,6 @@ export type PersonalBooking = {
   cost: number;
 };
 
-type IconLabel = {
-  icon: ReactNode;
-  label: string;
-};
-
 interface InfoRibbonProps {
   startHour: Hour;
   endHour: Hour;
@@ -145,7 +140,10 @@ const PersonalBookings = ({ date, bookings }: PersonalBookingsProps) => {
 
       <div className="flex w-full flex-col gap-4">
         {bookings.map((booking) => (
-          <PersonalBooking key={booking.time.toISOString()} booking={booking} />
+          <PersonalBooking
+            key={`${booking.time.toISOString()}_${booking.studio}`}
+            booking={booking}
+          />
         ))}
       </div>
     </Surface>
