@@ -1,5 +1,5 @@
 # Install dependencies only when needed
-FROM node:20-bullseye AS deps
+FROM node:20-bullseye-slim AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN apt-get update && \
@@ -9,7 +9,7 @@ RUN apt-get update && \
 RUN npm ci
 
 # Rebuild the source code only when needed
-FROM node:20-bullseye AS builder
+FROM node:20-bullseye-slim AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -22,7 +22,7 @@ RUN npx prisma generate
 RUN npm run build
 
 # Production image
-FROM node:20-bullseye AS runner
+FROM node:20-bullseye-slim AS runner
 WORKDIR /app
 ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
