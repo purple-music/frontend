@@ -44,16 +44,19 @@ COPY --from=builder /app/public ./public
 RUN mkdir .next
 RUN chown nextjs:nodejs .next
 
-COPY --from=builder /app/next.config.mjs ./
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder --chown=node:node /app/.next/standalone ./
-COPY --from=builder --chown=node:node /app/.next/static ./.next/static
-COPY --chown=node:node prisma ./prisma/
-COPY --chown=node:node migrate-and-start.sh ./
-RUN chown -R node:node /app/node_modules
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+
+USER nextjs
+
+COPY --chown=nextjs:nodejs migrate-and-start.sh ./
+
 RUN chmod +x migrate-and-start.sh
-USER node
+
 EXPOSE 80
 ENV PORT=80
 CMD ["sh", "./migrate-and-start.sh"]
