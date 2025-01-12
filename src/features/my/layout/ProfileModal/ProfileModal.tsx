@@ -1,3 +1,4 @@
+import { router } from "next/client";
 import { ReactNode } from "react";
 import { Dialog, Modal, ModalOverlay } from "react-aria-components";
 import { useTranslation } from "react-i18next";
@@ -71,6 +72,11 @@ export interface ProfileModalProps {
 const ProfileModal = ({ isOpen, setIsOpen }: ProfileModalProps) => {
   const { t } = useTranslation("my");
 
+  const handleLogout = async () => {
+    await logout();
+    await router.push("/auth");
+  };
+
   return (
     <ModalOverlay
       isOpen={isOpen}
@@ -112,7 +118,7 @@ const ProfileModal = ({ isOpen, setIsOpen }: ProfileModalProps) => {
             <MenuItem
               icon={<FaRightFromBracket />}
               label={t("profile.logout")}
-              onClick={logout}
+              onClick={handleLogout}
             />
           </div>
         </Dialog>

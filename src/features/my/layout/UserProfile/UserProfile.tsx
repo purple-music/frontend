@@ -28,11 +28,6 @@ const UserProfile = ({ isModalOpen, setIsModalOpen }: UserProfileProps) => {
     );
   }, [session]);
 
-  const handleLogout = async () => {
-    await logout(); // Call the server function
-    await router.push("/auth"); // Redirect to the auth/login page
-  };
-
   if (session.status === "loading") return <span>Loading...</span>;
   if (!user) return <span>Loading...</span>;
   return (

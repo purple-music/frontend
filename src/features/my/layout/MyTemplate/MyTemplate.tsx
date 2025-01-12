@@ -34,7 +34,11 @@ const MyTemplate = ({ children, page }: MyTemplateProps) => {
   return (
     <>
       <div className="flex h-dvh w-full flex-col bg-surface-container pb-20 pt-0 md:flex-row md:gap-8 md:p-8 md:pt-8">
-        <TopAppBar className="md:hidden" />
+        <TopAppBar
+          className="md:hidden"
+          isProfileModalOpen={isProfileModalOpen}
+          setIsProfileModalOpen={setIsProfileModalOpen}
+        />
         <Sidebar
           buttons={buttons}
           defaultHref={defaultHref}
