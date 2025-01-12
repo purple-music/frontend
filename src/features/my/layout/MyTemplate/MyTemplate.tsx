@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { FaBook, FaMusic } from "react-icons/fa";
 import { FaHouse } from "react-icons/fa6";
 
@@ -16,6 +16,8 @@ interface MyTemplateProps {
 }
 
 const MyTemplate = ({ children, page }: MyTemplateProps) => {
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState<boolean>(false);
+
   const buttons: NavbarButton[] = [
     { label: "Dashboard", href: "", icon: <FaHouse size={20} /> },
     { label: "View", href: "view", icon: <FaBook size={20} /> },
@@ -37,6 +39,8 @@ const MyTemplate = ({ children, page }: MyTemplateProps) => {
           buttons={buttons}
           defaultHref={defaultHref}
           className="hidden md:flex"
+          isProfileModalOpen={isProfileModalOpen}
+          setIsProfileModalOpen={setIsProfileModalOpen}
         />
 
         <main className="flex h-full flex-1 flex-col items-start justify-start gap-8 overflow-auto bg-surface-container-lowest p-4 md:rounded-[32px] md:p-8">

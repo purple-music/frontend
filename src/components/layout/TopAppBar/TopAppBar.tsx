@@ -14,7 +14,7 @@ const TopAppBar = ({ className, ...props }: TopAppBarProps) => {
   };
   return (
     <div
-      className={`sticky top-0 h-16 w-full bg-surface-container ${className} z-50 flex flex-row items-center justify-center px-4`}
+      className={`sticky top-0 h-16 w-full bg-surface-container ${className} z-10 flex flex-row items-center justify-center px-4`}
       {...props}
     >
       <div className="flex items-center justify-start">

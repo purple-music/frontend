@@ -10,9 +10,15 @@ import { logout } from "@/actions/mutation/logout";
 import { getUserByEmail } from "@/actions/query/user";
 import IconButton from "@/components/ui/IconButton/IconButton";
 import Typography from "@/components/ui/Typography/Typography";
+import ProfileModal from "@/features/my/layout/ProfileModal/ProfileModal";
 import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
 
-const UserProfile = () => {
+interface UserProfileProps {
+  isModalOpen: boolean;
+  setIsModalOpen: (value: boolean) => void;
+}
+
+const UserProfile = ({ isModalOpen, setIsModalOpen }: UserProfileProps) => {
   const session = useCurrentSession();
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
@@ -51,9 +57,10 @@ const UserProfile = () => {
         <Typography variant="title">{user.name}</Typography>
         <Typography variant="label">{user.email}</Typography>
       </div>
-      <IconButton variant={"text"} onClick={handleLogout}>
+      <IconButton variant={"text"} onClick={() => setIsModalOpen(true)}>
         <FaEllipsisVertical size={24} />
       </IconButton>
+      <ProfileModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
     </div>
   );
 };
