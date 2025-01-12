@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import MyTemplate from "@/features/my/MyTemplate/MyTemplate";
+import MyTemplate from "@/features/my/layout/MyTemplate/MyTemplate";
 
 import BookingPage from "./BookingPage";
 

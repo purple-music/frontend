@@ -4,9 +4,9 @@ import { FaHouse } from "react-icons/fa6";
 
 import BottomNavbar from "@/components/layout/BottomNavbar/BottomNavbar";
 import { NavbarButton } from "@/components/layout/Navbar/Navbar";
-import Sidebar from "@/components/layout/Sidebar/Sidebar";
 import TopAppBar from "@/components/layout/TopAppBar/TopAppBar";
 import Typography from "@/components/ui/Typography/Typography";
+import Sidebar from "@/features/my/layout/Sidebar/Sidebar";
 
 export type MyPage = "" | "view" | "booking";
 

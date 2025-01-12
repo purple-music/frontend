@@ -2,7 +2,7 @@ import Image from "next/image";
 import { HTMLAttributes, ReactNode } from "react";
 
 import Navbar, { NavbarButton } from "@/components/layout/Navbar/Navbar";
-import UserProfile from "@/features/my/UserProfile/UserProfile";
+import UserProfile from "@/features/my/layout/UserProfile/UserProfile";
 
 interface SidebarProps extends HTMLAttributes<HTMLDivElement> {
   buttons: NavbarButton[];
