@@ -1,6 +1,18 @@
-import { Dialog, Heading, Modal, ModalOverlay } from "react-aria-components";
-import { FaXmark } from "react-icons/fa6";
+import { ReactNode } from "react";
+import { Dialog, Modal, ModalOverlay } from "react-aria-components";
+import { useTranslation } from "react-i18next";
+import {
+  FaCircleHalfStroke,
+  FaKey,
+  FaLanguage,
+  FaRightFromBracket,
+  FaUserPen,
+  FaXmark,
+} from "react-icons/fa6";
 
+import { logout } from "@/actions/mutation/logout";
+import Button from "@/components/ui/Button/Button";
+import Divider from "@/components/ui/Divider/Divider";
 import IconButton from "@/components/ui/IconButton/IconButton";
 import Typography from "@/components/ui/Typography/Typography";
 
@@ -9,23 +21,45 @@ const ProfileModalHeader = ({
 }: {
   setIsOpen: (value: boolean) => void;
 }) => {
+  const { t } = useTranslation("my");
+
   return (
-    <div className={"flex w-full flex-row"}>
+    <div className={"flex w-full flex-row items-center justify-between"}>
       {/*Empty left*/}
-      <div className={"flex h-10 w-full"}></div>
+      <div className={"flex h-10 w-10 shrink-0"}></div>
       {/*Center*/}
-      <div className={"flex h-10 w-full flex-col items-center justify-center"}>
-        <Typography variant={"title"} className={"text-center"}>
-          Profile
+      <div className={"flex flex-grow flex-col items-center justify-center"}>
+        <Typography variant={"title"} size={"large"} className={"text-center"}>
+          {t("profile.title")}
         </Typography>
       </div>
       {/*Right*/}
-      <div className={"flex h-10 w-full justify-end"}>
+      <div className={"flex h-10 w-10 shrink-0 justify-end"}>
         <IconButton onClick={() => setIsOpen(false)} variant={"text"}>
           <FaXmark />
         </IconButton>
       </div>
     </div>
+  );
+};
+
+interface MenuItemInterface {
+  icon: ReactNode;
+  label: string;
+  onClick: () => void;
+}
+
+const MenuItem = ({ icon, label, onClick }: MenuItemInterface) => {
+  return (
+    <Button
+      className={
+        "flex w-full flex-row items-center !justify-start gap-4 rounded-[16px] p-4"
+      }
+      onClick={onClick}
+      label={label}
+      startIcon={icon}
+      variant={"text"}
+    ></Button>
   );
 };
 
@@ -35,14 +69,15 @@ export interface ProfileModalProps {
 }
 
 const ProfileModal = ({ isOpen, setIsOpen }: ProfileModalProps) => {
-  console.log("ProfileModal", { isOpen, setIsOpen });
+  const { t } = useTranslation("my");
+
   return (
     <ModalOverlay
       isOpen={isOpen}
       onOpenChange={setIsOpen}
       isDismissable
       className={
-        "bg-scrim/50 fixed inset-0 z-20 flex min-h-full items-center justify-center overflow-y-auto p-4 text-center backdrop-blur"
+        "fixed inset-0 z-20 flex min-h-full items-center justify-center overflow-y-auto bg-scrim/50 p-4 text-center backdrop-blur"
       }
     >
       <Modal
@@ -52,7 +87,34 @@ const ProfileModal = ({ isOpen, setIsOpen }: ProfileModalProps) => {
       >
         <Dialog role="alertdialog" className="flex flex-col outline-none">
           <ProfileModalHeader setIsOpen={setIsOpen} />
-          Menu
+          <div>
+            <MenuItem
+              icon={<FaUserPen />}
+              label={t("profile.edit-profile")}
+              onClick={() => {}}
+            />
+            <MenuItem
+              icon={<FaKey />}
+              label={t("profile.change-password")}
+              onClick={() => {}}
+            />
+            <MenuItem
+              icon={<FaCircleHalfStroke />}
+              label={t("profile.switch-theme")}
+              onClick={() => {}}
+            />
+            <MenuItem
+              icon={<FaLanguage />}
+              label={t("profile.switch-language")}
+              onClick={() => {}}
+            />
+            <Divider />
+            <MenuItem
+              icon={<FaRightFromBracket />}
+              label={t("profile.logout")}
+              onClick={logout}
+            />
+          </div>
         </Dialog>
       </Modal>
     </ModalOverlay>
