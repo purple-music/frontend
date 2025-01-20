@@ -1,20 +1,23 @@
-import { router } from "next/client";
 import Image from "next/image";
 import { HTMLAttributes } from "react";
 
-import { logout } from "@/actions/mutation/logout";
 import Typography from "@/components/ui/Typography/Typography";
+import ProfileModal from "@/features/my/layout/ProfileModal/ProfileModal";
 
-export interface TopAppBarProps extends HTMLAttributes<HTMLDivElement> {}
+export interface TopAppBarProps extends HTMLAttributes<HTMLDivElement> {
+  isProfileModalOpen: boolean;
+  setIsProfileModalOpen: (value: boolean) => void;
+}
 
-const TopAppBar = ({ className, ...props }: TopAppBarProps) => {
-  const handleLogout = async () => {
-    await logout();
-    await router.push("/auth");
-  };
+const TopAppBar = ({
+  className,
+  isProfileModalOpen,
+  setIsProfileModalOpen,
+  ...props
+}: TopAppBarProps) => {
   return (
     <div
-      className={`sticky top-0 h-16 w-full bg-surface-container ${className} z-50 flex flex-row items-center justify-center px-4`}
+      className={`sticky top-0 h-16 w-full bg-surface-container ${className} z-10 flex flex-row items-center justify-center px-4`}
       {...props}
     >
       <div className="flex items-center justify-start">
@@ -33,7 +36,11 @@ const TopAppBar = ({ className, ...props }: TopAppBarProps) => {
           src={"/pfp.jpg"}
           alt="Profile Picture"
           className="h-12 w-12 rounded-full"
-          onClick={handleLogout}
+          onClick={() => setIsProfileModalOpen(true)}
+        />
+        <ProfileModal
+          isOpen={isProfileModalOpen}
+          setIsOpen={setIsProfileModalOpen}
         />
       </div>
     </div>

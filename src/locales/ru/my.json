@@ -28,5 +28,13 @@
   },
   "view": {
     "title": "Просмотр"
+  },
+  "profile": {
+    "title": "Твой профиль",
+    "edit-profile": "Редактировать профиль",
+    "change-password": "Изменить пароль",
+    "switch-theme": "Переключить тему",
+    "switch-language": "Переключить язык",
+    "logout": "Выход"
   }
 }

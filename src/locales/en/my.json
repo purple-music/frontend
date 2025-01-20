@@ -28,5 +28,13 @@
   },
   "view": {
     "title": "View"
+  },
+  "profile": {
+    "title": "Your Profile",
+    "edit-profile": "Edit your profile",
+    "change-password": "Change your password",
+    "switch-theme": "Switch theme",
+    "switch-language": "Switch language",
+    "logout": "Logout"
   }
 }

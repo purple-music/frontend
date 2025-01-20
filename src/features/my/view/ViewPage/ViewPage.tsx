@@ -52,6 +52,7 @@ function transformSlotsToCalendar(
   return calendarSlots;
 }
 
+// TODO: add skeleton loading
 const ViewPage = ({}: ViewPageProps) => {
   const [allBookings, setAllBookings] = useState<Booking[]>([]);
   const [selectedStudios, setSelectedStudios] = useState<StudioId[]>([

@@ -1,12 +1,12 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { FaBook, FaMusic } from "react-icons/fa";
 import { FaHouse } from "react-icons/fa6";
 
 import BottomNavbar from "@/components/layout/BottomNavbar/BottomNavbar";
 import { NavbarButton } from "@/components/layout/Navbar/Navbar";
-import Sidebar from "@/components/layout/Sidebar/Sidebar";
 import TopAppBar from "@/components/layout/TopAppBar/TopAppBar";
 import Typography from "@/components/ui/Typography/Typography";
+import Sidebar from "@/features/my/layout/Sidebar/Sidebar";
 
 export type MyPage = "" | "view" | "booking";
 
@@ -16,6 +16,8 @@ interface MyTemplateProps {
 }
 
 const MyTemplate = ({ children, page }: MyTemplateProps) => {
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState<boolean>(false);
+
   const buttons: NavbarButton[] = [
     { label: "Dashboard", href: "", icon: <FaHouse size={20} /> },
     { label: "View", href: "view", icon: <FaBook size={20} /> },
@@ -32,11 +34,17 @@ const MyTemplate = ({ children, page }: MyTemplateProps) => {
   return (
     <>
       <div className="flex h-dvh w-full flex-col bg-surface-container pb-20 pt-0 md:flex-row md:gap-8 md:p-8 md:pt-8">
-        <TopAppBar className="md:hidden" />
+        <TopAppBar
+          className="md:hidden"
+          isProfileModalOpen={isProfileModalOpen}
+          setIsProfileModalOpen={setIsProfileModalOpen}
+        />
         <Sidebar
           buttons={buttons}
           defaultHref={defaultHref}
           className="hidden md:flex"
+          isProfileModalOpen={isProfileModalOpen}
+          setIsProfileModalOpen={setIsProfileModalOpen}
         />
 
         <main className="flex h-full flex-1 flex-col items-start justify-start gap-8 overflow-auto bg-surface-container-lowest p-4 md:rounded-[32px] md:p-8">

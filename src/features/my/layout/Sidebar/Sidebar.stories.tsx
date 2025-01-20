@@ -26,5 +26,7 @@ export const Default: Story = {
       { label: "Library", href: "library", icon: <FaBook size={20} /> },
       { label: "Search", href: "search", icon: <FaMusic size={20} /> },
     ],
+    isProfileModalOpen: false,
+    setIsProfileModalOpen: () => {},
   },
 };

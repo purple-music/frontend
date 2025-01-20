@@ -9,72 +9,76 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "var(--md-sys-color-primary)",
-        "on-primary": "var(--md-sys-color-on-primary)",
-        "primary-container": "var(--md-sys-color-primary-container)",
-        "on-primary-container": "var(--md-sys-color-on-primary-container)",
+        primary: "rgb(var(--md-sys-color-primary))",
+        "on-primary": "rgb(var(--md-sys-color-on-primary))",
+        "primary-container": "rgb(var(--md-sys-color-primary-container))",
+        "on-primary-container": "rgb(var(--md-sys-color-on-primary-container))",
 
-        secondary: "var(--md-sys-color-secondary)",
-        "on-secondary": "var(--md-sys-color-on-secondary)",
-        "secondary-container": "var(--md-sys-color-secondary-container)",
-        "on-secondary-container": "var(--md-sys-color-on-secondary-container)",
+        secondary: "rgb(var(--md-sys-color-secondary))",
+        "on-secondary": "rgb(var(--md-sys-color-on-secondary))",
+        "secondary-container": "rgb(var(--md-sys-color-secondary-container))",
+        "on-secondary-container":
+          "rgb(var(--md-sys-color-on-secondary-container))",
 
-        tertiary: "var(--md-sys-color-tertiary)",
-        "on-tertiary": "var(--md-sys-color-on-tertiary)",
-        "tertiary-container": "var(--md-sys-color-tertiary-container)",
-        "on-tertiary-container": "var(--md-sys-color-on-tertiary-container)",
+        tertiary: "rgb(var(--md-sys-color-tertiary))",
+        "on-tertiary": "rgb(var(--md-sys-color-on-tertiary))",
+        "tertiary-container": "rgb(var(--md-sys-color-tertiary-container))",
+        "on-tertiary-container":
+          "rgb(var(--md-sys-color-on-tertiary-container))",
 
-        error: "var(--md-sys-color-error)",
-        "on-error": "var(--md-sys-color-on-error)",
-        "error-container": "var(--md-sys-color-error-container)",
-        "on-error-container": "var(--md-sys-color-on-error-container)",
+        error: "rgb(var(--md-sys-color-error))",
+        "on-error": "rgb(var(--md-sys-color-on-error))",
+        "error-container": "rgb(var(--md-sys-color-error-container))",
+        "on-error-container": "rgb(var(--md-sys-color-on-error-container))",
 
-        background: "var(--md-sys-color-background)",
-        "on-background": "var(--md-sys-color-on-background)",
+        background: "rgb(var(--md-sys-color-background))",
+        "on-background": "rgb(var(--md-sys-color-on-background))",
 
-        surface: "var(--md-sys-color-surface)",
-        "on-surface": "var(--md-sys-color-on-surface)",
-        "surface-variant": "var(--md-sys-color-surface-variant)",
-        "on-surface-variant": "var(--md-sys-color-on-surface-variant)",
-        "surface-tint": "var(--md-sys-color-surface-tint)",
+        surface: "rgb(var(--md-sys-color-surface))",
+        "on-surface": "rgb(var(--md-sys-color-on-surface))",
+        "surface-variant": "rgb(var(--md-sys-color-surface-variant))",
+        "on-surface-variant": "rgb(var(--md-sys-color-on-surface-variant))",
+        "surface-tint": "rgb(var(--md-sys-color-surface-tint))",
 
-        outline: "var(--md-sys-color-outline)",
-        "outline-variant": "var(--md-sys-color-outline-variant)",
+        outline: "rgb(var(--md-sys-color-outline))",
+        "outline-variant": "rgb(var(--md-sys-color-outline-variant))",
 
-        shadow: "var(--md-sys-color-shadow)",
-        scrim: "var(--md-sys-color-scrim)",
+        shadow: "rgb(var(--md-sys-color-shadow))",
+        scrim: "rgb(var(--md-sys-color-scrim))",
 
-        "inverse-surface": "var(--md-sys-color-inverse-surface)",
-        "inverse-on-surface": "var(--md-sys-color-inverse-on-surface)",
-        "inverse-primary": "var(--md-sys-color-inverse-primary)",
+        "inverse-surface": "rgb(var(--md-sys-color-inverse-surface))",
+        "inverse-on-surface": "rgb(var(--md-sys-color-inverse-on-surface))",
+        "inverse-primary": "rgb(var(--md-sys-color-inverse-primary))",
 
-        "primary-fixed": "var(--md-sys-color-primary-fixed)",
-        "on-primary-fixed": "var(--md-sys-color-on-primary-fixed)",
-        "primary-fixed-dim": "var(--md-sys-color-primary-fixed-dim)",
+        "primary-fixed": "rgb(var(--md-sys-color-primary-fixed))",
+        "on-primary-fixed": "rgb(var(--md-sys-color-on-primary-fixed))",
+        "primary-fixed-dim": "rgb(var(--md-sys-color-primary-fixed-dim))",
         "on-primary-fixed-variant":
-          "var(--md-sys-color-on-primary-fixed-variant)",
+          "rgb(var(--md-sys-color-on-primary-fixed-variant))",
 
-        "secondary-fixed": "var(--md-sys-color-secondary-fixed)",
-        "on-secondary-fixed": "var(--md-sys-color-on-secondary-fixed)",
-        "secondary-fixed-dim": "var(--md-sys-color-secondary-fixed-dim)",
+        "secondary-fixed": "rgb(var(--md-sys-color-secondary-fixed))",
+        "on-secondary-fixed": "rgb(var(--md-sys-color-on-secondary-fixed))",
+        "secondary-fixed-dim": "rgb(var(--md-sys-color-secondary-fixed-dim))",
         "on-secondary-fixed-variant":
-          "var(--md-sys-color-on-secondary-fixed-variant)",
+          "rgb(var(--md-sys-color-on-secondary-fixed-variant))",
 
-        "tertiary-fixed": "var(--md-sys-color-tertiary-fixed)",
-        "on-tertiary-fixed": "var(--md-sys-color-on-tertiary-fixed)",
-        "tertiary-fixed-dim": "var(--md-sys-color-tertiary-fixed-dim)",
+        "tertiary-fixed": "rgb(var(--md-sys-color-tertiary-fixed))",
+        "on-tertiary-fixed": "rgb(var(--md-sys-color-on-tertiary-fixed))",
+        "tertiary-fixed-dim": "rgb(var(--md-sys-color-tertiary-fixed-dim))",
         "on-tertiary-fixed-variant":
-          "var(--md-sys-color-on-tertiary-fixed-variant)",
+          "rgb(var(--md-sys-color-on-tertiary-fixed-variant))",
 
-        "surface-dim": "var(--md-sys-color-surface-dim)",
-        "surface-bright": "var(--md-sys-color-surface-bright)",
+        "surface-dim": "rgb(var(--md-sys-color-surface-dim))",
+        "surface-bright": "rgb(var(--md-sys-color-surface-bright))",
         "surface-container-lowest":
-          "var(--md-sys-color-surface-container-lowest)",
-        "surface-container-low": "var(--md-sys-color-surface-container-low)",
-        "surface-container": "var(--md-sys-color-surface-container)",
-        "surface-container-high": "var(--md-sys-color-surface-container-high)",
+          "rgb(var(--md-sys-color-surface-container-lowest))",
+        "surface-container-low":
+          "rgb(var(--md-sys-color-surface-container-low))",
+        "surface-container": "rgb(var(--md-sys-color-surface-container))",
+        "surface-container-high":
+          "rgb(var(--md-sys-color-surface-container-high))",
         "surface-container-highest":
-          "var(--md-sys-color-surface-container-highest)",
+          "rgb(var(--md-sys-color-surface-container-highest))",
 
         "brand-purple": "var(--extended-color-brand-purple)",
         "brand-on-purple": "var(--extended-color-brand-on-purple)",
