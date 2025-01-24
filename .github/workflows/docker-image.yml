@@ -54,10 +54,6 @@ jobs:
           build-args: |
             build_mode=Release
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
       - name: "Copy docker-compose.prod-ci.yml to server"
         uses: appleboy/scp-action@v0.1.4
         with:
