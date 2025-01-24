@@ -25,7 +25,7 @@ services:
     networks:
       - purple-net
     ports:
-      - "80:80"
+      - "8040:80"
 
   # prisma-studio:
   #   environment:
