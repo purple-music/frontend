@@ -29,7 +29,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           source: ".env"
-          target: "/root/"
+          target: "/srv/deployments/prod-purple-nextjs/.env"
 
       - name: "Set up QEMU"
         uses: docker/setup-qemu-action@v1
@@ -54,6 +54,10 @@ jobs:
           build-args: |
             build_mode=Release
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: "Copy docker-compose.prod-ci.yml to server"
         uses: appleboy/scp-action@v0.1.4
         with:
@@ -62,7 +66,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           source: "docker-compose.prod-ci.yml"
-          target: "/root/"
+          target: "/srv/deployments/prod-purple-nextjs/"
 
       - name: "Run deploy on server"
         uses: appleboy/ssh-action@master
@@ -74,6 +78,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
+            cd /srv/deployments/prod-purple-nextjs
             sudo docker compose -f docker-compose.prod-ci.yml -p prod down
             sudo docker compose -f docker-compose.prod-ci.yml -p prod pull
             sudo docker compose -f docker-compose.prod-ci.yml -p prod up -d
