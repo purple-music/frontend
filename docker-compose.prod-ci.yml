@@ -47,21 +47,18 @@ services:
   #   depends_on:
   #     - db
 
-  # nocodb:
-  #   image: nocodb/nocodb:latest
-  #   depends_on:
-  #     - db
-  #   environment:
-  #     NC_DB: "pg://db:5432?u=purple&p=music_purple&d=music"
-  #   networks:
-  #     - purple-net
-  #   ports:
-  #     - mode: ingress
-  #       target: 8080
-  #       published: "4444"
-  #       protocol: tcp
-  #   volumes:
-  #     - "ncdata:/usr/app/data"
+  nocodb:
+    image: nocodb/nocodb:latest
+    depends_on:
+      - db
+    environment:
+      NC_DB: "postgresql://purple:music_purple@db:5432/music?sslmode=disable"
+    networks:
+      - purple-net
+    ports:
+      - "8030:8080"
+    volumes:
+      - "ncdata:/usr/app/data"
 
 networks:
   purple-net:
@@ -70,4 +67,5 @@ networks:
 
 volumes:
   pgdata:
-  # ncdata:
+  ncdata:
+
