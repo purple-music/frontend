@@ -75,6 +75,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             cd /srv/deployments/prod-purple-nextjs
-            sudo docker compose -f docker-compose.prod-ci.yml -p prod down
-            sudo docker compose -f docker-compose.prod-ci.yml -p prod pull
-            sudo docker compose -f docker-compose.prod-ci.yml -p prod up -d
+            sudo docker compose -f docker-compose.prod-ci.yml -p purplemusic down
+            sudo docker compose -f docker-compose.prod-ci.yml -p purplemusic pull
+            sudo docker compose -f docker-compose.prod-ci.yml -p purplemusic up -d
+

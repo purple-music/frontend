@@ -16,6 +16,23 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  db_noco:
+    environment:
+      POSTGRES_DB: nocodb
+      POSTGRES_PASSWORD: nocodb_secret
+      POSTGRES_USER: nocodb_user
+    image: postgres:latest
+    networks:
+      - purple-net
+    ports:
+      - mode: ingress
+        target: 5432
+        published: "5433"
+        protocol: tcp
+    restart: always
+    volumes:
+      - pgdata_noco:/var/lib/postgresql/data
+
   nextjs:
     depends_on:
       - db
@@ -47,5 +64,6 @@ networks:
 
 volumes:
   pgdata:
+  pgdata_noco:
   ncdata:
 
