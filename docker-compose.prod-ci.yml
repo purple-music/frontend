@@ -47,9 +47,9 @@ services:
   nocodb:
     image: nocodb/nocodb:latest
     depends_on:
-      - db
+      - db_noco
     env_file:
-      - .env
+      - .env.nocodb
     networks:
       - purple-net
     ports:
