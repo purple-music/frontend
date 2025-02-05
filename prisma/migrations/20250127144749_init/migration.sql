@@ -118,4 +118,4 @@ ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") RE
 INSERT INTO "Studio" ("id") VALUES
                                 ('orange'),
                                 ('purple'),
-                                ('blue');\
+                                ('blue');
