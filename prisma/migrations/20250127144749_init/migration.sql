@@ -113,3 +113,9 @@ ALTER TABLE "Booking" ADD CONSTRAINT "Booking_orderId_fkey" FOREIGN KEY ("orderI
 
 -- AddForeignKey
 ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- Insert initial studios
+INSERT INTO "Studio" ("id") VALUES
+                                ('orange'),
+                                ('purple'),
+                                ('blue');\
