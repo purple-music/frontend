@@ -2,13 +2,9 @@ import NextAuth, { DefaultSession, User } from "next-auth";
 // Do not remove this import, otherwise it will break the typechecker
 import { JWT } from "next-auth/jwt";
 
-import { UserRole } from "@prisma/client";
-
-import { PrismaAdapter } from "@auth/prisma-adapter";
-
+// import { UserRole } from "@prisma/client";
 import { getUserById } from "@/actions/query/user";
 import authConfig from "@/auth.config";
-import prisma from "@/lib/db";
 
 declare module "next-auth" {
   /**
@@ -17,7 +13,8 @@ declare module "next-auth" {
   interface Session {
     user: {
       /** The user's role. */
-      role: UserRole;
+      // TODO: prisma removed
+      role: any;
       id: NonNullable<User["id"]>;
       email: NonNullable<User["email"]>;
       /**
@@ -34,17 +31,19 @@ declare module "next-auth/jwt" {
   /** Returned by the `jwt` callback and `auth`, when using JWT sessions */
   interface JWT {
     /** OpenID ID Token */
-    role: UserRole;
+    // TODO: prisma removed
+    role: any;
   }
 }
 
 export const { auth, signIn, signOut, handlers } = NextAuth({
   events: {
     async linkAccount({ user }) {
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { emailVerified: new Date() },
-      });
+      // TODO: prisma removed
+      // await prisma.user.update({
+      //   where: { id: user.id },
+      //   data: { emailVerified: new Date() },
+      // });
     },
   },
   callbacks: {
@@ -88,7 +87,8 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
       return session;
     },
   },
-  adapter: PrismaAdapter(prisma),
+  // adapter: PrismaAdapter(prisma),
+  // TODO: prisma removed
   session: { strategy: "jwt" },
   trustHost: true,
   secret: process.env.AUTH_SECRET,

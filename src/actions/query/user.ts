@@ -1,21 +1,25 @@
 "use server";
 
-import { User } from "@prisma/client";
+// import { User } from "@prisma/client";
 
-import prisma from "@/lib/db";
+export async function getUserById(id: string): Promise<any | null> {
+  // return prisma.user.findUnique({
+  //   where: {
+  //     id: id,
+  //   },
+  // });
 
-export async function getUserById(id: string): Promise<User | null> {
-  return prisma.user.findUnique({
-    where: {
-      id: id,
-    },
-  });
+  // TODO: prisma removed
+  return null;
 }
 
-export async function getUserByEmail(email: string): Promise<User | null> {
-  return prisma.user.findUnique({
-    where: {
-      email: email,
-    },
-  });
+export async function getUserByEmail(email: string): Promise<any | null> {
+  // return prisma.user.findUnique({
+  //   where: {
+  //     email: email,
+  //   },
+  // });
+
+  // TODO: prisma removed
+  return null;
 }

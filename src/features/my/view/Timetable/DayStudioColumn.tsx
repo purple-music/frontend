@@ -1,7 +1,16 @@
-import { Booking } from "@prisma/client";
-
 import { StudioId } from "@/lib/types";
 import { getStudioColor } from "@/lib/utils/studios";
+
+// TODO: prisma removed
+type Booking = {
+  id: number;
+  slotTime: Date;
+  peopleCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+  studioId: string;
+  orderId: number;
+};
 
 interface EmptyBookingCellProps {
   cellHeight: string;

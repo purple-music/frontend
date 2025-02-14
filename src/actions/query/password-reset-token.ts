@@ -1,12 +1,12 @@
 "use server";
 
-import prisma from "@/lib/db";
-
 export async function getPasswordResetTokenByEmail(email: string) {
   try {
-    return await prisma.passwordResetToken.findUnique({
-      where: { email },
-    });
+    // return await prisma.passwordResetToken.findUnique({
+    //   where: { email },
+    // });
+    // TODO: prisma removed
+    return null;
   } catch {
     return null;
   }
@@ -14,10 +14,12 @@ export async function getPasswordResetTokenByEmail(email: string) {
 
 export async function getPasswordResetTokenByToken(token: string) {
   try {
-    const passwordResetToken = await prisma.passwordResetToken.findUnique({
-      where: { token },
-    });
-    return passwordResetToken;
+    // const passwordResetToken = await prisma.passwordResetToken.findUnique({
+    //   where: { token },
+    // });
+    // return passwordResetToken;
+    // TODO: prisma removed
+    return null;
   } catch {
     return null;
   }

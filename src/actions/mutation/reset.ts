@@ -27,10 +27,10 @@ export async function resetPassword(
   }
 
   const passwordResetToken = await generatePasswordResetToken(email);
-  await sendPasswordResetEmail(
-    passwordResetToken.email,
-    passwordResetToken.token,
-  );
-
+  // await sendPasswordResetEmail(
+  //   passwordResetToken.email,
+  //   passwordResetToken.token,
+  // );
+  // TODO: prisma removed
   return authSuccess("Reset email sent!");
 }

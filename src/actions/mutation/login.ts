@@ -33,10 +33,11 @@ export async function authCredentials(
       existingUser.email,
     );
 
-    await sendVerificationEmail(
-      verificationToken.email,
-      verificationToken.token,
-    );
+    // TODO: prisma removed
+    // await sendVerificationEmail(
+    //   verificationToken.email,
+    //   verificationToken.token,
+    // );
 
     return authSuccess("Email sent!");
   }

@@ -1,7 +1,16 @@
-import { Booking } from "@prisma/client";
-
 import { DayColumn } from "@/features/my/view/Timetable/DayColumn";
 import { StudioId } from "@/lib/types";
+
+// TODO: prisma removed
+type Booking = {
+  id: number;
+  slotTime: Date;
+  peopleCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+  studioId: string;
+  orderId: number;
+};
 
 export function DayView({
   bookings,

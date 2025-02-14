@@ -3,11 +3,21 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TbCaretLeftFilled, TbCaretRightFilled } from "react-icons/tb";
 
-import { Booking } from "@prisma/client";
-
 import { StartDaySelector } from "@/app/[locale]/my/booking/_components/StartDaySelector";
 import { getPriceRate } from "@/app/[locale]/my/booking/_data/prices";
 import { Hour } from "@/lib/types";
+
+type Booking = {
+  id: number;
+  slotTime: Date;
+  peopleCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+  studioId: string;
+  orderId: number;
+};
+
+// TODO: prisma removed
 
 interface SlotSelectorProps {
   selectedStudio: string;
