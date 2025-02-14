@@ -1,8 +1,15 @@
 import { format } from "date-fns";
 
-import { Booking } from "@prisma/client";
-
-import { hourToDate } from "@/lib/utils/time";
+// TODO: prisma removed
+type Booking = {
+  id: number;
+  slotTime: Date;
+  peopleCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+  studioId: string;
+  orderId: number;
+};
 
 type GroupedBookings = {
   [date: string]: Booking[]; // Key is the date in yyyy-MM-dd format, value is array of bookings for that day

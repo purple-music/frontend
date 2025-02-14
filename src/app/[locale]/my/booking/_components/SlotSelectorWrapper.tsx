@@ -1,7 +1,17 @@
-import { Booking } from "@prisma/client";
-
+// import { Booking } from "@prisma/client";
 import { SlotSelector } from "@/app/[locale]/my/booking/_components/SlotSelector";
 import { Hour } from "@/lib/types";
+
+// TODO: prisma removed
+type Booking = {
+  id: number;
+  slotTime: Date;
+  peopleCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+  studioId: string;
+  orderId: number;
+};
 
 interface SlotSelectorWrapperProps {
   selectedStudio: string;

@@ -8,8 +8,6 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { type Booking } from "@prisma/client";
-
 import { makeOrder } from "@/actions/mutation/make-order";
 import Button from "@/components/ui/Button/Button";
 import Typography from "@/components/ui/Typography/Typography";

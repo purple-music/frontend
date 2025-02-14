@@ -4,8 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaEllipsisVertical } from "react-icons/fa6";
 
-import { User } from "@prisma/client";
-
+// import { User } from "@prisma/client";
 import { logout } from "@/actions/mutation/logout";
 import { getUserByEmail } from "@/actions/query/user";
 import IconButton from "@/components/ui/IconButton/IconButton";
@@ -18,9 +17,10 @@ interface UserProfileProps {
   setIsModalOpen: (value: boolean) => void;
 }
 
+// TODO: prisma removed
 const UserProfile = ({ isModalOpen, setIsModalOpen }: UserProfileProps) => {
   const session = useCurrentSession();
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<any | null>(null);
   useEffect(() => {
     if (!session.session) return;
     getUserByEmail(session.session.user.email).then((response) =>

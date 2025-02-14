@@ -2,27 +2,38 @@
 
 import { z } from "zod";
 
-import { Booking } from "@prisma/client";
-
 import { BookingSlotInfo } from "@/features/my/booking/BookingStudioTimeSelect/BookingStudioTimeSelect";
 import { PersonalBooking } from "@/features/my/dashboard/PersonalBookings/PersonalBookings";
-import prisma from "@/lib/db";
 import { StudioId } from "@/lib/types";
 import { Result, error, success } from "@/lib/utils/result";
 import { GetAvailableSlotsSchema } from "@/schemas/schemas";
 
+type Booking = {
+  id: number;
+  slotTime: Date;
+  peopleCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+  studioId: string;
+  orderId: number;
+};
+
 export async function getAllBookings(): Promise<Booking[]> {
-  return prisma.booking.findMany();
+  // TODO: prisma removed
+  // return prisma.booking.findMany();
+  return [];
 }
 
 export async function getBookingsByUserId(userId: string): Promise<Booking[]> {
-  return prisma.booking.findMany({
-    where: {
-      order: {
-        userId: userId,
-      },
-    },
-  });
+  // TODO: prisma removed
+  // return prisma.booking.findMany({
+  //   where: {
+  //     order: {
+  //       userId: userId,
+  //     },
+  //   },
+  // });
+  return [];
 }
 
 // TODO: this is usually made with "start" and "end" query params
@@ -31,18 +42,20 @@ export async function getTransformedBookingsByUserId(
 ): Promise<Record<string, PersonalBooking[]>> {
   const currentDate = new Date();
 
-  const bookings = await prisma.booking.findMany({
-    where: {
-      order: {
-        userId: userId,
-      },
-      slotTime: {
-        gte: currentDate,
-      },
-    },
-  });
+  // const bookings = await prisma.booking.findMany({
+  //   where: {
+  //     order: {
+  //       userId: userId,
+  //     },
+  //     slotTime: {
+  //       gte: currentDate,
+  //     },
+  //   },
+  // });
+  // TODO: prisma removed
 
-  return transformBookings(bookings);
+  // return transformBookings(bookings);
+  return {};
 }
 
 function transformBookings(
@@ -82,16 +95,20 @@ export async function getCurrentBookingsByUserId(
 ): Promise<Booking[]> {
   const currentDate = new Date();
 
-  return prisma.booking.findMany({
-    where: {
-      order: {
-        userId: userId,
-      },
-      slotTime: {
-        gte: currentDate,
-      },
-    },
-  });
+  // return prisma.booking.findMany({
+  //   where: {
+  //     order: {
+  //       userId: userId,
+  //     },
+  //     slotTime: {
+  //       gte: currentDate,
+  //     },
+  //   },
+  // });
+
+  // TODO: prisma removed
+
+  return [];
 }
 
 const getPrice = (studioId: StudioId | string) => {
@@ -127,45 +144,47 @@ export async function getAvailableSlots(
 
   try {
     // Fetch studios and their bookings
-    const studiosWithBookings = await prisma.studio.findMany({
-      include: {
-        bookings: true,
-      },
-    });
+    // const studiosWithBookings = await prisma.studio.findMany({
+    //   include: {
+    //     bookings: true,
+    //   },
+    // });
+    // TODO: prisma removed
 
-    const availableSlots: BookingSlotInfo[] = [];
+    // const availableSlots: BookingSlotInfo[] = [];
+    //
+    // for (const studio of studiosWithBookings) {
+    //   const bookedSlots = studio.bookings
+    //     .filter(
+    //       (booking) =>
+    //         booking.slotTime >= fromDate && booking.slotTime <= toDate,
+    //     )
+    //     .map((booking) => ({
+    //       slotTime: booking.slotTime.getTime(),
+    //     }));
+    //
+    //   // Generate hourly slots in a given range
+    //   for (
+    //     let hour = fromDate.getTime();
+    //     hour <= toDate.getTime();
+    //     hour += 60 * 60 * 1000
+    //   ) {
+    //     const slotTime = new Date(hour);
+    //
+    //     if (!bookedSlots.some((slot) => slot.slotTime === slotTime.getTime())) {
+    //       availableSlots.push({
+    //         studioId: studio.id as StudioId,
+    //         slotTime,
+    //         price: getPrice(studio.id),
+    //       });
+    //     }
+    //   }
+    // }
 
-    for (const studio of studiosWithBookings) {
-      const bookedSlots = studio.bookings
-        .filter(
-          (booking) =>
-            booking.slotTime >= fromDate && booking.slotTime <= toDate,
-        )
-        .map((booking) => ({
-          slotTime: booking.slotTime.getTime(),
-        }));
-
-      // Generate hourly slots in a given range
-      for (
-        let hour = fromDate.getTime();
-        hour <= toDate.getTime();
-        hour += 60 * 60 * 1000
-      ) {
-        const slotTime = new Date(hour);
-
-        if (!bookedSlots.some((slot) => slot.slotTime === slotTime.getTime())) {
-          availableSlots.push({
-            studioId: studio.id as StudioId,
-            slotTime,
-            price: getPrice(studio.id),
-          });
-        }
-      }
-    }
-
-    // And make slots that are after NOW() unavailable
-    const now = new Date();
-    return success(availableSlots.filter((slot) => slot.slotTime > now));
+    // // And make slots that are after NOW() unavailable
+    // const now = new Date();
+    // return success(availableSlots.filter((slot) => slot.slotTime > now));
+    return error("TODO: prisma removed");
   } catch (err) {
     console.error("Error fetching available slots:", err);
     return error("Error fetching available slots");

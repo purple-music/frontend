@@ -1,13 +1,22 @@
 import { addDays, format } from "date-fns";
 import React, { useEffect, useState } from "react";
 
-import { Booking } from "@prisma/client";
-
 import { getAllBookings } from "@/actions/query/booking";
 import ButtonGroup from "@/components/ui/ButtonGroup/ButtonGroup";
 import MultiSelectButtonGroup from "@/components/ui/MultiSelectButtonGroup/MultiSelectButtonGroup";
 import Timetable from "@/features/my/view/Timetable/Timetable";
 import { StudioId } from "@/lib/types";
+
+// TODO: prisma removed
+type Booking = {
+  id: number;
+  slotTime: Date;
+  peopleCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+  studioId: string;
+  orderId: number;
+};
 
 interface ViewPageProps {}
 
