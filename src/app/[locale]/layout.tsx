@@ -3,6 +3,7 @@ import React from "react";
 import { Toaster } from "sonner";
 
 import { initializeStudios } from "@/actions/mutation/initialize-studios";
+import Providers from "@/app/Providers";
 import initTranslations from "@/app/i18n";
 import { auth } from "@/auth";
 import TranslationProvider from "@/components/shared/providers/TranslationsProvider";
@@ -36,14 +37,16 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body>
-        <TranslationProvider
-          resources={resources}
-          locale={locale}
-          namespaces={i18nNamespaces}
-        >
-          <NextAuthProvider session={session}>{children}</NextAuthProvider>
-          <Toaster closeButton />
-        </TranslationProvider>
+        <Providers>
+          <TranslationProvider
+            resources={resources}
+            locale={locale}
+            namespaces={i18nNamespaces}
+          >
+            <NextAuthProvider session={session}>{children}</NextAuthProvider>
+            <Toaster closeButton />
+          </TranslationProvider>
+        </Providers>
       </body>
     </html>
   );
