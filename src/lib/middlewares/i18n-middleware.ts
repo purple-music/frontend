@@ -2,7 +2,7 @@ import acceptLanguage from "accept-language";
 import { NextResponse } from "next/server";
 
 import i18nConfig from "@/i18nConfig";
-import { MiddlewareFunction } from "@/lib/middlewares/MiddlewareChain";
+import { MiddlewareFunction } from "@/lib/middlewares/middleware-chain";
 import { NextAuthRequest } from "@/lib/middlewares/types";
 import { noLngRoutes } from "@/routes";
 

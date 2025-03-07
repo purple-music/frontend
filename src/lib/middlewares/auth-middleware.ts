@@ -2,8 +2,7 @@ import { verify } from "jsonwebtoken";
 import { NextResponse } from "next/server";
 
 import i18nConfig from "@/i18nConfig";
-import { MiddlewareFunction } from "@/lib/middlewares/MiddlewareChain";
-import { NextAuthRequest } from "@/lib/middlewares/types";
+import { MiddlewareFunction } from "@/lib/middlewares/middleware-chain";
 import {
   DEFAULT_LOGIN_REDIRECT,
   apiAuthPrefix,

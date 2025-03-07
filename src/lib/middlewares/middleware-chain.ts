@@ -1,4 +1,3 @@
-// middleware-chain.ts
 import { NextResponse } from "next/server";
 
 import { NextAuthRequest } from "@/lib/middlewares/types";

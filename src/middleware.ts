@@ -1,10 +1,10 @@
 import acceptLanguage from "accept-language";
 
 import i18nConfig from "@/i18nConfig";
-import { MiddlewareChain } from "@/lib/middlewares/MiddlewareChain";
-import { authMiddleware } from "@/lib/middlewares/auth";
-import { i18nMiddleware } from "@/lib/middlewares/i18nMiddleware";
-import { loggingMiddleware } from "@/lib/middlewares/loggingMiddleware";
+import { authMiddleware } from "@/lib/middlewares/auth-middleware";
+import { i18nMiddleware } from "@/lib/middlewares/i18n-middleware";
+import { loggingMiddleware } from "@/lib/middlewares/logging-middleware";
+import { MiddlewareChain } from "@/lib/middlewares/middleware-chain";
 import { NextAuthRequest } from "@/lib/middlewares/types";
 
 acceptLanguage.languages((i18nConfig.locales || []) as string[]);
