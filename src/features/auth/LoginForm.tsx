@@ -11,7 +11,8 @@ import { z } from "zod";
 
 import AuthForm from "@/features/auth/AuthForm";
 import { AuthInputField } from "@/features/auth/auth-card/AuthInputField";
-import { login, register } from "@/lib/auth";
+import { login } from "@/lib/auth";
+import { ApiError } from "@/lib/axios";
 import { ActionResult } from "@/lib/types";
 import { authError, authSuccess } from "@/lib/utils/actions";
 import { LoginSchema } from "@/schemas/schemas";
@@ -41,12 +42,30 @@ export default function LoginForm() {
       setResult(authSuccess(data.access_token));
       alert(JSON.stringify(data));
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       if (error.message === "NEXT_REDIRECT") {
         throw error;
       }
-      console.error("Error submitting form", error);
-      setResult(authError("Server error occurred!"));
+
+      if (error instanceof ApiError) {
+        const errorMessage = error.message;
+        const statusCode = error.status;
+
+        let displayMessage = errorMessage;
+        if (statusCode === 400) {
+          displayMessage = t("login.errors.bad-request");
+        } else if (statusCode === 401) {
+          displayMessage = t("login.errors.unauthorized");
+        } else if (statusCode === 404) {
+          displayMessage = t("login.errors.not-found");
+        } else if (statusCode === 500) {
+          displayMessage = t("login.errors.server-error");
+        }
+
+        setResult(authError(displayMessage));
+        return;
+      }
+      setResult(authError(JSON.stringify(error)));
     },
   });
 
