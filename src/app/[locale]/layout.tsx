@@ -5,9 +5,7 @@ import { Toaster } from "sonner";
 import { initializeStudios } from "@/actions/mutation/initialize-studios";
 import Providers from "@/app/Providers";
 import initTranslations from "@/app/i18n";
-import { auth } from "@/auth";
 import TranslationProvider from "@/components/shared/providers/TranslationsProvider";
-import { NextAuthProvider } from "@/providers/NextAuthProvider";
 
 import "./tailwind.css";
 
@@ -28,8 +26,6 @@ export default async function RootLayout({
   const awaitedParams = await params;
   const locale = awaitedParams.locale;
 
-  const session = await auth();
-
   await initializeStudios();
 
   const { t, resources } = await initTranslations(locale, i18nNamespaces);
@@ -43,7 +39,7 @@ export default async function RootLayout({
             locale={locale}
             namespaces={i18nNamespaces}
           >
-            <NextAuthProvider session={session}>{children}</NextAuthProvider>
+            {children}
             <Toaster closeButton />
           </TranslationProvider>
         </Providers>
