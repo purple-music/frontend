@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { NextAuthRequest } from "@/lib/middlewares/types";
 
-export type NextFunction = () => Promise<NextResponse>;
+export type NextFunction = (trace?: string) => Promise<NextResponse>;
 
 export type MiddlewareFunction = (
   req: NextAuthRequest,
@@ -44,7 +44,12 @@ export class MiddlewareChain {
       const currentMiddleware = this.middlewares[index];
 
       // Create the next function that will run the next middleware
-      const next = async (): Promise<NextResponse> => {
+      const next: NextFunction = async (
+        trace?: string,
+      ): Promise<NextResponse> => {
+        if (trace) {
+          this.logger(`[Middleware] Trace: ${trace}`);
+        }
         return executeMiddleware(index + 1);
       };
 

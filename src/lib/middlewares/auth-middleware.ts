@@ -36,8 +36,11 @@ export const authMiddleware: MiddlewareFunction = async (req, res, next) => {
       isAuthenticated = true;
     } catch (error) {
       // Clear invalid token
-      res.cookies.delete("token");
-      return NextResponse.redirect(new URL("/auth/login", nextUrl));
+      const redirectResponse = NextResponse.redirect(
+        new URL("/auth/login", nextUrl),
+      );
+      redirectResponse.cookies.delete("token");
+      return redirectResponse;
     }
   }
 
@@ -46,19 +49,19 @@ export const authMiddleware: MiddlewareFunction = async (req, res, next) => {
   const isAuthRoute = authRoutes.includes(pathname);
 
   if (isApiAuthRoute) {
-    return next();
+    return next("Api Auth Route");
   }
 
   if (isAuthRoute) {
     if (isAuthenticated) {
       return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
-    return next();
+    return next("Auth Route");
   }
 
   if (!isAuthenticated && !isPublicRoute) {
     return NextResponse.redirect(new URL("/auth/login", nextUrl));
   }
 
-  return next();
+  return next("Auth Middleware");
 };
