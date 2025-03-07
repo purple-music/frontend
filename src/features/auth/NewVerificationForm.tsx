@@ -1,14 +1,14 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { newVerification } from "@/actions/mutation/new-verification";
 import { AuthAlert } from "@/features/auth/auth-card/AuthAlert";
 import { AuthCard } from "@/features/auth/auth-card/AuthCard";
 import { AuthCardTitle } from "@/features/auth/auth-card/AuthCardTitile";
 import { AuthFooterAction } from "@/features/auth/auth-card/AuthFooterAction";
-import { useAsyncAction } from "@/lib/hooks/useAsyncAction";
+import { verify } from "@/lib/auth";
 import { ActionResult } from "@/lib/types";
 
 export default function NewVerificationForm() {
@@ -16,15 +16,25 @@ export default function NewVerificationForm() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
-  const { result } = useAsyncAction(async (): Promise<ActionResult> => {
+  const [result, setResult] = useState<ActionResult | null>(null);
+
+  useEffect(() => {
+    // If search params don't have token, show error
     if (!token) {
-      return {
+      setResult({
         type: "error",
         message: t("new-verification.error.missing-token"),
-      };
+      });
+      return;
     }
-    return await newVerification(token);
-  }, [token]);
+
+    // Search params have token, update result
+    verify(token)
+      .then(setResult)
+      .catch(() => {
+        setResult({ type: "error", message: "Unexpected error occurred!" });
+      });
+  }, [t, token]);
 
   return (
     <AuthCard>

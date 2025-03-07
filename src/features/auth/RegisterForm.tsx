@@ -1,21 +1,41 @@
 "use client";
 
-import React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { TbLock, TbMail, TbUser } from "react-icons/tb";
+import { z } from "zod";
 
 import { registerUser } from "@/actions/mutation/register";
 import AuthForm from "@/features/auth/AuthForm";
 import { AuthInputField } from "@/features/auth/auth-card/AuthInputField";
+import { register } from "@/lib/auth";
 import { useAuthForm } from "@/lib/hooks/useAuthForm";
+import { ActionResult } from "@/lib/types";
 import { RegisterSchema } from "@/schemas/schemas";
 
 export default function RegisterForm() {
   const { t } = useTranslation("auth");
-  const { form, onSubmit, result, isSubmitting } = useAuthForm(
-    RegisterSchema,
-    registerUser,
-  );
+  const [result, setResult] = useState<ActionResult | null>(null);
+
+  const mutation = useMutation({
+    mutationFn: (data: z.infer<typeof RegisterSchema>) =>
+      register(data.email, data.password, data.name),
+    onSuccess: (data: ActionResult) => {
+      setResult(data);
+      alert(JSON.stringify(data));
+    },
+  });
+  const {
+    register: formRegister,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
+  });
 
   return (
     <AuthForm
@@ -26,7 +46,14 @@ export default function RegisterForm() {
         isSubmitting ? t("register.submitting") : t("register.submit")
       }
       showSocial={true}
-      onSubmit={form.handleSubmit(onSubmit)}
+      onSubmit={handleSubmit((data) => {
+        alert(JSON.stringify(data, null, 2));
+        return mutation.mutate({
+          email: data.email,
+          password: data.password,
+          name: data.name,
+        });
+      })}
       extraAction={{
         href: "/auth/login",
         label: t("register.extra-action"),
@@ -36,9 +63,9 @@ export default function RegisterForm() {
       <AuthInputField
         type="text"
         label={t("register.name.label")}
-        register={form.register("name")}
+        register={formRegister("name")}
         placeholder={t("register.name.placeholder")}
-        error={form.formState.errors.name?.message}
+        error={errors.name?.message}
         icon={<TbUser />}
       />
 
@@ -46,9 +73,9 @@ export default function RegisterForm() {
       <AuthInputField
         type="email"
         label={t("register.email.label")}
-        register={form.register("email")}
+        register={formRegister("email")}
         placeholder={t("register.email.placeholder")}
-        error={form.formState.errors.email?.message}
+        error={errors.email?.message}
         icon={<TbMail />}
       />
 
@@ -56,9 +83,9 @@ export default function RegisterForm() {
       <AuthInputField
         type="password"
         label={t("register.password.label")}
-        register={form.register("password")}
+        register={formRegister("password")}
         placeholder={t("register.password.placeholder")}
-        error={form.formState.errors.password?.message}
+        error={errors.password?.message}
         icon={<TbLock />}
       />
     </AuthForm>

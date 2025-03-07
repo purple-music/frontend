@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import { StudioAlert } from "@/app/[locale]/StudioAlert";
 import initTranslations from "@/app/i18n";
 
 function ServiceCard({
@@ -84,7 +83,6 @@ export default async function Home({
                   <Link className="btn btn-primary rounded-full" href="/my">
                     {t("my-page")}
                   </Link>
-                  <StudioAlert></StudioAlert>
                 </div>
               </nav>
             </div>

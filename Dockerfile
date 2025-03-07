@@ -52,8 +52,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 USER nextjs
 
 EXPOSE 80
-ENV PORT=80
-CMD sh -c "node server.js"
+ENV PORT 80
+CMD ["node", "server.js"]
 
 # === DEV MODE ===
 FROM base AS dev
@@ -61,6 +61,8 @@ WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /root/.npm /root/.npm
+
+ENV NODE_ENV development
 
 COPY . .
 

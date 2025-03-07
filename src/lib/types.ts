@@ -6,3 +6,7 @@ export type ActionResult = {
   type: "success" | "error";
   message: string;
 };
+
+export type ApiResponse<T = null> =
+  | { success: true; data: T; message?: string }
+  | { success: false; error: { code: string; message: string } };
