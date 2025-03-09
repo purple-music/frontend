@@ -1,4 +1,3 @@
-import { verify } from "jsonwebtoken";
 import { NextResponse } from "next/server";
 
 import i18nConfig from "@/i18nConfig";
@@ -29,20 +28,8 @@ export const authMiddleware: MiddlewareFunction = async (req, res, next) => {
   const token = req.cookies.get("token")?.value;
 
   // Verify JWT token if exists
-  let isAuthenticated = false;
-  if (token) {
-    try {
-      verify(token, process.env.JWT_SECRET!);
-      isAuthenticated = true;
-    } catch (error) {
-      // Clear invalid token
-      const redirectResponse = NextResponse.redirect(
-        new URL("/auth/login", nextUrl),
-      );
-      redirectResponse.cookies.delete("token");
-      return redirectResponse;
-    }
-  }
+  let isAuthenticated = !!token;
+  console.log("isAuthenticated", isAuthenticated);
 
   const isApiAuthRoute = pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(pathname);

@@ -7,7 +7,7 @@ import api, { ApiError } from "@/lib/axios";
 type LoginResponse =
   paths["/auth/login"]["post"]["responses"]["200"]["content"]["application/json"];
 
-const login = async (
+const fetchLogin = async (
   email: string,
   password: string,
 ): Promise<LoginResponse> => {
@@ -23,7 +23,7 @@ const login = async (
   }
 };
 
-export const useLogin = (
+export const useLoginMutation = (
   options: UseMutationOptions<
     LoginResponse,
     ApiError,
@@ -36,7 +36,7 @@ export const useLogin = (
 ) => {
   return useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) =>
-      login(email, password),
+      fetchLogin(email, password),
     ...options,
   });
 };

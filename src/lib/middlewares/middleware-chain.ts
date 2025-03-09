@@ -43,6 +43,13 @@ export class MiddlewareChain {
 
       const currentMiddleware = this.middlewares[index];
 
+      if (!currentMiddleware) {
+        this.logger(
+          `[Middleware] Invariant violation: Middleware at index ${index} is undefined`,
+        );
+        return response;
+      }
+
       // Create the next function that will run the next middleware
       const next: NextFunction = async (
         trace?: string,

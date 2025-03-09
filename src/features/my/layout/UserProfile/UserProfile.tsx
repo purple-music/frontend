@@ -1,35 +1,24 @@
 import clsx from "clsx";
-import { router } from "next/client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { FaEllipsisVertical } from "react-icons/fa6";
 
-// import { User } from "@prisma/client";
-import { logout } from "@/actions/mutation/logout";
-import { getUserByEmail } from "@/actions/query/user";
+import { useProfileQuery } from "@/api/queries/auth/profile";
 import IconButton from "@/components/ui/IconButton/IconButton";
 import Typography from "@/components/ui/Typography/Typography";
 import ProfileModal from "@/features/my/layout/ProfileModal/ProfileModal";
-import { useCurrentSession } from "@/lib/hooks/useCurrentSession";
 
 interface UserProfileProps {
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
 }
 
-// TODO: prisma removed
 const UserProfile = ({ isModalOpen, setIsModalOpen }: UserProfileProps) => {
-  const session = useCurrentSession();
-  const [user, setUser] = useState<any | null>(null);
-  useEffect(() => {
-    if (!session.session) return;
-    getUserByEmail(session.session.user.email).then((response) =>
-      setUser(response),
-    );
-  }, [session]);
+  const { data: user, isLoading, isError, error } = useProfileQuery();
 
-  if (session.status === "loading") return <span>Loading...</span>;
-  if (!user) return <span>Loading...</span>;
+  if (isError) return <span>Error: {error?.message}</span>;
+  if (isLoading) return <span>Loading...</span>;
+  if (!user) return <span>No user</span>;
+
   return (
     <div
       className={clsx(

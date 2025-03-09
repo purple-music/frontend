@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { TbLock, TbMail } from "react-icons/tb";
 import { z } from "zod";
 
-import { useLogin } from "@/api/queries/auth/use-login";
+import { useLoginMutation } from "@/api/mutations/auth/login";
 import AuthForm from "@/features/auth/AuthForm";
 import { AuthInputField } from "@/features/auth/auth-card/AuthInputField";
 import { ActionResult } from "@/lib/types";
@@ -30,11 +30,11 @@ export default function LoginForm() {
 
   const [result, setResult] = useState<ActionResult | null>(null);
 
-  const mutation = useLogin({
+  const mutation = useLoginMutation({
     onSuccess: (data) => {
       alert(JSON.stringify(data.message));
 
-      router.push("/my/dashboard");
+      router.push("/my");
     },
     onError: (error) => {
       const errorMessage = error.message;

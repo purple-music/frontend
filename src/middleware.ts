@@ -10,9 +10,9 @@ import { NextAuthRequest } from "@/lib/middlewares/types";
 acceptLanguage.languages((i18nConfig.locales || []) as string[]);
 
 export default async function middleware(req: NextAuthRequest) {
-  const middlewareChain = new MiddlewareChain([], console.log);
+  const middlewareChain = new MiddlewareChain([], () => {});
 
-  middlewareChain.use(loggingMiddleware);
+  // middlewareChain.use(loggingMiddleware);
   middlewareChain.use(authMiddleware);
   middlewareChain.use(i18nMiddleware);
 

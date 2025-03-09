@@ -43,7 +43,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["AuthController_getProfile"];
+        /** Get user profile */
+        get: operations["AuthController_profile"];
         put?: never;
         post?: never;
         delete?: never;
@@ -129,6 +130,13 @@ export interface components {
              */
             timestamp: string;
         };
+        ProfileResponseDto: {
+            id: string;
+            email: string;
+            name: string;
+            role: string;
+            image: string;
+        };
         RegisterDto: Record<string, never>;
         RegisterResponseDto: Record<string, never>;
         VerifyEmailDto: {
@@ -199,7 +207,7 @@ export interface operations {
             };
         };
     };
-    AuthController_getProfile: {
+    AuthController_profile: {
         parameters: {
             query?: never;
             header?: never;
@@ -208,7 +216,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description User profile */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProfileResponseDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };

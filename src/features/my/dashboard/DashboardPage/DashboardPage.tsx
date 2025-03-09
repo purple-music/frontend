@@ -1,8 +1,8 @@
 import { format } from "date-fns";
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 import { getTransformedBookingsByUserId } from "@/actions/query/booking";
+import { useProfileQuery } from "@/api/queries/auth/profile";
 import ButtonGroup from "@/components/ui/ButtonGroup/ButtonGroup";
 import { EmptyBookings } from "@/features/my/dashboard/DashboardPage/EmptyBookings";
 import PersonalBookings, {
@@ -16,17 +16,17 @@ const DashboardPage = ({}: DashboardPageProps) => {
     {},
   );
 
-  const { data: session } = useSession();
+  const { data: user, isLoading, isError, error } = useProfileQuery();
 
   useEffect(() => {
     const fetchBookings = async () => {
-      if (!session?.user?.id) return;
-      const bookings = await getTransformedBookingsByUserId(session?.user?.id);
+      if (!user?.id) return;
+      const bookings = await getTransformedBookingsByUserId(user.id);
 
       setBookings(bookings);
     };
     void fetchBookings();
-  }, [session]);
+  }, [user]);
 
   const personalBookings = Object.entries(bookings).sort(([dayA], [dayB]) => {
     const dateA = new Date(dayA);

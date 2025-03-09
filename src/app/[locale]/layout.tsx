@@ -1,3 +1,4 @@
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { Metadata } from "next";
 import React from "react";
 import { Toaster } from "sonner";
@@ -42,6 +43,7 @@ export default async function RootLayout({
             {children}
             <Toaster closeButton />
           </TranslationProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
         </Providers>
       </body>
     </html>
