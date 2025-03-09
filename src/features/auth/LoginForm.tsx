@@ -1,29 +1,24 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { TbLock, TbMail } from "react-icons/tb";
 import { z } from "zod";
 
+import { useLogin } from "@/api/queries/auth/use-login";
 import AuthForm from "@/features/auth/AuthForm";
 import { AuthInputField } from "@/features/auth/auth-card/AuthInputField";
-import { login } from "@/lib/auth";
-import { ApiError } from "@/lib/axios";
 import { ActionResult } from "@/lib/types";
-import { authError, authSuccess } from "@/lib/utils/actions";
+import { authError } from "@/lib/utils/actions";
 import { LoginSchema } from "@/schemas/schemas";
-
-type LoginResponse = {
-  access_token: string;
-};
 
 export default function LoginForm() {
   const searchParams = useSearchParams();
   const { t } = useTranslation("auth");
+  const router = useRouter();
 
   console.log("Search params", searchParams);
 
@@ -35,37 +30,27 @@ export default function LoginForm() {
 
   const [result, setResult] = useState<ActionResult | null>(null);
 
-  const mutation = useMutation({
-    mutationFn: (data: z.infer<typeof LoginSchema>) =>
-      login(data.email, data.password),
-    onSuccess: (data: LoginResponse) => {
-      setResult(authSuccess(data.access_token));
-      alert(JSON.stringify(data));
+  const mutation = useLogin({
+    onSuccess: (data) => {
+      alert(JSON.stringify(data.message));
+
+      router.push("/my/dashboard");
     },
-    onError: (error: Error) => {
-      if (error.message === "NEXT_REDIRECT") {
-        throw error;
+    onError: (error) => {
+      const errorMessage = error.message;
+      const statusCode = error.status;
+      let displayMessage = errorMessage;
+      if (statusCode === 400) {
+        displayMessage = t("login.errors.bad-request");
+      } else if (statusCode === 401) {
+        displayMessage = t("login.errors.unauthorized");
+      } else if (statusCode === 404) {
+        displayMessage = t("login.errors.not-found");
+      } else if (statusCode === 500) {
+        displayMessage = t("login.errors.server-error");
       }
-
-      if (error instanceof ApiError) {
-        const errorMessage = error.message;
-        const statusCode = error.status;
-
-        let displayMessage = errorMessage;
-        if (statusCode === 400) {
-          displayMessage = t("login.errors.bad-request");
-        } else if (statusCode === 401) {
-          displayMessage = t("login.errors.unauthorized");
-        } else if (statusCode === 404) {
-          displayMessage = t("login.errors.not-found");
-        } else if (statusCode === 500) {
-          displayMessage = t("login.errors.server-error");
-        }
-
-        setResult(authError(displayMessage));
-        return;
-      }
-      setResult(authError(JSON.stringify(error)));
+      setResult(authError(displayMessage));
+      return;
     },
   });
 

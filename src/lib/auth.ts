@@ -1,6 +1,6 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
-import api, { ApiError } from "./axios";
+import api from "./axios";
 
 export const register = async (
   email: string,
@@ -13,20 +13,6 @@ export const register = async (
     name,
   });
   return res.data;
-};
-
-export const login = async (email: string, password: string) => {
-  try {
-    const res = await api.post("/auth/login", { email, password });
-    return res.data;
-  } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      // Convert to standardized error format
-      throw new ApiError(error.message || "Login failed", error.status);
-    } else {
-      throw error;
-    }
-  }
 };
 
 export const logout = async () => {
