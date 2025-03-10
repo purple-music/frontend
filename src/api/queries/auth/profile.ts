@@ -1,29 +1,26 @@
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { parseCookies } from "nookies";
 
 import { paths } from "@/api/types/api";
-import api, { ApiError } from "@/lib/axios";
+import api, { ApiError, ApiResponse } from "@/lib/axios";
 
-type ProfileResponse =
+type ProfileSuccessSchema =
   paths["/auth/profile"]["get"]["responses"]["200"]["content"]["application/json"];
+type Profile401Schema =
+  paths["/auth/profile"]["get"]["responses"]["401"]["content"]["application/json"];
+
+type ProfileResponse = ApiResponse<200, ProfileSuccessSchema>;
+type ProfileErrorResponse = ApiResponse<401, Profile401Schema>;
 
 const fetchProfile = async (): Promise<ProfileResponse> => {
   try {
-    const cookies = parseCookies();
-    const token = cookies.token;
-    console.log("Foudn  a token", token);
-    const res = await api.get("/auth/profile", {
+    const res = await api.get<ProfileResponse>("/auth/profile", {
       withCredentials: true,
     });
-    console.log("res.data", res.data);
     return res.data;
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      throw new ApiError(
-        error.message || "Failed to fetch profile",
-        error.status,
-      );
+    if (axios.isAxiosError<ProfileErrorResponse>(error) && error.response) {
+      throw new ApiError<ProfileErrorResponse>(error.response.data);
     } else {
       throw error;
     }
@@ -31,16 +28,11 @@ const fetchProfile = async (): Promise<ProfileResponse> => {
 };
 
 export const useProfileQuery = (
-  options?: UseQueryOptions<ProfileResponse, ApiError>,
+  options?: UseQueryOptions<ProfileResponse, ApiError<ProfileErrorResponse>>,
 ) => {
-  console.log("useProfileQuery called");
-  return useQuery<ProfileResponse, ApiError>({
+  return useQuery({
     queryKey: ["profile"],
-    enabled: true,
-    queryFn: () => {
-      console.log("useProfileQuery queryFn called");
-      return fetchProfile();
-    },
+    queryFn: fetchProfile,
     ...options,
   });
 };

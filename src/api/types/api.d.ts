@@ -91,11 +91,17 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        LoginRequestDto: {
+            /** @example example@me.com */
+            email: string;
+            /** @example password */
+            password: string;
+        };
         LoginResponseDto: {
             /** @example Login successful */
             message: string;
         };
-        ValidationErrorItem: {
+        ValidationErrorItemDto: {
             /**
              * @description The field that failed validation
              * @example email
@@ -109,9 +115,9 @@ export interface components {
              */
             messages?: string[];
             /** @description Nested validation errors */
-            children?: components["schemas"]["ValidationErrorItem"][];
+            children?: components["schemas"]["ValidationErrorItemDto"][];
         };
-        ValidationErrorResponse: {
+        ValidationErrorResponseDto: {
             /**
              * @description HTTP status code
              * @example 400
@@ -123,12 +129,24 @@ export interface components {
              */
             message: string;
             /** @description List of validation errors */
-            errors: components["schemas"]["ValidationErrorItem"][];
+            errors: components["schemas"]["ValidationErrorItemDto"][];
             /**
              * @description Timestamp of the error
              * @example 2023-10-10T12:34:56.789Z
              */
             timestamp: string;
+        };
+        UnauthorizedResponseDto: {
+            /** @example 401 */
+            statusCode: number;
+            /** @example Invalid credentials */
+            message: string;
+            /** @example UnauthorizedException */
+            error: string;
+        };
+        LogoutResponseDto: {
+            /** @example Logout successful */
+            message: string;
         };
         ProfileResponseDto: {
             id: string;
@@ -137,8 +155,18 @@ export interface components {
             role: string;
             image: string;
         };
-        RegisterDto: Record<string, never>;
-        RegisterResponseDto: Record<string, never>;
+        RegisterRequestDto: {
+            /** @example example@me.com */
+            email: string;
+            /** @example password */
+            password: string;
+            /** @example John Doe */
+            name: string;
+        };
+        RegisterResponseDto: {
+            /** @example Registration successful. Check your email for verification. */
+            message: string;
+        };
         VerifyEmailDto: {
             /**
              * @description The email verification token
@@ -169,7 +197,11 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LoginRequestDto"];
+            };
+        };
         responses: {
             200: {
                 headers: {
@@ -185,7 +217,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ValidationErrorResponse"];
+                    "application/json": components["schemas"]["ValidationErrorResponseDto"];
+                };
+            };
+            /** @description Invalid credentials */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnauthorizedResponseDto"];
                 };
             };
         };
@@ -199,11 +240,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["LogoutResponseDto"];
+                };
             };
         };
     };
@@ -230,7 +273,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["UnauthorizedResponseDto"];
+                };
             };
         };
     };
@@ -243,17 +288,26 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["RegisterDto"];
+                "application/json": components["schemas"]["RegisterRequestDto"];
             };
         };
         responses: {
-            /** @description User registered. */
+            /** @description User registered */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": components["schemas"]["RegisterResponseDto"];
+                };
+            };
+            /** @description Validation Failed */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponseDto"];
                 };
             };
         };
@@ -286,7 +340,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ValidationErrorResponse"];
+                    "application/json": components["schemas"]["ValidationErrorResponseDto"];
                 };
             };
         };

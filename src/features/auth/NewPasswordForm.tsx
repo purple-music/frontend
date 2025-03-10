@@ -20,31 +20,33 @@ export function NewPasswordForm() {
     async (data) => await newPassword(data, token),
   );
 
-  return (
-    <AuthForm
-      result={result}
-      title={t("new-password.title")}
-      isSubmitting={isSubmitting}
-      buttonLabel={
-        isSubmitting ? t("new-password.submitting") : t("new-password.submit")
-      }
-      showSocial={false}
-      onSubmit={form.handleSubmit(onSubmit)}
-      extraAction={{
-        href: "/auth/login",
-        label: t("new-password.extra-action"),
-      }}
-    >
-      {/* Password Field */}
-      <AuthInputField
-        type="password"
-        label={t("new-password.password.label")}
-        placeholder={t("new-password.password.placeholder")}
-        register={form.register("password")}
-        disabled={isSubmitting}
-        error={form.formState.errors.password?.message}
-        icon={<TbLock />}
-      />
-    </AuthForm>
-  );
+  return "Placeholder";
+
+  // return (
+  //   <AuthForm
+  //     result={result}
+  //     title={t("new-password.title")}
+  //     isSubmitting={isSubmitting}
+  //     buttonLabel={
+  //       isSubmitting ? t("new-password.submitting") : t("new-password.submit")
+  //     }
+  //     showSocial={false}
+  //     onSubmit={form.handleSubmit(onSubmit)}
+  //     extraAction={{
+  //       href: "/auth/login",
+  //       label: t("new-password.extra-action"),
+  //     }}
+  //   >
+  //     {/* Password Field */}
+  //     <AuthInputField
+  //       type="password"
+  //       label={t("new-password.password.label")}
+  //       placeholder={t("new-password.password.placeholder")}
+  //       register={form.register("password")}
+  //       disabled={isSubmitting}
+  //       error={form.formState.errors.password?.message}
+  //       icon={<TbLock />}
+  //     />
+  //   </AuthForm>
+  // );
 }

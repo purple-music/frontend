@@ -37,17 +37,13 @@ export default function LoginForm() {
       router.push("/my");
     },
     onError: (error) => {
-      const errorMessage = error.message;
-      const statusCode = error.status;
+      const errorMessage = error.data.message;
+      const statusCode = error.data.statusCode;
       let displayMessage = errorMessage;
       if (statusCode === 400) {
         displayMessage = t("login.errors.bad-request");
       } else if (statusCode === 401) {
         displayMessage = t("login.errors.unauthorized");
-      } else if (statusCode === 404) {
-        displayMessage = t("login.errors.not-found");
-      } else if (statusCode === 500) {
-        displayMessage = t("login.errors.server-error");
       }
       setResult(authError(displayMessage));
       return;
@@ -64,9 +60,10 @@ export default function LoginForm() {
 
   return (
     <AuthForm
-      result={result}
+      resultMessage={result?.message || urlError || null}
+      resultIsSuccess={mutation.isSuccess}
       title={t("login.title")}
-      isSubmitting={isSubmitting}
+      isSubmitting={isSubmitting || mutation.isPending}
       buttonLabel={isSubmitting ? t("login.submitting") : t("login.submit")}
       showSocial={true}
       onSubmit={handleSubmit((data) => {

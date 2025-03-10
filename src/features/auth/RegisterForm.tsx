@@ -1,34 +1,22 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { TbLock, TbMail, TbUser } from "react-icons/tb";
 import { z } from "zod";
 
-import { registerUser } from "@/actions/mutation/register";
+import { useRegisterMutation } from "@/api/mutations/auth/register";
 import AuthForm from "@/features/auth/AuthForm";
 import { AuthInputField } from "@/features/auth/auth-card/AuthInputField";
-import { register } from "@/lib/auth";
-import { useAuthForm } from "@/lib/hooks/useAuthForm";
-import { ActionResult } from "@/lib/types";
 import { RegisterSchema } from "@/schemas/schemas";
 
 export default function RegisterForm() {
   const { t } = useTranslation("auth");
-  const [result, setResult] = useState<ActionResult | null>(null);
 
-  const mutation = useMutation({
-    mutationFn: (data: z.infer<typeof RegisterSchema>) =>
-      register(data.email, data.password, data.name),
-    onSuccess: (data: ActionResult) => {
-      setResult(data);
-      alert(JSON.stringify(data));
-    },
-  });
+  const { mutate, data, isPending, isError, error, isSuccess } =
+    useRegisterMutation();
   const {
     register: formRegister,
     handleSubmit,
@@ -37,23 +25,25 @@ export default function RegisterForm() {
     resolver: zodResolver(RegisterSchema),
   });
 
+  const onSubmit = async (data: z.infer<typeof RegisterSchema>) => {
+    return mutate({
+      email: data.email,
+      password: data.password,
+      name: data.name,
+    });
+  };
+
   return (
     <AuthForm
-      result={result}
+      resultMessage={data?.message || error?.message || null}
+      resultIsSuccess={isSuccess}
       title={t("register.title")}
-      isSubmitting={isSubmitting}
+      isSubmitting={isSubmitting || isPending}
       buttonLabel={
         isSubmitting ? t("register.submitting") : t("register.submit")
       }
       showSocial={true}
-      onSubmit={handleSubmit((data) => {
-        alert(JSON.stringify(data, null, 2));
-        return mutation.mutate({
-          email: data.email,
-          password: data.password,
-          name: data.name,
-        });
-      })}
+      onSubmit={handleSubmit(onSubmit)}
       extraAction={{
         href: "/auth/login",
         label: t("register.extra-action"),

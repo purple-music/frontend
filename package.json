@@ -37,7 +37,6 @@
     "next": "15.1.2",
     "next-auth": "^5.0.0-beta.20",
     "next-i18n-router": "^5.5.1",
-    "nookies": "^2.5.2",
     "normalize.css": "^8.0.1",
     "react": "19.0.0",
     "react-aria-components": "^1.5.0",

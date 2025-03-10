@@ -9,10 +9,6 @@ export type ActionResult = {
   message: string;
 };
 
-export type ApiResponse<T = null> =
-  | { success: true; data: T; message?: string }
-  | { success: false; error: { code: string; message: string } };
-
 export interface I18nConfig {
   locales: readonly string[];
   defaultLocale: string;

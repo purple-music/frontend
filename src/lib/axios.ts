@@ -1,13 +1,17 @@
 import axios from "axios";
 
-export class ApiError extends Error {
-  public message: string;
-  public status?: number;
+export type ResponseBase = {
+  message: string;
+  statusCode: number;
+};
 
-  constructor(message: string, status?: number) {
-    super(message, { cause: status });
-    this.message = message;
-    this.status = status;
+export type ApiResponse<N extends number, T> = T & { statusCode: N };
+
+export class ApiError<T extends ResponseBase> extends Error {
+  constructor(public data: T) {
+    super(data.message, {
+      cause: data,
+    });
   }
 }
 

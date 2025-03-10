@@ -16,29 +16,31 @@ export function ResetForm() {
     resetPassword,
   );
 
-  return (
-    <AuthForm
-      result={result}
-      title={t("reset.title")}
-      isSubmitting={isSubmitting}
-      buttonLabel={isSubmitting ? t("reset.submitting") : t("reset.submit")}
-      showSocial={false}
-      onSubmit={form.handleSubmit(onSubmit)}
-      extraAction={{
-        href: "/auth/login",
-        label: t("reset.extra-action"),
-      }}
-    >
-      {/* Email Field */}
-      <AuthInputField
-        type="email"
-        label={t("reset.email.label")}
-        register={form.register("email")}
-        placeholder={t("reset.email.placeholder")}
-        error={form.formState.errors.email?.message}
-        disabled={isSubmitting}
-        icon={<TbMail />}
-      />
-    </AuthForm>
-  );
+  return "Placeholder";
+
+  // return (
+  //   <AuthForm
+  //     result={result}
+  //     title={t("reset.title")}
+  //     isSubmitting={isSubmitting}
+  //     buttonLabel={isSubmitting ? t("reset.submitting") : t("reset.submit")}
+  //     showSocial={false}
+  //     onSubmit={form.handleSubmit(onSubmit)}
+  //     extraAction={{
+  //       href: "/auth/login",
+  //       label: t("reset.extra-action"),
+  //     }}
+  //   >
+  //     {/* Email Field */}
+  //     <AuthInputField
+  //       type="email"
+  //       label={t("reset.email.label")}
+  //       register={form.register("email")}
+  //       placeholder={t("reset.email.placeholder")}
+  //       error={form.formState.errors.email?.message}
+  //       disabled={isSubmitting}
+  //       icon={<TbMail />}
+  //     />
+  //   </AuthForm>
+  // );
 }
