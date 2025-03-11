@@ -17,5 +17,5 @@ export async function initializeStudios() {
     // });
   }
 
-  console.log("Studios are initialized!");
+  console.log("Initialize Studios is complete! Although it's not really.");
 }

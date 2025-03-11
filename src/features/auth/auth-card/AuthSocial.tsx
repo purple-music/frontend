@@ -1,8 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { FaYandex } from "react-icons/fa6";
 
-import { authYandex } from "@/actions/mutation/login";
-
 export function YandexButton() {
   const { t } = useTranslation("auth");
 
@@ -10,7 +8,8 @@ export function YandexButton() {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        authYandex();
+        // TODO: add yandex auth using passport.js
+        // authYandex();
       }}
     >
       <button

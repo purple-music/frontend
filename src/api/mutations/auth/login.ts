@@ -33,7 +33,7 @@ const fetchLogin = async (data: LoginRequest): Promise<LoginResponse> => {
 };
 
 export const useLoginMutation = (
-  options: UseMutationOptions<
+  options?: UseMutationOptions<
     LoginResponse,
     ApiError<LoginErrorResponse>,
     LoginRequest

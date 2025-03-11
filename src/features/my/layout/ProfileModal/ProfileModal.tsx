@@ -76,9 +76,9 @@ const ProfileModal = ({ isOpen, setIsOpen }: ProfileModalProps) => {
 
   const router = useRouter();
 
-  const handleLogout = async () => {
-    await mutation.mutateAsync();
-    await router.push("/auth");
+  const handleLogout = () => {
+    mutation.mutate();
+    router.push("/auth");
   };
 
   return (
