@@ -540,6 +540,15 @@ export interface operations {
                     "application/json": components["schemas"]["BookingsResponse"];
                 };
             };
+            /** @description Validation Failed */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponseDto"];
+                };
+            };
             /** @description JWT Validation Failed */
             401: {
                 headers: {

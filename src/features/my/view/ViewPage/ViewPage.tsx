@@ -1,10 +1,14 @@
 import { addDays, format } from "date-fns";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 import { Booking, useBookingsQuery } from "@/api/queries/bookings/bookings";
 import ButtonGroup from "@/components/ui/ButtonGroup/ButtonGroup";
 import MultiSelectButtonGroup from "@/components/ui/MultiSelectButtonGroup/MultiSelectButtonGroup";
+import { ErrorToast } from "@/components/ui/toasts/ErrorToast";
+import { ValidationErrorToast } from "@/components/ui/toasts/ValidationErrorToast";
 import Timetable from "@/features/my/view/Timetable/Timetable";
+import { ValidationError } from "@/lib/axios";
 import { StudioId } from "@/lib/types";
 import { getAllStudios, getStudioLabel } from "@/lib/utils/studios";
 
@@ -55,17 +59,39 @@ function transformSlotsToCalendar(
   return calendarSlots;
 }
 
-// TODO: add skeleton loading
 const ViewPage = ({}: ViewPageProps) => {
   const today = new Date();
   const [selectedStudios, setSelectedStudios] =
     useState<StudioId[]>(getAllStudios());
   const [days, setDays] = useState<number>(7);
 
-  const { data, isLoading } = useBookingsQuery({
+  const { data, isLoading, isError, error, isSuccess } = useBookingsQuery({
     startDate: dayOnly(today),
     endDate: dayOnly(addDays(today, days)),
   });
+
+  useEffect(() => {
+    if (isError && error) {
+      if (error.data.statusCode === 400) {
+        const e: ValidationError = error.data;
+        toast.custom((tst) => (
+          <ValidationErrorToast error={e}></ValidationErrorToast>
+        ));
+      } else if (error.data.statusCode === 401) {
+        toast.custom((tst) => (
+          <ErrorToast>
+            <span>{error.data.message}</span>
+          </ErrorToast>
+        ));
+      } else {
+        toast.custom((tst) => (
+          <ErrorToast>
+            <span>{error.data.message}</span>
+          </ErrorToast>
+        ));
+      }
+    }
+  }, [isError, error]);
 
   // TODO: scale differently based not on date range, but do something like "small, normal, wide" with fixed column width and horizontal overflow scroll
   const dateRangeButtons: ButtonGroupButtons<number> = [
@@ -99,13 +125,18 @@ const ViewPage = ({}: ViewPageProps) => {
           onClick={(value) => setDays(value)}
         />
       </div>
-      <Timetable
-        startDate={today}
-        endDate={addDays(today, days)}
-        timezone="en-US"
-        studios={selectedStudios}
-        busySlots={busySlots}
-      ></Timetable>
+      {isLoading ? (
+        // TODO: add loading skeleton
+        <div>Loading...</div>
+      ) : (
+        <Timetable
+          startDate={today}
+          endDate={addDays(today, days)}
+          timezone="en-US"
+          studios={selectedStudios}
+          busySlots={busySlots}
+        ></Timetable>
+      )}
     </>
   );
 };

@@ -6,15 +6,19 @@ import { ApiError, ApiResponse } from "@/lib/axios";
 
 type Bookings200Schema =
   paths["/bookings"]["get"]["responses"]["200"]["content"]["application/json"];
+type Bookings400Schema =
+  paths["/bookings"]["get"]["responses"]["400"]["content"]["application/json"];
 type Bookings401Schema =
   paths["/bookings"]["get"]["responses"]["401"]["content"]["application/json"];
 
 export type Booking = components["schemas"]["BookingDto"];
 
-type BookingsResponse = ApiResponse<200, Bookings200Schema>;
-type BookingsErrorResponse = ApiResponse<401, Bookings401Schema>;
+export type BookingsResponse = ApiResponse<200, Bookings200Schema>;
+export type BookingsErrorResponse =
+  | ApiResponse<400, Bookings400Schema>
+  | ApiResponse<401, Bookings401Schema>;
 
-type BookingFilters = paths["/bookings"]["get"]["parameters"]["query"];
+export type BookingFilters = paths["/bookings"]["get"]["parameters"]["query"];
 
 export const useBookingsQuery = (
   filters?: BookingFilters,
