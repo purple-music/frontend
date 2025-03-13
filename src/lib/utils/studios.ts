@@ -1,7 +1,7 @@
 import { StudioId } from "../types";
 
 export const getOneLetterStudioName = (studio: StudioId) =>
-  studio[0].toUpperCase();
+  (studio[0] || "?").toUpperCase();
 
 export const getSoftStudioColor = (studio: StudioId) =>
   ({
@@ -41,7 +41,7 @@ export const getStudioName = (
   };
 
   if (size === "letter") {
-    return studioNames[studio][0].toUpperCase();
+    return studioNames[studio][0]!.toUpperCase();
   } else if (size === "three") {
     return studioNames[studio].slice(0, 3);
   } else if (size === "name") {

@@ -2,39 +2,12 @@
 
 import { z } from "zod";
 
+import { Booking } from "@/api/queries/bookings/bookings";
 import { BookingSlotInfo } from "@/features/my/booking/BookingStudioTimeSelect/BookingStudioTimeSelect";
 import { PersonalBooking } from "@/features/my/dashboard/PersonalBookings/PersonalBookings";
 import { StudioId } from "@/lib/types";
 import { Result, error, success } from "@/lib/utils/result";
 import { GetAvailableSlotsSchema } from "@/schemas/schemas";
-
-type Booking = {
-  id: number;
-  slotTime: Date;
-  peopleCount: number;
-  createdAt: Date;
-  updatedAt: Date;
-  studioId: string;
-  orderId: number;
-};
-
-export async function getAllBookings(): Promise<Booking[]> {
-  // TODO: prisma removed
-  // return prisma.booking.findMany();
-  return [];
-}
-
-export async function getBookingsByUserId(userId: string): Promise<Booking[]> {
-  // TODO: prisma removed
-  // return prisma.booking.findMany({
-  //   where: {
-  //     order: {
-  //       userId: userId,
-  //     },
-  //   },
-  // });
-  return [];
-}
 
 // TODO: this is usually made with "start" and "end" query params
 export async function getTransformedBookingsByUserId(
@@ -64,7 +37,11 @@ function transformBookings(
   const result: Record<string, PersonalBooking[]> = {};
 
   bookings.forEach((booking) => {
-    const day = booking.slotTime.toISOString().split("T")[0]; // Group by day
+    const day = new Date(booking.slotTime).toISOString().split("T")[0]; // Group by day
+
+    if (!day) {
+      return;
+    }
 
     if (!result[day]) {
       result[day] = [];
@@ -72,7 +49,7 @@ function transformBookings(
 
     result[day].push({
       studio: booking.studioId as StudioId,
-      time: booking.slotTime,
+      time: new Date(booking.slotTime),
       people: booking.peopleCount,
       status: getStatus(booking),
       cost: calculateCost(booking),

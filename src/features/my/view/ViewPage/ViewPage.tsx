@@ -1,28 +1,20 @@
 import { addDays, format } from "date-fns";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-import { getAllBookings } from "@/actions/query/booking";
+import { Booking, useBookingsQuery } from "@/api/queries/bookings/bookings";
 import ButtonGroup from "@/components/ui/ButtonGroup/ButtonGroup";
 import MultiSelectButtonGroup from "@/components/ui/MultiSelectButtonGroup/MultiSelectButtonGroup";
 import Timetable from "@/features/my/view/Timetable/Timetable";
 import { StudioId } from "@/lib/types";
-
-// TODO: prisma removed
-type Booking = {
-  id: number;
-  slotTime: Date;
-  peopleCount: number;
-  createdAt: Date;
-  updatedAt: Date;
-  studioId: string;
-  orderId: number;
-};
+import { getAllStudios, getStudioLabel } from "@/lib/utils/studios";
 
 interface ViewPageProps {}
 
 type ButtonGroupButtons<T> = { label: string; value: T }[];
 
 export type Day = string; // "yyyy-MM-dd"
+
+const dayOnly = (date: Date): Day => format(date, "yyyy-MM-dd");
 
 function transformSlotsToCalendar(
   slots: Booking[],
@@ -35,14 +27,14 @@ function transformSlotsToCalendar(
   // Populate calendar with empty structures for each day in the range
   let currentDate = startDate;
   while (currentDate <= endDate) {
-    const dayKey = format(currentDate, "yyyy-MM-dd");
+    const dayKey = dayOnly(currentDate);
     calendarSlots[dayKey] = {} as Record<StudioId, Date[]>;
     currentDate = addDays(currentDate, 1);
   }
 
   // Group slots by day and studio
   slots.forEach((slot) => {
-    const dayKey = format(slot.slotTime, "yyyy-MM-dd");
+    const dayKey = dayOnly(new Date(slot.slotTime));
 
     // If the day doesn't exist in the result object, create an empty structure
     if (!calendarSlots[dayKey]) {
@@ -55,7 +47,9 @@ function transformSlotsToCalendar(
     }
 
     // Add the slot time to the appropriate day and studio
-    calendarSlots[dayKey][slot.studioId as StudioId].push(slot.slotTime);
+    calendarSlots[dayKey][slot.studioId as StudioId].push(
+      new Date(slot.slotTime),
+    );
   });
 
   return calendarSlots;
@@ -63,29 +57,16 @@ function transformSlotsToCalendar(
 
 // TODO: add skeleton loading
 const ViewPage = ({}: ViewPageProps) => {
-  const [allBookings, setAllBookings] = useState<Booking[]>([]);
-  const [selectedStudios, setSelectedStudios] = useState<StudioId[]>([
-    "blue",
-    "orange",
-    "purple",
-  ]);
+  const today = new Date();
+  const [selectedStudios, setSelectedStudios] =
+    useState<StudioId[]>(getAllStudios());
   const [days, setDays] = useState<number>(7);
 
-  useEffect(() => {
-    const fetchBookings = async () => {
-      const bookings = await getAllBookings();
+  const { data, isLoading } = useBookingsQuery({
+    startDate: dayOnly(today),
+    endDate: dayOnly(addDays(today, days)),
+  });
 
-      setAllBookings(bookings);
-    };
-    void fetchBookings();
-  }, []);
-
-  const today = new Date();
-  const studioButtons: ButtonGroupButtons<StudioId> = [
-    { label: "Purple", value: "purple" },
-    { label: "Orange", value: "orange" },
-    { label: "Blue", value: "blue" },
-  ];
   // TODO: scale differently based not on date range, but do something like "small, normal, wide" with fixed column width and horizontal overflow scroll
   const dateRangeButtons: ButtonGroupButtons<number> = [
     { label: "day", value: 1 },
@@ -94,8 +75,9 @@ const ViewPage = ({}: ViewPageProps) => {
     { label: "month", value: 30 },
   ];
 
+  // TODO: add loading skeleton
   const busySlots = transformSlotsToCalendar(
-    allBookings,
+    data?.bookings || [],
     today,
     addDays(today, days),
   );
@@ -104,11 +86,16 @@ const ViewPage = ({}: ViewPageProps) => {
     <>
       <div className="flex w-full flex-row flex-wrap justify-between gap-4">
         <MultiSelectButtonGroup
-          buttons={studioButtons}
+          buttons={getAllStudios().map((studio) => ({
+            label: getStudioLabel(studio),
+            value: studio,
+          }))}
+          defaultValues={selectedStudios}
           onClick={(values) => setSelectedStudios(values as StudioId[])}
         />
         <ButtonGroup
           buttons={dateRangeButtons}
+          defaultValue={days}
           onClick={(value) => setDays(value)}
         />
       </div>

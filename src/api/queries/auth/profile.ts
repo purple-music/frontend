@@ -4,12 +4,12 @@ import { paths } from "@/api/types/api";
 import useGet from "@/api/use-get";
 import { ApiError, ApiResponse } from "@/lib/axios";
 
-type ProfileSuccessSchema =
+type Profile200Schema =
   paths["/auth/profile"]["get"]["responses"]["200"]["content"]["application/json"];
 type Profile401Schema =
   paths["/auth/profile"]["get"]["responses"]["401"]["content"]["application/json"];
 
-type ProfileResponse = ApiResponse<200, ProfileSuccessSchema>;
+type ProfileResponse = ApiResponse<200, Profile200Schema>;
 type ProfileErrorResponse = ApiResponse<401, Profile401Schema>;
 
 export const useProfileQuery = (

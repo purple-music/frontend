@@ -29,6 +29,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Reset password */
         post: operations["AuthController_resetPassword"];
         delete?: never;
         options?: never;
@@ -45,6 +46,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** New password */
         post: operations["AuthController_newPassword"];
         delete?: never;
         options?: never;
@@ -113,6 +115,40 @@ export interface paths {
         put?: never;
         /** Verify email token */
         post: operations["AuthController_verify"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/bookings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get all bookings */
+        get: operations["BookingsController_getBookings"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/bookings/user/{userId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get bookings by user ID */
+        get: operations["BookingsController_getBookingsByUserId"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -228,6 +264,21 @@ export interface components {
              */
             token: string;
         };
+        BookingDto: {
+            id: number;
+            /** Format: date-time */
+            slotTime: string;
+            peopleCount: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            studioId: string;
+            orderId: number;
+        };
+        BookingsResponse: {
+            bookings: components["schemas"]["BookingDto"][];
+        };
     };
     responses: never;
     parameters: never;
@@ -267,7 +318,7 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationErrorResponseDto"];
                 };
             };
-            /** @description Invalid credentials */
+            /** @description JWT Validation Failed */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -452,6 +503,81 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ValidationErrorResponseDto"];
+                };
+            };
+        };
+    };
+    BookingsController_getBookings: {
+        parameters: {
+            query?: {
+                /** @description User ID to filter bookings */
+                userId?: string;
+                /** @description Studio ID to filter bookings */
+                studioId?: string;
+                /** @description Start date in ISO format */
+                startDate?: string;
+                /** @description End date in ISO format */
+                endDate?: string;
+                /** @description Number of people */
+                peopleCount?: number;
+                /** @description Page number for pagination */
+                page?: number;
+                /** @description Limit for pagination */
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of all bookings */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BookingsResponse"];
+                };
+            };
+            /** @description JWT Validation Failed */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnauthorizedResponseDto"];
+                };
+            };
+        };
+    };
+    BookingsController_getBookingsByUserId: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of bookings for the specified user */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BookingDto"][];
+                };
+            };
+            /** @description JWT Validation Failed */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnauthorizedResponseDto"];
                 };
             };
         };
