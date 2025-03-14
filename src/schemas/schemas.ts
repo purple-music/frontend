@@ -11,7 +11,7 @@ export const UserSchema = z.object({
 
 const OrderIdSchema = z.number().positive();
 
-const BookingSchema = z.object({
+const TimeSlotSchema = z.object({
   title: z.string().max(255),
   hour: z.number().int().positive(),
   studio: z.string(),
@@ -24,7 +24,7 @@ const OrderSchema = z.object({
   payload: z.string(),
   updatedAt: z.date(),
   createdAt: z.date(),
-  bookings: BookingSchema.array(),
+  bookings: TimeSlotSchema.array(),
   userId: z.string().cuid(),
   user: UserSchema,
 });
@@ -46,7 +46,7 @@ const StudioIdSchema = z.enum(["purple", "orange", "blue"]);
 export const MakeOrderSchema = z.object({
   slots: z
     .object({
-      slotTime: z.date(),
+      slotTime: z.string().datetime(),
       studio: StudioIdSchema,
     })
     .array()

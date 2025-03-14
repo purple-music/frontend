@@ -23,7 +23,7 @@ export type BookingSlotInfo = {
 };
 
 export type SelectedTimeSlot = {
-  slotTime: Date;
+  slotTime: string;
   studio: StudioId;
 };
 
@@ -39,7 +39,7 @@ export const isSlotSame = (
   slot2: SelectedTimeSlot,
 ) => {
   return (
-    slot1.slotTime.getTime() === slot2.slotTime.getTime() &&
+    new Date(slot1.slotTime).getTime() === new Date(slot2.slotTime).getTime() &&
     slot1.studio === slot2.studio
   );
 };
@@ -71,7 +71,7 @@ const BookingStudioTimeSelect = ({
     console.log("Fetched available slots: ", availableTimeSlots);
 
     void fetchAvailableSlots();
-  }, [day]); // Refetch whenever the selected day changes
+  }, [availableTimeSlots, day]); // Refetch whenever the selected day changes
 
   // TODO: draw loading skeleton
   if (!availableTimeSlots) return <div>Loading...</div>;

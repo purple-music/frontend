@@ -121,15 +121,15 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/bookings": {
+    "/time-slots": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get all bookings */
-        get: operations["BookingsController_getBookings"];
+        /** Get all time slots */
+        get: operations["TimeSlotsController_getTimeSlots"];
         put?: never;
         post?: never;
         delete?: never;
@@ -138,17 +138,33 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/bookings/user/{userId}": {
+    "/time-slots/user/{userId}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get bookings by user ID */
-        get: operations["BookingsController_getBookingsByUserId"];
+        /** Get time slots by user ID */
+        get: operations["TimeSlotsController_getTimeSlotsByUserId"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/orders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["OrdersController_makeOrder"];
         delete?: never;
         options?: never;
         head?: never;
@@ -264,20 +280,41 @@ export interface components {
              */
             token: string;
         };
-        BookingDto: {
+        TimeSlotDto: {
             id: number;
             /** Format: date-time */
-            slotTime: string;
+            startTime: string;
+            /** Format: date-time */
+            endTime: string;
             peopleCount: number;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
             studioId: string;
-            orderId: number;
+            bookingId: number;
         };
-        BookingsResponse: {
-            bookings: components["schemas"]["BookingDto"][];
+        TimeSlotsDto: {
+            timeSlots: components["schemas"]["TimeSlotDto"][];
+        };
+        SlotDto: {
+            /** Format: date-time */
+            slotTime: string;
+            studio: string;
+        };
+        MakeOrderDto: {
+            slots: components["schemas"]["SlotDto"][];
+            /** @example 2 */
+            peopleCount: number;
+        };
+        OrderDto: {
+            id: number;
+            userId: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            bookings: components["schemas"]["TimeSlotDto"][];
         };
     };
     responses: never;
@@ -507,12 +544,12 @@ export interface operations {
             };
         };
     };
-    BookingsController_getBookings: {
+    TimeSlotsController_getTimeSlots: {
         parameters: {
             query?: {
-                /** @description User ID to filter bookings */
+                /** @description User ID to filter time slots */
                 userId?: string;
-                /** @description Studio ID to filter bookings */
+                /** @description Studio ID to filter time slots */
                 studioId?: string;
                 /** @description Start date in ISO format */
                 startDate?: string;
@@ -531,13 +568,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description List of all bookings */
+            /** @description List of all time slots */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["BookingsResponse"];
+                    "application/json": components["schemas"]["TimeSlotsDto"];
                 };
             };
             /** @description Validation Failed */
@@ -560,7 +597,7 @@ export interface operations {
             };
         };
     };
-    BookingsController_getBookingsByUserId: {
+    TimeSlotsController_getTimeSlotsByUserId: {
         parameters: {
             query?: never;
             header?: never;
@@ -571,13 +608,55 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description List of bookings for the specified user */
+            /** @description List of time slots for the specified user */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["BookingDto"][];
+                    "application/json": components["schemas"]["TimeSlotDto"][];
+                };
+            };
+            /** @description JWT Validation Failed */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnauthorizedResponseDto"];
+                };
+            };
+        };
+    };
+    OrdersController_makeOrder: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MakeOrderDto"];
+            };
+        };
+        responses: {
+            /** @description Order created successfully. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderDto"];
+                };
+            };
+            /** @description Validation Failed */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponseDto"];
                 };
             };
             /** @description JWT Validation Failed */

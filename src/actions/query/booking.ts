@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { Booking } from "@/api/queries/bookings/bookings";
+import { Booking } from "@/api/queries/time-slots/time-slots";
 import { BookingSlotInfo } from "@/features/my/booking/BookingStudioTimeSelect/BookingStudioTimeSelect";
 import { PersonalBooking } from "@/features/my/dashboard/PersonalBookings/PersonalBookings";
 import { StudioId } from "@/lib/types";

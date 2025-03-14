@@ -2,7 +2,7 @@ import { addDays, format } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import { Booking, useBookingsQuery } from "@/api/queries/bookings/bookings";
+import { TimeSlot, useTimeSlotsQuery } from "@/api/queries/bookings/bookings";
 import ButtonGroup from "@/components/ui/ButtonGroup/ButtonGroup";
 import MultiSelectButtonGroup from "@/components/ui/MultiSelectButtonGroup/MultiSelectButtonGroup";
 import { ErrorToast } from "@/components/ui/toasts/ErrorToast";
@@ -21,7 +21,7 @@ export type Day = string; // "yyyy-MM-dd"
 const dayOnly = (date: Date): Day => format(date, "yyyy-MM-dd");
 
 function transformSlotsToCalendar(
-  slots: Booking[],
+  slots: TimeSlot[],
   startDate: Date,
   endDate: Date,
 ): Record<Day, Record<StudioId, Date[]>> {
@@ -38,7 +38,7 @@ function transformSlotsToCalendar(
 
   // Group slots by day and studio
   slots.forEach((slot) => {
-    const dayKey = dayOnly(new Date(slot.slotTime));
+    const dayKey = dayOnly(new Date(slot.startTime));
 
     // If the day doesn't exist in the result object, create an empty structure
     if (!calendarSlots[dayKey]) {
@@ -52,7 +52,7 @@ function transformSlotsToCalendar(
 
     // Add the slot time to the appropriate day and studio
     calendarSlots[dayKey][slot.studioId as StudioId].push(
-      new Date(slot.slotTime),
+      new Date(slot.startTime),
     );
   });
 
@@ -65,7 +65,7 @@ const ViewPage = ({}: ViewPageProps) => {
     useState<StudioId[]>(getAllStudios());
   const [days, setDays] = useState<number>(7);
 
-  const { data, isLoading, isError, error, isSuccess } = useBookingsQuery({
+  const { data, isLoading, isError, error, isSuccess } = useTimeSlotsQuery({
     startDate: dayOnly(today),
     endDate: dayOnly(addDays(today, days)),
   });
@@ -103,7 +103,7 @@ const ViewPage = ({}: ViewPageProps) => {
 
   // TODO: add loading skeleton
   const busySlots = transformSlotsToCalendar(
-    data?.bookings || [],
+    data?.timeSlots || [],
     today,
     addDays(today, days),
   );
