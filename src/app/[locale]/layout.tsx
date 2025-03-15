@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import React from "react";
 import { Toaster } from "sonner";
 
-import { initializeStudios } from "@/actions/mutation/initialize-studios";
 import Providers from "@/app/Providers";
 import initTranslations from "@/app/i18n";
 import TranslationProvider from "@/components/shared/providers/TranslationsProvider";
@@ -26,8 +25,6 @@ export default async function RootLayout({
 }>) {
   const awaitedParams = await params;
   const locale = awaitedParams.locale;
-
-  await initializeStudios();
 
   const { t, resources } = await initTranslations(locale, i18nNamespaces);
 
