@@ -155,7 +155,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/orders": {
+    "/bookings": {
         parameters: {
             query?: never;
             header?: never;
@@ -164,7 +164,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["OrdersController_makeOrder"];
+        post: operations["BookingsController_makeBooking"];
         delete?: never;
         options?: never;
         head?: never;
@@ -297,17 +297,19 @@ export interface components {
         TimeSlotsDto: {
             timeSlots: components["schemas"]["TimeSlotDto"][];
         };
-        SlotDto: {
+        MakeTimeSlotDto: {
             /** Format: date-time */
-            slotTime: string;
+            startTime: string;
+            /** Format: date-time */
+            endTime: string;
             studio: string;
-        };
-        MakeOrderDto: {
-            slots: components["schemas"]["SlotDto"][];
             /** @example 2 */
             peopleCount: number;
         };
-        OrderDto: {
+        MakeBookingDto: {
+            slots: components["schemas"]["MakeTimeSlotDto"][];
+        };
+        BookingDto: {
             id: number;
             userId: string;
             /** Format: date-time */
@@ -628,7 +630,7 @@ export interface operations {
             };
         };
     };
-    OrdersController_makeOrder: {
+    BookingsController_makeBooking: {
         parameters: {
             query?: never;
             header?: never;
@@ -637,17 +639,17 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["MakeOrderDto"];
+                "application/json": components["schemas"]["MakeBookingDto"];
             };
         };
         responses: {
-            /** @description Order created successfully. */
+            /** @description Booking created successfully. */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["OrderDto"];
+                    "application/json": components["schemas"]["BookingDto"];
                 };
             };
             /** @description Validation Failed */

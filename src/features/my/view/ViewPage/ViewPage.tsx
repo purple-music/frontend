@@ -2,7 +2,10 @@ import { addDays, format } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import { TimeSlot, useTimeSlotsQuery } from "@/api/queries/bookings/bookings";
+import {
+  TimeSlot,
+  useTimeSlotsQuery,
+} from "@/api/queries/time-slots/time-slots";
 import ButtonGroup from "@/components/ui/ButtonGroup/ButtonGroup";
 import MultiSelectButtonGroup from "@/components/ui/MultiSelectButtonGroup/MultiSelectButtonGroup";
 import { ErrorToast } from "@/components/ui/toasts/ErrorToast";

@@ -4,12 +4,12 @@ import { z } from "zod";
 
 import { auth } from "@/auth";
 import { Result, error, success } from "@/lib/utils/result";
-import { MakeOrderSchema } from "@/schemas/schemas";
+import { MakeBooking } from "@/schemas/schemas";
 
-export async function makeOrder(
-  data: z.infer<typeof MakeOrderSchema>,
+export async function makeBooking(
+  data: z.infer<typeof MakeBooking>,
 ): Promise<Result<any /* Order */, string>> {
-  const validatedFields = MakeOrderSchema.safeParse(data);
+  const validatedFields = MakeBooking.safeParse(data);
 
   if (!validatedFields.success) {
     return error("Invalid input!");
@@ -24,7 +24,7 @@ export async function makeOrder(
   const { slots, peopleCount } = validatedFields.data;
 
   // Extract slot times and studio IDs
-  const slotTimes = slots.map((slot) => slot.slotTime);
+  const slotTimes = slots.map((slot) => slot.startTime);
   const studioIds = slots.map((slot) => slot.studio);
 
   // Check for overlapping bookings

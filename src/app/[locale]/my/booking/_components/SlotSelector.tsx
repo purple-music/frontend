@@ -7,14 +7,14 @@ import { StartDaySelector } from "@/app/[locale]/my/booking/_components/StartDay
 import { getPriceRate } from "@/app/[locale]/my/booking/_data/prices";
 import { Hour } from "@/lib/types";
 
-type Booking = {
+type TimeSlot = {
   id: number;
   slotTime: Date;
   peopleCount: number;
   createdAt: Date;
   updatedAt: Date;
   studioId: string;
-  orderId: number;
+  bookingId: number;
 };
 
 // TODO: prisma removed
@@ -25,7 +25,7 @@ interface SlotSelectorProps {
   selectedSlots: Hour[];
   onSelectedSlots: (slots: Hour[]) => void;
   disabled: boolean;
-  unavailableBookings: Booking[];
+  unavailableTimeSlots: TimeSlot[];
 }
 
 export function SlotSelector({
@@ -34,7 +34,7 @@ export function SlotSelector({
   selectedSlots,
   onSelectedSlots,
   disabled,
-  unavailableBookings,
+  unavailableTimeSlots,
 }: SlotSelectorProps) {
   const { t } = useTranslation("my");
   const getWeekDates = (startDate: Date) => {
@@ -87,7 +87,7 @@ export function SlotSelectorTable({
   isAvailable,
 }: {
   days: number;
-  unavailableBookings: Booking[];
+  unavailableBookings: TimeSlot[];
   disabled: boolean;
   selectedSlots: number[];
   onSelectedSlots: (slots: number[]) => void;

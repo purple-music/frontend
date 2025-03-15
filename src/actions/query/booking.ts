@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { Booking } from "@/api/queries/time-slots/time-slots";
+import { TimeSlot } from "@/api/queries/time-slots/time-slots";
 import { BookingSlotInfo } from "@/features/my/booking/BookingStudioTimeSelect/BookingStudioTimeSelect";
 import { PersonalBooking } from "@/features/my/dashboard/PersonalBookings/PersonalBookings";
 import { StudioId } from "@/lib/types";
@@ -32,12 +32,12 @@ export async function getTransformedBookingsByUserId(
 }
 
 function transformBookings(
-  bookings: Booking[],
+  bookings: TimeSlot[],
 ): Record<string, PersonalBooking[]> {
   const result: Record<string, PersonalBooking[]> = {};
 
   bookings.forEach((booking) => {
-    const day = new Date(booking.slotTime).toISOString().split("T")[0]; // Group by day
+    const day = new Date(booking.startTime).toISOString().split("T")[0]; // Group by day
 
     if (!day) {
       return;
@@ -49,7 +49,7 @@ function transformBookings(
 
     result[day].push({
       studio: booking.studioId as StudioId,
-      time: new Date(booking.slotTime),
+      time: new Date(booking.startTime),
       people: booking.peopleCount,
       status: getStatus(booking),
       cost: calculateCost(booking),
@@ -59,17 +59,17 @@ function transformBookings(
   return result;
 }
 
-function getStatus(booking: Booking): "unpaid" | "paid" | "cancelled" {
+function getStatus(booking: TimeSlot): "unpaid" | "paid" | "cancelled" {
   return "paid"; // Example placeholder
 }
 
-function calculateCost(booking: Booking): number {
+function calculateCost(booking: TimeSlot): number {
   return 100; // Example placeholder
 }
 
 export async function getCurrentBookingsByUserId(
   userId: string,
-): Promise<Booking[]> {
+): Promise<TimeSlot[]> {
   const currentDate = new Date();
 
   // return prisma.booking.findMany({

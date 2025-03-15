@@ -1,23 +1,23 @@
 import { format } from "date-fns";
 
 // TODO: prisma removed
-type Booking = {
+type TimeSlot = {
   id: number;
   slotTime: Date;
   peopleCount: number;
   createdAt: Date;
   updatedAt: Date;
   studioId: string;
-  orderId: number;
+  bookingId: number;
 };
 
-type GroupedBookings = {
-  [date: string]: Booking[]; // Key is the date in yyyy-MM-dd format, value is array of bookings for that day
+type GroupedTimeSlots = {
+  [date: string]: TimeSlot[]; // Key is the date in yyyy-MM-dd format, value is array of bookings for that day
 };
 
 // TODO: timezone
-export const groupBookingsByDay = (bookings: Booking[]): GroupedBookings => {
-  return bookings.reduce((grouped: GroupedBookings, booking: Booking) => {
+export const groupBookingsByDay = (bookings: TimeSlot[]): GroupedTimeSlots => {
+  return bookings.reduce((grouped: GroupedTimeSlots, booking: TimeSlot) => {
     const bookingDate = booking.slotTime; // Convert hour to Date
     const day = format(bookingDate, "yyyy-MM-dd"); // Format the date as "yyyy-MM-dd" (without time)
 

@@ -2,14 +2,14 @@ import DayStudioColumn from "@/features/my/view/Timetable/DayStudioColumn";
 import { StudioId } from "@/lib/types";
 
 // TODO: prisma removed
-type Booking = {
+type TimeSlot = {
   id: number;
   slotTime: Date;
   peopleCount: number;
   createdAt: Date;
   updatedAt: Date;
   studioId: string;
-  orderId: number;
+  bookingId: number;
 };
 
 export function DayColumn({
@@ -20,7 +20,7 @@ export function DayColumn({
   hours,
 }: {
   studio: StudioId;
-  bookings: Map<number, Booking>;
+  bookings: Map<number, TimeSlot>;
   cellHeight: string;
   cellMinWidth: string;
   hours: number[];

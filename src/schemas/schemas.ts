@@ -9,18 +9,18 @@ export const UserSchema = z.object({
   password: z.string(), // We don't want to break old users if PasswordSchema changes
 });
 
-const OrderIdSchema = z.number().positive();
+const BookingIdSchema = z.number().positive();
 
 const TimeSlotSchema = z.object({
   title: z.string().max(255),
   hour: z.number().int().positive(),
   studio: z.string(),
   createdAt: z.date(),
-  orderId: OrderIdSchema,
+  bookingId: BookingIdSchema,
 });
 
-const OrderSchema = z.object({
-  id: OrderIdSchema,
+const BookingSchema = z.object({
+  id: BookingIdSchema,
   payload: z.string(),
   updatedAt: z.date(),
   createdAt: z.date(),
@@ -43,10 +43,11 @@ export const NewPasswordSchema = z.object({
 
 const StudioIdSchema = z.enum(["purple", "orange", "blue"]);
 
-export const MakeOrderSchema = z.object({
+export const MakeBooking = z.object({
   slots: z
     .object({
-      slotTime: z.string().datetime(),
+      startTime: z.string().datetime(),
+      endTime: z.string().datetime(),
       studio: StudioIdSchema,
     })
     .array()

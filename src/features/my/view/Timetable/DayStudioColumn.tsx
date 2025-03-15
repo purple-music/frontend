@@ -2,14 +2,14 @@ import { StudioId } from "@/lib/types";
 import { getStudioColor } from "@/lib/utils/studios";
 
 // TODO: prisma removed
-type Booking = {
+type TimeSlot = {
   id: number;
   slotTime: Date;
   peopleCount: number;
   createdAt: Date;
   updatedAt: Date;
   studioId: string;
-  orderId: number;
+  bookingId: number;
 };
 
 interface EmptyBookingCellProps {
@@ -54,7 +54,7 @@ const BookedBookingCell = ({
 interface BookingCellProps {
   hours: number[];
   studio: StudioId;
-  bookings: Map<number, Booking>;
+  bookings: Map<number, TimeSlot>;
   cellHeight: string;
   cellMinWidth: string;
 }
@@ -70,11 +70,11 @@ const DayStudioColumn = ({
   for (let i = 0; i < hours.length; ) {
     if (bookings.has(hours[i]) && bookings.get(hours[i])!.studioId === studio) {
       let count = 0;
-      const orderId = bookings.get(hours[i])!.orderId;
+      const bookingId = bookings.get(hours[i])!.bookingId;
       while (
         bookings.has(hours[i]) &&
         bookings.get(hours[i])!.studioId === studio &&
-        bookings.get(hours[i])!.orderId === orderId
+        bookings.get(hours[i])!.bookingId === bookingId
       ) {
         count++;
         i++;

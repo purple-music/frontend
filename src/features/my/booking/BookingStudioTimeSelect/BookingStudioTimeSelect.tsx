@@ -18,12 +18,14 @@ export type StudioTimeSlotInfo = {
 
 export type BookingSlotInfo = {
   studioId: StudioId;
-  slotTime: Date;
+  startTime: string;
+  endTime: string;
   price: number;
 };
 
 export type SelectedTimeSlot = {
-  slotTime: string;
+  startTime: string;
+  endTime: string;
   studio: StudioId;
 };
 
@@ -39,8 +41,8 @@ export const isSlotSame = (
   slot2: SelectedTimeSlot,
 ) => {
   return (
-    new Date(slot1.slotTime).getTime() === new Date(slot2.slotTime).getTime() &&
-    slot1.studio === slot2.studio
+    new Date(slot1.startTime).getTime() ===
+      new Date(slot2.startTime).getTime() && slot1.studio === slot2.studio
   );
 };
 

@@ -7,20 +7,20 @@ import { StudioId } from "@/lib/types";
 import { groupBookingsByDay } from "@/lib/utils/bookings";
 import { hourToDate } from "@/lib/utils/time";
 
-type Booking = {
+type TimeSlot = {
   id: number;
   slotTime: Date;
   peopleCount: number;
   createdAt: Date;
   updatedAt: Date;
   studioId: string;
-  orderId: number;
+  bookingId: number;
 };
 
 // TODO: prisma removed
 
-type GroupedBookings = {
-  [date: string]: Booking[]; // Key is the date in yyyy-MM-dd format, value is array of bookings for that day
+type GroupedTimeSlots = {
+  [date: string]: TimeSlot[]; // Key is the date in yyyy-MM-dd format, value is array of bookings for that day
 };
 
 const getColor = (studio: StudioId) => {
@@ -41,8 +41,8 @@ const getSoftColor = (studio: StudioId) =>
     orange: "bg-orange-300",
   })[studio];
 
-export function Dashboard({ bookings }: { bookings: Booking[] }) {
-  const groupedBookings = groupBookingsByDay(bookings);
+export function Dashboard({ timeSlots }: { timeSlots: TimeSlot[] }) {
+  const groupedBookings = groupBookingsByDay(timeSlots);
 
   return (
     <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
