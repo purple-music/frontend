@@ -29,7 +29,6 @@ export const authMiddleware: MiddlewareFunction = async (req, res, next) => {
 
   // Verify JWT token if exists
   let isAuthenticated = !!token;
-  console.log("isAuthenticated", isAuthenticated);
 
   const isApiAuthRoute = pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(pathname);

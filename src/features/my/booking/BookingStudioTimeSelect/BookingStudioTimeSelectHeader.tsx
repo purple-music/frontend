@@ -1,10 +1,8 @@
 import StudiosHeader from "@/components/shared/StudiosHeader/StudiosHeader";
-import { StudioId } from "@/lib/types";
-import { getAllStudios } from "@/lib/utils/studios";
 
 interface BookingStudioTimeSelectHeaderProps {
   day: Date;
-  studios: StudioId[];
+  studios: string[];
 }
 
 const BookingStudioTimeSelectHeader = ({
@@ -15,7 +13,7 @@ const BookingStudioTimeSelectHeader = ({
     <div className="flex flex-row">
       <div className="w-12"></div>
       <div className="flex flex-1 flex-row justify-between overflow-clip rounded-t-[16px]">
-        <StudiosHeader studios={getAllStudios()} studioNameSize="name" />
+        <StudiosHeader studios={studios} studioNameSize="name" />
       </div>
     </div>
   );

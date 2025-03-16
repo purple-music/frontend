@@ -171,6 +171,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/bookings/prices/{studioId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["BookingsController_getPrices"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/bookings/prices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["BookingsController_getAllPrices"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -280,6 +312,7 @@ export interface components {
              */
             token: string;
         };
+        i: Record<string, never>;
         TimeSlotDto: {
             id: number;
             /** Format: date-time */
@@ -293,6 +326,7 @@ export interface components {
             updatedAt: string;
             studioId: string;
             bookingId: number;
+            price: components["schemas"]["i"];
         };
         TimeSlotsDto: {
             timeSlots: components["schemas"]["TimeSlotDto"][];
@@ -316,7 +350,19 @@ export interface components {
             createdAt: string;
             /** Format: date-time */
             updatedAt: string;
-            bookings: components["schemas"]["TimeSlotDto"][];
+            timeSlots: components["schemas"]["TimeSlotDto"][];
+        };
+        PricedTimeSlotDto: {
+            /** Format: date-time */
+            startTime: string;
+            /** Format: date-time */
+            endTime: string;
+            price: number;
+            studioId: string;
+        };
+        PricesStudioResponseDto: {
+            prices: components["schemas"]["PricedTimeSlotDto"][];
+            studioId: string;
         };
     };
     responses: never;
@@ -643,13 +689,97 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Booking created successfully. */
+            /** @description Successfully made a booking */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": components["schemas"]["BookingDto"];
+                };
+            };
+            /** @description Validation Failed */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponseDto"];
+                };
+            };
+            /** @description JWT Validation Failed */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnauthorizedResponseDto"];
+                };
+            };
+        };
+    };
+    BookingsController_getPrices: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+            };
+            header?: never;
+            path: {
+                studioId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully fetched prices */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PricesStudioResponseDto"];
+                };
+            };
+            /** @description Validation Failed */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponseDto"];
+                };
+            };
+            /** @description JWT Validation Failed */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnauthorizedResponseDto"];
+                };
+            };
+        };
+    };
+    BookingsController_getAllPrices: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Prices for all studios */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PricesStudioResponseDto"][];
                 };
             };
             /** @description Validation Failed */
