@@ -26,7 +26,7 @@ export const VerticalTimeline = ({
             variant="label"
             className="text-on-surface-variant"
           >
-            {hour}:00
+            {hour + 1}:00
           </Typography>
         </div>
       ))}

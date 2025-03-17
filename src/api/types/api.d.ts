@@ -312,7 +312,6 @@ export interface components {
              */
             token: string;
         };
-        i: Record<string, never>;
         TimeSlotDto: {
             id: number;
             /** Format: date-time */
@@ -326,7 +325,8 @@ export interface components {
             updatedAt: string;
             studioId: string;
             bookingId: number;
-            price: components["schemas"]["i"];
+            /** @description Time slot price as fixed decimal value */
+            price: string;
         };
         TimeSlotsDto: {
             timeSlots: components["schemas"]["TimeSlotDto"][];

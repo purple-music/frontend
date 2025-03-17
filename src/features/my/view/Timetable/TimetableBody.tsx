@@ -1,4 +1,3 @@
-import { differenceInHours } from "date-fns";
 import { DateTime } from "luxon";
 
 import { TimeSlot } from "@/api/queries/time-slots/time-slots";
@@ -8,15 +7,19 @@ import {
   TimeSlotsGroupedByStudio,
 } from "@/features/my/view/ViewPage/ViewPage";
 import { StudioId } from "@/lib/types";
-import { getSoftStudioColor, getStudioColor } from "@/lib/utils/studios";
+import { getSoftStudioColor } from "@/lib/utils/studios";
 
 interface TimetableBodyDayStudioProps {
   studio: StudioId;
   date: DateTime;
   timezone: string;
-  timeSlots: number[];
+  timeSlots: DateTime[];
   busySlots: TimeSlot[];
 }
+
+const floatingDifferenceInHours = (date1: Date, date2: Date) => {
+  return Math.abs(date1.getTime() - date2.getTime()) / (1000 * 60 * 60);
+};
 
 const TimetableContentDayStudio = ({
   studio,
@@ -25,26 +28,36 @@ const TimetableContentDayStudio = ({
   timeSlots,
   busySlots,
 }: TimetableBodyDayStudioProps) => {
+  const firstTimeSlot = timeSlots[0];
+  if (!firstTimeSlot) return null;
   return (
     <div className="relative flex h-full flex-1 flex-col items-center justify-center divide-y divide-surface-container-high">
       {timeSlots.map((hour) => (
         <div
-          key={hour}
+          key={hour.hour}
           className={`box-border flex h-8 w-full items-start justify-center`}
         ></div>
       ))}
-      {busySlots.map((slot) => (
-        <div
-          key={slot.startTime}
-          className={`absolute bottom-0 left-0 right-0 flex h-8 w-full items-center justify-center ${getSoftStudioColor(studio)}`}
-          style={{
-            top: `calc(${differenceInHours(
-              slot.endTime,
-              slot.startTime,
-            )} * 2rem)`,
-          }}
-        ></div>
-      ))}
+      {busySlots.map((slot) => {
+        return (
+          <div
+            key={slot.startTime}
+            className={`absolute bottom-0 left-0 right-0 flex w-full items-center justify-center rounded-[8px] ${getSoftStudioColor(studio)}`}
+            style={{
+              top: `calc(${floatingDifferenceInHours(
+                new Date(slot.startTime),
+                firstTimeSlot.toJSDate(),
+              )} * 2rem)`,
+              height: `calc(${floatingDifferenceInHours(
+                new Date(slot.endTime),
+                new Date(slot.startTime),
+              )} * 2rem)`,
+            }}
+          >
+            {slot.price}
+          </div>
+        );
+      })}
     </div>
   );
 };
@@ -53,7 +66,8 @@ interface TimetableBodyDayProps {
   date: DateTime;
   timezone: string;
   studios: StudioId[];
-  timeSlots: number[];
+  openHour: number;
+  closeHour: number;
   timeSlotsGroupedByStudio: TimeSlotsGroupedByStudio;
 }
 
@@ -61,9 +75,19 @@ const TimetableBodyDay = ({
   date,
   timezone,
   studios,
-  timeSlots,
+  openHour,
+  closeHour,
   timeSlotsGroupedByStudio,
 }: TimetableBodyDayProps) => {
+  const timeSlots = Array.from({ length: closeHour - openHour }).map((_, i) =>
+    DateTime.fromJSDate(date.toJSDate()).set({
+      hour: i + openHour,
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+    }),
+  );
+
   return (
     <div className="flex flex-1 flex-row justify-between divide-x divide-surface-container-high bg-surface-container-lowest">
       {studios.map((studio) => (
@@ -97,10 +121,6 @@ const TimetableBody = ({
   studios,
   timeSlotsGroupedByDay,
 }: TimetableBodyProps) => {
-  const timeSlots = Array.from({ length: closeHour - openHour }).map(
-    (_, i) => i + openHour,
-  );
-
   return (
     <div className="flex flex-row justify-between overflow-clip rounded-[16px] rounded-tr-none">
       <VerticalTimeline startHour={openHour} endHour={closeHour} />
@@ -111,7 +131,8 @@ const TimetableBody = ({
             date={date}
             timezone={timezone}
             studios={studios}
-            timeSlots={timeSlots}
+            openHour={openHour}
+            closeHour={closeHour}
             timeSlotsGroupedByStudio={
               timeSlotsGroupedByDay[date.toFormat("yyyy-MM-dd")] || {}
             }
