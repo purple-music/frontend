@@ -1,7 +1,7 @@
 import axios from "axios";
 import qs from "qs";
 
-import { components } from "@/api/types/api";
+import { components, paths } from "@/api/types/api";
 
 export type ResponseBase = {
   statusCode: number;
@@ -13,6 +13,41 @@ export type ErrorResponseBase = {
 };
 
 export type ApiResponse<N extends number, T> = T & { statusCode: N };
+
+export type ResponseGetSchema<
+  TPath extends string,
+  TStatus extends number,
+> = TPath extends keyof paths
+  ? paths[TPath] extends {
+      get: {
+        responses: {
+          [key in TStatus]: { content: { "application/json": infer TSchema } };
+        };
+      };
+    }
+    ? TSchema
+    : never
+  : never;
+
+export type ResponsePostSchema<
+  TPath extends string,
+  TStatus extends number,
+> = TPath extends keyof paths
+  ? paths[TPath] extends {
+      post: {
+        responses: {
+          [key in TStatus]: { content: { "application/json": infer TSchema } };
+        };
+      };
+    }
+    ? TSchema
+    : never
+  : never;
+
+export type MakeGetResponse<
+  TPath extends string,
+  TStatus extends number,
+> = ApiResponse<TStatus, ResponseGetSchema<TPath, TStatus>>;
 
 export type ValidationError =
   components["schemas"]["ValidationErrorResponseDto"];

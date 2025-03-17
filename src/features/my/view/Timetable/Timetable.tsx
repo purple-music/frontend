@@ -3,6 +3,7 @@ import { DateTime } from "luxon";
 import Surface from "@/components/layout/Surface/Surface";
 import TimetableBody from "@/features/my/view/Timetable/TimetableBody";
 import TimetableHeader from "@/features/my/view/Timetable/TimetableHeader";
+import { TimeSlotsGroupedByDay } from "@/features/my/view/ViewPage/ViewPage";
 import { StudioId } from "@/lib/types";
 
 const openHour = 9;
@@ -13,7 +14,7 @@ interface TimetableProps {
   endDate: Date;
   timezone: string;
   studios: StudioId[];
-  busySlots: Record<string, Record<StudioId, Date[]>>;
+  timeSlotsGroupedByDay: TimeSlotsGroupedByDay;
 }
 
 const Timetable = ({
@@ -21,7 +22,7 @@ const Timetable = ({
   endDate,
   timezone,
   studios,
-  busySlots,
+  timeSlotsGroupedByDay,
 }: TimetableProps) => {
   const start = DateTime.fromJSDate(startDate);
   const end = DateTime.fromJSDate(endDate);
@@ -40,7 +41,7 @@ const Timetable = ({
         studios={studios}
         openHour={openHour}
         closeHour={closeHour}
-        busySlots={busySlots}
+        timeSlotsGroupedByDay={timeSlotsGroupedByDay}
       />
     </Surface>
   );

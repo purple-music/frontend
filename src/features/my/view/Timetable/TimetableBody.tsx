@@ -1,6 +1,12 @@
+import { differenceInHours } from "date-fns";
 import { DateTime } from "luxon";
 
+import { TimeSlot } from "@/api/queries/time-slots/time-slots";
 import { VerticalTimeline } from "@/components/shared/VerticalTimeline/VerticalTimeline";
+import {
+  TimeSlotsGroupedByDay,
+  TimeSlotsGroupedByStudio,
+} from "@/features/my/view/ViewPage/ViewPage";
 import { StudioId } from "@/lib/types";
 import { getSoftStudioColor, getStudioColor } from "@/lib/utils/studios";
 
@@ -9,7 +15,7 @@ interface TimetableBodyDayStudioProps {
   date: DateTime;
   timezone: string;
   timeSlots: number[];
-  busySlots: Date[];
+  busySlots: TimeSlot[];
 }
 
 const TimetableContentDayStudio = ({
@@ -29,10 +35,13 @@ const TimetableContentDayStudio = ({
       ))}
       {busySlots.map((slot) => (
         <div
-          key={slot.getTime()}
+          key={slot.startTime}
           className={`absolute bottom-0 left-0 right-0 flex h-8 w-full items-center justify-center ${getSoftStudioColor(studio)}`}
           style={{
-            top: `calc(${slot.getHours() - timeSlots[0]} * 2rem)`,
+            top: `calc(${differenceInHours(
+              slot.endTime,
+              slot.startTime,
+            )} * 2rem)`,
           }}
         ></div>
       ))}
@@ -45,7 +54,7 @@ interface TimetableBodyDayProps {
   timezone: string;
   studios: StudioId[];
   timeSlots: number[];
-  busySlots: Record<StudioId, Date[]>;
+  timeSlotsGroupedByStudio: TimeSlotsGroupedByStudio;
 }
 
 const TimetableBodyDay = ({
@@ -53,7 +62,7 @@ const TimetableBodyDay = ({
   timezone,
   studios,
   timeSlots,
-  busySlots,
+  timeSlotsGroupedByStudio,
 }: TimetableBodyDayProps) => {
   return (
     <div className="flex flex-1 flex-row justify-between divide-x divide-surface-container-high bg-surface-container-lowest">
@@ -64,7 +73,7 @@ const TimetableBodyDay = ({
           date={date}
           timezone={timezone}
           timeSlots={timeSlots}
-          busySlots={busySlots[studio] || []}
+          busySlots={timeSlotsGroupedByStudio[studio] || []}
         />
       ))}
     </div>
@@ -77,7 +86,7 @@ interface TimetableBodyProps {
   openHour: number;
   closeHour: number;
   studios: StudioId[];
-  busySlots: Record<string, Record<StudioId, Date[]>>;
+  timeSlotsGroupedByDay: TimeSlotsGroupedByDay;
 }
 
 const TimetableBody = ({
@@ -86,7 +95,7 @@ const TimetableBody = ({
   openHour,
   closeHour,
   studios,
-  busySlots,
+  timeSlotsGroupedByDay,
 }: TimetableBodyProps) => {
   const timeSlots = Array.from({ length: closeHour - openHour }).map(
     (_, i) => i + openHour,
@@ -103,7 +112,9 @@ const TimetableBody = ({
             timezone={timezone}
             studios={studios}
             timeSlots={timeSlots}
-            busySlots={busySlots[date.toFormat("yyyy-MM-dd")] || ""}
+            timeSlotsGroupedByStudio={
+              timeSlotsGroupedByDay[date.toFormat("yyyy-MM-dd")] || {}
+            }
           />
         ))}
       </div>

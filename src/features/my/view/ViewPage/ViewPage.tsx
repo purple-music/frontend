@@ -23,44 +23,43 @@ export type Day = string; // "yyyy-MM-dd"
 
 const dayOnly = (date: Date): Day => format(date, "yyyy-MM-dd");
 
-function transformSlotsToCalendar(
-  slots: TimeSlot[],
-  startDate: Date,
-  endDate: Date,
-): Record<Day, Record<StudioId, Date[]>> {
-  // Initialize the result object
-  const calendarSlots: Record<Day, Record<StudioId, Date[]>> = {};
+const groupTimeSlotsByDayAndStudio = (
+  timeSlots: TimeSlot[],
+): TimeSlotsGroupedByDay => {
+  const grouped: TimeSlotsGroupedByDay = {};
 
-  // Populate calendar with empty structures for each day in the range
-  let currentDate = startDate;
-  while (currentDate <= endDate) {
-    const dayKey = dayOnly(currentDate);
-    calendarSlots[dayKey] = {} as Record<StudioId, Date[]>;
-    currentDate = addDays(currentDate, 1);
+  for (const slot of timeSlots) {
+    // Extract the date (YYYY-MM-DD) from startTime
+    const date = new Date(slot.startTime).toISOString().split("T")[0];
+
+    if (!date) {
+      continue;
+    }
+
+    // Initialize the date group if it doesn't exist
+    if (!grouped[date]) {
+      grouped[date] = {};
+    }
+
+    // Initialize the studio group if it doesn't exist
+    if (!grouped[date][slot.studioId]) {
+      grouped[date][slot.studioId] = [];
+    }
+
+    // Add the time slot to the appropriate group
+    grouped[date][slot.studioId]!.push(slot);
   }
 
-  // Group slots by day and studio
-  slots.forEach((slot) => {
-    const dayKey = dayOnly(new Date(slot.startTime));
+  return grouped;
+};
 
-    // If the day doesn't exist in the result object, create an empty structure
-    if (!calendarSlots[dayKey]) {
-      calendarSlots[dayKey] = {} as Record<StudioId, Date[]>;
-    }
+export type TimeSlotsGroupedByStudio = {
+  [studioId: string]: TimeSlot[];
+};
 
-    // Ensure the studio exists in the day's record
-    if (!calendarSlots[dayKey][slot.studioId as StudioId]) {
-      calendarSlots[dayKey][slot.studioId as StudioId] = [];
-    }
-
-    // Add the slot time to the appropriate day and studio
-    calendarSlots[dayKey][slot.studioId as StudioId].push(
-      new Date(slot.startTime),
-    );
-  });
-
-  return calendarSlots;
-}
+export type TimeSlotsGroupedByDay = {
+  [date: string]: TimeSlotsGroupedByStudio;
+};
 
 const ViewPage = ({}: ViewPageProps) => {
   const today = new Date();
@@ -71,6 +70,7 @@ const ViewPage = ({}: ViewPageProps) => {
   const { data, isLoading, isError, error, isSuccess } = useTimeSlotsQuery({
     startDate: dayOnly(today),
     endDate: dayOnly(addDays(today, days)),
+    studioIds: selectedStudios,
   });
 
   useEffect(() => {
@@ -104,12 +104,17 @@ const ViewPage = ({}: ViewPageProps) => {
     { label: "month", value: 30 },
   ];
 
+  if (!data) {
+    return (
+      <div className="flex w-full flex-row justify-center">
+        <p>No data</p>
+      </div>
+    );
+  }
+
   // TODO: add loading skeleton
-  const busySlots = transformSlotsToCalendar(
-    data?.timeSlots || [],
-    today,
-    addDays(today, days),
-  );
+  const timeSlotsGroupedByDay: TimeSlotsGroupedByDay =
+    groupTimeSlotsByDayAndStudio(data.timeSlots);
 
   return (
     <>
@@ -137,7 +142,7 @@ const ViewPage = ({}: ViewPageProps) => {
           endDate={addDays(today, days)}
           timezone="en-US"
           studios={selectedStudios}
-          busySlots={busySlots}
+          timeSlotsGroupedByDay={timeSlotsGroupedByDay}
         ></Timetable>
       )}
     </>

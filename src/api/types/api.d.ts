@@ -332,9 +332,7 @@ export interface components {
             timeSlots: components["schemas"]["TimeSlotDto"][];
         };
         MakeTimeSlotDto: {
-            /** Format: date-time */
             startTime: string;
-            /** Format: date-time */
             endTime: string;
             studio: string;
             /** @example 2 */
@@ -597,8 +595,8 @@ export interface operations {
             query?: {
                 /** @description User ID to filter time slots */
                 userId?: string;
-                /** @description Studio ID to filter time slots */
-                studioId?: string;
+                /** @description Studio IDs to filter time slots */
+                studioIds?: string[];
                 /** @description Start date in ISO format */
                 startDate?: string;
                 /** @description End date in ISO format */
