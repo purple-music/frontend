@@ -1,4 +1,5 @@
 import axios from "axios";
+import qs from "qs";
 
 import { components } from "@/api/types/api";
 
@@ -30,6 +31,10 @@ export class ApiError<T extends ErrorResponseBase> extends Error {
 const api = axios.create({
   baseURL: process.env.BACKEND_URL || "http://localhost:3000", // API URL
   withCredentials: true,
+  paramsSerializer: (params) => {
+    // Converts to ?studioIds=blue&studioIds=orange&studioIds=purple
+    return qs.stringify(params, { arrayFormat: "repeat" });
+  },
 });
 
 export default api;
