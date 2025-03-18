@@ -9,8 +9,8 @@ type Profile200Schema =
 type Profile401Schema =
   paths["/auth/profile"]["get"]["responses"]["401"]["content"]["application/json"];
 
-type ProfileResponse = ApiResponse<200, Profile200Schema>;
-type ProfileErrorResponse = ApiResponse<401, Profile401Schema>;
+export type ProfileResponse = ApiResponse<200, Profile200Schema>;
+export type ProfileErrorResponse = ApiResponse<401, Profile401Schema>;
 
 export const useProfileQuery = (
   options?: UseQueryOptions<ProfileResponse, ApiError<ProfileErrorResponse>>,

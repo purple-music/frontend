@@ -2,12 +2,12 @@ import { DateTime } from "luxon";
 
 import { TimeSlot } from "@/api/queries/time-slots/time-slots";
 import { VerticalTimeline } from "@/components/shared/VerticalTimeline/VerticalTimeline";
-import {
-  TimeSlotsGroupedByDay,
-  TimeSlotsGroupedByStudio,
-} from "@/features/my/view/ViewPage/ViewPage";
 import { StudioId } from "@/lib/types";
 import { getSoftStudioColor } from "@/lib/utils/studios";
+import {
+  TimeSlotsGroupedByDayAndStudio,
+  TimeSlotsGroupedByStudio,
+} from "@/lib/utils/time-slots";
 
 interface TimetableBodyDayStudioProps {
   studio: StudioId;
@@ -110,7 +110,7 @@ interface TimetableBodyProps {
   openHour: number;
   closeHour: number;
   studios: StudioId[];
-  timeSlotsGroupedByDay: TimeSlotsGroupedByDay;
+  timeSlotsGroupedByDay: TimeSlotsGroupedByDayAndStudio;
 }
 
 const TimetableBody = ({

@@ -1,44 +1,65 @@
-import { format } from "date-fns";
-import { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { toast } from "sonner";
 
-import { getTransformedBookingsByUserId } from "@/actions/query/booking";
-import { useProfileQuery } from "@/api/queries/auth/profile";
+import { ProfileResponse } from "@/api/queries/auth/profile";
+import { useTimeSlotsQuery } from "@/api/queries/time-slots/time-slots";
 import ButtonGroup from "@/components/ui/ButtonGroup/ButtonGroup";
+import { ErrorToast } from "@/components/ui/toasts/ErrorToast";
+import { ValidationErrorToast } from "@/components/ui/toasts/ValidationErrorToast";
 import { EmptyBookings } from "@/features/my/dashboard/DashboardPage/EmptyBookings";
-import PersonalBookings, {
-  PersonalBooking,
-} from "@/features/my/dashboard/PersonalBookings/PersonalBookings";
+import TimeSlotCardsGroupedByDay from "@/features/my/dashboard/PersonalBookings/TimeSlotCardsGroupedByDay";
+import { ValidationError } from "@/lib/axios";
+import { stripTime } from "@/lib/utils/time";
+import { groupTimeSlotsByDay } from "@/lib/utils/time-slots";
 
-interface DashboardPageProps {}
+interface DashboardPageProps {
+  user: ProfileResponse;
+}
 
-const DashboardPage = ({}: DashboardPageProps) => {
-  const [bookings, setBookings] = useState<Record<string, PersonalBooking[]>>(
-    {},
-  );
-
-  const { data: user, isLoading, isError, error } = useProfileQuery();
-
-  useEffect(() => {
-    const fetchBookings = async () => {
-      if (!user?.id) return;
-      const bookings = await getTransformedBookingsByUserId(user.id);
-
-      setBookings(bookings);
-    };
-    void fetchBookings();
-  }, [user]);
-
-  const personalBookings = Object.entries(bookings).sort(([dayA], [dayB]) => {
-    const dateA = new Date(dayA);
-    const dateB = new Date(dayB);
-    return dateA.getTime() - dateB.getTime(); // ascending order (oldest to newest)
+const DashboardPage = ({ user }: DashboardPageProps) => {
+  const { data, isLoading, isError, error } = useTimeSlotsQuery({
+    userId: user.id,
+    startDate: new Date().toISOString().split("T")[0],
   });
 
-  console.log(personalBookings, "personalBookings", personalBookings.length);
+  useEffect(() => {
+    if (isError && error) {
+      if (error.data.statusCode === 400) {
+        const e: ValidationError = error.data;
+        toast.custom((tst) => (
+          <ValidationErrorToast error={e}></ValidationErrorToast>
+        ));
+      } else if (error.data.statusCode === 401) {
+        toast.custom((tst) => (
+          <ErrorToast>
+            <span>{error.data.message}</span>
+          </ErrorToast>
+        ));
+      } else {
+        toast.custom((tst) => (
+          <ErrorToast>
+            <span>{error.data.message}</span>
+          </ErrorToast>
+        ));
+      }
+    }
+  }, [isError, error]);
 
-  if (personalBookings.length === 0) {
+  if (isLoading) return <div>Loading...</div>;
+
+  if (isError && error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  if (!data) return <div>No data</div>;
+
+  const timeSlots = data.timeSlots;
+
+  if (timeSlots.length === 0) {
     return <EmptyBookings />;
   }
+
+  const timeSlotsGroupedByDay = groupTimeSlotsByDay(timeSlots);
 
   return (
     <>
@@ -50,16 +71,16 @@ const DashboardPage = ({}: DashboardPageProps) => {
         defaultValue={"current"}
       />
       {/*  Iterate over the days from today to the end date */}
-      {personalBookings.map(([day, bookings]) => {
-        const dayKey = format(day, "yyyy-MM-dd");
+      {Object.entries(timeSlotsGroupedByDay).map(([day, slots]) => {
+        const dayKey = stripTime(day);
 
-        if (bookings.length === 0) {
+        if (slots.length === 0) {
           return null;
         }
 
         return (
-          <PersonalBookings
-            bookings={bookings}
+          <TimeSlotCardsGroupedByDay
+            timeSlots={slots}
             date={new Date(day)}
             key={dayKey}
           />

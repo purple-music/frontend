@@ -1,11 +1,8 @@
-import { addDays, format } from "date-fns";
+import { addDays } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import {
-  TimeSlot,
-  useTimeSlotsQuery,
-} from "@/api/queries/time-slots/time-slots";
+import { useTimeSlotsQuery } from "@/api/queries/time-slots/time-slots";
 import ButtonGroup from "@/components/ui/ButtonGroup/ButtonGroup";
 import MultiSelectButtonGroup from "@/components/ui/MultiSelectButtonGroup/MultiSelectButtonGroup";
 import { ErrorToast } from "@/components/ui/toasts/ErrorToast";
@@ -14,52 +11,15 @@ import Timetable from "@/features/my/view/Timetable/Timetable";
 import { ValidationError } from "@/lib/axios";
 import { StudioId } from "@/lib/types";
 import { getAllStudios, getStudioLabel } from "@/lib/utils/studios";
+import { stripTime } from "@/lib/utils/time";
+import {
+  TimeSlotsGroupedByDayAndStudio,
+  groupTimeSlotsByDayAndStudio,
+} from "@/lib/utils/time-slots";
 
 interface ViewPageProps {}
 
 type ButtonGroupButtons<T> = { label: string; value: T }[];
-
-export type Day = string; // "yyyy-MM-dd"
-
-const dayOnly = (date: Date): Day => format(date, "yyyy-MM-dd");
-
-const groupTimeSlotsByDayAndStudio = (
-  timeSlots: TimeSlot[],
-): TimeSlotsGroupedByDay => {
-  const grouped: TimeSlotsGroupedByDay = {};
-
-  for (const slot of timeSlots) {
-    // Extract the date (YYYY-MM-DD) from startTime
-    const date = new Date(slot.startTime).toISOString().split("T")[0];
-
-    if (!date) {
-      continue;
-    }
-
-    // Initialize the date group if it doesn't exist
-    if (!grouped[date]) {
-      grouped[date] = {};
-    }
-
-    // Initialize the studio group if it doesn't exist
-    if (!grouped[date][slot.studioId]) {
-      grouped[date][slot.studioId] = [];
-    }
-
-    // Add the time slot to the appropriate group
-    grouped[date][slot.studioId]!.push(slot);
-  }
-
-  return grouped;
-};
-
-export type TimeSlotsGroupedByStudio = {
-  [studioId: string]: TimeSlot[];
-};
-
-export type TimeSlotsGroupedByDay = {
-  [date: string]: TimeSlotsGroupedByStudio;
-};
 
 const ViewPage = ({}: ViewPageProps) => {
   const today = new Date();
@@ -68,8 +28,8 @@ const ViewPage = ({}: ViewPageProps) => {
   const [days, setDays] = useState<number>(7);
 
   const { data, isLoading, isError, error, isSuccess } = useTimeSlotsQuery({
-    startDate: dayOnly(today),
-    endDate: dayOnly(addDays(today, days)),
+    startDate: stripTime(today),
+    endDate: stripTime(addDays(today, days)),
     studioIds: selectedStudios,
   });
 
@@ -96,7 +56,10 @@ const ViewPage = ({}: ViewPageProps) => {
     }
   }, [isError, error]);
 
-  // TODO: scale differently based not on date range, but do something like "small, normal, wide" with fixed column width and horizontal overflow scroll
+  // TODO: scale differently based not on date range,
+  // TODO: but do something like "small, normal, wide"
+  // TODO: with fixed column width and horizontal overflow scroll
+  // TODO: Wait, I don't think that's a great idea...
   const dateRangeButtons: ButtonGroupButtons<number> = [
     { label: "day", value: 1 },
     { label: "3 days", value: 3 },
@@ -113,7 +76,7 @@ const ViewPage = ({}: ViewPageProps) => {
   }
 
   // TODO: add loading skeleton
-  const timeSlotsGroupedByDay: TimeSlotsGroupedByDay =
+  const timeSlotsGroupedByDay: TimeSlotsGroupedByDayAndStudio =
     groupTimeSlotsByDayAndStudio(data.timeSlots);
 
   return (

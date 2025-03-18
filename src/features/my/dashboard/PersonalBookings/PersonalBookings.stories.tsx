@@ -1,21 +1,19 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { fn } from "@storybook/test";
-import { FaBook, FaHouse, FaMusic } from "react-icons/fa6";
 
-import PersonalBookings from "./PersonalBookings";
+import TimeSlotCardsGroupedByDay from "./TimeSlotCardsGroupedByDay";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "organisms/PersonalBookings",
-  component: PersonalBookings,
+  title: "organisms/TimeSlotCardsGroupedByDay",
+  component: TimeSlotCardsGroupedByDay,
   parameters: {
     layout: "fullscreen",
   },
-} satisfies Meta<typeof PersonalBookings>;
+} satisfies Meta<typeof TimeSlotCardsGroupedByDay>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: { date: new Date(), bookings: [] },
+  args: { date: new Date(), timeSlots: [] },
 };

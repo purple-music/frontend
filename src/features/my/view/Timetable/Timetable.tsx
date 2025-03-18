@@ -3,8 +3,8 @@ import { DateTime } from "luxon";
 import Surface from "@/components/layout/Surface/Surface";
 import TimetableBody from "@/features/my/view/Timetable/TimetableBody";
 import TimetableHeader from "@/features/my/view/Timetable/TimetableHeader";
-import { TimeSlotsGroupedByDay } from "@/features/my/view/ViewPage/ViewPage";
 import { StudioId } from "@/lib/types";
+import { TimeSlotsGroupedByDayAndStudio } from "@/lib/utils/time-slots";
 
 const openHour = 9;
 const closeHour = 21;
@@ -14,7 +14,7 @@ interface TimetableProps {
   endDate: Date;
   timezone: string;
   studios: StudioId[];
-  timeSlotsGroupedByDay: TimeSlotsGroupedByDay;
+  timeSlotsGroupedByDay: TimeSlotsGroupedByDayAndStudio;
 }
 
 const Timetable = ({
