@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { ProfileResponse } from "@/api/queries/auth/profile";
@@ -17,9 +17,12 @@ interface DashboardPageProps {
 }
 
 const DashboardPage = ({ user }: DashboardPageProps) => {
+  const [rangeType, setRangeType] = useState<"upcoming" | "past">("upcoming");
+
   const { data, isLoading, isError, error } = useTimeSlotsQuery({
     userId: user.id,
-    startDate: new Date().toISOString().split("T")[0],
+    startDate: rangeType === "upcoming" ? stripTime(new Date()) : undefined,
+    endDate: rangeType === "past" ? stripTime(new Date()) : undefined,
   });
 
   useEffect(() => {
@@ -65,10 +68,11 @@ const DashboardPage = ({ user }: DashboardPageProps) => {
     <>
       <ButtonGroup
         buttons={[
-          { label: "Предстоящие", value: "current" },
+          { label: "Предстоящие", value: "upcoming" },
           { label: "Прошедшие", value: "past" },
         ]}
-        defaultValue={"current"}
+        defaultValue={rangeType}
+        onClick={(value) => setRangeType(value)}
       />
       {/*  Iterate over the days from today to the end date */}
       {Object.entries(timeSlotsGroupedByDay).map(([day, slots]) => {
