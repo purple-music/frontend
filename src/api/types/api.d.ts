@@ -171,14 +171,14 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/bookings/prices/{studioId}": {
+    "/free-slots": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["BookingsController_getPrices"];
+        get: operations["FreeSlotsController_getFreeSlots"];
         put?: never;
         post?: never;
         delete?: never;
@@ -187,14 +187,14 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/bookings/prices": {
+    "/studios": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["BookingsController_getAllPrices"];
+        get: operations["StudiosController_getStudios"];
         put?: never;
         post?: never;
         delete?: never;
@@ -350,7 +350,7 @@ export interface components {
             updatedAt: string;
             timeSlots: components["schemas"]["TimeSlotDto"][];
         };
-        PricedTimeSlotDto: {
+        FreeSlotDto: {
             /** Format: date-time */
             startTime: string;
             /** Format: date-time */
@@ -358,9 +358,16 @@ export interface components {
             price: number;
             studioId: string;
         };
-        PricesStudioResponseDto: {
-            prices: components["schemas"]["PricedTimeSlotDto"][];
-            studioId: string;
+        FreeSlotsResponseDto: {
+            freeSlots: components["schemas"]["FreeSlotDto"][];
+        };
+        i: Record<string, never>;
+        StudioDto: {
+            id: string;
+            hourlyRate: components["schemas"]["i"];
+        };
+        StudiosResponseDto: {
+            studios: components["schemas"]["StudioDto"][];
         };
     };
     responses: never;
@@ -716,27 +723,29 @@ export interface operations {
             };
         };
     };
-    BookingsController_getPrices: {
+    FreeSlotsController_getFreeSlots: {
         parameters: {
             query: {
+                /** @description Start time for the time slot range */
                 from: string;
+                /** @description End time for the time slot range */
                 to: string;
+                /** @description Optional array of studio IDs to filter by */
+                studioIds?: string[];
             };
             header?: never;
-            path: {
-                studioId: string;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Successfully fetched prices */
+            /** @description Successfully fetched free slots */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PricesStudioResponseDto"];
+                    "application/json": components["schemas"]["FreeSlotsResponseDto"];
                 };
             };
             /** @description Validation Failed */
@@ -759,34 +768,22 @@ export interface operations {
             };
         };
     };
-    BookingsController_getAllPrices: {
+    StudiosController_getStudios: {
         parameters: {
-            query: {
-                from: string;
-                to: string;
-            };
+            query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Prices for all studios */
+            /** @description Returns all studios */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PricesStudioResponseDto"][];
-                };
-            };
-            /** @description Validation Failed */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorResponseDto"];
+                    "application/json": components["schemas"]["StudiosResponseDto"];
                 };
             };
             /** @description JWT Validation Failed */

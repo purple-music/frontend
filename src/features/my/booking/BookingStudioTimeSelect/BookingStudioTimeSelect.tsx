@@ -4,21 +4,16 @@ import { addDays, startOfDay } from "date-fns";
 import React, { useEffect } from "react";
 import { toast } from "sonner";
 
-import { usePricesQuery } from "@/api/queries/bookings/prices/prices";
+import { useFreeSlotsQuery } from "@/api/queries/free-slots/free-slots";
 import Surface from "@/components/layout/Surface/Surface";
 import Typography from "@/components/ui/Typography/Typography";
 import { ErrorToast } from "@/components/ui/toasts/ErrorToast";
 import { ValidationErrorToast } from "@/components/ui/toasts/ValidationErrorToast";
 import { ValidationError } from "@/lib/axios";
+import { groupFreeSlotsByStudio } from "@/lib/utils/time-slots";
 
 import BookingStudioTimeSelectBody from "./BookingStudioTimeSelectBody";
 import BookingStudioTimeSelectHeader from "./BookingStudioTimeSelectHeader";
-
-export type BookingSlotInfo = {
-  startTime: string;
-  endTime: string;
-  price: number;
-};
 
 export type SelectedTimeSlot = {
   startTime: string;
@@ -50,7 +45,7 @@ const BookingStudioTimeSelect = ({
   setSelectedTimeSlots,
 }: BookingStudioTimeSelectProps) => {
   // TODO: use Moscow timezone with Luxon
-  const { data, isLoading, isError, error } = usePricesQuery({
+  const { data, isLoading, isError, error } = useFreeSlotsQuery({
     from: startOfDay(day).toISOString(),
     to: startOfDay(addDays(day, 1)).toISOString(),
   });
@@ -106,12 +101,12 @@ const BookingStudioTimeSelect = ({
       </Typography>
       <BookingStudioTimeSelectHeader
         day={day}
-        studios={data.map((s) => s.studioId)}
+        studios={data.freeSlots.map((s) => s.studioId)}
       />
       <BookingStudioTimeSelectBody
         day={day}
         workingHours={workingHours}
-        prices={data}
+        freeSlotsGroupedByStudio={groupFreeSlotsByStudio(data.freeSlots)}
         selectedTimeSlots={selectedTimeSlots}
         onSlotClick={onSlotClick}
       />

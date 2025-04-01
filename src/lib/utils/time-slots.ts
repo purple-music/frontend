@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 
+import { FreeSlot } from "@/api/queries/free-slots/free-slots";
 import { TimeSlot } from "@/api/queries/time-slots/time-slots";
 
 export type TimeSlotsGroupedByStudio = {
@@ -12,6 +13,10 @@ export type TimeSlotsGroupedByDayAndStudio = {
 
 export type TimeSlotsGroupedByDay = {
   [day: string]: TimeSlot[];
+};
+
+export type FreeSlotsGroupedByStudio = {
+  [studioId: string]: FreeSlot[];
 };
 
 const groupTimeSlotsByDayAndStudio = (
@@ -65,4 +70,24 @@ const groupTimeSlotsByDay = (timeSlots: TimeSlot[]): TimeSlotsGroupedByDay => {
   return grouped;
 };
 
-export { groupTimeSlotsByDayAndStudio, groupTimeSlotsByDay };
+const groupFreeSlotsByStudio = (
+  freeSlots: FreeSlot[],
+): FreeSlotsGroupedByStudio => {
+  const grouped: FreeSlotsGroupedByStudio = {};
+
+  for (const slot of freeSlots) {
+    if (!grouped[slot.studioId]) {
+      grouped[slot.studioId] = [];
+    }
+
+    grouped[slot.studioId]!.push(slot);
+  }
+
+  return grouped;
+};
+
+export {
+  groupTimeSlotsByDayAndStudio,
+  groupTimeSlotsByDay,
+  groupFreeSlotsByStudio,
+};

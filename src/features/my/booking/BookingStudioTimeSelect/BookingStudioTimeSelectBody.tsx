@@ -1,15 +1,16 @@
 import clsx from "clsx";
 import { format } from "date-fns";
 
-import { Prices, StudioPrices } from "@/api/queries/bookings/prices/prices";
+import { FreeSlot } from "@/api/queries/free-slots/free-slots";
 import VerticalTimeline from "@/components/shared/VerticalTimeline/VerticalTimeline";
 import { getTypographyStyles } from "@/components/ui/Typography/Typography";
+import { FreeSlotsGroupedByStudio } from "@/lib/utils/time-slots";
 
 import { SelectedTimeSlot, isSlotSame } from "./BookingStudioTimeSelect";
 
 interface BookingStudioTimeSelectBodyStudioProps {
   studio: string;
-  studioPrices: StudioPrices;
+  studioPrices: FreeSlot[];
   selectedTimeSlots: SelectedTimeSlot[];
   onSlotClick: (timeSlots: SelectedTimeSlot) => void;
 }
@@ -70,14 +71,14 @@ const BookingStudioTimeSelectBodyStudio = ({
 interface BookingStudioTimeSelectBodyProps {
   day: Date;
   workingHours: [number, number];
-  prices: Prices;
+  freeSlotsGroupedByStudio: FreeSlotsGroupedByStudio;
   selectedTimeSlots: SelectedTimeSlot[];
   onSlotClick: (slot: SelectedTimeSlot) => void;
 }
 
 const BookingStudioTimeSelectBody = ({
   workingHours,
-  prices,
+  freeSlotsGroupedByStudio,
   selectedTimeSlots,
   onSlotClick,
 }: BookingStudioTimeSelectBodyProps) => {
@@ -91,15 +92,19 @@ const BookingStudioTimeSelectBody = ({
         />
       </div>
       <div className="flex flex-1 flex-row divide-x divide-outline-variant rounded-br-[16px]">
-        {prices.map((s) => (
-          <BookingStudioTimeSelectBodyStudio
-            key={s.studioId}
-            studio={s.studioId}
-            studioPrices={s.prices}
-            selectedTimeSlots={selectedTimeSlots}
-            onSlotClick={onSlotClick}
-          />
-        ))}
+        {Object.entries(freeSlotsGroupedByStudio).map(
+          ([studioId, freeSlots]) => {
+            return (
+              <BookingStudioTimeSelectBodyStudio
+                key={studioId}
+                studio={studioId}
+                studioPrices={freeSlots}
+                selectedTimeSlots={selectedTimeSlots}
+                onSlotClick={onSlotClick}
+              />
+            );
+          },
+        )}
       </div>
     </div>
   );

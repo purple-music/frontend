@@ -22,7 +22,7 @@ const Navbar = ({ buttons }: NavbarProps) => {
     <nav className="inline-flex w-96 flex-col items-center justify-center rounded-[28px] bg-surface-container">
       {buttons.map(({ label, href, isSelected }, index) => (
         <NavbarItem
-          icon={buttons[index].icon}
+          icon={buttons[index]?.icon}
           key={href}
           href={href}
           isSelected={isSelected}
