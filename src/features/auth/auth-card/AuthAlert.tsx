@@ -1,17 +1,18 @@
 import { TbExclamationCircle, TbRosetteDiscountCheck } from "react-icons/tb";
 
-import { ActionResult } from "@/lib/types";
+export interface AuthAlertProps {
+  message: string;
+  isSuccess: boolean;
+}
 
-export function AuthAlert({ result }: { result: ActionResult }) {
-  const isSuccess = result.type === "success";
-
+export function AuthAlert({ message, isSuccess }: AuthAlertProps) {
   return (
     <div
       role="alert"
       className={`alert ${isSuccess ? "alert-success" : "alert-error"} rounded-lg text-start`}
     >
       {isSuccess ? <TbRosetteDiscountCheck /> : <TbExclamationCircle />}
-      <span>{result.message}</span>
+      <span>{message}</span>
     </div>
   );
 }

@@ -83,9 +83,6 @@ export default async function Home({
                   <Link className="btn btn-primary rounded-full" href="/my">
                     {t("my-page")}
                   </Link>
-                  {/*<a className="btn btn-primary rounded-full">*/}
-                  {/*  +7(922)123-12-12*/}
-                  {/*</a>*/}
                 </div>
               </nav>
             </div>

@@ -1,38 +1,16 @@
 "use client";
 
-import React from "react";
-import { useTranslation } from "react-i18next";
-
+import { useProfileQuery } from "@/api/queries/auth/profile";
 import DashboardPage from "@/features/my/dashboard/DashboardPage/DashboardPage";
 
-// function DashboardWrapper() {
-//   const { session, status } = useCurrentSession();
-//
-//   const [bookings, setBookings] = useState<Booking[] | null>(null);
-//   useEffect(() => {
-//     if (!session) return;
-//
-//     getCurrentBookingsByUserId(session.user.id).then((response) =>
-//       setBookings(response),
-//     );
-//   }, [session]);
-//
-//   if (status === "loading" || bookings === null) {
-//     // TODO: add skeleton
-//     return <span>TODO: Dashboard skeleton...</span>;
-//   }
-//
-//   return <Dashboard bookings={bookings} />;
-// }
-
 export default function Page() {
-  const { t } = useTranslation("my");
-  return (
-    <>
-      <DashboardPage />
-      {/*<PageWrapper title={t("dashboard.title")}>*/}
-      {/*  <DashboardWrapper />*/}
-      {/*</PageWrapper>*/}
-    </>
-  );
+  // TODO: make user provider for all /my pages
+  const { data: user, isLoading, isError, error } = useProfileQuery();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error: {error?.message}</div>;
+
+  if (!user) return <div>User not found</div>;
+
+  return <DashboardPage user={user} />;
 }

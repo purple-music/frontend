@@ -1,9 +1,8 @@
-import { Hour } from "@/lib/types";
+import { format } from "date-fns";
 
-export const hourToDate = (hour: Hour) => {
-  return new Date(hour * 60 * 60 * 1000);
-};
+export type Day = string; // "yyyy-MM-dd"
 
-export const dateToHour = (date: Date) => {
-  return Math.floor(date.getTime() / (60 * 60 * 1000));
-};
+const stripTime = <TDate extends Date>(date: TDate | string | number): Day =>
+  format(date, "yyyy-MM-dd");
+
+export { stripTime };

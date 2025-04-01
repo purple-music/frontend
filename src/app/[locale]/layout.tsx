@@ -1,12 +1,11 @@
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { Metadata } from "next";
 import React from "react";
 import { Toaster } from "sonner";
 
-import { initializeStudios } from "@/actions/mutation/initialize-studios";
+import Providers from "@/app/Providers";
 import initTranslations from "@/app/i18n";
-import { auth } from "@/auth";
 import TranslationProvider from "@/components/shared/providers/TranslationsProvider";
-import { NextAuthProvider } from "@/providers/NextAuthProvider";
 
 import "./tailwind.css";
 
@@ -27,23 +26,22 @@ export default async function RootLayout({
   const awaitedParams = await params;
   const locale = awaitedParams.locale;
 
-  const session = await auth();
-
-  await initializeStudios();
-
   const { t, resources } = await initTranslations(locale, i18nNamespaces);
 
   return (
     <html lang={locale}>
       <body>
-        <TranslationProvider
-          resources={resources}
-          locale={locale}
-          namespaces={i18nNamespaces}
-        >
-          <NextAuthProvider session={session}>{children}</NextAuthProvider>
-          <Toaster closeButton />
-        </TranslationProvider>
+        <Providers>
+          <TranslationProvider
+            resources={resources}
+            locale={locale}
+            namespaces={i18nNamespaces}
+          >
+            {children}
+            <Toaster closeButton />
+          </TranslationProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </Providers>
       </body>
     </html>
   );

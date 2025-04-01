@@ -1,15 +1,17 @@
+import { ReactNode } from "react";
+
 import { StudioId } from "@/lib/types";
 import { getStudioColor } from "@/lib/utils/studios";
 
 // TODO: prisma removed
-type Booking = {
+type TimeSlot = {
   id: number;
   slotTime: Date;
   peopleCount: number;
   createdAt: Date;
   updatedAt: Date;
   studioId: string;
-  orderId: number;
+  bookingId: number;
 };
 
 interface EmptyBookingCellProps {
@@ -54,7 +56,7 @@ const BookedBookingCell = ({
 interface BookingCellProps {
   hours: number[];
   studio: StudioId;
-  bookings: Map<number, Booking>;
+  bookings: Map<number, TimeSlot>;
   cellHeight: string;
   cellMinWidth: string;
 }
@@ -66,15 +68,20 @@ const DayStudioColumn = ({
   cellHeight,
   cellMinWidth,
 }: BookingCellProps) => {
-  const elements: React.ReactNode[] = [];
+  const elements: ReactNode[] = [];
   for (let i = 0; i < hours.length; ) {
-    if (bookings.has(hours[i]) && bookings.get(hours[i])!.studioId === studio) {
+    const hour = hours[i];
+    if (hour === undefined) {
+      // Impossible
+      break;
+    }
+    if (bookings.has(hour) && bookings.get(hour)!.studioId === studio) {
       let count = 0;
-      const orderId = bookings.get(hours[i])!.orderId;
+      const bookingId = bookings.get(hour)!.bookingId;
       while (
-        bookings.has(hours[i]) &&
-        bookings.get(hours[i])!.studioId === studio &&
-        bookings.get(hours[i])!.orderId === orderId
+        bookings.has(hour) &&
+        bookings.get(hour)!.studioId === studio &&
+        bookings.get(hour)!.bookingId === bookingId
       ) {
         count++;
         i++;
@@ -90,7 +97,7 @@ const DayStudioColumn = ({
     } else {
       elements.push(
         <EmptyBookingCell
-          key={hours[i]}
+          key={hour}
           cellHeight={cellHeight}
           cellMinWidth={cellMinWidth}
         />,

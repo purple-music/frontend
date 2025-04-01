@@ -2,23 +2,24 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getLocalTimeZone, today } from "@internationalized/date";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { makeOrder } from "@/actions/mutation/make-order";
+import { useMakeBookingMutation } from "@/api/mutations/bookings/make-booking";
 import Button from "@/components/ui/Button/Button";
 import Typography from "@/components/ui/Typography/Typography";
 import { ErrorToast } from "@/components/ui/toasts/ErrorToast";
 import { SuccessToast } from "@/components/ui/toasts/SuccessToast";
+import { ValidationErrorToast } from "@/components/ui/toasts/ValidationErrorToast";
 import BookingCalendar from "@/features/my/booking/BookingCalendar/BookingCalendar";
 import BookingStudioTimeSelect, {
   SelectedTimeSlot,
 } from "@/features/my/booking/BookingStudioTimeSelect/BookingStudioTimeSelect";
 import PeopleInput from "@/features/my/booking/PeopleInput/PeopleInput";
-import { MakeOrderSchema } from "@/schemas/schemas";
+import { MakeBooking } from "@/schemas/schemas";
 
 const InputHeading = ({
   children,
@@ -63,6 +64,7 @@ const BookingSlotInput = ({
 };
 
 const Page = () => {
+  const mutation = useMakeBookingMutation();
   const {
     control,
     handleSubmit,
@@ -70,37 +72,69 @@ const Page = () => {
     reset,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm<z.infer<typeof MakeOrderSchema>>({
+  } = useForm<z.infer<typeof MakeBooking>>({
     defaultValues: {
       slots: [],
       peopleCount: 1,
     },
-    resolver: zodResolver(MakeOrderSchema),
+    resolver: zodResolver(MakeBooking),
   });
   const { t } = useTranslation("my");
 
-  const refreshBookings = () => reset({ slots: [], peopleCount: 1 });
+  useEffect(() => {
+    // handle submit
+    if (mutation.isSuccess) {
+      const data = mutation.data;
 
-  const onSubmit = async (data: z.infer<typeof MakeOrderSchema>) => {
-    const result = await makeOrder(data);
-    // TODO: add button "Go to my bookings"
-    if (result.type === "success") {
       toast.custom(() => (
         <SuccessToast>
           <span>{t("booking.post-action.success")}</span>
         </SuccessToast>
       ));
-      refreshBookings();
-    } else {
-      toast.custom((tst) => (
-        <ErrorToast>
-          <span>Error: {result.error}</span>
-          <button onClick={() => refreshBookings()} className="btn btn-block">
-            {t("booking.post-action.refresh")}
-          </button>
-        </ErrorToast>
-      ));
+
+      reset({
+        slots: [],
+        peopleCount: 1,
+      });
     }
+    if (mutation.isError) {
+      const error = mutation.error.data;
+
+      if (error.statusCode === 400) {
+        toast.custom((tst) => <ValidationErrorToast error={error} />);
+        return;
+      }
+
+      if (error.statusCode === 401) {
+        toast.custom((tst) => (
+          <ErrorToast>
+            <span>{error.message}</span>
+          </ErrorToast>
+        ));
+        return;
+      }
+    }
+  }, [
+    mutation.isSuccess,
+    mutation.isError,
+    mutation.data,
+    mutation.error,
+    t,
+    reset,
+  ]);
+
+  const onSubmit = (data: z.infer<typeof MakeBooking>) => {
+    mutation.mutate({
+      slots: data.slots.map(
+        (slot) =>
+          ({
+            studio: slot.studio,
+            startTime: slot.startTime,
+            endTime: slot.endTime,
+            peopleCount: data.peopleCount,
+          }) as const,
+      ),
+    });
   };
 
   return (
@@ -127,7 +161,6 @@ const Page = () => {
         )}
       />
 
-      {/* Submit Button that shows an alert for debugging */}
       <Button
         label={t("booking.form.submit")}
         type="submit"

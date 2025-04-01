@@ -1,4 +1,4 @@
-import { router } from "next/client";
+import { useRouter } from "next/navigation";
 import { ReactNode } from "react";
 import { Dialog, Modal, ModalOverlay } from "react-aria-components";
 import { useTranslation } from "react-i18next";
@@ -11,7 +11,7 @@ import {
   FaXmark,
 } from "react-icons/fa6";
 
-import { logout } from "@/actions/mutation/logout";
+import { useLogoutMutation } from "@/api/mutations/auth/logout";
 import Button from "@/components/ui/Button/Button";
 import Divider from "@/components/ui/Divider/Divider";
 import IconButton from "@/components/ui/IconButton/IconButton";
@@ -72,9 +72,13 @@ export interface ProfileModalProps {
 const ProfileModal = ({ isOpen, setIsOpen }: ProfileModalProps) => {
   const { t } = useTranslation("my");
 
-  const handleLogout = async () => {
-    await logout();
-    await router.push("/auth");
+  const mutation = useLogoutMutation();
+
+  const router = useRouter();
+
+  const handleLogout = () => {
+    mutation.mutate();
+    router.push("/auth");
   };
 
   return (

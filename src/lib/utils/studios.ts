@@ -1,53 +1,41 @@
 import { StudioId } from "../types";
 
-export const getOneLetterStudioName = (studio: StudioId) =>
-  studio[0].toUpperCase();
+export const getOneLetterStudioName = (studio: string) =>
+  (studio[0] || "?").toUpperCase();
 
-export const getSoftStudioColor = (studio: StudioId) =>
+export const getSoftStudioColor = (studio: string) =>
   ({
     blue: "bg-brand-blue-container text-on-brand-blue-container",
     purple: "bg-brand-purple-container text-on-brand-purple-container",
     orange: "bg-brand-orange-container text-on-brand-orange-container",
-  })[studio];
+  })[studio] || "";
 
-export const getStudioColor = (studio: StudioId) =>
+export const getStudioColor = (studio: string) =>
   ({
     blue: "bg-brand-blue text-on-brand-blue",
     purple: "bg-brand-purple text-on-brand-purple",
     orange: "bg-brand-orange text-on-brand-orange",
-  })[studio];
+  })[studio] || "";
 
-export const getStudioLabel = (studio: StudioId) => {
-  const studioNames: Record<StudioId, string> = {
-    purple: "Purple",
-    orange: "Orange",
-    blue: "Blue",
-  };
-
-  return studioNames[studio] ?? `${studio}`;
+export const getStudioLabel = (studio: string) => {
+  return studio[0] ? `${studio[0].toUpperCase()}${studio.slice(1)}` : "";
 };
 
 export type StudioNameSize = "letter" | "three" | "name" | "full";
 
 // TODO: remove other functions
 export const getStudioName = (
-  studio: StudioId,
+  studio: string,
   size: StudioNameSize = "name",
 ) => {
-  const studioNames: Record<StudioId, string> = {
-    purple: "Purple",
-    orange: "Orange",
-    blue: "Blue",
-  };
-
   if (size === "letter") {
-    return studioNames[studio][0].toUpperCase();
+    return getOneLetterStudioName(studio);
   } else if (size === "three") {
-    return studioNames[studio].slice(0, 3);
+    return getStudioLabel(studio).slice(0, 3);
   } else if (size === "name") {
-    return studioNames[studio];
+    return getStudioLabel(studio);
   } else {
-    return `${studioNames[studio]} Studio`;
+    return `${getStudioLabel(studio)} Studio`;
   }
 };
 

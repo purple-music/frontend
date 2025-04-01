@@ -1,30 +1,24 @@
 "use client";
 
-import { endOfDay, startOfDay } from "date-fns";
-import React, { useEffect, useState } from "react";
+import { addDays, startOfDay } from "date-fns";
+import React, { useEffect } from "react";
+import { toast } from "sonner";
 
-import { getAvailableSlots } from "@/actions/query/booking";
+import { useFreeSlotsQuery } from "@/api/queries/free-slots/free-slots";
 import Surface from "@/components/layout/Surface/Surface";
 import Typography from "@/components/ui/Typography/Typography";
-import { StudioId } from "@/lib/types";
+import { ErrorToast } from "@/components/ui/toasts/ErrorToast";
+import { ValidationErrorToast } from "@/components/ui/toasts/ValidationErrorToast";
+import { ValidationError } from "@/lib/axios";
+import { groupFreeSlotsByStudio } from "@/lib/utils/time-slots";
 
 import BookingStudioTimeSelectBody from "./BookingStudioTimeSelectBody";
 import BookingStudioTimeSelectHeader from "./BookingStudioTimeSelectHeader";
 
-export type StudioTimeSlotInfo = {
-  slotTime: Date;
-  price: number;
-};
-
-export type BookingSlotInfo = {
-  studioId: StudioId;
-  slotTime: Date;
-  price: number;
-};
-
 export type SelectedTimeSlot = {
-  slotTime: Date;
-  studio: StudioId;
+  startTime: string;
+  endTime: string;
+  studio: string;
 };
 
 interface BookingStudioTimeSelectProps {
@@ -39,8 +33,8 @@ export const isSlotSame = (
   slot2: SelectedTimeSlot,
 ) => {
   return (
-    slot1.slotTime.getTime() === slot2.slotTime.getTime() &&
-    slot1.studio === slot2.studio
+    new Date(slot1.startTime).getTime() ===
+      new Date(slot2.startTime).getTime() && slot1.studio === slot2.studio
   );
 };
 
@@ -50,31 +44,39 @@ const BookingStudioTimeSelect = ({
   selectedTimeSlots,
   setSelectedTimeSlots,
 }: BookingStudioTimeSelectProps) => {
-  // TODO: fetch this from the server based on the day
-  // TODO: consider using array of objects with "studioId" instead of Map
   // TODO: use Moscow timezone with Luxon
-  const [availableTimeSlots, setAvailableTimeSlots] = useState<
-    BookingSlotInfo[] | null
-  >(null);
+  const { data, isLoading, isError, error } = useFreeSlotsQuery({
+    from: startOfDay(day).toISOString(),
+    to: startOfDay(addDays(day, 1)).toISOString(),
+  });
 
   useEffect(() => {
-    console.log("Fetching available slots...");
-    const fetchAvailableSlots = async () => {
-      const slots = await getAvailableSlots({
-        from: startOfDay(day).toISOString(),
-        to: endOfDay(day).toISOString(),
-      });
-      if (slots.type === "error") return; // TODO: handle error
-      setAvailableTimeSlots(slots.content);
-    };
-
-    console.log("Fetched available slots: ", availableTimeSlots);
-
-    void fetchAvailableSlots();
-  }, [day]); // Refetch whenever the selected day changes
+    if (isError && error) {
+      if (error.data.statusCode === 400) {
+        const e: ValidationError = error.data;
+        toast.custom((tst) => (
+          <ValidationErrorToast error={e}></ValidationErrorToast>
+        ));
+      } else if (error.data.statusCode === 401) {
+        toast.custom((tst) => (
+          <ErrorToast>
+            <span>{error.data.message}</span>
+          </ErrorToast>
+        ));
+      } else {
+        toast.custom((tst) => (
+          <ErrorToast>
+            <span>{error.data.message}</span>
+          </ErrorToast>
+        ));
+      }
+    }
+  }, [isError, error]);
 
   // TODO: draw loading skeleton
-  if (!availableTimeSlots) return <div>Loading...</div>;
+  if (isLoading) return <span>Loading...</span>;
+  if (isError) return <span>Error: {error?.message}</span>;
+  if (!data) return <span>No data</span>;
 
   const onSlotClick = (slot: SelectedTimeSlot) => {
     if (selectedTimeSlots.some((s) => isSlotSame(s, slot))) {
@@ -99,12 +101,12 @@ const BookingStudioTimeSelect = ({
       </Typography>
       <BookingStudioTimeSelectHeader
         day={day}
-        studios={[...new Set(availableTimeSlots.map((s) => s.studioId))]}
+        studios={data.freeSlots.map((s) => s.studioId)}
       />
       <BookingStudioTimeSelectBody
         day={day}
         workingHours={workingHours}
-        availableTimeSlots={availableTimeSlots}
+        freeSlotsGroupedByStudio={groupFreeSlotsByStudio(data.freeSlots)}
         selectedTimeSlots={selectedTimeSlots}
         onSlotClick={onSlotClick}
       />

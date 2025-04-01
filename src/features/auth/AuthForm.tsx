@@ -8,10 +8,10 @@ import { AuthCard } from "@/features/auth/auth-card/AuthCard";
 import { AuthCardTitle } from "@/features/auth/auth-card/AuthCardTitile";
 import { AuthFooterAction } from "@/features/auth/auth-card/AuthFooterAction";
 import { AuthSocial } from "@/features/auth/auth-card/AuthSocial";
-import { ActionResult } from "@/lib/types";
 
 interface AuthFormProps {
-  result: ActionResult | null;
+  resultMessage: string | null;
+  resultIsSuccess: boolean;
   title: string;
   isSubmitting: boolean;
   buttonLabel: string;
@@ -23,7 +23,8 @@ interface AuthFormProps {
 }
 
 export default function AuthForm({
-  result,
+  resultMessage,
+  resultIsSuccess,
   title,
   isSubmitting,
   buttonLabel,
@@ -57,7 +58,9 @@ export default function AuthForm({
       </form>
 
       {/* General Message */}
-      {result && <AuthAlert result={result} />}
+      {resultMessage && (
+        <AuthAlert message={resultMessage} isSuccess={resultIsSuccess} />
+      )}
 
       {showSocial && (
         <>

@@ -1,4 +1,3 @@
-import { StudioId } from "@/lib/types";
 import {
   StudioNameSize,
   getSoftStudioColor,
@@ -9,7 +8,7 @@ export const StudiosHeader = ({
   studios,
   studioNameSize = "name",
 }: {
-  studios: StudioId[];
+  studios: string[];
   studioNameSize?: StudioNameSize;
 }) => (
   <div className={`flex h-8 flex-1 flex-row justify-between`}>

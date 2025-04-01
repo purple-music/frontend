@@ -1,19 +1,22 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { TbLock, TbMail } from "react-icons/tb";
+import { z } from "zod";
 
-import { authCredentials } from "@/actions/mutation/login";
+import { useLoginMutation } from "@/api/mutations/auth/login";
 import AuthForm from "@/features/auth/AuthForm";
 import { AuthInputField } from "@/features/auth/auth-card/AuthInputField";
-import { useAuthForm } from "@/lib/hooks/useAuthForm";
 import { LoginSchema } from "@/schemas/schemas";
 
 export default function LoginForm() {
   const searchParams = useSearchParams();
   const { t } = useTranslation("auth");
+  const router = useRouter();
 
   console.log("Search params", searchParams);
 
@@ -23,24 +26,43 @@ export default function LoginForm() {
     OAuthCallbackError: t("login.oauth-error.OAuthCallbackError"),
   }[searchParams.get("error") || ""];
 
-  const { form, onSubmit, result, isSubmitting } = useAuthForm(
-    LoginSchema,
-    async (data) => {
-      if (urlError) {
-        return { type: "error", message: urlError };
-      }
-      return await authCredentials(data);
-    },
-  );
+  const mutation = useLoginMutation();
+
+  const onSubmit = async (data: any) => {
+    mutation.mutate(data);
+    router.push("/my");
+  };
+
+  let message = null;
+  if (mutation.isError) {
+    message = mutation.error.data.message;
+    const statusCode = mutation.error.data.statusCode;
+    if (statusCode === 400) {
+      message = t("login.errors.bad-request");
+    } else if (statusCode === 401) {
+      message = t("login.errors.unauthorized");
+    }
+  }
+
+  const result = mutation.isSuccess ? mutation.data : null;
+
+  const {
+    register: formRegister,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
+  });
 
   return (
     <AuthForm
-      result={result}
+      resultMessage={result?.message || message || urlError || null}
+      resultIsSuccess={mutation.isSuccess}
       title={t("login.title")}
-      isSubmitting={isSubmitting}
+      isSubmitting={isSubmitting || mutation.isPending}
       buttonLabel={isSubmitting ? t("login.submitting") : t("login.submit")}
       showSocial={true}
-      onSubmit={form.handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit)}
       extraAction={{
         href: "/auth/register",
         label: t("login.extra-action"),
@@ -51,8 +73,8 @@ export default function LoginForm() {
         type="email"
         label={t("login.email.label")}
         placeholder={t("login.email.placeholder")}
-        register={form.register("email")}
-        error={form.formState.errors.email?.message}
+        register={formRegister("email")}
+        error={errors.email?.message}
         disabled={isSubmitting}
         icon={<TbMail />}
       />
@@ -62,9 +84,9 @@ export default function LoginForm() {
         type="password"
         label={t("login.password.label")}
         placeholder={t("login.password.placeholder")}
-        register={form.register("password")}
+        register={formRegister("password")}
         disabled={isSubmitting}
-        error={form.formState.errors.password?.message}
+        error={errors.password?.message}
         action={{ href: "/auth/reset", label: t("login.password.forgot") }}
         icon={<TbLock />}
       />

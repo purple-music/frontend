@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { FaPlus } from "react-icons/fa";
 import {
@@ -9,22 +8,15 @@ import {
   FaTrash,
 } from "react-icons/fa6";
 
+import { TimeSlot } from "@/api/queries/time-slots/time-slots";
 import Surface from "@/components/layout/Surface/Surface";
 import Divider from "@/components/ui/Divider/Divider";
 import IconButton from "@/components/ui/IconButton/IconButton";
 import IconLabel from "@/components/ui/IconLabel/IconLabel";
 import PseudoLine from "@/components/ui/PseudoLine/PseudoLine";
 import Typography from "@/components/ui/Typography/Typography";
-import { Hour, StudioId } from "@/lib/types";
+import { Hour } from "@/lib/types";
 import { getSoftStudioColor } from "@/lib/utils/studios";
-
-export type PersonalBooking = {
-  studio: StudioId;
-  time: Date;
-  people: number;
-  status: "unpaid" | "paid" | "cancelled";
-  cost: number;
-};
 
 interface InfoRibbonProps {
   startHour: Hour;
@@ -66,21 +58,16 @@ const InfoRibbon = ({
   );
 };
 
-interface PersonalBookingsProps {
-  date: Date;
-  bookings: PersonalBooking[];
+interface TimeSlotCardProps {
+  slot: TimeSlot;
 }
 
-interface PersonalBookingProps {
-  booking: PersonalBooking;
-}
-
-const PersonalBooking = ({ booking }: PersonalBookingProps) => {
+const TimeSlotCard = ({ slot }: TimeSlotCardProps) => {
   return (
     <div className="flex h-20 w-full flex-row items-center justify-between rounded-[16px] bg-surface-container-lowest p-4">
-      <PseudoLine color={`${getSoftStudioColor(booking.studio)}`}>
+      <PseudoLine color={`${getSoftStudioColor(slot.studioId)}`}>
         <Typography variant="body" size="large">
-          {booking.studio}
+          {slot.studioId}
         </Typography>
       </PseudoLine>
       <div className="flex items-center">
@@ -89,7 +76,7 @@ const PersonalBooking = ({ booking }: PersonalBookingProps) => {
           <Divider direction="vertical" />
           <IconLabel
             icon={<FaPerson size={20} />}
-            label={`${booking.people}`}
+            label={`${slot.peopleCount}`}
           />
           <Divider direction="vertical" />
         </div>
@@ -106,10 +93,18 @@ const PersonalBooking = ({ booking }: PersonalBookingProps) => {
   );
 };
 
-const PersonalBookings = ({ date, bookings }: PersonalBookingsProps) => {
+interface TimeSlotCardsGroupedByDayProps {
+  date: Date;
+  timeSlots: TimeSlot[];
+}
+
+const TimeSlotCardsGroupedByDay = ({
+  date,
+  timeSlots,
+}: TimeSlotCardsGroupedByDayProps) => {
   const { t } = useTranslation("my");
 
-  if (bookings.length === 0)
+  if (timeSlots.length === 0)
     return (
       <Surface className="w-full">
         <Typography variant={"label"} size={"large"} className="text-center">
@@ -119,10 +114,9 @@ const PersonalBookings = ({ date, bookings }: PersonalBookingsProps) => {
     );
 
   // Get min and max amount of people
-  const totalPeopleFrom = Math.min(
-    ...bookings.map((booking) => booking.people),
-  );
-  const totalPeopleTo = Math.max(...bookings.map((booking) => booking.people));
+  const allPeopleCount = timeSlots.map((booking) => booking.peopleCount);
+  const totalPeopleFrom = Math.min(...allPeopleCount);
+  const totalPeopleTo = Math.max(...allPeopleCount);
 
   return (
     <Surface className="w-full">
@@ -139,10 +133,10 @@ const PersonalBookings = ({ date, bookings }: PersonalBookingsProps) => {
       </div>
 
       <div className="flex w-full flex-col gap-4">
-        {bookings.map((booking) => (
-          <PersonalBooking
-            key={`${booking.time.toISOString()}_${booking.studio}`}
-            booking={booking}
+        {timeSlots.map((slot) => (
+          <TimeSlotCard
+            key={`${slot.startTime}_${slot.studioId}`}
+            slot={slot}
           />
         ))}
       </div>
@@ -150,4 +144,4 @@ const PersonalBookings = ({ date, bookings }: PersonalBookingsProps) => {
   );
 };
 
-export default PersonalBookings;
+export default TimeSlotCardsGroupedByDay;

@@ -3,14 +3,14 @@ import { SlotSelector } from "@/app/[locale]/my/booking/_components/SlotSelector
 import { Hour } from "@/lib/types";
 
 // TODO: prisma removed
-type Booking = {
+type TimeSlot = {
   id: number;
   slotTime: Date;
   peopleCount: number;
   createdAt: Date;
   updatedAt: Date;
   studioId: string;
-  orderId: number;
+  bookingId: number;
 };
 
 interface SlotSelectorWrapperProps {
@@ -19,8 +19,8 @@ interface SlotSelectorWrapperProps {
   selectedSlots: Hour[];
   onSelectedSlots: (slots: Hour[]) => void;
   disabled: boolean;
-  refreshBookings: () => void;
-  bookings: Booking[];
+  refreshTimeSlots: () => void;
+  timeSlots: TimeSlot[];
 }
 
 export function SlotSelectorWrapper({
@@ -29,7 +29,7 @@ export function SlotSelectorWrapper({
   selectedSlots,
   onSelectedSlots,
   disabled,
-  bookings,
+  timeSlots,
 }: SlotSelectorWrapperProps) {
   return (
     <SlotSelector
@@ -38,7 +38,7 @@ export function SlotSelectorWrapper({
       selectedSlots={selectedSlots}
       onSelectedSlots={onSelectedSlots}
       disabled={disabled}
-      unavailableBookings={bookings}
+      unavailableTimeSlots={timeSlots}
     />
   );
 }

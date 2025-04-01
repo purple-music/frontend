@@ -1,32 +1,49 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { TbLock, TbMail, TbUser } from "react-icons/tb";
+import { z } from "zod";
 
-import { registerUser } from "@/actions/mutation/register";
+import { useRegisterMutation } from "@/api/mutations/auth/register";
 import AuthForm from "@/features/auth/AuthForm";
 import { AuthInputField } from "@/features/auth/auth-card/AuthInputField";
-import { useAuthForm } from "@/lib/hooks/useAuthForm";
 import { RegisterSchema } from "@/schemas/schemas";
 
 export default function RegisterForm() {
   const { t } = useTranslation("auth");
-  const { form, onSubmit, result, isSubmitting } = useAuthForm(
-    RegisterSchema,
-    registerUser,
-  );
+
+  const { mutate, data, isPending, isError, error, isSuccess } =
+    useRegisterMutation();
+  const {
+    register: formRegister,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
+  });
+
+  const onSubmit = async (data: z.infer<typeof RegisterSchema>) => {
+    return mutate({
+      email: data.email,
+      password: data.password,
+      name: data.name,
+    });
+  };
 
   return (
     <AuthForm
-      result={result}
+      resultMessage={data?.message || error?.message || null}
+      resultIsSuccess={isSuccess}
       title={t("register.title")}
-      isSubmitting={isSubmitting}
+      isSubmitting={isSubmitting || isPending}
       buttonLabel={
         isSubmitting ? t("register.submitting") : t("register.submit")
       }
       showSocial={true}
-      onSubmit={form.handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit)}
       extraAction={{
         href: "/auth/login",
         label: t("register.extra-action"),
@@ -36,9 +53,9 @@ export default function RegisterForm() {
       <AuthInputField
         type="text"
         label={t("register.name.label")}
-        register={form.register("name")}
+        register={formRegister("name")}
         placeholder={t("register.name.placeholder")}
-        error={form.formState.errors.name?.message}
+        error={errors.name?.message}
         icon={<TbUser />}
       />
 
@@ -46,9 +63,9 @@ export default function RegisterForm() {
       <AuthInputField
         type="email"
         label={t("register.email.label")}
-        register={form.register("email")}
+        register={formRegister("email")}
         placeholder={t("register.email.placeholder")}
-        error={form.formState.errors.email?.message}
+        error={errors.email?.message}
         icon={<TbMail />}
       />
 
@@ -56,9 +73,9 @@ export default function RegisterForm() {
       <AuthInputField
         type="password"
         label={t("register.password.label")}
-        register={form.register("password")}
+        register={formRegister("password")}
         placeholder={t("register.password.placeholder")}
-        error={form.formState.errors.password?.message}
+        error={errors.password?.message}
         icon={<TbLock />}
       />
     </AuthForm>
