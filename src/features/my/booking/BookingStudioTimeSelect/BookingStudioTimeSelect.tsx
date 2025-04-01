@@ -54,17 +54,17 @@ const BookingStudioTimeSelect = ({
     if (isError && error) {
       if (error.data.statusCode === 400) {
         const e: ValidationError = error.data;
-        toast.custom((tst) => (
+        toast.custom(() => (
           <ValidationErrorToast error={e}></ValidationErrorToast>
         ));
       } else if (error.data.statusCode === 401) {
-        toast.custom((tst) => (
+        toast.custom(() => (
           <ErrorToast>
             <span>{error.data.message}</span>
           </ErrorToast>
         ));
       } else {
-        toast.custom((tst) => (
+        toast.custom(() => (
           <ErrorToast>
             <span>{error.data.message}</span>
           </ErrorToast>

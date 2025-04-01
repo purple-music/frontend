@@ -1,6 +1,4 @@
-import clsx from "clsx";
-import { usePathname } from "next/navigation";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 
 import NavbarItem from "@/components/layout/Navbar/NavbarItem";
 import Typography from "@/components/ui/Typography/Typography";

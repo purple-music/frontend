@@ -28,7 +28,7 @@ const ButtonGroup = <KeyT extends Key>({
 
   return (
     <div className="inline-flex rounded-full bg-surface-container-low">
-      {buttons.map(({ label, value }, index) => {
+      {buttons.map(({ label, value }) => {
         const isSelected = value === selected;
 
         return (
