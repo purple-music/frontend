@@ -121,6 +121,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/yandex": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Initiate Yandex OAuth flow */
+        get: operations["AuthController_yandexAuth"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/time-slots": {
         parameters: {
             query?: never;
@@ -594,6 +611,24 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ValidationErrorResponseDto"];
                 };
+            };
+        };
+    };
+    AuthController_yandexAuth: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Redirects to Yandex OAuth page */
+            302: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

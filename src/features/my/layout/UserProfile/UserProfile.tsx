@@ -32,6 +32,8 @@ const UserProfile = ({ isModalOpen, setIsModalOpen }: UserProfileProps) => {
             src={user.image}
             alt={user.name || "Profile Picture"}
             className="h-16 w-16 rounded-full object-cover"
+            width={64}
+            height={64}
           />
         ) : (
           <div className="h-16 w-16 rounded-full bg-surface-container-highest" />
