@@ -13,7 +13,11 @@ import AuthForm from "@/features/auth/AuthForm";
 import { AuthInputField } from "@/features/auth/auth-card/AuthInputField";
 import { LoginSchema } from "@/schemas/schemas";
 
-export default function LoginForm() {
+export interface LoginFormProps {
+  backendUrl: string;
+}
+
+export default function LoginForm(props: LoginFormProps) {
   const searchParams = useSearchParams();
   const { t } = useTranslation("auth");
   const router = useRouter();
@@ -63,6 +67,7 @@ export default function LoginForm() {
       buttonLabel={isSubmitting ? t("login.submitting") : t("login.submit")}
       showSocial={true}
       onSubmit={handleSubmit(onSubmit)}
+      backendUrl={props.backendUrl}
       extraAction={{
         href: "/auth/register",
         label: t("login.extra-action"),

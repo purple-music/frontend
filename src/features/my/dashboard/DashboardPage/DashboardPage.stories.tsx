@@ -28,7 +28,7 @@ export const Default: Story = {
     },
   },
   render: (args) => (
-    <MyTemplate page={""}>
+    <MyTemplate>
       <DashboardPage {...args} />
     </MyTemplate>
   ),

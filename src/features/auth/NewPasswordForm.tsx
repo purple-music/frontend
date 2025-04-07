@@ -12,7 +12,11 @@ import AuthForm from "@/features/auth/AuthForm";
 import { AuthInputField } from "@/features/auth/auth-card/AuthInputField";
 import { NewPasswordSchema } from "@/schemas/schemas";
 
-export function NewPasswordForm() {
+export interface NewPasswordFormProps {
+  backendUrl: string;
+}
+
+export function NewPasswordForm(props: NewPasswordFormProps) {
   const { t } = useTranslation("auth");
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
@@ -54,6 +58,7 @@ export function NewPasswordForm() {
         href: "/auth/login",
         label: t("new-password.extra-action"),
       }}
+      backendUrl={props.backendUrl}
     >
       {/* Password Field */}
       <AuthInputField

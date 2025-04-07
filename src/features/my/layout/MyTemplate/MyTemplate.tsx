@@ -1,3 +1,6 @@
+"use client";
+
+import { notFound, usePathname } from "next/navigation";
 import { ReactNode, useState } from "react";
 import { FaBook, FaMusic } from "react-icons/fa";
 import { FaHouse } from "react-icons/fa6";
@@ -12,11 +15,28 @@ export type MyPage = "" | "view" | "booking";
 
 interface MyTemplateProps {
   children: ReactNode;
-  page: MyPage;
 }
 
-const MyTemplate = ({ children, page }: MyTemplateProps) => {
+// TODO: try to make it server component
+const MyTemplate = ({ children }: MyTemplateProps) => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState<boolean>(false);
+  const pathname = usePathname();
+
+  // Extract the relevant part of the pathname
+  const pageFromPath = pathname.split("/")[3] || "";
+
+  // Define allowed pages as a set for quick lookup
+  const validPages: Record<string, MyPage> = {
+    "": "",
+    view: "view",
+    booking: "booking",
+  };
+
+  // Match the page or trigger a 404
+  const page = validPages[pageFromPath];
+  if (page === undefined) {
+    notFound();
+  }
 
   const buttons: NavbarButton[] = [
     { label: "Dashboard", href: "", icon: <FaHouse size={20} /> },

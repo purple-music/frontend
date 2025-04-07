@@ -1,12 +1,13 @@
-import { getBackendUrl } from "@/actions/getBackendUrl";
 import { YandexButton } from "@/features/auth/auth-card/YandexButton";
 
-export async function AuthSocial() {
-  const backendUrl = await getBackendUrl();
+export interface AuthSocialProps {
+  backendUrl: string;
+}
 
+export function AuthSocial(props: AuthSocialProps) {
   return (
     <div className="flex w-full flex-col gap-2">
-      <YandexButton backendUrl={backendUrl} />
+      <YandexButton backendUrl={props.backendUrl} />
     </div>
   );
 }

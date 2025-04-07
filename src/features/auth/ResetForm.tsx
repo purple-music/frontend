@@ -11,7 +11,11 @@ import AuthForm from "@/features/auth/AuthForm";
 import { AuthInputField } from "@/features/auth/auth-card/AuthInputField";
 import { ResetSchema } from "@/schemas/schemas";
 
-export function ResetForm() {
+export interface ResetFormProps {
+  backendUrl: string;
+}
+
+export function ResetForm(props: ResetFormProps) {
   const { t } = useTranslation("auth");
   const mutation = useResetPasswordMutation();
 
@@ -40,6 +44,7 @@ export function ResetForm() {
         href: "/auth/login",
         label: t("reset.extra-action"),
       }}
+      backendUrl={props.backendUrl}
     >
       {/* Email Field */}
       <AuthInputField

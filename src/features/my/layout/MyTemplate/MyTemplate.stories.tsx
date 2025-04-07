@@ -24,7 +24,7 @@ const buttons = [
 ];
 
 export const Default: Story = {
-  args: { children: <FaHouse size={20} />, page: "" },
+  args: { children: <FaHouse size={20} /> },
   render: (args) => (
     <MyTemplate {...args}>
       <ButtonGroup {...Two.args} />

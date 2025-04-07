@@ -12,7 +12,11 @@ import AuthForm from "@/features/auth/AuthForm";
 import { AuthInputField } from "@/features/auth/auth-card/AuthInputField";
 import { RegisterSchema } from "@/schemas/schemas";
 
-export default function RegisterForm() {
+export interface RegisterFormProps {
+  backendUrl: string;
+}
+
+export default function RegisterForm(props: RegisterFormProps) {
   const { t } = useTranslation("auth");
 
   const { mutate, data, isPending, isError, error, isSuccess } =
@@ -48,6 +52,7 @@ export default function RegisterForm() {
         href: "/auth/login",
         label: t("register.extra-action"),
       }}
+      backendUrl={props.backendUrl}
     >
       {/* Name Field */}
       <AuthInputField

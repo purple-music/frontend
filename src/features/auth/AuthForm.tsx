@@ -18,6 +18,7 @@ interface AuthFormProps {
   showSocial: boolean;
   onSubmit: React.FormEventHandler<HTMLFormElement>;
   extraAction?: { href: string; label: string };
+  backendUrl: string;
 
   children: ReactNode;
 }
@@ -32,6 +33,7 @@ export default function AuthForm({
   onSubmit,
   children,
   showSocial,
+  backendUrl,
 }: AuthFormProps) {
   const { t } = useTranslation("auth");
 
@@ -65,7 +67,7 @@ export default function AuthForm({
       {showSocial && (
         <>
           <div className="divider my-0">{t("social.or")}</div>
-          <AuthSocial />
+          <AuthSocial backendUrl={backendUrl} />
         </>
       )}
 

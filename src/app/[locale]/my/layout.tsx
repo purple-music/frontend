@@ -1,30 +1,23 @@
-"use client";
-
-import { notFound, usePathname } from "next/navigation";
 import React from "react";
 
-import MyTemplate, { MyPage } from "@/features/my/layout/MyTemplate/MyTemplate";
+import { Namespace } from "@/app/i18n";
+import WithTranslation from "@/components/shared/providers/TranslationsProvider";
+import MyTemplate from "@/features/my/layout/MyTemplate/MyTemplate";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
-  const pathname = usePathname();
-
-  // Extract the relevant part of the pathname
-  const pageFromPath = pathname.split("/")[3] || "";
-
-  // Define allowed pages as a set for quick lookup
-  const validPages: Record<string, MyPage> = {
-    "": "",
-    view: "view",
-    booking: "booking",
-  };
-
-  // Match the page or trigger a 404
-  const page = validPages[pageFromPath];
-  if (page === undefined) {
-    notFound();
-  }
-
-  return <MyTemplate page={page}>{children}</MyTemplate>;
+const Layout = async ({
+  children,
+  params,
+}: Readonly<{
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}>) => {
+  const awaitedParams = await params;
+  const locale = awaitedParams.locale;
+  return (
+    <WithTranslation locale={locale} namespaces={[Namespace.MY]}>
+      <MyTemplate>{children}</MyTemplate>
+    </WithTranslation>
+  );
 };
 
 export default Layout;

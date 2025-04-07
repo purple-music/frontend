@@ -10,6 +10,13 @@ export type InitTranslationsResult = {
   t: i18n["t"];
 };
 
+export const Namespace = {
+  INDEX: "index",
+  COMMON: "common",
+  AUTH: "auth",
+  MY: "my",
+};
+
 export default async function initTranslations(
   locale: string,
   namespaces: string[],

@@ -18,7 +18,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: { date: new Date() },
   render: (args) => (
-    <MyTemplate page={"view"}>
+    <MyTemplate>
       <ViewPage {...args} />
     </MyTemplate>
   ),
