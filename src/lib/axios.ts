@@ -63,8 +63,12 @@ export class ApiError<T extends ErrorResponseBase> extends Error {
   }
 }
 
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+console.log("backendUrl api", backendUrl);
+
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3000", // API URL
+  baseURL: backendUrl || "http://localhost:3000", // API URL
   withCredentials: true,
   paramsSerializer: (params) => {
     // Converts to ?studioIds=blue&studioIds=orange&studioIds=purple
