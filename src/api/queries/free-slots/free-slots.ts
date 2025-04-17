@@ -4,15 +4,17 @@ import { components, paths } from "@/api/types/api";
 import useGet from "@/api/use-get";
 import { ApiError, MakeGetResponse } from "@/lib/axios";
 
+const PATH = "/api/free-slots" as const;
+type ApiPath = typeof PATH;
+
 export type FreeSlot = components["schemas"]["FreeSlotDto"];
 
-export type FreeSlotsResponse = MakeGetResponse<"/free-slots", 200>;
+export type FreeSlotsResponse = MakeGetResponse<ApiPath, 200>;
 export type FreeSlotsErrorResponse =
-  | MakeGetResponse<"/free-slots", 400>
-  | MakeGetResponse<"/free-slots", 401>;
+  | MakeGetResponse<ApiPath, 400>
+  | MakeGetResponse<ApiPath, 401>;
 
-export type FreeSlotsFilters =
-  paths["/free-slots"]["get"]["parameters"]["query"];
+export type FreeSlotsFilters = paths[ApiPath]["get"]["parameters"]["query"];
 
 export const useFreeSlotsQuery = (
   filters?: FreeSlotsFilters,
@@ -22,8 +24,8 @@ export const useFreeSlotsQuery = (
   >,
 ) =>
   useGet<FreeSlotsResponse, FreeSlotsErrorResponse>(
-    ["free-slots", filters],
-    "/free-slots",
+    [PATH, filters],
+    PATH,
     filters,
     options,
   );

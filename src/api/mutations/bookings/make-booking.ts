@@ -4,15 +4,18 @@ import { paths } from "@/api/types/api";
 import usePost from "@/api/use-post";
 import { ApiError, ApiResponse } from "@/lib/axios";
 
+const PATH = "/api/bookings" as const;
+type ApiPath = typeof PATH;
+
 type MakeBookingRequest =
-  paths["/bookings"]["post"]["requestBody"]["content"]["application/json"];
+  paths[ApiPath]["post"]["requestBody"]["content"]["application/json"];
 
 type MakeBooking201Schema =
-  paths["/bookings"]["post"]["responses"]["201"]["content"]["application/json"];
+  paths[ApiPath]["post"]["responses"]["201"]["content"]["application/json"];
 type MakeBooking400Schema =
-  paths["/bookings"]["post"]["responses"]["400"]["content"]["application/json"];
+  paths[ApiPath]["post"]["responses"]["400"]["content"]["application/json"];
 type MakeBooking401Schema =
-  paths["/bookings"]["post"]["responses"]["401"]["content"]["application/json"];
+  paths[ApiPath]["post"]["responses"]["401"]["content"]["application/json"];
 
 type MakeBookingResponse = ApiResponse<200, MakeBooking201Schema>;
 type MakeBookingErrorResponse =
@@ -27,6 +30,6 @@ export const useMakeBookingMutation = (
   >,
 ) =>
   usePost<MakeBookingRequest, MakeBookingResponse, MakeBookingErrorResponse>(
-    "/bookings",
+    PATH,
     options,
   );

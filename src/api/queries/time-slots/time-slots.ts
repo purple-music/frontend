@@ -4,15 +4,17 @@ import { components, paths } from "@/api/types/api";
 import useGet from "@/api/use-get";
 import { ApiError, MakeGetResponse } from "@/lib/axios";
 
+const PATH = "/api/time-slots" as const;
+type ApiPath = typeof PATH;
+
 export type TimeSlot = components["schemas"]["TimeSlotDto"];
 
-export type TimeSlotsResponse = MakeGetResponse<"/time-slots", 200>;
+export type TimeSlotsResponse = MakeGetResponse<ApiPath, 200>;
 export type TimeSlotsErrorResponse =
-  | MakeGetResponse<"/time-slots", 400>
-  | MakeGetResponse<"/time-slots", 401>;
+  | MakeGetResponse<ApiPath, 400>
+  | MakeGetResponse<ApiPath, 401>;
 
-export type TimeSlotFilters =
-  paths["/time-slots"]["get"]["parameters"]["query"];
+export type TimeSlotFilters = paths[ApiPath]["get"]["parameters"]["query"];
 
 export const useTimeSlotsQuery = (
   filters?: TimeSlotFilters,
@@ -22,8 +24,8 @@ export const useTimeSlotsQuery = (
   >,
 ) =>
   useGet<TimeSlotsResponse, TimeSlotsErrorResponse>(
-    ["time-slots", filters],
-    "/time-slots",
+    [PATH, filters],
+    PATH,
     filters,
     options,
   );

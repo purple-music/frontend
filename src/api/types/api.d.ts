@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/auth/login": {
+    "/api/auth/login": {
         parameters: {
             query?: never;
             header?: never;
@@ -20,7 +20,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/reset-password": {
+    "/api/auth/reset-password": {
         parameters: {
             query?: never;
             header?: never;
@@ -37,7 +37,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/new-password": {
+    "/api/auth/new-password": {
         parameters: {
             query?: never;
             header?: never;
@@ -54,7 +54,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/logout": {
+    "/api/auth/logout": {
         parameters: {
             query?: never;
             header?: never;
@@ -70,7 +70,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/profile": {
+    "/api/auth/profile": {
         parameters: {
             query?: never;
             header?: never;
@@ -87,7 +87,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/register": {
+    "/api/auth/register": {
         parameters: {
             query?: never;
             header?: never;
@@ -104,7 +104,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/verify": {
+    "/api/auth/verify": {
         parameters: {
             query?: never;
             header?: never;
@@ -121,7 +121,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/yandex": {
+    "/api/auth/yandex": {
         parameters: {
             query?: never;
             header?: never;
@@ -138,7 +138,41 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/time-slots": {
+    "/api/auth/login-telegram": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Login with Telegram */
+        post: operations["AuthController_loginTelegram"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/telegram": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Initiate Telegram authentication */
+        get: operations["AuthController_telegramAuth"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/time-slots": {
         parameters: {
             query?: never;
             header?: never;
@@ -155,7 +189,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/time-slots/user/{userId}": {
+    "/api/time-slots/user/{userId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -172,7 +206,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/bookings": {
+    "/api/bookings": {
         parameters: {
             query?: never;
             header?: never;
@@ -188,7 +222,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/free-slots": {
+    "/api/free-slots": {
         parameters: {
             query?: never;
             header?: never;
@@ -204,7 +238,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/studios": {
+    "/api/studios": {
         parameters: {
             query?: never;
             header?: never;
@@ -329,6 +363,12 @@ export interface components {
              */
             token: string;
         };
+        LoginTelegramRequestDto: {
+            initData: string;
+        };
+        LoginTelegramResponseDto: {
+            message: string;
+        };
         TimeSlotDto: {
             id: number;
             /** Format: date-time */
@@ -366,6 +406,14 @@ export interface components {
             /** Format: date-time */
             updatedAt: string;
             timeSlots: components["schemas"]["TimeSlotDto"][];
+        };
+        FreeSlotsFilterDto: {
+            /** @description Start time for the time slot range */
+            from: string;
+            /** @description End time for the time slot range */
+            to: string;
+            /** @description Optional array of studio IDs to filter by */
+            studioIds?: string[];
         };
         FreeSlotDto: {
             /** Format: date-time */
@@ -632,6 +680,56 @@ export interface operations {
             };
         };
     };
+    AuthController_loginTelegram: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LoginTelegramRequestDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LoginTelegramResponseDto"];
+                };
+            };
+            /** @description JWT Validation Failed */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnauthorizedResponseDto"];
+                };
+            };
+        };
+    };
+    AuthController_telegramAuth: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Redirects to Telegram authentication */
+            302: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     TimeSlotsController_getTimeSlots: {
         parameters: {
             query?: {
@@ -761,12 +859,7 @@ export interface operations {
     FreeSlotsController_getFreeSlots: {
         parameters: {
             query: {
-                /** @description Start time for the time slot range */
-                from: string;
-                /** @description End time for the time slot range */
-                to: string;
-                /** @description Optional array of studio IDs to filter by */
-                studioIds?: string[];
+                filter: components["schemas"]["FreeSlotsFilterDto"];
             };
             header?: never;
             path?: never;
