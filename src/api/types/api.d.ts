@@ -407,14 +407,6 @@ export interface components {
             updatedAt: string;
             timeSlots: components["schemas"]["TimeSlotDto"][];
         };
-        FreeSlotsFilterDto: {
-            /** @description Start time for the time slot range */
-            from: string;
-            /** @description End time for the time slot range */
-            to: string;
-            /** @description Optional array of studio IDs to filter by */
-            studioIds?: string[];
-        };
         FreeSlotDto: {
             /** Format: date-time */
             startTime: string;
@@ -859,7 +851,12 @@ export interface operations {
     FreeSlotsController_getFreeSlots: {
         parameters: {
             query: {
-                filter: components["schemas"]["FreeSlotsFilterDto"];
+                /** @description Start time for the time slot range */
+                from: string;
+                /** @description End time for the time slot range */
+                to: string;
+                /** @description Optional array of studio IDs to filter by */
+                studioIds?: string[];
             };
             header?: never;
             path?: never;
