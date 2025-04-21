@@ -8,7 +8,7 @@ export const TelegramButton = ({ backendUrl }: { backendUrl: string }) => {
   return (
     <LoginButton
       botUsername="PurpleStudioBot"
-      authCallbackUrl={`${backendUrl}/auth/callback/telegram`}
+      authCallbackUrl={`${backendUrl}/api/auth/callback/telegram`}
       buttonSize="medium"
       cornerRadius={8}
       showAvatar={true}

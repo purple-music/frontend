@@ -11,7 +11,7 @@ export function YandexButton({ backendUrl }: { backendUrl: string }) {
 
   return (
     <Link
-      href={`${backendUrl}/auth/yandex`}
+      href={`${backendUrl}/api/auth/yandex`}
       className="btn flex w-full items-center justify-center bg-red-600 text-white hover:bg-red-700"
     >
       <FaYandex />
