@@ -12,6 +12,7 @@ export const authRoutes: string[] = [
   "/auth/error",
   "/auth/reset",
   "/auth/new-password",
+  "/auth/mini-app-auth",
 ];
 
 /**
