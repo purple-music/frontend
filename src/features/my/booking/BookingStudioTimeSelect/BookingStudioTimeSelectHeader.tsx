@@ -9,6 +9,7 @@ const BookingStudioTimeSelectHeader = ({
   day,
   studios,
 }: BookingStudioTimeSelectHeaderProps) => {
+  console.log("HEADER", studios);
   return (
     <div className="flex flex-row">
       <div className="w-12"></div>

@@ -87,6 +87,10 @@ const BookingStudioTimeSelect = ({
       setSelectedTimeSlots([...selectedTimeSlots, slot]);
     }
   };
+
+  const freeSlotsGroupedByStudio = groupFreeSlotsByStudio(data.freeSlots);
+  const availableStudios = Object.keys(freeSlotsGroupedByStudio);
+
   return (
     <Surface className="relative box-content h-96 max-w-[calc(3rem+8rem+8rem+8rem)] flex-grow overflow-hidden">
       <Typography
@@ -99,14 +103,12 @@ const BookingStudioTimeSelect = ({
           day: "numeric",
         })}
       </Typography>
-      <BookingStudioTimeSelectHeader
-        day={day}
-        studios={data.freeSlots.map((s) => s.studioId)}
-      />
+      <BookingStudioTimeSelectHeader day={day} studios={availableStudios} />
       <BookingStudioTimeSelectBody
         day={day}
         workingHours={workingHours}
-        freeSlotsGroupedByStudio={groupFreeSlotsByStudio(data.freeSlots)}
+        freeSlotsGroupedByStudio={freeSlotsGroupedByStudio}
+        studioOrder={availableStudios}
         selectedTimeSlots={selectedTimeSlots}
         onSlotClick={onSlotClick}
       />

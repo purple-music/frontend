@@ -73,6 +73,7 @@ interface BookingStudioTimeSelectBodyProps {
   workingHours: [number, number];
   freeSlotsGroupedByStudio: FreeSlotsGroupedByStudio;
   selectedTimeSlots: SelectedTimeSlot[];
+  studioOrder: string[];
   onSlotClick: (slot: SelectedTimeSlot) => void;
 }
 
@@ -80,8 +81,10 @@ const BookingStudioTimeSelectBody = ({
   workingHours,
   freeSlotsGroupedByStudio,
   selectedTimeSlots,
+  studioOrder,
   onSlotClick,
 }: BookingStudioTimeSelectBodyProps) => {
+  console.log("BODY", freeSlotsGroupedByStudio);
   return (
     <div className="flex h-full flex-row overflow-y-scroll">
       <div className="h-full flex-shrink-0">
@@ -92,19 +95,18 @@ const BookingStudioTimeSelectBody = ({
         />
       </div>
       <div className="flex flex-1 flex-row divide-x divide-outline-variant rounded-br-[16px]">
-        {Object.entries(freeSlotsGroupedByStudio).map(
-          ([studioId, freeSlots]) => {
-            return (
-              <BookingStudioTimeSelectBodyStudio
-                key={studioId}
-                studio={studioId}
-                studioPrices={freeSlots}
-                selectedTimeSlots={selectedTimeSlots}
-                onSlotClick={onSlotClick}
-              />
-            );
-          },
-        )}
+        {studioOrder.map((studioId) => {
+          const freeSlots = freeSlotsGroupedByStudio[studioId] || [];
+          return (
+            <BookingStudioTimeSelectBodyStudio
+              key={studioId}
+              studio={studioId}
+              studioPrices={freeSlots}
+              selectedTimeSlots={selectedTimeSlots}
+              onSlotClick={onSlotClick}
+            />
+          );
+        })}
       </div>
     </div>
   );
