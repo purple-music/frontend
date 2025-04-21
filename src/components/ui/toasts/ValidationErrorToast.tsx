@@ -1,24 +1,28 @@
 import { ValidationError, ValidationErrorItem } from "@/lib/axios";
 
 const renderValidationErrors = (errors: ValidationErrorItem[]) => {
-  return errors.map((error, index) => (
-    <div key={index} className="ml-4">
-      {/* Field name */}
-      <div className="font-semibold">{error.field}:</div>
-      {/* Error messages */}
-      {error.messages && (
-        <ul className="list-inside list-disc">
-          {error.messages.map((message, msgIndex) => (
-            <li key={msgIndex} className="text-sm">
-              {message}
-            </li>
-          ))}
-        </ul>
-      )}
-      {/* Recursively render nested errors */}
-      {error.children && renderValidationErrors(error.children)}
-    </div>
-  ));
+  return (
+    <ul>
+      {errors.map((error, index) => (
+        <li key={index} className="ml-4">
+          {/* Field name */}
+          <div className="font-semibold">{error.field}:</div>
+          {/* Error messages */}
+          {error.messages && (
+            <ul className="list-inside list-disc">
+              {error.messages.map((message, msgIndex) => (
+                <li key={msgIndex} className="text-sm">
+                  {message}
+                </li>
+              ))}
+            </ul>
+          )}
+          {/* Recursively render nested errors */}
+          {error.children && renderValidationErrors(error.children)}
+        </li>
+      ))}
+    </ul>
+  );
 };
 
 export function ValidationErrorToast({ error }: { error: ValidationError }) {
