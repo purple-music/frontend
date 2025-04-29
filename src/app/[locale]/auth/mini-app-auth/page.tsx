@@ -15,14 +15,14 @@ export default function MiniAppAuth() {
       if (WebApp.initData) {
         try {
           await login({ initData: WebApp.initData });
-          WebApp.close();
-          router.push("/dashboard");
+          router.push("/my");
         } catch (error) {
           WebApp.showAlert("Login failed");
         }
       }
     };
 
+    WebApp.ready();
     handleAuth();
   }, [login, router]);
 
