@@ -29,15 +29,22 @@ const TopAppBar = ({
         </Typography>
       </div>
       <div className="flex items-center justify-end">
-        <Image
-          width={48}
-          height={48}
-          layout="fixed"
-          src={"/pfp.jpg"}
-          alt="Profile Picture"
-          className="h-12 w-12 rounded-full"
+        <button
           onClick={() => setIsProfileModalOpen(true)}
-        />
+          className="rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+          aria-label="Open profile menu"
+          aria-haspopup="dialog"
+          aria-expanded={isProfileModalOpen}
+        >
+          <Image
+            width={48}
+            height={48}
+            layout="fixed"
+            src={"/pfp.jpg"}
+            alt="Profile Picture"
+            className="h-12 w-12 rounded-full"
+          />
+        </button>
         <ProfileModal
           isOpen={isProfileModalOpen}
           setIsOpen={setIsProfileModalOpen}
