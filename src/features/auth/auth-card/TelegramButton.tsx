@@ -1,14 +1,26 @@
-import { LoginButton } from "@telegram-auth/react";
+import { LoginButton, TelegramAuthData } from "@telegram-auth/react";
 
-export const TelegramButton = ({ backendUrl }: { backendUrl: string }) => {
-  if (!backendUrl) {
-    throw new Error("BACKEND_URL is not defined");
-  }
+import useLoginTelegramMutation from "@/api/mutations/auth/login-telegram";
+
+export const TelegramButton = () => {
+  const handleAuth = (data: TelegramAuthData) => {
+    const initData = new URLSearchParams();
+
+    Object.entries(data).forEach(([key, value]) => {
+      initData.append(key, value);
+    });
+
+    mutation.mutate({
+      initData: initData.toString(),
+    });
+  };
+
+  const mutation = useLoginTelegramMutation();
 
   return (
     <LoginButton
       botUsername="PurpleStudioBot"
-      authCallbackUrl={`${backendUrl}/api/auth/callback/telegram`}
+      onAuthCallback={handleAuth}
       buttonSize="medium"
       cornerRadius={8}
       showAvatar={true}
