@@ -8,13 +8,10 @@ import { useTranslation } from "react-i18next";
 import { TbLock, TbMail } from "react-icons/tb";
 import { z } from "zod";
 
-
-
 import { useLoginMutation } from "@/api/mutations/auth/login";
 import AuthForm from "@/features/auth/AuthForm";
 import { AuthInputField } from "@/features/auth/auth-card/AuthInputField";
 import { LoginSchema } from "@/schemas/schemas";
-
 
 export interface LoginFormProps {
   backendUrl: string;
@@ -24,8 +21,6 @@ export default function LoginForm(props: LoginFormProps) {
   const searchParams = useSearchParams();
   const { t } = useTranslation("auth");
   const router = useRouter();
-
-  console.log("Search params", searchParams);
 
   // Handle OAuth errors
   const urlError = {

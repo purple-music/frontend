@@ -13,6 +13,7 @@ export function YandexButton({ backendUrl }: { backendUrl: string }) {
     <Link
       href={`${backendUrl}/api/auth/yandex`}
       className="btn flex w-full items-center justify-center bg-red-600 text-white hover:bg-red-700"
+      prefetch={false}
     >
       <FaYandex />
       <span>{t("social.yandex-login")}</span>
