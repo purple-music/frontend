@@ -1,3 +1,5 @@
+"use client";
+
 import { LoginButton, TelegramAuthData } from "@telegram-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
