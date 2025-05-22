@@ -31,8 +31,12 @@ export default function LoginForm(props: LoginFormProps) {
   const mutation = useLoginMutation();
 
   const onSubmit = async (data: any) => {
-    mutation.mutate(data);
-    router.push("/my");
+    try {
+      await mutation.mutateAsync(data);
+      router.push("/my");
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
 
   let message = null;
