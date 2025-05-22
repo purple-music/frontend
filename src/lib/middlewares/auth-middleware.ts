@@ -25,11 +25,11 @@ export const authMiddleware: MiddlewareFunction = async (req, res, next) => {
   const { nextUrl } = req;
 
   const pathname = removeLngFromPath(nextUrl.pathname);
-  const accessToken = req.cookies.get("access_token")?.value;
-  const refreshToken = req.cookies.get("refresh_token")?.value;
+  const hasAccessToken = !!req.cookies.get("access_token")?.value;
+  const hasRefreshToken = !!req.cookies.get("refresh_token")?.value;
 
-  // Verify JWT token if exists
-  let isAuthenticated = !!accessToken;
+  const canRefresh = !hasAccessToken && hasRefreshToken;
+  const isAuthenticated = hasAccessToken;
 
   const isApiAuthRoute = pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(pathname);
@@ -40,15 +40,21 @@ export const authMiddleware: MiddlewareFunction = async (req, res, next) => {
   }
 
   if (isAuthRoute) {
-    if (isAuthenticated) {
+    if (isAuthenticated || canRefresh) {
       return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
     return next("Auth Route");
   }
 
-  if (!isAuthenticated && !isPublicRoute) {
-    return NextResponse.redirect(new URL("/auth/login", nextUrl));
+  if (isAuthenticated) {
+    return next("Has access token, can go");
   }
-
-  return next("Auth Middleware");
+  if (canRefresh) {
+    return next("No access token, but has refresh token");
+  }
+  if (isPublicRoute) {
+    return next("Public route, anyone can go");
+  }
+  // You can't go
+  return NextResponse.redirect(new URL("/auth/login", nextUrl));
 };

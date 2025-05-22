@@ -13,74 +13,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["AuthController_login"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/auth/reset-password": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Reset password */
-        post: operations["AuthController_resetPassword"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/auth/new-password": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** New password */
-        post: operations["AuthController_newPassword"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/auth/logout": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["AuthController_logout"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/auth/profile": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get user profile */
-        get: operations["AuthController_profile"];
-        put?: never;
-        post?: never;
+        post: operations["EmailAuthController_login"];
         delete?: never;
         options?: never;
         head?: never;
@@ -97,7 +30,7 @@ export interface paths {
         get?: never;
         put?: never;
         /** Register user */
-        post: operations["AuthController_register"];
+        post: operations["EmailAuthController_register"];
         delete?: never;
         options?: never;
         head?: never;
@@ -114,24 +47,41 @@ export interface paths {
         get?: never;
         put?: never;
         /** Verify email token */
-        post: operations["AuthController_verify"];
+        post: operations["EmailAuthController_verify"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/auth/yandex": {
+    "/api/auth/reset-password": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Initiate Yandex OAuth flow */
-        get: operations["AuthController_yandexAuth"];
+        get?: never;
         put?: never;
-        post?: never;
+        /** Reset password */
+        post: operations["EmailAuthController_resetPassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/new-password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** New password */
+        post: operations["EmailAuthController_newPassword"];
         delete?: never;
         options?: never;
         head?: never;
@@ -148,7 +98,7 @@ export interface paths {
         get?: never;
         put?: never;
         /** Login with Telegram */
-        post: operations["AuthController_loginTelegram"];
+        post: operations["TelegramAuthController_loginTelegram"];
         delete?: never;
         options?: never;
         head?: never;
@@ -163,9 +113,76 @@ export interface paths {
             cookie?: never;
         };
         /** Initiate Telegram authentication */
-        get: operations["AuthController_telegramAuth"];
+        get: operations["TelegramAuthController_telegramAuth"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/yandex": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Initiate Yandex OAuth flow */
+        get: operations["YandexAuthController_yandexAuth"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["SessionController_logout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get user profile */
+        get: operations["SessionController_profile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/refresh": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Refresh access token */
+        post: operations["SessionController_refresh"];
         delete?: never;
         options?: never;
         head?: never;
@@ -311,32 +328,6 @@ export interface components {
             /** @example UnauthorizedException */
             error: string;
         };
-        ResetPasswordRequestDto: {
-            email: string;
-        };
-        ResetPasswordResponseDto: {
-            /** @example Password reset email sent successfully */
-            message: string;
-        };
-        NewPasswordRequestDto: {
-            password: string;
-            token: string;
-        };
-        NewPasswordResponseDto: {
-            /** @example Password reset successful */
-            message: string;
-        };
-        LogoutResponseDto: {
-            /** @example Logout successful */
-            message: string;
-        };
-        ProfileResponseDto: {
-            id: string;
-            email: string;
-            name: string;
-            role: string;
-            image: string;
-        };
         RegisterRequestDto: {
             /** @example example@me.com */
             email: string;
@@ -363,10 +354,39 @@ export interface components {
              */
             token: string;
         };
+        ResetPasswordRequestDto: {
+            email: string;
+        };
+        ResetPasswordResponseDto: {
+            /** @example Password reset email sent successfully */
+            message: string;
+        };
+        NewPasswordRequestDto: {
+            password: string;
+            token: string;
+        };
+        NewPasswordResponseDto: {
+            /** @example Password reset successful */
+            message: string;
+        };
         LoginTelegramRequestDto: {
             initData: string;
         };
         LoginTelegramResponseDto: {
+            message: string;
+        };
+        LogoutResponseDto: {
+            /** @example Logout successful */
+            message: string;
+        };
+        ProfileResponseDto: {
+            id: string;
+            email: string;
+            name: string;
+            role: string;
+            image: string;
+        };
+        RefreshResponseDto: {
             message: string;
         };
         TimeSlotDto: {
@@ -435,7 +455,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    AuthController_login: {
+    EmailAuthController_login: {
         parameters: {
             query?: never;
             header?: never;
@@ -476,119 +496,7 @@ export interface operations {
             };
         };
     };
-    AuthController_resetPassword: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ResetPasswordRequestDto"];
-            };
-        };
-        responses: {
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ResetPasswordResponseDto"];
-                };
-            };
-            /** @description Validation Failed */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorResponseDto"];
-                };
-            };
-        };
-    };
-    AuthController_newPassword: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["NewPasswordRequestDto"];
-            };
-        };
-        responses: {
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["NewPasswordResponseDto"];
-                };
-            };
-            /** @description Validation Failed */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ValidationErrorResponseDto"];
-                };
-            };
-        };
-    };
-    AuthController_logout: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["LogoutResponseDto"];
-                };
-            };
-        };
-    };
-    AuthController_profile: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description User profile */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ProfileResponseDto"];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UnauthorizedResponseDto"];
-                };
-            };
-        };
-    };
-    AuthController_register: {
+    EmailAuthController_register: {
         parameters: {
             query?: never;
             header?: never;
@@ -621,7 +529,7 @@ export interface operations {
             };
         };
     };
-    AuthController_verify: {
+    EmailAuthController_verify: {
         parameters: {
             query?: never;
             header?: never;
@@ -654,25 +562,71 @@ export interface operations {
             };
         };
     };
-    AuthController_yandexAuth: {
+    EmailAuthController_resetPassword: {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResetPasswordRequestDto"];
+            };
+        };
         responses: {
-            /** @description Redirects to Yandex OAuth page */
-            302: {
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["ResetPasswordResponseDto"];
+                };
+            };
+            /** @description Validation Failed */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponseDto"];
+                };
             };
         };
     };
-    AuthController_loginTelegram: {
+    EmailAuthController_newPassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NewPasswordRequestDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NewPasswordResponseDto"];
+                };
+            };
+            /** @description Validation Failed */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponseDto"];
+                };
+            };
+        };
+    };
+    TelegramAuthController_loginTelegram: {
         parameters: {
             query?: never;
             header?: never;
@@ -704,7 +658,7 @@ export interface operations {
             };
         };
     };
-    AuthController_telegramAuth: {
+    TelegramAuthController_telegramAuth: {
         parameters: {
             query?: never;
             header?: never;
@@ -719,6 +673,98 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    YandexAuthController_yandexAuth: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Redirects to Yandex OAuth page */
+            302: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    SessionController_logout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LogoutResponseDto"];
+                };
+            };
+        };
+    };
+    SessionController_profile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description User profile */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProfileResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnauthorizedResponseDto"];
+                };
+            };
+        };
+    };
+    SessionController_refresh: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RefreshResponseDto"];
+                };
+            };
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnauthorizedResponseDto"];
+                };
             };
         };
     };
