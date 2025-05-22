@@ -25,10 +25,11 @@ export const authMiddleware: MiddlewareFunction = async (req, res, next) => {
   const { nextUrl } = req;
 
   const pathname = removeLngFromPath(nextUrl.pathname);
-  const token = req.cookies.get("token")?.value;
+  const accessToken = req.cookies.get("access_token")?.value;
+  const refreshToken = req.cookies.get("refresh_token")?.value;
 
   // Verify JWT token if exists
-  let isAuthenticated = !!token;
+  let isAuthenticated = !!accessToken;
 
   const isApiAuthRoute = pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(pathname);
