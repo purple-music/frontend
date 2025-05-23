@@ -33,6 +33,8 @@ jobs:
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/frontend:latest
           target: production
+          cache-from: type=gha  # Load cache from GitHub Actions
+          cache-to: type=gha,mode=max  # Save cache for future runs
           build-args: |
             NODE_ENV=production
             NEXT_PUBLIC_BACKEND_URL=${{ secrets.NEXT_PUBLIC_BACKEND_URL }}
