@@ -18,6 +18,8 @@ function ServiceCard({
     <div className="card bg-base-200 shadow-xl">
       <figure>
         <Image
+          width={500}
+          height={500}
           src={imageSrc}
           alt={altText}
           className="h-64 w-full object-cover"

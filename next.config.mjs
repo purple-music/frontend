@@ -9,6 +9,10 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "avatars.mds.yandex.net",
+      },
+      {
+        protocol: "https",
         hostname: "t.me",
       },
     ],
