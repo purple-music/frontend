@@ -91,7 +91,9 @@ export default async function Home({
             <div className="max-w-md">
               {/*<h1 className="mb-5 text-5xl font-bold">{t("index.hello")}</h1>*/}
               {/*<p className="mb-5">{t("index.hello-description")}</p>*/}
-              <button className="btn btn-primary">{t("get-started")}</button>
+              <Link href="/my" className="btn btn-primary">
+                {t("get-started")}
+              </Link>
             </div>
           </div>
         </header>

@@ -78,7 +78,7 @@ const ProfileModal = ({ isOpen, setIsOpen }: ProfileModalProps) => {
 
   const handleLogout = () => {
     mutation.mutate();
-    router.push("/auth");
+    router.push("/auth/login");
   };
 
   return (
