@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import initTranslations from "@/app/i18n";
@@ -16,7 +17,7 @@ function ServiceCard({
   return (
     <div className="card bg-base-200 shadow-xl">
       <figure>
-        <img
+        <Image
           src={imageSrc}
           alt={altText}
           className="h-64 w-full object-cover"
@@ -80,7 +81,11 @@ export default async function Home({
                   </ul>
                 </div>
                 <div className="navbar-end flex flex-row gap-2">
-                  <Link className="btn btn-primary rounded-full" href="/my">
+                  <Link
+                    className="btn btn-primary rounded-full"
+                    href="/my"
+                    prefetch={false}
+                  >
                     {t("my-page")}
                   </Link>
                 </div>
@@ -91,7 +96,7 @@ export default async function Home({
             <div className="max-w-md">
               {/*<h1 className="mb-5 text-5xl font-bold">{t("index.hello")}</h1>*/}
               {/*<p className="mb-5">{t("index.hello-description")}</p>*/}
-              <Link href="/my" className="btn btn-primary">
+              <Link href="/my" className="btn btn-primary" prefetch={false}>
                 {t("get-started")}
               </Link>
             </div>
