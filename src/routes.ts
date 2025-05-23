@@ -1,7 +1,13 @@
 /**
  * Routes that do not require authentication
  */
-export const publicRoutes: string[] = ["/", "/auth/new-verification"];
+export const publicRoutes: string[] = [
+  "/",
+  "/auth/new-verification",
+  "/test",
+  "/test/another-test-1",
+  "/test/another-test-2",
+];
 
 /**
  * Routes that redirect to /my
