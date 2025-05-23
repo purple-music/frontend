@@ -1,11 +1,20 @@
 "use client";
 
-import { LoginButton, TelegramAuthData } from "@telegram-auth/react";
+import { TelegramAuthData } from "@telegram-auth/react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import useLoginTelegramMutation from "@/api/mutations/auth/login-telegram";
 import { ErrorToast } from "@/components/ui/toasts/ErrorToast";
+
+const TelegramLoginButton = dynamic(
+  () => import("@telegram-auth/react").then((mod) => mod.LoginButton),
+  {
+    ssr: false,
+    loading: () => <div>Loading Telegram login...</div>,
+  },
+);
 
 export const TelegramButton = () => {
   const router = useRouter();
@@ -35,7 +44,7 @@ export const TelegramButton = () => {
   const mutation = useLoginTelegramMutation();
 
   return (
-    <LoginButton
+    <TelegramLoginButton
       botUsername="PurpleStudioBot"
       onAuthCallback={handleAuth}
       buttonSize="medium"
